@@ -1,78 +1,82 @@
-# [Nombre de la Aplicación]
+# ZENDA Shop
 
 ## 👥 Miembros del Equipo
 | Nombre y Apellidos | Correo URJC | Usuario GitHub |
 |:--- |:--- |:--- |
-| [Nombre 1] | [email1]@alumnos.urjc.es | [User1] |
-| [Nombre 2] | [email2]@alumnos.urjc.es | [User2] |
-| [Nombre 3] | [email3]@alumnos.urjc.es | [User3] |
-| [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
+| Samuel Melián Benito | s.melian.2022@alumnos.urjc.es | SamuelMelian |
+| Víctor Navarro Santos | v.navarros.2022@alumnos.urjc.es | victor04san7os |
+| Alejandro Lefebvre Valiente | a.lefebvre.2022@alumnos.urjc.es | LBV66 |
+| Jorge Padilla Rodríguez | j.padilla.2021@alumnos.urjc.es | Jorge-PR |
+| Sara Guillén Martínez | s.guillenm.2022@alumnos.urjc.es | saraguillenmtz |
 
 ---
 
 ## 🎭 **Preparación 1: Definición del Proyecto**
 
 ### **Descripción del Tema**
-[Escribe aquí una descripción breve y concisa de qué trata tu aplicación, el sector al que pertenece y qué valor aporta al usuario].
+La aplicación web pertenece al sector del comercio electrónico de moda y está orientada a la venta online de ropa. Permite a los usuarios explorar un catálogo de prendas, gestionar un carrito de compra, realizar pedidos y dejar opiniones sobre los productos adquiridos. Como valor añadido, la aplicación ofrece estadísticas de ventas e ingresos. Aporta valor al usuario ofreciendo una experiencia de compra sencilla y personalizada, con facturación automática en PDF y recomendaciones basadas en sus preferencias de compra.
+
 
 ### **Entidades**
-Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
+1. **Usuario**: cliente registrado que navega, compra y opina en la plataforma.  
+2. **Prenda**: producto de ropa disponible en el catálogo.  
+3. **Compra**: pedido finalizado por un usuario.  
+4. **Carrito**: selección temporal de prendas antes de confirmar la compra.  
+5. **Opinión**: valoración y comentario de un usuario sobre una prenda.
 
-1. **[Entidad 1]**: [Ej: Usuario]
-2. **[Entidad 2]**: [Ej: Producto]
-3. **[Entidad 3]**: [Ej: Pedido]
-4. **[Entidad 4]**: [Ej: Categoría]
 
 **Relaciones entre entidades:**
-- [Ej: Usuario - Pedido: Un usuario puede tener múltiples pedidos (1:N)]
-- [Ej: Pedido - Producto: Un pedido puede contener múltiples productos y un producto puede estar en múltiples pedidos (N:M)]
-- [Ej: Producto - Categoría: Un producto pertenece a una categoría (N:1)]
-- [Descripción de otras relaciones relevantes]
+- **Usuario - Compra:** un usuario puede realizar múltiples compras (**1:N**).  
+- **Compra - Prenda:** una compra contiene múltiples prendas y una prenda puede aparecer en múltiples compras (**N:M**).  
+- **Usuario - Carrito:** cada usuario tiene un carrito activo y cada carrito pertenece a un único usuario (**1:1**).  
+- **Carrito - Prenda:** un carrito puede contener múltiples prendas y una prenda puede estar en múltiples carritos (**N:M**).  
+- **Usuario - Opinión:** un usuario puede escribir múltiples opiniones (**1:N**).  
+- **Prenda - Opinión:** una prenda puede recibir múltiples opiniones (**1:N**).  
+
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
-* **Usuario Anónimo**: 
-  - Permisos: [Ej: Visualización de catálogo, búsqueda de productos, registro]
-  - No es dueño de ninguna entidad
+* **Usuario Anónimo**:  
+  - **Permisos:** visualización del catálogo de prendas, búsqueda y filtrado de productos, registro en la plataforma.  
+  - **Propiedad:** no es dueño de ninguna entidad.
 
-* **Usuario Registrado**: 
-  - Permisos: [Ej: Gestión de perfil, realizar pedidos, crear valoraciones]
-  - Es dueño de: [Ej: Sus propios Pedidos, su Perfil de Usuario, sus Valoraciones]
+* **Usuario Registrado**:  
+  - **Permisos:** gestión de su perfil, edición del carrito, realización de compras, generación y descarga de facturas en PDF, creación y edición de opiniones sobre prendas adquiridas.  
+  - **Propiedad:** su perfil de usuario, su carrito, sus compras y sus opiniones.
 
-* **Administrador**: 
-  - Permisos: [Ej: Gestión completa de productos (CRUD), visualización de estadísticas, moderación de contenido]
-  - Es dueño de: [Ej: Productos, Categorías, puede gestionar todos los Pedidos y Usuarios]
+* **Administrador**:  
+  - **Permisos:** gestión completa (CRUD) de usuarios, prendas, compras y opiniones, visualización de estadísticas de ventas e ingresos.  
+  - **Propiedad:** puede gestionar todas las entidades del sistema excepto los carritos.
+
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
 
-- **[Entidad con imágenes 1]**: [Ej: Usuario - Una imagen de avatar por usuario]
-- **[Entidad con imágenes 2]**: [Ej: Producto - Múltiples imágenes por producto (galería)]
-- **[Entidad con imágenes 3]**: [Ej: Categoría - Una imagen representativa por categoría]
+- **Usuario**: una imagen de avatar opcional por usuario.
+- **Prenda**: una imagen por prenda para su visualización en el catálogo.
+
 
 ### **Gráficos**
 Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 
-- **Gráfico 1**: [Ej: Ventas mensuales - Gráfico de barras]
-- **Gráfico 2**: [Ej: Productos más vendidos - Gráfico de tarta/circular]
-- **Gráfico 3**: [Ej: Evolución de usuarios registrados - Gráfico de líneas]
-- **Gráfico 4**: [Ej: Distribución de pedidos por categoría - Gráfico de barras horizontales]
+- **Gráfico 1**: número de ventas por periodo de tiempo — gráfico de barras.
+- **Gráfico 2**: ingresos totales por periodo de tiempo — gráfico de líneas.
+- **Gráfico 3**: valor medio de las compras (ticket medio) por periodo de tiempo — gráfico de líneas.
+
 
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
 
-- [Ej: Envío de correos electrónicos automáticos mediante JavaMailSender]
-- [Ej: Generación de PDFs de facturas usando iText o similar]
-- [Ej: Sistema de autenticación OAuth2 o JWT]
-- [Otras tecnologías externas que se integrarán]
+- **Generación de facturas en PDF** de cada compra realizada por el usuario, incluyendo el detalle de las prendas adquiridas, precios, impuestos y datos del cliente.
+
 
 ### **Algoritmo o Consulta Avanzada**
 Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 
-- **Algoritmo/Consulta**: [Ej: Sistema de recomendaciones basado en el historial de compras del usuario]
-- **Descripción**: [Ej: Analiza los productos comprados previamente y sugiere productos similares o complementarios utilizando filtrado colaborativo]
-- **Alternativa**: [Ej: Consulta compleja que agrupe ventas por categoría, mes y región, con cálculo de tendencias]
+- **Algoritmo/Consulta:** generación de ofertas personalizadas para el usuario.
+- **Descripción:** el sistema analiza las compras realizadas por el usuario durante el último mes, identifica la categoría de productos más comprada y muestra tres ofertas basadas en dicha categoría.
+- **Alternativa:** consulta avanzada que agrupa las compras del último mes por usuario y categoría, calculando la frecuencia de compra para determinar la preferencia principal.
 
 ---
 
