@@ -1,44 +1,26 @@
-/* =========================
-   PALETA + TIPOGRAFÍA
-========================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root{
-  /* Colores base */
-  --bg: #F6F3EF;          /* fondo cálido suave */
-  --surface: #FFFFFF;     /* superficies (cards, paneles) */
-  --surface-2: #F1ECE6;   /* superficie secundaria */
-  --border: #E7E1DA;      /* borde sutil */
-
-  /* Marca */
-  --brand: #6B4F3F;       /* marrón marca */
-  --brand-2: #8B6A55;     /* hover marca */
-
-  /* Texto */
-  --text: #1F2328;        /* texto principal */
-  --text-muted: #6B7280;  /* texto secundario */
-
-  /* Estados */
+  --bg: #F6F3EF;         
+  --surface: #FFFFFF;     
+  --surface-2: #F1ECE6;  
+  --border: #E7E1DA;      
+  --brand: #6B4F3F;       
+  --brand-2: #8B6A55;   
+  --text: #1F2328;       
+  --text-muted: #6B7280;  
   --success: #10B981;
   --danger: #EF4444;
   --warning: #F59E0B;
-
-  /* Sombras (suaves, “pro”) */
   --shadow: 0 10px 24px rgba(16,24,40,0.08);
   --shadow-lg: 0 18px 40px rgba(16,24,40,0.14);
-
-  /* Radius */
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
-
-  /* Tipografía */
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* =========================
-   BASE
-========================= */
 html, body{
   height: 100%;
 }
@@ -69,7 +51,6 @@ body, .body{
   height: 1px;
 }
 
-/* Evita “centrado global” de párrafos dentro de containers */
 .container p{
   text-align: initial;
   font-size: 1rem;
@@ -78,21 +59,16 @@ body, .body{
   margin-bottom: 0.75rem;
 }
 
-/* Grid */
 .row{
   justify-content: center;
 }
 
-/* =========================
-   CONTENEDORES
-========================= */
 .container{
   background: transparent;
   border: 0;
   box-shadow: none;
 }
 
-/* Si usas .container.container- como panel principal */
 .container.container-detail{
   background: #dbd5c5;
   border: 1px solid var(--border);
@@ -103,15 +79,11 @@ body, .body{
   box-shadow: 0 14px 28px rgba(16,24,40,0.06);
 }
 
-/* Separadores / HR */
 hr.separator-form{
   border-color: var(--border);
   opacity: 1;
 }
 
-/* =========================
-   TIPOGRAFÍA / TÍTULOS
-========================= */
 h1, h2, h3, h4, h5, h6{
   color: var(--text);
   font-weight: 700;
@@ -147,10 +119,6 @@ h3{ font-size: 1.35rem; font-weight: 750; }
   font-weight: 500;
 }
 
-/* =========================
-   NAVBAR / HEADER (GENÉRICO)
-   (si tu header usa .navbar de Bootstrap, esto lo profesionaliza)
-========================= */
 header, .navbar{
   background: #fff !important;
   border-bottom: 1px solid var(--border);
@@ -161,7 +129,6 @@ header, .navbar{
   padding-bottom: 0.65rem;
 }
 
-/* Marca / logo */
 .navbar-brand{
   color: var(--brand) !important;
   font-weight: 800;
@@ -169,7 +136,6 @@ header, .navbar{
   text-transform: uppercase;
 }
 
-/* Links */
 .navbar a,
 .navbar .nav-link{
   color: var(--text);
@@ -182,7 +148,6 @@ header, .navbar{
   color: var(--brand-2);
 }
 
-/* Iconos */
 .navbar .bi{
   color: var(--text);
   opacity: 0.85;
@@ -191,9 +156,6 @@ header, .navbar{
   opacity: 1;
 }
 
-/* =========================
-   CARDS DE PRODUCTO
-========================= */
 .garment-item{
   background: var(--surface);
   border: 1px solid var(--border);
@@ -212,19 +174,17 @@ header, .navbar{
 
 .garment-item img{
   width: 100%;
-  height: 260px;          /* consistente */
-  object-fit: contain;    /* no recorta */
+  height: 260px;         
+  object-fit: contain;    
   background: #fff;
   border-radius: var(--radius-md);
   margin: 0 0 14px 0;
 }
 
-/* Quita el “zoom demo” */
 .garment-item img:hover{
   transform: none;
 }
 
-/* Nombre y precio con jerarquía */
 .garment-item h4{
   color: var(--text);
   font-weight: 650;
@@ -240,9 +200,6 @@ header, .navbar{
   margin: 0;
 }
 
-/* =========================
-   REVIEWS
-========================= */
 .review{
   background: var(--surface);
   border: 1px solid var(--border);
@@ -265,9 +222,6 @@ header, .navbar{
   font-size: 0.95rem;
 }
 
-/* =========================
-   LINKS
-========================= */
 .link-no-underline{
   text-decoration: none;
   color: inherit;
@@ -279,9 +233,6 @@ header, .navbar{
   text-decoration: none;
 }
 
-/* =========================
-   FORMULARIOS
-========================= */
 .form-label{
   font-weight: 600;
   color: var(--text);
@@ -308,9 +259,6 @@ header, .navbar{
   color: var(--text);
 }
 
-/* =========================
-   BOTONES (Bootstrap friendly)
-========================= */
 .btn{
   font-weight: 650;
   border: 1px solid transparent;
@@ -320,7 +268,6 @@ header, .navbar{
   transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease;
 }
 
-/* Primary (marca) */
 .btn-primary{
   background-color: var(--brand);
   border-color: var(--brand);
@@ -334,7 +281,6 @@ header, .navbar{
   box-shadow: var(--shadow-lg);
 }
 
-/* Success */
 .btn-success{
   background-color: var(--success);
   border-color: var(--success);
@@ -347,7 +293,6 @@ header, .navbar{
   box-shadow: var(--shadow-lg);
 }
 
-/* Danger */
 .btn-danger{
   background-color: var(--danger);
   border-color: var(--danger);
@@ -360,7 +305,6 @@ header, .navbar{
   box-shadow: var(--shadow-lg);
 }
 
-/* Secondary */
 .btn-secondary{
   background-color: #6B7280;
   border-color: #6B7280;
@@ -373,11 +317,6 @@ header, .navbar{
   box-shadow: var(--shadow-lg);
 }
 
-/* IMPORTANTE: no metas transform global a button:hover (se ve amateur) */
-
-/* =========================
-   ACCORDION (Bootstrap)
-========================= */
 .accordion{
   border-radius: var(--radius-md);
 }
@@ -410,9 +349,6 @@ header, .navbar{
   color: var(--text-muted);
 }
 
-/* =========================
-   FOOTER
-========================= */
 .container-footer{
   background-color: #1F2328;
   color: #ffffff;
@@ -434,9 +370,6 @@ header, .navbar{
   gap: 10px;
 }
 
-/* =========================
-   UTILIDADES
-========================= */
 .loadmore-button{
   text-align: center;
   margin: 10px;

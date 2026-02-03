@@ -1,13 +1,7 @@
-/* =========================
-   LOGIN – ESTILO CONSISTENTE
-   (sin responsive propio)
-========================= */
-
 .login-page{
   padding: 48px 0;
 }
 
-/* Card principal */
 .login-card{
   background: var(--surface);
   border: 1px solid var(--border);
@@ -16,7 +10,6 @@
   padding: 28px;
 }
 
-/* Cabecera */
 .login-header{
   text-align: center;
   margin-bottom: 18px;
@@ -36,14 +29,12 @@
   font-size: 0.98rem;
 }
 
-/* Iconos dentro de input */
 .login-addon{
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
 }
 
-/* Botón mostrar contraseña */
 .login-eye{
   border: 1px solid var(--border);
   background: var(--surface-2);
@@ -55,7 +46,6 @@
   border-color: #D8D0C8;
 }
 
-/* Fila “recordarme / olvidé contraseña” */
 .login-row{
   display: flex;
   align-items: center;
@@ -64,7 +54,6 @@
   margin-top: 10px;
 }
 
-/* Links */
 .login-link{
   color: var(--brand);
   text-decoration: none;
@@ -76,7 +65,6 @@
   text-decoration: underline;
 }
 
-/* Separador */
 .login-divider{
   display: flex;
   align-items: center;
@@ -98,7 +86,6 @@
   padding: 0 6px;
 }
 
-/* Botón secundario */
 .login-secondary{
   background: transparent;
   border: 1px solid var(--border);
@@ -111,7 +98,6 @@
   color: var(--text);
 }
 
-/* Pie */
 .login-footer{
   margin-top: 16px;
   margin-bottom: 0;
