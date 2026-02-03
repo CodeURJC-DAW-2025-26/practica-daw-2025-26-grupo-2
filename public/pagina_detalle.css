@@ -1,0 +1,63 @@
+/* ===== Detalle de prenda: coherente con el estilo general ===== */
+
+.container .title{
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+/* Imagen / aside */
+.aside{
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+.aside img{
+  width: 100%;
+  height: 420px;          /* altura consistente, look pro */
+  object-fit: contain;
+  object-position: center;
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+/* Precio */
+.container-price-item-detail{
+  text-align: center;
+  margin: 18px 0 18px 0;
+}
+
+.container-price-item-detail h3{
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--brand);
+  letter-spacing: -0.3px;
+}
+
+/* Acordeón: evita “márgenes sueltos” por item */
+.accordion-item{
+  margin: 0 0 10px 0;
+  border-radius: var(--radius-md);
+}
+
+/* Layout de atributos */
+.container-attributes-detail{
+  margin: 10px 0 0 0;
+}
+
+/* Opcional: si el texto del accordion queda muy grande o muy “gris” */
+.accordion-body{
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}

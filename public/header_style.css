@@ -1,0 +1,84 @@
+/* ============ HEADER PROFESIONAL (sin cambiar HTML) ============ */
+
+/* Fondo de marca suave, no “bloque” */
+.navbar-dark{
+  background-color: #E6D3C2 !important; /* beige marca */
+  border-bottom: 1px solid rgba(31,35,40,0.10);
+  box-shadow: 0 10px 26px rgba(16,24,40,0.08);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Alineación y densidad visual */
+.navbar-dark .navbar-brand{
+  color: var(--text) !important;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Links: más compactos y consistentes */
+.navbar-dark .nav-link{
+  color: var(--text) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.7rem;
+  opacity: 0.9;
+  position: relative;
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+
+/* Hover pro: underline fino en color marca (no cambio de color brusco) */
+.navbar-dark .nav-link:hover{
+  opacity: 1;
+  color: var(--text) !important;
+}
+
+.navbar-dark .nav-link:hover::after{
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: -0.35rem;
+  height: 2px;
+  background: var(--brand);
+  border-radius: 999px;
+  opacity: 0.9;
+}
+
+/* Si usas la clase .active en la página actual */
+.navbar-dark .nav-link.active{
+  opacity: 1;
+  font-weight: 650;
+}
+.navbar-dark .nav-link.active::after{
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: -0.35rem;
+  height: 2px;
+  background: var(--brand);
+  border-radius: 999px;
+}
+
+/* Iconos de login/registro más discretos */
+.navbar-dark .bi{
+  color: var(--text) !important;
+  opacity: 0.85;
+}
+.navbar-dark .bi:hover{
+  opacity: 1;
+}
+
+/* Logo imagen: tamaño pro (no vw) */
+.img-logo{
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+  margin-left: 10px;
+}

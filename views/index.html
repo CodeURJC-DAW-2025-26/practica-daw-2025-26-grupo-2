@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../public/styles.css">
+  <link rel="stylesheet" href="../public/header_style.css">
+  <link rel="stylesheet" href="../public/footer_style.css">
+  <title>Main</title>
+</head>
+
+<body class="body">
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="../public/logo.png" alt="Logo" class="img-logo">
+        </a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Page 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Page 2</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="register.html">
+              <i class="bi bi-person"></i> Registrarse
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">
+              <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+  <div class="container container-main">
+    <div class="row" id="garments">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+        <a href="show_garment.html">
+          <img src="../demo/camiseta.jpg">
+        </a>
+        <h4>Camiseta</h4>
+        <h5>15.99€</h5>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+        <a href="show_garment.html">
+          <img src="../demo/bolso_marron.webp">
+        </a>
+        <h4>Bolso Marrón</h4>
+        <h5>25.99€</h5>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+        <a href="show_garment.html">
+          <img src="../demo/pantalon.jpg">
+        </a>
+        <h4>Pantalón</h4>
+        <h5>19.99€</h5>
+      </div>
+    </div>
+    <!-- <div class="container loadmore-button">
+      comentario <button id="load-more-button" class="btn btn-primary">
+        Cargar más prendas <i class="bi bi-plus-circle-fill"></i>
+      </button> 
+    </div> -->
+  </div>
+</body>
+
+</html>

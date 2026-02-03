@@ -1,0 +1,450 @@
+/* =========================
+   PALETA + TIPOGRAFÍA
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root{
+  /* Colores base */
+  --bg: #F6F3EF;          /* fondo cálido suave */
+  --surface: #FFFFFF;     /* superficies (cards, paneles) */
+  --surface-2: #F1ECE6;   /* superficie secundaria */
+  --border: #E7E1DA;      /* borde sutil */
+
+  /* Marca */
+  --brand: #6B4F3F;       /* marrón marca */
+  --brand-2: #8B6A55;     /* hover marca */
+
+  /* Texto */
+  --text: #1F2328;        /* texto principal */
+  --text-muted: #6B7280;  /* texto secundario */
+
+  /* Estados */
+  --success: #10B981;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+
+  /* Sombras (suaves, “pro”) */
+  --shadow: 0 10px 24px rgba(16,24,40,0.08);
+  --shadow-lg: 0 18px 40px rgba(16,24,40,0.14);
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+
+  /* Tipografía */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* =========================
+   BASE
+========================= */
+html, body{
+  height: 100%;
+}
+
+body, .body{
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+
+.logo{
+  text-align: center;
+}
+
+.container-header-form{
+  text-align: center;
+  color: var(--text);
+}
+
+.gap-form{
+  background-color: var(--border);
+  height: 1px;
+}
+
+/* Evita “centrado global” de párrafos dentro de containers */
+.container p{
+  text-align: initial;
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+
+/* Grid */
+.row{
+  justify-content: center;
+}
+
+/* =========================
+   CONTENEDORES
+========================= */
+.container{
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Si usas .container.container- como panel principal */
+.container.container-detail{
+  background: #dbd5c5;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 14px 28px rgba(16,24,40,0.06);
+}
+
+/* Separadores / HR */
+hr.separator-form{
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/* =========================
+   TIPOGRAFÍA / TÍTULOS
+========================= */
+h1, h2, h3, h4, h5, h6{
+  color: var(--text);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  letter-spacing: -0.3px;
+  margin-bottom: 0.5rem;
+}
+
+h1{ font-size: 2.2rem; font-weight: 800; }
+h2{ font-size: 1.8rem; font-weight: 800; }
+h3{ font-size: 1.35rem; font-weight: 750; }
+
+.title{
+  color: var(--text);
+  font-weight: 800;
+  font-size: 1.75rem;
+  letter-spacing: -0.5px;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.texto{
+  text-align: center;
+  font-size: 2rem;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.container-confirmation{
+  font-size: 1.25rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* =========================
+   NAVBAR / HEADER (GENÉRICO)
+   (si tu header usa .navbar de Bootstrap, esto lo profesionaliza)
+========================= */
+header, .navbar{
+  background: #fff !important;
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar{
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+/* Marca / logo */
+.navbar-brand{
+  color: var(--brand) !important;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Links */
+.navbar a,
+.navbar .nav-link{
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.navbar a:hover,
+.navbar .nav-link:hover{
+  color: var(--brand-2);
+}
+
+/* Iconos */
+.navbar .bi{
+  color: var(--text);
+  opacity: 0.85;
+}
+.navbar .bi:hover{
+  opacity: 1;
+}
+
+/* =========================
+   CARDS DE PRODUCTO
+========================= */
+.garment-item{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin: 14px;
+  padding: 14px 14px 18px;
+  text-align: left;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.garment-item:hover{
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.garment-item img{
+  width: 100%;
+  height: 260px;          /* consistente */
+  object-fit: contain;    /* no recorta */
+  background: #fff;
+  border-radius: var(--radius-md);
+  margin: 0 0 14px 0;
+}
+
+/* Quita el “zoom demo” */
+.garment-item img:hover{
+  transform: none;
+}
+
+/* Nombre y precio con jerarquía */
+.garment-item h4{
+  color: var(--text);
+  font-weight: 650;
+  margin: 6px 0 6px;
+  font-size: 1.15rem;
+  letter-spacing: -0.2px;
+}
+
+.garment-item h5{
+  color: var(--brand);
+  font-weight: 750;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* =========================
+   REVIEWS
+========================= */
+.review{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin: 12px 10px;
+  padding: 14px;
+  box-shadow: 0 10px 22px rgba(16,24,40,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.review:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(16,24,40,0.10);
+}
+
+.review h5{
+  color: var(--text);
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   LINKS
+========================= */
+.link-no-underline{
+  text-decoration: none;
+  color: inherit;
+  transition: color .2s ease;
+}
+
+.link-no-underline:hover{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+.form-label{
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.form-control, .form-select{
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  background: #fff;
+}
+
+.form-control:focus, .form-select:focus{
+  border-color: rgba(107,79,63,0.55);
+  box-shadow: 0 0 0 0.2rem rgba(107,79,63,0.16);
+}
+
+#input-group-price{
+  background-color: #fff;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* =========================
+   BOTONES (Bootstrap friendly)
+========================= */
+.btn{
+  font-weight: 650;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+/* Primary (marca) */
+.btn-primary{
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.btn-primary:hover{
+  background-color: var(--brand-2);
+  border-color: var(--brand-2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Success */
+.btn-success{
+  background-color: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.btn-success:hover{
+  background-color: #059669;
+  border-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Danger */
+.btn-danger{
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover{
+  background-color: #DC2626;
+  border-color: #DC2626;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Secondary */
+.btn-secondary{
+  background-color: #6B7280;
+  border-color: #6B7280;
+  color: #fff;
+}
+.btn-secondary:hover{
+  background-color: #4B5563;
+  border-color: #4B5563;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* IMPORTANTE: no metas transform global a button:hover (se ve amateur) */
+
+/* =========================
+   ACCORDION (Bootstrap)
+========================= */
+.accordion{
+  border-radius: var(--radius-md);
+}
+
+.accordion-item{
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.accordion-button{
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.accordion-button:not(.collapsed){
+  background-color: var(--surface-2);
+  color: var(--brand);
+}
+
+.accordion-button:focus{
+  box-shadow: 0 0 0 0.2rem rgba(107,79,63,0.16);
+}
+
+.accordion-body{
+  color: var(--text-muted);
+}
+
+/* =========================
+   FOOTER
+========================= */
+.container-footer{
+  background-color: #1F2328;
+  color: #ffffff;
+  position: relative;
+  width: 100%;
+  padding: 18px 0;
+  border-radius: 0;
+  margin-top: 48px;
+}
+
+.text-grup-footer{
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+.content-footer{
+  gap: 10px;
+}
+
+/* =========================
+   UTILIDADES
+========================= */
+.loadmore-button{
+  text-align: center;
+  margin: 10px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.container-main{
+  background-color: var(--bg);
+}

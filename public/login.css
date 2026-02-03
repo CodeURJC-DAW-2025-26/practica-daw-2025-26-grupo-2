@@ -1,0 +1,121 @@
+/* =========================
+   LOGIN – ESTILO CONSISTENTE
+   (sin responsive propio)
+========================= */
+
+.login-page{
+  padding: 48px 0;
+}
+
+/* Card principal */
+.login-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+/* Cabecera */
+.login-header{
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.login-title{
+  margin: 0 0 8px 0;
+  font-size: 1.9rem;
+  font-weight: 850;
+  letter-spacing: -0.6px;
+  color: var(--text);
+}
+
+.login-subtitle{
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+}
+
+/* Iconos dentro de input */
+.login-addon{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* Botón mostrar contraseña */
+.login-eye{
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.login-eye:hover{
+  background: #EDE7E0;
+  border-color: #D8D0C8;
+}
+
+/* Fila “recordarme / olvidé contraseña” */
+.login-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Links */
+.login-link{
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link:hover{
+  color: var(--brand-2);
+  text-decoration: underline;
+}
+
+/* Separador */
+.login-divider{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.login-divider::before,
+.login-divider::after{
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.login-divider span{
+  padding: 0 6px;
+}
+
+/* Botón secundario */
+.login-secondary{
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.login-secondary:hover{
+  background: rgba(0,0,0,0.02);
+  border-color: #D7CEC6;
+  color: var(--text);
+}
+
+/* Pie */
+.login-footer{
+  margin-top: 16px;
+  margin-bottom: 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
