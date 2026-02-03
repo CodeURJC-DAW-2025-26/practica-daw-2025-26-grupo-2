@@ -14,25 +14,21 @@
 ## 🎭 **Preparación 1: Definición del Proyecto**
 
 ### **Descripción del Tema**
-La aplicación web pertenece al sector del comercio electrónico de moda y está orientada a la venta online de ropa. Permite a los usuarios explorar un catálogo de prendas, gestionar un carrito de compra, realizar pedidos y dejar opiniones sobre los productos adquiridos. Como valor añadido, la aplicación ofrece estadísticas de ventas e ingresos. Aporta valor al usuario ofreciendo una experiencia de compra sencilla y personalizada, con facturación automática en PDF y recomendaciones basadas en sus preferencias de compra.
+La aplicación web pertenece al sector del comercio electrónico de moda y está orientada a la venta online de ropa. Permite a los usuarios explorar un catálogo de prendas, gestionar un carrito de compra (pedido en progreso), realizar pedidos y dejar opiniones sobre los productos adquiridos. Como valor añadido, la aplicación ofrece estadísticas de ventas e ingresos. Aporta valor al usuario ofreciendo una experiencia de compra sencilla y personalizada, con facturación automática en PDF y recomendaciones basadas en sus preferencias de compra.
 
 
 ### **Entidades**
 1. **Usuario**: cliente registrado que navega, compra y opina en la plataforma.  
 2. **Prenda**: producto de ropa disponible en el catálogo.  
-3. **Compra**: pedido finalizado por un usuario.  
-4. **Carrito**: selección temporal de prendas antes de confirmar la compra.  
-5. **Opinión**: valoración y comentario de un usuario sobre una prenda.
+3. **Pedido**: registro de una compra realizada por un usuario, que incluye una o varias prendas y almacena la información necesaria para la facturación.
+4. **Opinión**: valoración y comentario de un usuario sobre una prenda.
 
 
 **Relaciones entre entidades:**
-- **Usuario - Compra:** un usuario puede realizar múltiples compras (**1:N**).  
-- **Compra - Prenda:** una compra contiene múltiples prendas y una prenda puede aparecer en múltiples compras (**N:M**).  
-- **Usuario - Carrito:** cada usuario tiene un carrito activo y cada carrito pertenece a un único usuario (**1:1**).  
-- **Carrito - Prenda:** un carrito puede contener múltiples prendas y una prenda puede estar en múltiples carritos (**N:M**).  
+- **Usuario - Pedido:** un usuario puede realizar múltiples pedidos (**1:N**).  
+- **Pedido - Prenda:** un pedido puede contener múltiples prendas y una prenda puede aparecer en múltiples pedidos (**N:M**).  
 - **Usuario - Opinión:** un usuario puede escribir múltiples opiniones (**1:N**).  
-- **Prenda - Opinión:** una prenda puede recibir múltiples opiniones (**1:N**).  
-
+- **Prenda - Opinión:** una prenda puede recibir múltiples opiniones (**1:N**).
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
@@ -42,12 +38,12 @@ Describir los permisos de cada tipo de usuario e indicar de qué entidades es du
   - **Propiedad:** no es dueño de ninguna entidad.
 
 * **Usuario Registrado**:  
-  - **Permisos:** gestión de su perfil, edición del carrito, realización de compras, generación y descarga de facturas en PDF, creación y edición de opiniones sobre prendas adquiridas.  
-  - **Propiedad:** su perfil de usuario, su carrito, sus compras y sus opiniones.
+  - **Permisos:** gestión de su perfil, edición de pedido (en estado en progreso = "carrito"), realización de pedidos, generación y descarga de facturas en PDF para un pedido realizado, creación y edición de opiniones sobre prendas adquiridas.  
+  - **Propiedad:** su perfil de usuario, su pedido en progreso y sus opiniones.
 
 * **Administrador**:  
-  - **Permisos:** gestión completa (CRUD) de usuarios, prendas, compras y opiniones, visualización de estadísticas de ventas e ingresos.  
-  - **Propiedad:** puede gestionar todas las entidades del sistema excepto los carritos.
+  - **Permisos:** gestión completa (CRUD) de usuarios, prendas, pedidos (en estado realizado) y opiniones, visualización de estadísticas de ventas e ingresos.  
+  - **Propiedad:** es dueño de las prendas y los pedidos realizados.
 
 
 ### **Imágenes**
@@ -62,21 +58,23 @@ Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 
 - **Gráfico 1**: número de ventas por periodo de tiempo — gráfico de barras.
 - **Gráfico 2**: ingresos totales por periodo de tiempo — gráfico de líneas.
-- **Gráfico 3**: valor medio de las compras (ticket medio) por periodo de tiempo — gráfico de líneas.
+- **Gráfico 3**: valor medio de los pedidos (ticket medio) por periodo de tiempo — gráfico de líneas.
 
 
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
 
-- **Generación de facturas en PDF** de cada compra realizada por el usuario, incluyendo el detalle de las prendas adquiridas, precios, impuestos y datos del cliente.
+- **Generación de facturas en PDF** de cada pedido realizada por el usuario, incluyendo el detalle de las prendas adquiridas, precios, impuestos y datos del cliente.
 
 
 ### **Algoritmo o Consulta Avanzada**
 Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 
 - **Algoritmo/Consulta:** generación de ofertas personalizadas para el usuario.
-- **Descripción:** el sistema analiza las compras realizadas por el usuario durante el último mes, identifica la categoría de productos más comprada y muestra tres ofertas basadas en dicha categoría.
-- **Alternativa:** consulta avanzada que agrupa las compras del último mes por usuario y categoría, calculando la frecuencia de compra para determinar la preferencia principal.
+- **Descripción:** el sistema analiza los pedidos realizadas por el usuario durante el último mes, identifica la categoría de productos más comprada y muestra tres ofertas basadas en dicha categoría.
+- **Alternativa:** consulta avanzada que agrupa los pedidos del último mes por usuario y categoría, calculando la frecuencia de pedidos para determinar la preferencia principal.
+
+Se valorará en el momento indicado realizar una consulta más avanzada con recomendaciones personalizadas basadas en lo que compran los usuarios que más se parecen a ti.
 
 ---
 
