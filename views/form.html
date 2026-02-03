@@ -52,7 +52,6 @@
         </nav>
     </header>
 
-    <!-- Añadir margen superior -->
     <main class="mt-5">
         <div class="container container-">
             <div class="container-header-form">
@@ -62,19 +61,18 @@
             <form role="form" class="needs-validation" novalidate id="garmentForm">
                 <input type="hidden" name="id" />
 
-                <!-- Nombre -->
                 <div class="mb-3">
                     <label for="inputClothName" class="form-label"><b>Nombre</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-alphabet"></i></span>
-                        <input type="text" class="form-control" id="inputClothName" name="name" placeholder="Nombre de la prenda" required>
+                        <input type="text" class="form-control" id="inputClothName" name="name"
+                            placeholder="Nombre de la prenda" required>
                         <div class="invalid-feedback" id="titleMesssage">
                             El nombre no puede estar vacío
                         </div>
                     </div>
                 </div>
 
-                <!-- Categoría -->
                 <div class="mb-3">
                     <label for="inputCategory" class="form-label"><b>Categoría</b></label>
                     <div class="input-group">
@@ -93,12 +91,12 @@
                     </div>
                 </div>
 
-                <!-- Precio -->
                 <div class="mb-3">
                     <label for="inputClothPrice" class="form-label"><b>Precio</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
-                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value="" placeholder="Precio de la prenda" min="5" max="5000" required>
+                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value=""
+                            placeholder="Precio de la prenda" min="5" max="5000" required>
                         <span class="input-group-text" id="input-group-price">€</span>
                         <div class="invalid-feedback">
                             El precio debe ser un número entre 5 y 5000.
@@ -121,24 +119,26 @@
                     </div>
                 </div>
 
-                <!-- Descripción -->
                 <div class="mb-3">
                     <label for="inputClothDescription" class="form-label"><b>Descripción</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-list-ul"></i></span>
-                        <textarea class="form-control" id="inputClothDescription" name="description" placeholder="Descripción de la prenda" rows="5" minlength="3" maxlength="200" required></textarea>
+                        <textarea class="form-control" id="inputClothDescription" name="description"
+                            placeholder="Descripción de la prenda" rows="5" minlength="3" maxlength="200"
+                            required></textarea>
                         <div class="invalid-feedback">
                             La descripción debe tener entre 3 y 200 caracteres.
                         </div>
                     </div>
                 </div>
 
-                <!-- Características -->
                 <div class="mb-3">
                     <label for="inputClothFeatures" class="form-label"><b>Características</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-list-ul"></i></span>
-                        <textarea class="form-control" id="inputClothFeatures" name="characteristics" placeholder="Características de la prenda" rows="5" minlength="5" maxlength="300" required></textarea>
+                        <textarea class="form-control" id="inputClothFeatures" name="characteristics"
+                            placeholder="Características de la prenda" rows="5" minlength="5" maxlength="300"
+                            required></textarea>
                         <div class="invalid-feedback">
                             Las características deben tener entre 5 y 300 caracteres.
                         </div>
@@ -147,7 +147,6 @@
 
                 <br>
 
-                <!-- Botones -->
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">
                         GUARDAR <i class="bi bi-check-lg"></i>
@@ -162,8 +161,52 @@
             </form>
         </div>
     </main>
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZPOW59to5dBVLLTlbliknxjQrG" crossorigin="anonymous"></script>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <ul class="list-unstyled text-center text-md-start">
+                        <li>
+                            <a href="index.html" class="text-white text-decoration-none">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="index.html" class="text-white text-decoration-none">Política de privacidad</a>
+                        </li>
+                        <li>
+                            <a href="index.html" class="text-white text-decoration-none">Términos de servicio</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href="https://www.instagram.com" target="_blank" class="text-white">
+                                <i class="bi bi-instagram" style="font-size: 24px;"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com" target="_blank" class="text-white">
+                                <i class="bi bi-facebook" style="font-size: 24px;"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://github.com" target="_blank" class="text-white">
+                                <i class="bi bi-github" style="font-size: 24px;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p class="mb-0">&copy; 2025 ZENDA Shop. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZPOW59to5dBVLLTlbliknxjQrG"
+        crossorigin="anonymous"></script>
 
 </html>
