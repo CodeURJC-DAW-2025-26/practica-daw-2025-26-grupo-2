@@ -380,4 +380,13 @@ header, .navbar{
 
 .container-main{
   background-color: var(--bg);
+  margin-bottom: 2rem;
+}
+
+.container-main-offers{
+  background-color: #D1B199;
+  padding-top: 1.5rem; 
+  padding-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
 }

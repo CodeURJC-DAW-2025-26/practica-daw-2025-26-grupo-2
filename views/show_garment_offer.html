@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../public/header_style.css">
     <link rel="stylesheet" href="../public/footer_style.css">
 
-    <title>Main</title>
+    <title>Detalle de la Prenda</title>
 </head>
 
 <body class="body">
@@ -48,71 +48,65 @@
         </nav>
     </header>
 
-    <!-- Sección de ofertas personalizadas -->
-    <section class="offers-section py-5">
-        <div class="container container-main-offers">
-            <h2 class="text-center mb-4">Ofertas para ti</h2>
-            <div class="row" id="offers-list">
+    <!-- Sección de detalle de la prenda -->
+    <section class="container container-main py-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="../demo/pantalon.jpg" alt="Prenda" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <h1>Pantalón</h1>
+                <h2><del>29.99€</del> <span class="fw-bold" style="color: #D32F2F;">19.99€</span></h2>
+                <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un 33% de descuento!</p>
+                
+                <form class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="size" class="form-label"><b>Tamaño</b></label>
+                        <select class="form-select" id="size" required>
+                            <option value="" selected disabled>Selecciona un tamaño</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor, selecciona un tamaño.</div>
+                    </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <a href="show_garment.html">
-                        <img src="../demo/pantalon.jpg" class="img-fluid">
-                    </a>
-                    <h4>Pantalón</h4>
-                    <h5><del>19.99€</del> <span class="fw-bold">12.99€</span></h5>
-                    <p class="text-success">-35% de descuento</p>
-                </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label"><b>Cantidad</b></label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="10" required>
+                        <div class="invalid-feedback">Por favor, ingresa una cantidad válida.</div>
+                    </div>
 
-                <!-- Tarjeta 2 -->
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <a href="show_garment.html">
-                        <img src="../demo/pantalon.jpg" class="img-fluid">
-                    </a>
-                    <h4>Pantalón</h4>
-                    <h5><del>24.99€</del> <span class="fw-bold">16.99€</span></h5>
-                    <p class="text-success">-32% de descuento</p>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <a href="show_garment.html">
-                        <img src="../demo/pantalon.jpg" class="img-fluid">
-                    </a>
-                    <h4>Pantalón</h4>
-                    <h5><del>29.99€</del> <span class="fw-bold">19.99€</span></h5>
-                    <p class="text-success">-33% de descuento</p>
-
-                </div>
-
+                    <button type="submit" class="btn btn-success">Añadir al carrito</button>
+                </form>
             </div>
         </div>
     </section>
 
-    <div class="container container-main">
-        <h2 class="text-center mb-4">Artículos</h2>
-        <div class="row" id="garments-list">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
+    <!-- Comentarios -->
+    <section class="container container-main py-5">
+        <h3 class="text-center mb-4">Comentarios de clientes</h3>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="review mb-3">
+                    <h5>Juan Pérez</h5>
+                    <h6 class="text-muted">⭐⭐⭐⭐⭐</h6>
+                    <p>Excelente calidad, muy cómodo y queda perfecto. Lo recomiendo al 100%.</p>
+                </div>
+                <div class="review mb-3">
+                    <h5>Maria López</h5>
+                    <h6 class="text-muted">⭐⭐⭐⭐</h6>
+                    <p>Buen pantalón, el precio con descuento es muy bueno. Solo le faltó un poco más de elasticidad.</p>
+                </div>
+                <div class="review mb-3">
+                    <h5>Carlos Gómez</h5>
+                    <h6 class="text-muted">⭐⭐⭐⭐⭐</h6>
+                    <p>Me encanta, ya lo he comprado en otros colores. La oferta es increíble.</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <footer class="bg-dark text-white py-4">
         <div class="container">
@@ -157,9 +151,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZPOW59to5dBVLLTlbliknxjQrG"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZPOW59to5dBVLLTlbliknxjQrG" crossorigin="anonymous"></script>
 </body>
 
 </html>
