@@ -21,6 +21,40 @@
 </head>
 
 <body class="body">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="../public/logo.png" alt="Logo" class="img-logo">
+                </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Page 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Page 2</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">
+                            <i class="bi bi-person"></i> Registrarse
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </header>
     <div class="container container-detail">
         <div class="row">
             <div class="col-md-12">
@@ -39,7 +73,8 @@
                 <div class="accordion" id="accordionExample">
 
                     <div class="container-price-item-detail">
-                        <h3>15.99€</h3>
+                        <h3><del>29.99€</del> <span class="fw-bold" style="color: #D32F2F;">19.99€</span></h3>
+                        <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un 33% de descuento!</p>
                     </div>
 
                     <!-- ITEM 1 -->
@@ -64,7 +99,8 @@
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y mangas cortas.</div>
+                            <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y mangas
+                                cortas.</div>
                         </div>
                     </div>
 
@@ -116,7 +152,8 @@
             <div class="mb-3">
                 <label for="inputClothName" class="form-label"><b>Nombre de usuario</b></label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="inputClothName" name="user" placeholder="Nombre del usuario" required>
+                    <input type="text" class="form-control" id="inputClothName" name="user"
+                        placeholder="Nombre del usuario" required>
                     <div class="invalid-feedback">El nombre no puede estar vacío.</div>
                 </div>
             </div>
@@ -139,7 +176,8 @@
             <div class="mb-3">
                 <label for="inputClothName" class="form-label"><b>Comentario</b></label>
                 <div class="input-group">
-                    <textarea class="form-control" rows="5" placeholder="Comentario" name="comment" minlength="5" maxlength="50" required></textarea>
+                    <textarea class="form-control" rows="5" placeholder="Comentario" name="comment" minlength="5"
+                        maxlength="50" required></textarea>
                     <div class="invalid-feedback">El comentario debe tener entre 5 y 50 caracteres.</div>
                 </div>
             </div>

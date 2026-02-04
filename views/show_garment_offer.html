@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" class="html">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../public/styles.css">
+    <link rel="stylesheet" href="../public/pagina_detalle.css">
     <link rel="stylesheet" href="../public/header_style.css">
     <link rel="stylesheet" href="../public/footer_style.css">
 
-    <title>Detalle de la Prenda</title>
+    <title>Pagina Detalle</title>
 </head>
 
 <body class="body">
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="user_home.html">
+                <a class="navbar-brand" href="index.html">
                     <img src="../public/logo.png" alt="Logo" class="img-logo">
                 </a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -28,130 +32,193 @@
                         <a class="nav-link active" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Filtrar</a>
+                        <a class="nav-link" href="#">Page 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Page 2</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-person"></i> Carrito
+                        <a class="nav-link" href="register.html">
+                            <i class="bi bi-person"></i> Registrarse
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-box-arrow-in-right"></i> Perfil
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
                         </a>
                     </li>
                 </ul>
             </div>
         </nav>
+
     </header>
-
-    <!-- Sección de detalle de la prenda -->
-    <section class="container container-main py-5">
+    <div class="container container-detail">
         <div class="row">
-            <div class="col-md-6">
-                <img src="../demo/pantalon.jpg" alt="Prenda" class="img-fluid rounded">
+            <div class="col-md-12">
+                <p class="title">Camiseta</p>
             </div>
+        </div>
+
+        <div class="row container-attributes-detail">
             <div class="col-md-6">
-                <h1>Pantalón</h1>
-                <h2><del>29.99€</del> <span class="fw-bold" style="color: #D32F2F;">19.99€</span></h2>
-                <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un 33% de descuento!</p>
-                
-                <form class="needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label for="size" class="form-label"><b>Tamaño</b></label>
-                        <select class="form-select" id="size" required>
-                            <option value="" selected disabled>Selecciona un tamaño</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                        </select>
-                        <div class="invalid-feedback">Por favor, selecciona un tamaño.</div>
+                <aside class="col aside">
+                    <img src="../demo/camiseta.jpg" class="image rounded" alt="Ropa">
+                </aside>
+            </div>
+
+            <div class="col-md-6">
+                <div class="accordion" id="accordionExample">
+
+                    <div class="container-price-item-detail">
+                        <h3>29.99€</h3>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="quantity" class="form-label"><b>Cantidad</b></label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="10" required>
-                        <div class="invalid-feedback">Por favor, ingresa una cantidad válida.</div>
+                    <!-- ITEM 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Categoría
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">Camisetas</div>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Añadir al carrito</button>
-                </form>
+                    <!-- ITEM 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Descripción
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y mangas
+                                cortas.</div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Características
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">Algodón 100%, no requiere planchado, no encoge.</div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="container">
+                        <button type="button" class="btn btn-primary">
+                            <a href="form.html" class="link-no-underline">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </button>
+
+                        <button type="button" class="btn btn-danger">
+                            Borrar <i class="bi bi-x-lg"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-secondary">
+                            <a href="index.html" class="link-no-underline">
+                                Volver <i class="bi bi-arrow-left"></i>
+                            </a>
+                        </button>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Comentarios -->
-    <section class="container container-main py-5">
-        <h3 class="text-center mb-4">Comentarios de clientes</h3>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="review mb-3">
-                    <h5>Juan Pérez</h5>
-                    <h6 class="text-muted">⭐⭐⭐⭐⭐</h6>
-                    <p>Excelente calidad, muy cómodo y queda perfecto. Lo recomiendo al 100%.</p>
-                </div>
-                <div class="review mb-3">
-                    <h5>Maria López</h5>
-                    <h6 class="text-muted">⭐⭐⭐⭐</h6>
-                    <p>Buen pantalón, el precio con descuento es muy bueno. Solo le faltó un poco más de elasticidad.</p>
-                </div>
-                <div class="review mb-3">
-                    <h5>Carlos Gómez</h5>
-                    <h6 class="text-muted">⭐⭐⭐⭐⭐</h6>
-                    <p>Me encanta, ya lo he comprado en otros colores. La oferta es increíble.</p>
-                </div>
-            </div>
+    <!-- Comentarios Section -->
+    <div class="container container-">
+        <div class="container-header-form">
+            <h3>Añadir comentario</h3>
         </div>
-    </section>
-
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <ul class="list-unstyled text-center text-md-start">
-                        <li>
-                            <a href="index.html" class="text-white text-decoration-none">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="index.html" class="text-white text-decoration-none">Política de privacidad</a>
-                        </li>
-                        <li>
-                            <a href="index.html" class="text-white text-decoration-none">Términos de servicio</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 text-center">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a href="https://www.instagram.com" target="_blank" class="text-white">
-                                <i class="bi bi-instagram" style="font-size: 24px;"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://www.facebook.com" target="_blank" class="text-white">
-                                <i class="bi bi-facebook" style="font-size: 24px;"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="https://github.com" target="_blank" class="text-white">
-                                <i class="bi bi-github" style="font-size: 24px;"></i>
-                            </a>
-                        </li>
-                    </ul>
+        <hr class="separator-form">
+        <form class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="inputClothName" class="form-label"><b>Nombre de usuario</b></label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="inputClothName" name="user"
+                        placeholder="Nombre del usuario" required>
+                    <div class="invalid-feedback">El nombre no puede estar vacío.</div>
                 </div>
             </div>
-            <div class="text-center mt-3">
-                <p class="mb-0">&copy; 2025 ZENDA Shop. Todos los derechos reservados.</p>
+
+            <div class="mb-3">
+                <label for="selectRating" class="form-label"><b>Puntuación</b></label>
+                <div class="input-group">
+                    <select class="form-select" id="selectRating" name="rating" aria-label="Puntuación" required>
+                        <option value="" selected disabled>Seleccione una puntuación</option>
+                        <option value="⭐">⭐</option>
+                        <option value="⭐⭐">⭐⭐</option>
+                        <option value="⭐⭐⭐">⭐⭐⭐</option>
+                        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+                        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+                    </select>
+                    <div class="invalid-feedback">La puntuación no puede estar vacía.</div>
+                </div>
             </div>
+
+            <div class="mb-3">
+                <label for="inputClothName" class="form-label"><b>Comentario</b></label>
+                <div class="input-group">
+                    <textarea class="form-control" rows="5" placeholder="Comentario" name="comment" minlength="5"
+                        maxlength="50" required></textarea>
+                    <div class="invalid-feedback">El comentario debe tener entre 5 y 50 caracteres.</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">
+                    Enviar <i class="bi bi-chat-left-dots"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Comentarios existentes -->
+    <div class="container container-" id="reviews-container">
+        <div class="review" id="review-1">
+            <h5>Usuario: Juan Pérez</h5>
+            <h5>Puntuación: ⭐⭐⭐⭐</h5>
+            <p>Este producto es excelente, muy cómodo y de buena calidad.</p>
+            <button type="button" class="btn btn-primary">
+                Editar <i class="bi bi-pencil-square"></i>
+            </button>
+            <button type="button" class="btn btn-danger">
+                Borrar <i class="bi bi-x-lg"></i>
+            </button>
         </div>
-    </footer>
+        <div class="review" id="review-2">
+            <h5>Usuario: Ana López</h5>
+            <h5>Puntuación: ⭐⭐⭐</h5>
+            <p>Buena calidad, pero el tamaño no me quedó bien.</p>
+            <button type="button" class="btn btn-primary">
+                Editar <i class="bi bi-pencil-square"></i>
+            </button>
+            <button type="button" class="btn btn-danger">
+                Borrar <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="no-reviews" id="no-reviews">
+            <p>Sin comentarios aún.</p>
+        </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZPOW59to5dBVLLTlbliknxjQrG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
