@@ -54,3 +54,39 @@
   font-size: 0.98rem;
   line-height: 1.55;
 }
+
+.accordion-item:first-of-type .accordion-header {
+    border-top-left-radius: 0.75rem !important;
+    border-top-right-radius: 0.75rem  !important;
+}
+
+.accordion-item:last-of-type .accordion-header {
+    border-bottom-left-radius: 0.75rem !important;
+    border-bottom-right-radius: 0.75rem !important;
+}
+
+.accordion-item {
+    border-radius: 0.75rem !important;
+}
+
+.accordion-button {
+    border-radius: 0.75rem !important;
+}
+
+.accordion-button:not(.collapsed) {
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+.accordion-body {
+    border-radius: 0 0 0.75rem 0.75rem !important;
+}
+
+.details-item-title{
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.input-group .form-select, 
+.input-group .form-control {
+    border-radius: 10px !important; /* Asegúrate de redondear ambos bordes */
+}
