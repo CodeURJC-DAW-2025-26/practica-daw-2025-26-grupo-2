@@ -23,12 +23,6 @@
   color: var(--text);
 }
 
-.login-subtitle{
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.98rem;
-}
-
 .login-addon{
   background: var(--surface-2);
   border: 1px solid var(--border);

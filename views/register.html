@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,35 +17,22 @@
   <main class="login-page">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-12 col-sm-10 col-md-7 col-lg-5">
-
+        <div class="col-12 col-sm-11 col-md-9 col-lg-8">
           <section class="login-card">
             <div class="login-header">
               <h1 class="login-title">Crear cuenta</h1>
-              <p class="login-subtitle">
-                Regístrate para empezar
-              </p>
+              
             </div>
 
             <form enctype="multipart/form-data">
               <div class="text-center mb-3">
-                <img
-                  src="../public/avatar_default.png"
-                  alt="Avatar por defecto"
-                  class="rounded-circle mb-2"
-                  width="96"
-                  height="96"
-                >
+                <img src="../demo/avatar_default.png" alt="Avatar por defecto" class="rounded-circle mb-2" width="96"
+                  height="96">
                 <div class="mb-2">
                   <label for="avatar" class="form-label d-block">
                     Imagen de perfil
                   </label>
-                  <input
-                    type="file"
-                    id="avatar"
-                    class="form-control"
-                    accept="image/*"
-                  >
+                  <input type="file" id="avatar" class="form-control" accept="image/*">
                 </div>
               </div>
 
@@ -54,12 +42,7 @@
                   <span class="input-group-text login-addon">
                     <i class="bi bi-person"></i>
                   </span>
-                  <input
-                    type="text"
-                    id="name"
-                    class="form-control"
-                    placeholder="Tu nombre"
-                  >
+                  <input type="text" id="name" class="form-control" placeholder="Tu nombre">
                 </div>
               </div>
 
@@ -69,12 +52,7 @@
                   <span class="input-group-text login-addon">
                     <i class="bi bi-envelope"></i>
                   </span>
-                  <input
-                    type="email"
-                    id="email"
-                    class="form-control"
-                    placeholder="tuemail@ejemplo.com"
-                  >
+                  <input type="email" id="email" class="form-control" placeholder="tuemail@ejemplo.com">
                 </div>
               </div>
 
@@ -84,12 +62,7 @@
                   <span class="input-group-text login-addon">
                     <i class="bi bi-lock"></i>
                   </span>
-                  <input
-                    type="password"
-                    id="password"
-                    class="form-control"
-                    placeholder="••••••••"
-                  >
+                  <input type="password" id="password" class="form-control" placeholder="••••••••">
                 </div>
               </div>
 
@@ -99,12 +72,17 @@
                   <span class="input-group-text login-addon">
                     <i class="bi bi-lock-fill"></i>
                   </span>
-                  <input
-                    type="password"
-                    id="password2"
-                    class="form-control"
-                    placeholder="••••••••"
-                  >
+                  <input type="password" id="password2" class="form-control" placeholder="••••••••">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="adress" class="form-label">Dirección</label>
+                <div class="input-group">
+                  <span class="input-group-text login-addon">
+                    <i class="bi bi-geo-alt"></i>
+                  </span>
+                  <input type="text" id="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000">
                 </div>
               </div>
 
@@ -140,4 +118,5 @@
   </main>
 
 </body>
+
 </html>
