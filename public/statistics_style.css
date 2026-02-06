@@ -1,0 +1,75 @@
+h2, h3, h4 {
+    font-weight: 700;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.profile-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 22px rgba(16,24,40,0.06);
+    padding: 18px;
+    height: 100%;
+}
+
+.profile-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.profile-subtitle {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.metric {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    padding: 14px;
+    box-shadow: 0 10px 22px rgba(16,24,40,0.06);
+    height: 100%;
+    text-align: center;
+}
+
+.metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-weight: 650;
+    font-size: 0.9rem;
+}
+
+.metric-top .bi {
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+.metric-value {
+    margin-top: 6px;
+    font-size: 1.55rem;
+    font-weight: 850;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+
+.img-logo {
+    max-height: 40px;
+}
+
+.text-success {
+    color: #10B981 !important;
+}
