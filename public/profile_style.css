@@ -218,3 +218,7 @@
   max-width: 150px; 
   height: auto; 
 }
+
+.chart-container{
+  margin-top: 1.5rem;
+}
