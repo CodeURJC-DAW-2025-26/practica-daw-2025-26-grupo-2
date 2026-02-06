@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../public/styles.css">
+    <link rel="stylesheet" href="../public/header_style.css">
+    <link rel="stylesheet" href="../public/footer_style.css">
+
+    <title>Gestión de Pedidos</title>
+</head>
+
+<body class="body">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">
+                    <img src="../public/logo.png" alt="Logo" class="img-logo">
+                </a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pedidos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Usuarios</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">
+                            <i class="bi bi-person"></i> Registrarse
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container container-main mt-5">
+        <h2 class="text-center mb-4">Gestión de Pedidos</h2>
+
+        <div class="text-end mb-3">
+            <button type="button" class="btn btn-success">
+                Añadir pedido <i class="bi bi-plus-circle"></i>
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID del Pedido</th>
+                        <th>Correo Usuario</th>
+                        <th>Fecha del Pedido</th>
+                        <th>Precio Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>usuario@ejemplo.com</td>
+                        <td>01/02/2025</td>
+                        <td>49.99€</td>
+                        <td>
+                            <button class="btn btn-info btn-sm">
+                                Ver detalle <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                Borrar <i class="bi bi-x-lg"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>cliente@dominio.com</td>
+                        <td>10/01/2025</td>
+                        <td>99.99€</td>
+                        <td>
+                            <button class="btn btn-info btn-sm">
+                                Ver detalle <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                Borrar <i class="bi bi-x-lg"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="button" class="btn btn-primary">
+                Cargar más <i class="bi bi-arrow-down-circle"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-12 col-md-4">
+                    <h6 class="text-uppercase mb-3">Atención al cliente</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><a href="#" class="footer-link">FAQ</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Política de privacidad</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Términos de servicio</a></li>
+                        <li><a href="#" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <h6 class="text-uppercase mb-3">Empresa</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><a href="#" class="footer-link">Sobre ZENDA</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Envíos y devoluciones</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Política de cookies</a></li>
+                        <li><a href="#" class="footer-link">Aviso legal</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <h6 class="text-uppercase mb-3">Síguenos</h6>
+                    <div class="d-flex gap-3">
+                        <a class="social-link" href="https://www.instagram.com" target="_blank" rel="noreferrer">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a class="social-link" href="https://www.facebook.com" target="_blank" rel="noreferrer">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a class="social-link" href="https://github.com" target="_blank" rel="noreferrer">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-3 text-white-50">
+                        Soporte: soporte@zenda.com<br>
+                        Horario: L–V 9:00–18:00
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary my-4">
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+                <div class="text-white-50">© 2026 ZENDA Shop. Todos los derechos reservados.</div>
+                <div class="text-white-50">Hecho con Bootstrap · Diseño consistente</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
