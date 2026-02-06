@@ -18,3 +18,7 @@ footer .footer-link{
 footer .footer-link:hover{
   color: var(--brand);
 }
+
+footer h6 {
+  color: #fff;
+}
