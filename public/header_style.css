@@ -24,6 +24,7 @@
   opacity: 0.9;
   position: relative;
   transition: opacity 0.18s ease, color 0.18s ease;
+  padding-top: 0.45rem !important;
 }
 
 .navbar-dark .nav-link-header:hover{
