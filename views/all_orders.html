@@ -20,36 +20,60 @@
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="user_home.html">
                     <img src="../public/logo.png" alt="Logo" class="img-logo">
                 </a>
+
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pedidos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Usuarios</a>
+                        <a class="nav-link nav-link-header" href="user_home.html">Home</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="register.html">
-                            <i class="bi bi-person"></i> Registrarse
+                        <a class="nav-link nav-link-header" href="#">
+                            <i class="bi bi-cart"></i> Carrito
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html">
-                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-link-dropdown-header dropdown-toggle d-flex align-items-center gap-1" href="#"
+                            id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                            Perfil
                         </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+
+                            <li>
+                                <a class="dropdown-item" href="user_profile.html">
+                                    <i class="bi bi-person me-2"></i> Gestionar perfil
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="user_orders.html">
+                                    <i class="bi bi-bag-check me-2"></i> Mis pedidos
+                                </a>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item text-danger" href="login.html">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </div>
         </nav>
     </header>
+
 
     <div class="container container-main mt-5">
         <h2 class="text-center mb-4">Gestión de Pedidos</h2>
