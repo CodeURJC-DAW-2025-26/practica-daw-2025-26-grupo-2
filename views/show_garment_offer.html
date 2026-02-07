@@ -80,106 +80,113 @@
             <div class="col">
                 <p class="title h2 mb-0">Camiseta</p>
             </div>
-        </div>
-
-        <div class="row container-attributes-detail">
-            <div class="col-md-6">
-                <aside class="col aside">
-                    <img src="../demo/camiseta.jpg" class="image rounded w-100" alt="Ropa">
-                </aside>
+            <div class="col-auto">
+                <p class="text-muted small mb-0">Ref: 10012345</p>
             </div>
 
-            <div class="col-md-6">
-                <div class="container-price-item-detail">
-                    <h3><del>29.99€</del> <span class="fw-bold" style="color: #D32F2F;">19.99€</span></h3>
-                    <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un 33% de descuento!</p>
+            <div class="row container-attributes-detail">
+                <div class="col-md-6">
+                    <aside class="col aside">
+                        <img src="../demo/camiseta.jpg" class="image rounded w-100" alt="Ropa">
+                    </aside>
                 </div>
 
-                <div class="mt-4">
-                    <div class="mb-3">
-                        <label for="inputSize" class="form-label"><b>Talla</b></label>
-                        <div class="input-group">
-                            <select class="form-select" id="inputSize" name="size" required>
-                                <option value="" selected disabled>Selecciona talla</option>
-                                <option value="XS">XS</option>
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="XL">XL</option>
-                            </select>
-                            <div class="invalid-feedback">La talla no puede estar vacía.</div>
+                <div class="col-md-6">
+                    <div class="container-price-item-detail">
+                        <h3><del>29.99€</del> <span class="fw-bold" style="color: #D32F2F;">19.99€</span></h3>
+                        <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un 33% de descuento!</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="mb-3">
+                            <label for="inputSize" class="form-label"><b>Talla</b></label>
+                            <div class="input-group">
+                                <select class="form-select" id="inputSize" name="size" required>
+                                    <option value="" selected disabled>Selecciona talla</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                <div class="invalid-feedback">La talla no puede estar vacía.</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mb-4">
-                        <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="inputQuantity" name="quantity" step="1"
-                                value="" placeholder="Cantidad de prendas" min="1" max="100" required>
-                            <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                        <div class="mb-4">
+                            <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="inputQuantity" name="quantity" step="1"
+                                    value="" placeholder="Cantidad de prendas" min="1" max="100" required>
+                                <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="d-grid gap-2 mb-4">
-                        <a class="btn btn-success py-2 fw-bold text-dark" href="#">
-                            Añadir al carrito <i class="bi bi-cart-plus"></i>
-                        </a>
-                    </div>
+                        <div class="d-grid gap-2 mb-4">
+                            <a class="btn btn-success py-2 fw-bold text-dark" href="#">
+                                Añadir al carrito <i class="bi bi-cart-plus"></i>
+                            </a>
+                        </div>
 
-                    <hr>
+                        <hr>
 
-                    <div class="d-flex gap-2">
-                        <a href="garment_form.html" class="btn btn-warning flex-grow-1 text-dark">
-                            Editar <i class="bi bi-pencil-square"></i>
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="garment_form.html" class="btn btn-warning flex-grow-1 text-dark">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </a>
 
 
-                        <a class="btn btn-danger flex-grow-1 text-dark" href="#">
-                            Borrar <i class="bi bi-x-lg"></i>
-                        </a>
+                            <a class="btn btn-danger flex-grow-1 text-dark" href="#">
+                                Borrar <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3 class="details-item-title">Detalles del producto</h3>
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Categoría
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Camisetas</div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3 class="details-item-title">Detalles del producto</h3>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Categoría
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">Camisetas</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Descripción
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y mangas
-                                cortas.</div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Descripción
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y
+                                    mangas
+                                    cortas.</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Características
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Algodón 100%, no requiere planchado, no encoge.</div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Características
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">Algodón 100%, no requiere planchado, no encoge.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
