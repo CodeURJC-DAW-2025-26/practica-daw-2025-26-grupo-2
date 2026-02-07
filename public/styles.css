@@ -341,6 +341,13 @@ header,
   box-shadow: var(--shadow-lg);
 }
 
+.btn-warning:hover {
+  background-color: #e67e07;
+  border-color: #e98109;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
 .accordion {
   border-radius: var(--radius-md);
 }

@@ -2,234 +2,296 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/styles.css">
-    <link rel="stylesheet" href="../public/header_style.css">
-    <link rel="stylesheet" href="../public/footer_style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../public/styles.css">
+  <link rel="stylesheet" href="../public/header_style.css">
+  <link rel="stylesheet" href="../public/footer_style.css">
 
-    <title>Main</title>
+  <title>Main | ZENDA</title>
 </head>
 
 <body class="body">
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="admin_home.html">
-                    <img src="../public/logo.png" alt="Logo" class="img-logo">
-                </a>
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-header" href="admin_home.html">Home</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-header" href="cart.html">
-                            <i class="bi bi-cart"></i> Carrito
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-link-dropdown-header dropdown-toggle d-flex align-items-center gap-1" href="#"
-                            id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            Perfil
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
-
-                            <li>
-                                <a class="dropdown-item" href="user_profile.html">
-                                    <i class="bi bi-person me-2"></i> Gestionar perfil
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="user_orders.html">
-                                    <i class="bi bi-bag-check me-2"></i> Mis pedidos
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="statistics.html">
-                                    <i class="bi bi-graph-up-arrow me-2"></i> Estadísticas
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="all_orders.html">
-                                    <i class="bi bi-cart-check me-2"></i> Gestionar pedidos
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item" href="all_users.html">
-                                    <i class="bi bi-people me-2"></i> Gestionar usuarios
-                                </a>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item text-danger" href="login.html">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-
-    <section class="offers-section py-5">
-        <div class="container container-main-offers">
-            <div class="d-flex align-items-center justify-content-center mb-5 container-offers-title">
-                <hr class="flex-grow-1 d-none d-sm-block border-2">
-                <h2 class="text-center mx-4 fw-bold mb-0 text-uppercase">Ofertas para ti</h2>
-                <hr class="flex-grow-1 d-none d-sm-block border-2">
-            </div>
-            <div class="row" id="offers-list">
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <div class="position-relative">
-                        <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm" style="z-index: 1;">
-                            -35%
-                        </div>
-                        <a href="show_garment_offer.html">
-                            <img src="../demo/bolso_marron.webp" class="img-fluid">
-                        </a>
-                    </div>
-                    <h4>Bolso marrón</h4>
-                    <h5><del class="text-muted">19.99€</del> <span class="fw-bold">12.99€</span></h5>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <div class="position-relative">
-                        <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm" style="z-index: 1;">
-                            -32%
-                        </div>
-                        <a href="show_garment_offer.html">
-                            <img src="../demo/pantalon.jpg" class="img-fluid">
-                        </a>
-                    </div>
-                    <h4>Pantalón</h4>
-                    <h5><del class="text-muted">24.99€</del> <span class="fw-bold">16.99€</span></h5>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                    <div class="position-relative">
-                        <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm" style="z-index: 1;">
-                            -33%
-                        </div>
-                        <a href="show_garment_offer.html">
-                            <img src="../demo/camiseta.jpg" class="img-fluid">
-                        </a>
-                    </div>
-                    <h4>Camiseta blanca</h4>
-                    <h5><del class="text-muted">29.99€</del> <span class="fw-bold">19.99€</span></h5>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <div class="container container-main">
-        <h2 class="text-center mb-4">Artículos</h2>
-        <div class="row" id="garments-list">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg" class="img-fluid">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg" class="img-fluid">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                <a href="show_garment.html">
-                    <img src="../demo/pantalon.jpg" class="img-fluid">
-                </a>
-                <h4>Pantalón</h4>
-                <h5>19.99€</h5>
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center mt-4">
-        <a href="garment_form.html" class="btn btn-primary">
-            Añadir o editar prenda <i class="bi bi-plus-circle"></i>
+  <header class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="user_home.html">
+          <img src="../public/logo.png" alt="Logo" class="img-logo">
         </a>
-    </div>
 
-    <footer class="bg-dark text-white py-5">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Atención al cliente</h6>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">FAQ</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política de privacidad</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Términos de servicio</a></li>
-                        <li><a href="#" class="footer-link text-decoration-none text-white-50">Contacto</a></li>
-                    </ul>
-                </div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link nav-link-header active" href="user_home.html">Home</a>
+          </li>
 
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Empresa</h6>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Sobre ZENDA</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Envíos y devoluciones</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política de cookies</a></li>
-                        <li><a href="#" class="footer-link text-decoration-none text-white-50">Aviso legal</a></li>
-                    </ul>
-                </div>
+          <li class="nav-item">
+            <a class="nav-link nav-link-header" href="all_users.html">Gestionar usuarios</a>
+          </li>
 
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Síguenos</h6>
-                    <div class="d-flex gap-3">
-                        <a class="social-link text-white" href="https://www.instagram.com" target="_blank" rel="noreferrer">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a class="social-link text-white" href="https://www.facebook.com" target="_blank" rel="noreferrer">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a class="social-link text-white" href="https://github.com" target="_blank" rel="noreferrer">
-                            <i class="bi bi-github"></i>
-                        </a>
-                    </div>
+          <li class="nav-item">
+            <a class="nav-link nav-link-header" href="all_orders.html">Gestionar pedidos</a>
+          </li>
 
-                    <div class="mt-3 text-white-50">
-                        Soporte: soporte@zenda.com<br>
-                        Horario: L–V 9:00–18:00
-                    </div>
-                </div>
+          <li class="nav-item">
+            <a class="nav-link nav-link-header" href="statistics.html">Estadísticas</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-header" href="cart.html">
+              <i class="bi bi-cart"></i> Carrito
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-dropdown-header dropdown-toggle d-flex align-items-center gap-1" href="#"
+              id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>
+              Perfil
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+
+              <li>
+                <a class="dropdown-item" href="user_profile.html">
+                  <i class="bi bi-person me-2"></i> Gestionar perfil
+                </a>
+              </li>
+
+              <li>
+                <a class="dropdown-item" href="user_orders.html">
+                  <i class="bi bi-bag-check me-2"></i> Mis pedidos
+                </a>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item text-danger" href="login.html">
+                  <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+
+  <section class="offers-section py-5">
+    <div class="container container-main-offers">
+      <div class="d-flex align-items-center justify-content-center mb-5 container-offers-title">
+        <hr class="flex-grow-1 d-none d-sm-block border-2">
+        <h2 class="text-center mx-4 fw-bold mb-0 text-uppercase">Ofertas para ti</h2>
+        <hr class="flex-grow-1 d-none d-sm-block border-2">
+      </div>
+      <div class="row" id="offers-list">
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <div class="position-relative">
+            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm"
+              style="z-index: 1;">
+              -35%
             </div>
-
-            <hr class="border-secondary my-4">
-
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-                <div class="text-white-50 small">© 2026 ZENDA Shop. Todos los derechos reservados.</div>
-                <div class="text-white-50 small">Hecho con Bootstrap · Diseño consistente</div>
-            </div>
+            <a href="show_garment_offer.html">
+              <img src="../demo/bolso_marron.webp" class="img-fluid">
+            </a>
+          </div>
+          <h4>Bolso marrón</h4>
+          <h5><del class="text-muted">19.99€</del> <span class="fw-bold">12.99€</span></h5>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <div class="position-relative">
+            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm"
+              style="z-index: 1;">
+              -32%
+            </div>
+            <a href="show_garment_offer.html">
+              <img src="../demo/pantalon.jpg" class="img-fluid">
+            </a>
+          </div>
+          <h4>Pantalón</h4>
+          <h5><del class="text-muted">24.99€</del> <span class="fw-bold">16.99€</span></h5>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <div class="position-relative">
+            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm"
+              style="z-index: 1;">
+              -33%
+            </div>
+            <a href="show_garment_offer.html">
+              <img src="../demo/camiseta.jpg" class="img-fluid">
+            </a>
+          </div>
+          <h4>Camiseta blanca</h4>
+          <h5><del class="text-muted">29.99€</del> <span class="fw-bold">19.99€</span></h5>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <main class="container py-5 px-4">
+    <div class="container container-main">
+      <div class="position-relative d-flex align-items-center justify-content-center mb-4">
+        <h2 class="title mb-0">Artículos</h2>
+
+        <button
+          class="btn btn-outline-dark btn-sm position-absolute end-0 d-flex align-items-center gap-2 text-uppercase fw-bold"
+          type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+          <i class="bi bi-sliders"></i>
+          <span class="d-none d-sm-inline">Filtrar</span>
+        </button>
+      </div>
+
+
+      <div class="collapse mb-5" id="filterCollapse">
+        <div class="card card-body border-0 shadow-sm bg-light">
+          <div class="row g-3">
+            <div class="col-12 col-md-3">
+              <label class="form-label small fw-bold text-uppercase text-muted"
+                style="font-size: 0.7rem;">Buscar</label>
+              <input type="text" class="form-control form-control-sm border-0 shadow-sm"
+                placeholder="Ej: Pantalón denim...">
+            </div>
+
+            <div class="col-6 col-md-2">
+              <label class="form-label small fw-bold text-uppercase text-muted"
+                style="font-size: 0.7rem;">Categoría</label>
+              <select class="form-select form-select-sm border-0 shadow-sm">
+                <option selected>Todas</option>
+                <option>Camisetas</option>
+                <option>Pantalones</option>
+                <option>Accesorios</option>
+              </select>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <label class="form-label small fw-bold text-uppercase text-muted" style="font-size: 0.7rem;">Rango de
+                Precio (€)</label>
+              <div class="d-flex align-items-center gap-2">
+                <input type="number" class="form-control form-control-sm border-0 shadow-sm" placeholder="Mín" min="0"
+                  max="200">
+                <span class="text-muted small">-</span>
+                <input type="number" class="form-control form-control-sm border-0 shadow-sm" placeholder="Máx" min="0"
+                  max="500">
+              </div>
+            </div>
+
+            <div class="col-6 col-md-2">
+              <label class="form-label small fw-bold text-uppercase text-muted"
+                style="font-size: 0.7rem;">Ordenar</label>
+              <select class="form-select form-select-sm border-0 shadow-sm">
+                <option selected>Popularidad</option>
+                <option>Precio: Menor a Mayor</option>
+                <option>Precio: Mayor a Menor</option>
+              </select>
+            </div>
+
+            <div class="col-6 col-md-2 d-flex align-items-end">
+              <button class="btn btn-dark btn-sm w-100 fw-bold text-uppercase shadow-sm" style="letter-spacing: 1px;">
+                Aplicar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="garments-list">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <a href="show_garment.html">
+            <img src="../demo/pantalon.jpg" class="img-fluid">
+          </a>
+          <h4>Pantalón</h4>
+          <h5>19.99€</h5>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <a href="show_garment.html">
+            <img src="../demo/pantalon.jpg" class="img-fluid">
+          </a>
+          <h4>Pantalón</h4>
+          <h5>19.99€</h5>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+          <a href="show_garment.html">
+            <img src="../demo/pantalon.jpg" class="img-fluid">
+          </a>
+          <h4>Pantalón</h4>
+          <h5>19.99€</h5>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-white py-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-12 col-md-4">
+          <h6 class="text-uppercase mb-3">Atención al cliente</h6>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">FAQ</a>
+            </li>
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política
+                de privacidad</a></li>
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Términos
+                de servicio</a></li>
+            <li><a href="#" class="footer-link text-decoration-none text-white-50">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h6 class="text-uppercase mb-3">Empresa</h6>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Sobre
+                ZENDA</a></li>
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Envíos y
+                devoluciones</a></li>
+            <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política
+                de cookies</a></li>
+            <li><a href="#" class="footer-link text-decoration-none text-white-50">Aviso legal</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h6 class="text-uppercase mb-3">Síguenos</h6>
+          <div class="d-flex gap-3">
+            <a class="social-link text-white" href="https://www.instagram.com" target="_blank" rel="noreferrer">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a class="social-link text-white" href="https://www.facebook.com" target="_blank" rel="noreferrer">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a class="social-link text-white" href="https://github.com" target="_blank" rel="noreferrer">
+              <i class="bi bi-github"></i>
+            </a>
+          </div>
+
+          <div class="mt-3 text-white-50">
+            Soporte: soporte@zenda.com<br>
+            Horario: L–V 9:00–18:00
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-secondary my-4">
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div class="text-white-50 small">© 2026 ZENDA Shop. Todos los derechos reservados.</div>
+        <div class="text-white-50 small">Hecho con Bootstrap · Diseño consistente</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
