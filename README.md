@@ -141,7 +141,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > La página de carrito permite al usuario revisar los productos añadidos antes de finalizar la compra, mostrando cada artículo con su imagen, nombre, referencia, talla, precio unitario y subtotal. Además, se incluye un control de cantidad mediante input numérico y un botón para eliminar productos. Debajo del listado se añade un apartado de preferencias de entrega donde el usuario puede indicar dirección, fecha preferida y notas de entrega. Finalmente, se presenta un resumen del carrito con el total de productos, el coste de envío y el total a pagar, junto con botones  para continuar comprando o realizar la compra.
 
-#### **9. Página Principal (Administrador) **
+#### **9. Página Principal (Administrador)**
 
 ![Admin home1](images/admin_home1.png)
 ![Admin home1](images/admin_home2.png)
