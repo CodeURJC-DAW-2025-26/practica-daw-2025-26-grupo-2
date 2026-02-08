@@ -81,7 +81,7 @@ Se valorará en el momento indicado realizar una consulta más avanzada con reco
 ## 🛠 **Preparación 2: Maquetación de páginas con HTML y CSS**
 
 ### **Vídeo de Demostración**
-📹 **https://www.youtube.com/watch?v=rHKQmr89hOA**
+📹 **[Enlace al vídeo en Youtube](https://www.youtube.com/watch?v=rHKQmr89hOA)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Diagrama de Navegación**
