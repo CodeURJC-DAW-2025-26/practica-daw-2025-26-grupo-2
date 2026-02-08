@@ -93,74 +93,98 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 ### **Capturas de Pantalla y Descripción de Páginas**
 
-#### **1. Página Principal (usuario no registrado) / Home**
-![alt text](images/image-1.png)
+#### **1. Página Principal (usuario no registrado) **
+![Index](images/image-1.png)
 >La página principal representa el punto de inicio de la aplicación y está diseñada para ofrecer una visión clara y ordenada del catálogo de productos. Los artículos se muestran en un diseño en cuadrícula responsive, donde cada producto incluye su imagen, nombre y precio y un acceso rápido al detalle de cada prenda. En la parte superior se encuentra una barra de navegación fija que permite volver al inicio en todo momento y acceder a las opciones de registro e inicio de sesión para usuarios no autenticados. Además, se ha incorporado un sistema de filtrado desplegable que permite buscar y ordenar los productos por categoría, rango de precios o popularidad. El footer contiene enlaces informativos y acceso a redes sociales.
 
 #### **2. Página de Registro**
-![alt text](images/image.png)
+![Register](images/image.png)
 
 >La página de registro permite al usuario crear una cuenta mediante un formulario organizado. Incluye la opción de subir una imagen de perfil (mostrando un avatar por defecto), además de los campos principales necesarios para el alta: nombre, email, contraseña y confirmación de contraseña, junto con la dirección. Para mejorar la usabilidad, cada campo está acompañado de iconos dentro de los input-group, lo que facilita identificar rápidamente qué información se solicita. Finalmente, se ofrecen accesos directos tanto para completar el registro (“Crear cuenta”) como para volver a la tienda o ir a la pantalla de inicio de sesión si el usuario ya dispone de cuenta.
 
-#### **3. Página Principal (usuario registrado)**
-![alt text](images/image_userhome1.png)
-![alt text](images/image_userhome2.png)
-
->La página principal para usuarios registrados mantiene la estructura del catálogo, pero añade funcionalidades pensadas para una experiencia más personalizada. En la barra superior se incorporan accesos directos al carrito y un menú desplegable de perfil, desde el que el usuario puede gestionar sus datos, consultar sus pedidos o cerrar sesión. Se incluye una sección de “Ofertas para ti” al inicio, apartado de recomendaciones u ofertas destacadas. A continuación, se mantiene el listado general de artículos con el mismo sistema de filtrado desplegable (búsqueda, categoría, rango de precio y ordenación). El footer conserva enlaces informativos y redes sociales.
-
-#### **4. Iniciar sesión**
-![alt text](images/image_login.png)
+#### **3. Iniciar sesión**
+![Log in](images/image_login.png)
 
 >La página de inicio de sesión permite acceder a la aplicación mediante un formulario: email y contraseña. Los campos incluyen iconos en cada input para facilitar la lectura, además de validaciones básicas (formato de email y longitud mínima de contraseña) para evitar errores comunes. Además, se incluyen dos accesos diferenciados: uno para entrar como usuario registrado y otro para entrar como administrador. Sin embargo, en la próxima práctica habrá solamente un botón de entrar y se iniciará sesión como usuario normal o administrador dependiendo de las credenciales introducidas. También se añade un enlace para volver a la tienda sin iniciar sesión y un acceso directo a la página de registro para usuarios nuevos.
 
-#### **4. Página de detalle producto ofertado**
-![alt text](images/garment_offer1.png)
-![alt text](images/garment_offer2.png)
+#### **4. Página Principal (usuario registrado)**
+![User home 1](images/image_userhome1.png)
+![User home 2](images/image_userhome2.png)
+
+>La página principal para usuarios registrados mantiene la estructura del catálogo, pero añade funcionalidades pensadas para una experiencia más personalizada. En la barra superior se incorporan accesos directos al carrito y un menú desplegable de perfil, desde el que el usuario puede gestionar sus datos, consultar sus pedidos o cerrar sesión. Se incluye una sección de “Ofertas para ti” al inicio, apartado de recomendaciones u ofertas destacadas. A continuación, se mantiene el listado general de artículos con el mismo sistema de filtrado desplegable (búsqueda, categoría, rango de precio y ordenación). El footer conserva enlaces informativos y redes sociales.
+
+#### **5. Página de detalle producto ofertado **
+![Garment orffer 1](images/garment_offer1.png)
+![Garment offer 2](images/garment_offer2.png)
 
 > La página de detalle muestra toda la información relevante de un producto de forma más completa para su compra. En la parte superior se mantiene la navegación del usuario registrado (home, carrito y menú de perfil) y se añade un botón de “Volver” para regresar al catálogo. El contenido principal incluye la imagen del producto, su referencia y el precio, destacando las ofertas mediante el precio tachado, el precio rebajado y un mensaje informativo del descuento. Los botones de editar y borrar serán solo visibles para el administrador. Además, se permite seleccionar talla y cantidad antes de añadir el artículo al carrito. Finalmente, se incorpora una sección de comentarios con formulario de valoración y listado de reseñas, incluyendo opciones de editar y borrar (estos dos últimos solamente también serán visibles solamente para el usuario).
 
 #### **6. Página de Detalle de Producto (sin oferta)**
 
-![alt text](images/garment1.png)
-![alt text](images/garment2.png)
+![Garment 1](images/garment1.png)
+![Garment 2](images/garment2.png)
 
 > Esta página muestra el detalle completo de un producto cuando no está en promoción, manteniendo la misma estructura de navegación para usuarios registrados(home, carrito y menú de perfil) y un botón de “Volver”, dado que los no registrados solamente podrán ver el producto y las opiniones, pero no podrán ni comprar ni añadir comentarios . En el contenido principal se presenta la imagen del artículo, su referencia y el precio normal, junto con un bloque de compra donde el usuario puede seleccionar la talla y la cantidad antes de añadir el producto al carrito. Además, se incluye un apartado de comentarios con formulario de valoración y listado de reseñas, con opciones de editar y borrar (será solo para administradores).
 
-#### **7. Página de Carrito / Pedido en progreso**
+#### **7. Página de Añadir/Editar Prenda (Administrador)**
 
-![alt text](images/cart1.png)
-![alt text](images/cart2.png)
+![Garment form](images/garment_form.png)
+
+
+> La página de añadir o editar prenda permite al administrador gestionar el catálogo mediante un formulario . Se incluyen los campos principales de una prenda (nombre, categoría, precio, imagen, descripción y características). Cuando sea añadir estos campos aparecerán vacíos, en cambio, en editar aparecerá la información que estuviese anteriormente. Además, el formulario incorpora validaciones básicas (por ejemplo, rangos de precio y longitudes mínimas de texto) para evitar datos incorrectos . Por último, se incluyen botones de “Guardar” y “Cancelar” para completar o descartar los cambios y se mantiene la navegación y el estilo visual del panel de administración.
+
+
+#### **8. Página de Carrito / Pedido en progreso**
+
+![Cart1](images/cart1.png)
+![Cart2](images/cart2.png)
 
 > La página de carrito permite al usuario revisar los productos añadidos antes de finalizar la compra, mostrando cada artículo con su imagen, nombre, referencia, talla, precio unitario y subtotal. Además, se incluye un control de cantidad mediante input numérico y un botón para eliminar productos. Debajo del listado se añade un apartado de preferencias de entrega donde el usuario puede indicar dirección, fecha preferida y notas de entrega. Finalmente, se presenta un resumen del carrito con el total de productos, el coste de envío y el total a pagar, junto con botones  para continuar comprando o realizar la compra.
 
-#### **8. Página de Gestión de Usuarios (Administrador)**
-![alt text](images/all_users.png)
+#### **9. Página Principal (Administrador) **
+
+![Admin home1](images/admin_home1.png)
+![Admin home1](images/admin_home2.png)
+
+La página principal para el administrador mantiene la estructura del catálogo, pero añade opciones orientadas a la gestión de la aplicación. En la barra superior se incorporan accesos directos al carrito y un menú desplegable de perfil, y además aparece un menú específico de administración desde el que se puede navegar a la gestión de usuarios, gestión de pedidos y estadísticas. Se incluye una sección de “Ofertas para ti” al inicio, a modo de apartado de productos destacados. A continuación, se mantiene el listado general de artículos con el mismo sistema de filtrado desplegable (búsqueda, categoría, rango de precio y ordenación). El footer conserva enlaces informativos y redes sociales
+
+
+#### **10. Página de Gestión de Usuarios (Administrador)**
+![All users](images/all_users.png)
 
 > Esta página permite al administrador gestionar los usuarios registrados. La información se presenta en una tabla responsive con los datos principales (ID, nombre, email y si es administrador) y, además, incluye campos adicionales como fecha de alta, número de pedidos y fecha del último pedido. En la parte superior se incorpora un botón para añadir un nuevo usuario y, para cada fila, se incluyen acciones claras de ver, editar y borrar. Cada vez que añadamos un usuario se nos redirigirá a una página similiar a la de registrarse, lo mismo con editar, pero con la información ya añadida. También se añade un botón de “Cargar más” para representar carga dinámica de resultados. La navegación superior específica de administrador (usuarios, pedidos y estadísticas) diferenciandolo del rol de usuario normal.
 
-#### **9. Página de Gestión de Pedidos (Administrador)**
+#### **11. Página de Gestión de Pedidos (Administrador)**
 
-![alt text](images/all_orders.png)
+![All orders](images/all_orders.png)
 
 > Esta página permite al administrador gestionar los pedidos realizados . Los pedidos se muestran en una tabla responsive con los datos más importantes (ID del pedido, correo del usuario, fecha y precio total), lo que facilita localizar rápidamente compras concretas. Para cada pedido se incluyen acciones típicas de administración: ver el detalle completo, editar o borrar. Además, en la parte superior se incorpora un botón para añadir nuevos pedidos y, al final de la tabla, un botón de “Cargar más” para representar paginación. La navegación superior se mantiene específica de administrador (usuarios, pedidos y estadísticas).
 
-#### **10. Página de Estadísticas (Administrador)**
+#### **12. Página de Estadísticas (Administrador)**
 
-![alt text](images/statistics.png)
+![Statistics](images/statistics.png)
 
 > Esta página está pensada para que el administrador pueda consultar el rendimiento de la tienda. En la parte superior se muestran métricas clave en formato de tarjetas (ingresos y número de pedidos) diferenciando distintos periodos, para tener una general sin necesidad de entrar al detalle de cada pedido. Además, se incluyen dos apartados de evolución (ingresos y número de pedidos) representados mediante gráficos, acompañados de un selector de periodo (diario, mensual o anual). La página refleja un panel de control típico de administración, manteniendo la misma navegación superior del rol administrador.
 
-#### **11. Página de Perfil de Usuario**
+#### **13. Página de Perfil de Usuario**
 
-![alt text](images/user_profile.png)
+![User profile](images/user_profile.png)
 
 > La página de perfil permite al usuario consultar y gestionar la información de su cuenta. En la parte superior se muestra el avatar junto con el nombre y el email, y se incluye un botón de “Editar perfil” para acceder directamente a la modificación de datos. A continuación, la información se organiza en dos bloques: por un lado, los datos básicos de la cuenta (nombre, apellidos, email, dirección y fecha de registro) y, por otro, un apartado de actividad con métricas de compra como el ticket medio y el número de compras del último mes. Además, se incorpora una zona de gráfica con selector de periodo (mensual/anual) para representar la evolución del ticket medio. La página mantiene la navegación habitual del usuario registrado (home, carrito y menú de perfil).
 
-#### **12. Página de Mis Pedidos**
+#### **14. Página de Mis Pedidos**
 
-![alt text](images/user_order.png)
+![User order](images/user_order.png)
 
 > La página de “Mis pedidos” permite al usuario consultar su historial de compras mediante una tabla con la información principal de cada pedido (ID, fecha y precio total). Para cada pedido se puede acceder al detalle completo del pedido y generar la factura en PDF. Además, se añade un botón de “Cargar más” para representar paginación de pedidos cuando el historial sea más amplio. La página mantiene la navegación habitual del usuario registrado (home, carrito y menú de perfil).
+
+#### **15. Página de Detalle de Pedido / Información de compra**
+
+![Order detail 1](images/order_detail1.png)
+![Order detail 2](images/order_detail2.png)
+
+> La página de detalle de pedido permite al usuario/administrador consultar de forma completa la información de una compra concreta. Incluye un botón de “Volver” para regresar al listado de pedidos y muestra un resumen del pedido (fecha, precio total, gastos de envío, total con envío y estado). A continuación, se presenta una tabla con los productos incluidos en el pedido, indicando imagen, talla, cantidad, precio unitario y subtotal, para que el usuario pueda revisar exactamente qué ha comprado. También se añade un apartado con la información de entrega (dirección, fecha preferida y notas), completando el seguimiento del pedido. Por último, se incluye un botón para generar la factura.
+
 
 
 ## 🛠 **Práctica 1: Web con HTML generado en servidor y AJAX**
