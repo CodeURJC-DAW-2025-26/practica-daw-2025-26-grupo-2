@@ -18,58 +18,7 @@
 </head>
 
 <body class="body">
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="user_home.html">
-                    <img src="../public/logo.png" alt="Logo" class="img-logo">
-                </a>
-
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-header" href="user_home.html">Home</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-header" href="cart.html">
-                            <i class="bi bi-cart"></i> Carrito
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-link-dropdown-header dropdown-toggle d-flex align-items-center gap-1"
-                            href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            Perfil
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
-                            <li>
-                                <a class="dropdown-item" href="user_profile.html">
-                                    <i class="bi bi-person me-2"></i> Gestionar perfil
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="user_orders.html">
-                                    <i class="bi bi-bag-check me-2"></i> Mis pedidos
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="login.html">
-                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
+    {{>header}}
     <div class="container container-detail mt-4">
         <div class="row align-items-center mb-4">
             <div class="col-auto">
@@ -78,110 +27,124 @@
                 </a>
             </div>
             <div class="col">
-                <p class="title h2 mb-0">Camiseta</p>
+                <p class="title h2 mb-0">{{garment.name}}</p>
             </div>
             <div class="col-auto">
-                <p class="text-muted small mb-0">Ref: 10012345</p>
-            </div>
-        </div>
-
-        <div class="row container-attributes-detail">
-            <div class="col-md-6">
-                <aside class="col aside">
-                    <img src="../demo/camiseta.jpg" class="image rounded w-100" alt="Ropa">
-                </aside>
+                <p class="text-muted small mb-0">Ref: {{garment.reference}}</p>
             </div>
 
-            <div class="col-md-6">
-                <div class="container-price-item-detail mb-3">
-                    <h3 class="fw-bold">29.99€</h3>
+            <div class="row container-attributes-detail">
+                <div class="col-md-6">
+                    <aside class="col aside">
+                        <img src="../demo/{{garment.image}}" class="image rounded w-100" alt="Ropa">
+                    </aside>
                 </div>
 
-                <div class="mt-4">
-                    <div class="mb-3">
-                        <label for="inputSize" class="form-label"><b>Talla</b></label>
-                        <div class="input-group">
-                            <select class="form-select" id="inputSize" name="size" required>
-                                <option value="" selected disabled>Selecciona talla</option>
-                                <option value="XS">XS</option>
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="XL">XL</option>
-                            </select>
-                            <div class="invalid-feedback">La talla no puede estar vacía.</div>
+                <div class="col-md-6">
+                    <div class="container-price-item-detail">
+                        {{#offer}}
+                        <h3><del>{{garment.price}}€</del> <span class="fw-bold"
+                                style="color: #D32F2F;">{{new_price}}€</span></h3>
+                        <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un {{discount}}% de descuento!
+                        </p>
+                        {{/offer}}
+                        {{^offer}}
+                        <h3 class="fw-bold">{{garment.price}}€</h3>
+                        {{/offer}}
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="mb-3">
+                            <label for="inputSize" class="form-label"><b>Talla</b></label>
+                            <div class="input-group">
+                                <select class="form-select" id="inputSize" name="size" required>
+                                    <option value="" selected disabled>Selecciona talla</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                                <div class="invalid-feedback">La talla no puede estar vacía.</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mb-4">
-                        <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="inputQuantity" name="quantity" step="1"
-                                value="" placeholder="Cantidad de prendas" min="1" max="100" required>
-                            <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                        <div class="mb-4">
+                            <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="inputQuantity" name="quantity" step="1"
+                                    value="" placeholder="Cantidad de prendas" min="1" max="100" required>
+                                <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="d-grid gap-2 mb-4">
-                        <a class="btn btn-success py-2 fw-bold text-dark" href="#">
-                            Añadir al carrito <i class="bi bi-cart-plus"></i>
-                        </a>
-                    </div>
+                        {{#logged}}
+                        <div class="d-grid gap-2 mb-4">
+                            <a class="btn btn-success py-2 fw-bold text-dark" href="#">
+                                Añadir al carrito <i class="bi bi-cart-plus"></i>
+                            </a>
+                        </div>
 
-                    <hr>
+                        {{#admin}}
+                        <hr>
 
-                    <div class="d-flex gap-2">
-                        <a href="garment_form.html" class="btn btn-warning flex-grow-1 text-dark">
-                            Editar <i class="bi bi-pencil-square"></i>
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="garment_form.html" class="btn btn-warning flex-grow-1 text-dark">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </a>
 
 
-                        <a class="btn btn-danger flex-grow-1 text-dark" href="#">
-                            Borrar <i class="bi bi-x-lg"></i>
-                        </a>
+                            <a class="btn btn-danger flex-grow-1 text-dark" href="#">
+                                Borrar <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                        {{/admin}}
+                        {{/logged}}
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3 class="details-item-title">Detalles del producto</h3>
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Categoría
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Camisetas</div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3 class="details-item-title">Detalles del producto</h3>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Categoría
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">{{garment.category}}</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Descripción
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Camiseta de algodón de color blanco, con cuello redondo y mangas
-                                cortas.</div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Descripción
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">{{garment.description}}</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Características
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">Algodón 100%, no requiere planchado, no encoge.</div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Características
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">{{garment.features}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,6 +152,7 @@
         </div>
     </div>
 
+    {{#logged}}
     <div class="container mt-5">
         <div class="container-header-form">
             <h3>Añadir comentario</h3>
@@ -229,89 +193,23 @@
             </div>
         </form>
     </div>
-
-    <div class="container mt-4" id="reviews-container">
+    {{/logged}}
+    <div class="container mt-4" id="reviews-container"></div>
+    {{#comments}}
         <div class="review p-3 border rounded mb-3 bg-light" id="review-1">
-            <h5>Usuario: Juan Pérez</h5>
-            <h5>Puntuación: ⭐⭐⭐⭐</h5>
-            <p>Este producto es excelente, muy cómodo y de buena calidad.</p>
+            <h5>Usuario: {{user}}</h5>
+            <h5>Puntuación: {{rating}}</h5>
+            <p>{{comment}}</p>
+            {{#admin}}
             <div class="d-flex gap-2">
                 <a class="btn btn-warning btn-sm text-dark" href="#">Editar <i class="bi bi-pencil-square"></i></a>
                 <a class="btn btn-danger btn-sm text-dark" href="#">Borrar <i class="bi bi-x-lg"></i></a>
             </div>
+            {{/admin}}
         </div>
-        <div class="review p-3 border rounded mb-3 bg-light" id="review-2">
-            <h5>Usuario: Ana López</h5>
-            <h5>Puntuación: ⭐⭐⭐</h5>
-            <p>Buena calidad, pero el tamaño no me quedó bien.</p>
-            <div class="d-flex gap-2">
-                <a class="btn btn-warning btn-sm text-dark" href="#">Editar <i class="bi bi-pencil-square"></i></a>
-                <a class="btn btn-danger btn-sm text-dark" href="#">Borrar <i class="bi bi-x-lg"></i></a>
-            </div>
-        </div>
+    {{/comments}}
     </div>
-
-    <footer class="bg-dark text-white py-5">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Atención al cliente</h6>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">FAQ</a>
-                        </li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política
-                                de privacidad</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Términos
-                                de servicio</a></li>
-                        <li><a href="#" class="footer-link text-decoration-none text-white-50">Contacto</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Empresa</h6>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Sobre
-                                ZENDA</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Envíos y
-                                devoluciones</a></li>
-                        <li class="mb-2"><a href="#" class="footer-link text-decoration-none text-white-50">Política
-                                de cookies</a></li>
-                        <li><a href="#" class="footer-link text-decoration-none text-white-50">Aviso legal</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <h6 class="text-uppercase mb-3">Síguenos</h6>
-                    <div class="d-flex gap-3">
-                        <a class="social-link text-white" href="https://www.instagram.com" target="_blank"
-                            rel="noreferrer">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a class="social-link text-white" href="https://www.facebook.com" target="_blank"
-                            rel="noreferrer">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a class="social-link text-white" href="https://github.com" target="_blank" rel="noreferrer">
-                            <i class="bi bi-github"></i>
-                        </a>
-                    </div>
-
-                    <div class="mt-3 text-white-50">
-                        Soporte: soporte@zenda.com<br>
-                        Horario: L–V 9:00–18:00
-                    </div>
-                </div>
-            </div>
-
-            <hr class="border-secondary my-4">
-
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-                <div class="text-white-50 small">© 2026 ZENDA Shop. Todos los derechos reservados.</div>
-                <div class="text-white-50 small">Hecho con Bootstrap · Diseño consistente</div>
-            </div>
-        </div>
-    </footer>
-
+    {{>footer}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
