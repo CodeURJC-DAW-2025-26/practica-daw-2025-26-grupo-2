@@ -22,15 +22,13 @@
                 <h3>Añadir o editar prenda</h3>
             </div>
             <hr class="gap-form">
-            <form role="form" class="needs-validation" novalidate id="garmentForm">
-                <input type="hidden" name="id" />
-
+            <form role="form" class="needs-validation" novalidate id="garmentForm" action="/garment/new" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="inputClothName" class="form-label"><b>Nombre</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-alphabet"></i></span>
                         <input type="text" class="form-control" id="inputClothName" name="name"
-                            placeholder="Nombre de la prenda" required>
+                            placeholder="Nombre de la prenda" value="{{garment.name}}" required>
                         <div class="invalid-feedback" id="titleMesssage">
                             El nombre no puede estar vacío
                         </div>
@@ -41,7 +39,7 @@
                     <label for="inputCategory" class="form-label"><b>Categoría</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                        <select class="form-select" id="inputCategory" name="category" required>
+                        <select class="form-select" id="inputCategory" name="category" value="{{garment.category}}" required>
                             <option value="" selected disabled>Selecciona categoría</option>
                             <option value="Camisas">Camisas</option>
                             <option value="Pantalones">Pantalones</option>
@@ -59,7 +57,7 @@
                     <label for="inputClothPrice" class="form-label"><b>Precio</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
-                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value=""
+                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value="{{garment.price}}"
                             placeholder="Precio de la prenda" min="5" max="5000" required>
                         <span class="input-group-text" id="input-group-price">€</span>
                         <div class="invalid-feedback">
@@ -75,7 +73,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-image"></i></span>
-                        <input type="file" class="form-control" id="inputClothImage" name="image">
+                        <input type="file" class="form-control" id="inputClothImage" name="image" value="{{garment.image}}">
                         <div class="invalid-feedback">
                             La imagen no puede estar vacía.
                         </div>
@@ -88,7 +86,7 @@
                         <span class="input-group-text"><i class="bi bi-list-ul"></i></span>
                         <textarea class="form-control" id="inputClothDescription" name="description"
                             placeholder="Descripción de la prenda" rows="5" minlength="3" maxlength="200"
-                            required></textarea>
+                            required>{{garment.description}}</textarea>
                         <div class="invalid-feedback">
                             La descripción debe tener entre 3 y 200 caracteres.
                         </div>
@@ -119,6 +117,7 @@
                     </a>
                 </div>
                 <br>
+                <input type="hidden" name="id" value="{{garment.id}}" />
             </form>
         </div>
     </main>
