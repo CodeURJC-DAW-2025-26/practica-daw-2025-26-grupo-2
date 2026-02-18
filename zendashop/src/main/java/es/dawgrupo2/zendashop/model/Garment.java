@@ -14,6 +14,9 @@ public class Garment {
 	
 	private String name;
 	private Integer price;
+	private Integer finalPrice;
+	private Integer discount;
+	private boolean offer;
 	private String category;
 	private String description;
     private String features;
@@ -22,10 +25,13 @@ public class Garment {
 	public Garment() {
 	}
 
-	public Garment(String name, Integer price, String category, String description, String features, String image) {
+	public Garment(String name, Integer price, Integer discount, boolean offer, String category, String description, String features, String image) {
 		super();
 		this.name = name;
 		this.price = price;
+		this.finalPrice = price*((100-discount)/100);
+		this.discount = discount;
+		this.offer = offer;
 		this.category = category;
 		this.description = description;
         this.features = features;
@@ -48,13 +54,33 @@ public class Garment {
         this.name = name;
     }
 
-    public Integer getPrice() {
+	public Integer getPrice() {
         return price;
+    }
+
+    public Integer getFinalPrice() {
+        return finalPrice;
     }
 
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+
+	public boolean getOffer() {
+		return offer;
+	}
+
+	public void setOffer(boolean offer) {
+		this.offer = offer;
+	}
 
     public String getCategory() {
         return category;
