@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import es.dawgrupo2.zendashop.model.Garment;
+
 import jakarta.annotation.PostConstruct;
 
 @Controller
@@ -34,6 +36,8 @@ public class GarmentController {
 			model.addAttribute("garment", garment);
 			return "show_garment";	
 		} else {
+            model.addAttribute("element", "Prenda");
+            model.addAttribute("masculine", false);
 			return "garment_not_found";
 		}
 	}
@@ -53,7 +57,7 @@ public class GarmentController {
 		if (op.isPresent()) {
 			Garment garment = op.get();
 			model.addAttribute("garment", garment);
-			return "edit_garment";
+			return "garment_form";
 		} else {
 			return "garment_not_found";
 		}
