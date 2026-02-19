@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import es.dawgrupo2.zendashop.model.Garment;
-
-import jakarta.annotation.PostConstruct;
+import es.dawgrupo2.zendashop.repository.GarmentRepository;
 
 @Controller
 public class GarmentController {

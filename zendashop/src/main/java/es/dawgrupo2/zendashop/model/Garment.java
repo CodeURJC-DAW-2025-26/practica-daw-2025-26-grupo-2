@@ -48,9 +48,6 @@ public class Garment {
 		super();
 		this.name = name;
 		this.price = price;
-		this.finalPrice = price*((100-discount)/100);
-		this.discount = discount;
-		this.offer = offer;
 		this.category = category;
 		this.description = description;
         this.features = features;
@@ -79,22 +76,6 @@ public class Garment {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-	public Integer getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(Integer discount) {
-		this.discount = discount;
-	}
-
-	public boolean getOffer() {
-		return offer;
-	}
-
-	public void setOffer(boolean offer) {
-		this.offer = offer;
-	}
 
     public String getCategory() {
         return category;

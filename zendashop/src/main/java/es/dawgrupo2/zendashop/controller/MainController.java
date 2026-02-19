@@ -1,13 +1,12 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import es.dawgrupo2.zendashop.model.GarmentRepository;
+import es.dawgrupo2.zendashop.repository.GarmentRepository;
 import es.dawgrupo2.zendashop.model.Garment;
 
 @Controller
