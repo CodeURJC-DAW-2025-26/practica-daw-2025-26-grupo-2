@@ -1,8 +1,15 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
+import java.sql.Blob;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,6 +111,29 @@ public class GarmentController {
 			return "deleted_garment";
 		} else {
 			return "garment_not_found";
+		}
+	}
+
+	@GetMapping("/garment/{id}/image")
+	public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+
+		Optional<Garment> op = garmentRepository.findById(id);
+
+		if (op.isPresent() && op.get().getImage() != null) {
+
+			Blob image = op.get().getImage();
+			Resource imageFile = new InputStreamResource(image.getBinaryStream());
+
+			MediaType mediaType = MediaTypeFactory
+					.getMediaType(imageFile)
+					.orElse(MediaType.IMAGE_JPEG);
+
+			return ResponseEntity
+					.ok()
+					.contentType(mediaType)
+					.body(imageFile);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
 	}
 
