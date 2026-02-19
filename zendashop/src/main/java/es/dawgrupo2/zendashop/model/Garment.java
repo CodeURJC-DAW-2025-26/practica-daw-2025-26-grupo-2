@@ -19,21 +19,24 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Garment {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	private String name;
-	private BigDecimal price;
-	private String category;
-	private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String reference = java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+    private String name;
+    private BigDecimal price;
+    private String category;
+    private String description;
     private String features;
 
     @Column(updatable = false)
     private LocalDateTime creationDate = LocalDateTime.now();
 
     @Lob
-	private Blob image;
+    private Blob image;
 
     @OneToMany(mappedBy = "garment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opinion> opinions = new ArrayList<>();
@@ -41,26 +44,26 @@ public class Garment {
     @ManyToMany
     private List<Order> orders = new ArrayList<>();
 
-	public Garment() {
-	}
+    public Garment() {
+    }
 
-	public Garment(String name, BigDecimal price, String category, String description, String features) {
-		super();
-		this.name = name;
-		this.price = price;
-		this.category = category;
-		this.description = description;
+    public Garment(String name, BigDecimal price, String category, String description, String features) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.description = description;
         this.features = features;
-	}
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
-    
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -93,35 +96,35 @@ public class Garment {
         this.description = description;
     }
 
-	public String getFeatures() {
-		return features;
-	}
+    public String getFeatures() {
+        return features;
+    }
 
-	public void setFeatures(String features) {
-		this.features = features;
-	}
+    public void setFeatures(String features) {
+        this.features = features;
+    }
 
-	public Blob getImage() {
-		return image;
-	}
+    public Blob getImage() {
+        return image;
+    }
 
-	public void setImage(Blob image) {
-		this.image = image;
-	}
+    public void setImage(Blob image) {
+        this.image = image;
+    }
 
     public List<Opinion> getOpinions() {
-		return opinions;
-	}
+        return opinions;
+    }
 
-	public void setOpinions(List<Opinion> opinions) {
-		this.opinions = opinions;
-	}
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
+    }
 
-	public void addOpinion(Opinion opinion) {
+    public void addOpinion(Opinion opinion) {
         opinions.add(opinion);
         opinion.setGarment(this);
     }
- 
+
     public void removeOpinion(Opinion opinion) {
         opinions.remove(opinion);
         opinion.setGarment(null);
@@ -137,5 +140,9 @@ public class Garment {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
+    }
+
+    public String getReference() {
+        return reference;
     }
 }
