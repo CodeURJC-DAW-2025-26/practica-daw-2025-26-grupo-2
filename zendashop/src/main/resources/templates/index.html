@@ -59,7 +59,6 @@
         </button>
       </div>
 
-
       <div class="collapse mb-5" id="filterCollapse">
         <div class="card card-body border-0 shadow-sm bg-light">
           <div class="row g-3">
@@ -112,15 +111,7 @@
         </div>
       </div>
       <div class="row" id="garments-list">
-        {{#garments}}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-          <a href="show_garment.html">
-            <img src="../demo/{{image}}" class="img-fluid">
-          </a>
-          <h4>{{name}}</h4>
-          <h5>{{price}}€</h5>
-        </div>
-        {{/garments}}
+        {{>garments_cards}}
       </div>
     </div>
   </main>
@@ -128,7 +119,7 @@
   {{#admin}}
     <div class="text-center mt-4">
         <a href="garment_form.html" class="btn btn-primary">
-            Añadir o editar prenda <i class="bi bi-plus-circle"></i>
+            Añadir prenda <i class="bi bi-plus-circle"></i>
         </a>
     </div>
   {{/admin}}

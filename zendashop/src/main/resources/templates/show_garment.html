@@ -167,16 +167,16 @@
             </div>
 
             <div class="mb-3">
-                <label for="selectRating" class="form-label"><b>Puntuación</b></label>
-                <select class="form-select" id="selectRating" name="rating" required>
-                    <option value="" selected disabled>Seleccione una puntuación</option>
-                    <option value="⭐">⭐</option>
-                    <option value="⭐⭐">⭐⭐</option>
-                    <option value="⭐⭐⭐">⭐⭐⭐</option>
-                    <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
-                    <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+                <label for="inputRating" class="form-label"><b>Valoración</b></label>
+                <select class="form-select" id="inputRating" name="rating" required>
+                    <option value="" selected disabled>Selecciona una puntuación</option>
+                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; (5 estrellas)</option>
+                    <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; (4 estrellas)</option>
+                    <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; (3 estrellas)</option>
+                    <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; (2 estrellas)</option>
+                    <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; (1 estrella)</option>
                 </select>
-                <div class="invalid-feedback">La puntuación no puede estar vacía.</div>
+                <div class="invalid-feedback">Por favor, selecciona una puntuación.</div>
             </div>
 
             <div class="mb-3">
@@ -196,17 +196,17 @@
     {{/logged}}
     <div class="container mt-4" id="reviews-container"></div>
     {{#comments}}
-        <div class="review p-3 border rounded mb-3 bg-light" id="review-1">
-            <h5>Usuario: {{user}}</h5>
-            <h5>Puntuación: {{rating}}</h5>
-            <p>{{comment}}</p>
-            {{#admin}}
-            <div class="d-flex gap-2">
-                <a class="btn btn-warning btn-sm text-dark" href="#">Editar <i class="bi bi-pencil-square"></i></a>
-                <a class="btn btn-danger btn-sm text-dark" href="#">Borrar <i class="bi bi-x-lg"></i></a>
-            </div>
-            {{/admin}}
+    <div class="review p-3 border rounded mb-3 bg-light" id="review-1">
+        <h5>Usuario: {{user}}</h5>
+        <h5>Puntuación: {{rating}}</h5>
+        <p>{{comment}}</p>
+        {{#admin}}
+        <div class="d-flex gap-2">
+            <a class="btn btn-warning btn-sm text-dark" href="#">Editar <i class="bi bi-pencil-square"></i></a>
+            <a class="btn btn-danger btn-sm text-dark" href="#">Borrar <i class="bi bi-x-lg"></i></a>
         </div>
+        {{/admin}}
+    </div>
     {{/comments}}
     </div>
     {{>footer}}
