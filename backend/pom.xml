@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>es.dawgrupo2</groupId>
-	<artifactId>zendashop</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>zendashop</name>
+	<name>backend</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
