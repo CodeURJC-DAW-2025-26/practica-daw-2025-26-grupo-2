@@ -111,4 +111,8 @@ public class Order {
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
+
+    public void removeGarment(Garment garment) {
+        this.garments.remove(garment);
+    }
 }
