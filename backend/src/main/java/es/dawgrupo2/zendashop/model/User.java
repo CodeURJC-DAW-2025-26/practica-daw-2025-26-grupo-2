@@ -173,4 +173,13 @@ public class User {
     public String getUsername() {
         return this.email;
     }
+
+    public Order getCart() {
+        return cart;
+    }
+
+    public void setCart(Order cart) {
+        this.cart = cart;
+        cart.setUser(this);
+    }
 }
