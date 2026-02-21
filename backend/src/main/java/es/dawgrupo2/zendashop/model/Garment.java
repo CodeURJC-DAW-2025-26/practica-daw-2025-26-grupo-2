@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +26,7 @@ public class Garment {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String reference = java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    private final String reference = java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
     private String name;
     private BigDecimal price;
@@ -32,8 +34,9 @@ public class Garment {
     private String description;
     private String features;
 
+    @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime creationDate = LocalDateTime.now();
+    private LocalDateTime creationDate;
 
     @Lob
     private Blob image;
@@ -144,5 +147,9 @@ public class Garment {
 
     public String getReference() {
         return reference;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 }

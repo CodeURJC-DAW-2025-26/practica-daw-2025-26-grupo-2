@@ -33,8 +33,8 @@ public class DatabaseInitializer {
 		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Ropa", "Camiseta de algodón",
 				"Talla M, color blanco");
 
-		Resource imageResource = new ClassPathResource("sample_images/camiseta.jpg");
-		InputStream inputStream = imageResource.getInputStream();
+		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
+		InputStream inputStream = image.getInputStream();
 
 		MockMultipartFile multipartFile = new MockMultipartFile(
 				"image",
