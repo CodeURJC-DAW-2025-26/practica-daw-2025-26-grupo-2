@@ -13,14 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
-import es.dawgrupo2.zendashop.repository.OpinionRepository;
+import es.dawgrupo2.zendashop.model.User;
+import es.dawgrupo2.zendashop.service.GarmentService;
+import es.dawgrupo2.zendashop.service.OpinionService;
+import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class OpinionController {
 
+    @Autowired
+	private GarmentService garmentService;
+
 	@Autowired
-	private OpinionRepository opinionRepository;
+	private OpinionService opinionService;
+
+	@Autowired
+	private UserService userService;
 
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
@@ -38,18 +47,27 @@ public class OpinionController {
 		}
 	}
 
-	@PostMapping("/opinion/new")
-	public String newOpinion(Model model, Opinion opinion) {
-
-		opinionRepository.save(opinion);
-
-		return "redirect: /garment/" + opinion.getGarment().getId();
+	@PostMapping("/garment/{garmentId}/opinion/new")
+	public String newOpinion(Model model,Principal principal, @PathVariable long garmentId, Opinion opinion) {
+		Optional<Garment> op = garmentService.findById(garmentId);
+		if (op.isPresent()) {
+			Garment garment = op.get();
+			garment.addOpinion(opinion);
+			String userEmail = principal.getName();
+			userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
+			opinionService.save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
+			return "redirect: /garment/" + garmentId;
+		} else {
+			model.addAttribute("element", "Prenda");
+			model.addAttribute("masculine", true);
+			return "not_found";
+		}
 	}
 
-	@GetMapping("/opinion/{id}/edit")
-	public String editOpinion(Model model, @PathVariable long id) {
+	@GetMapping("/garment/{garmentId}/opinion/{opinionId}/edit")
+	public String editOpinion(Model model, @PathVariable long opinionId) {
 
-		Optional<Opinion> op = opinionRepository.findById(id);
+		Optional<Opinion> op = opinionService.findById(opinionId);
 		if (op.isPresent()) {
 			Opinion opinion = op.get();
 			model.addAttribute("opinion", opinion);
@@ -57,18 +75,23 @@ public class OpinionController {
 		} else {
 			model.addAttribute("element", "Opinión");
             model.addAttribute("masculine", false);
-			return "opinion_not_found";
+			return "not_found";
 		}
 	}
 
 	@PostMapping("/opinion/edit")
 	public String editOpinionProcess(Model model, Opinion editedOpinion) {
 
-		Optional<Opinion> op = opinionRepository.findById(editedOpinion.getId());
+		Optional<Opinion> op = opinionService.findById(editedOpinion.getId());
 		if (op.isPresent()) {
-			opinionRepository.save(editedOpinion);
-			return "redirect: /garment/" + editedOpinion.getGarment().getId();
+			Opinion originalOpinion = op.get();
+			originalOpinion.setRating(editedOpinion.getRating());
+			originalOpinion.setComment(editedOpinion.getComment());
+			opinionService.save(originalOpinion);
+			return "redirect: /garment/" + originalOpinion.getGarment().getId();
 		} else {
+			model.addAttribute("element", "Opinión");
+			model.addAttribute("masculine", false);
 			return "not_found";
 		}
 	}
@@ -76,12 +99,15 @@ public class OpinionController {
 	@PostMapping("/opinion/{id}/delete")
 	public String deleteOpinion(Model model, @PathVariable long id) {
 
-		Optional<Opinion> opinion = opinionRepository.findById(id);
+		Optional<Opinion> opinion = opinionService.findById(id);
 
 		if (opinion.isPresent()) {
             Garment garment = opinion.get().getGarment();
+			User user = opinion.get().getUser();
+			// Validate if the user is the owner of the opinion or an admin before allowing deletion
             garment.removeOpinion(opinion.get());
-			opinionRepository.deleteById(id);
+			user.removeOpinion(opinion.get());
+			opinionService.delete(id);
 			return "redirect: /garment/" + garment.getId();
 		} else {
 			return "not_found";
