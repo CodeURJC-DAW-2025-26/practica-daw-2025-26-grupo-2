@@ -4,8 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +29,10 @@ public class Order {
     private LocalDate deliveryDate;
     private String deliveryNote;
     private BigDecimal shippingCost;
-    private static LocalDateTime creationDate = LocalDateTime.now();
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime creationDate;
     
     @ManyToOne
     private User user;
@@ -110,6 +117,11 @@ public class Order {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
+    }
+
+    public void addGarment(Garment garment) {
+        garment.addOrder(this);
+        this.garments.add(garment);
     }
 
     public void removeGarment(Garment garment) {

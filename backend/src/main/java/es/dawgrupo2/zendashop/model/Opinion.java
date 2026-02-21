@@ -13,7 +13,7 @@ public class Opinion {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private Integer rating;
+    private Integer rating;
     private String comment;
 
     @ManyToOne
@@ -69,6 +69,10 @@ public class Opinion {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getName() {
+        return user.getName();
     }
     
 }
