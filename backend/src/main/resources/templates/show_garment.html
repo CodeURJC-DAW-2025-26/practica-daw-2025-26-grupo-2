@@ -89,14 +89,16 @@
                         <hr>
 
                         <div class="d-flex gap-2">
-                            <a href="garment_form.html" class="btn btn-warning flex-grow-1 text-dark">
+                            <a href='/garment/{{garment.id}}/edit'" class=" btn btn-warning flex-grow-1 text-dark">
                                 Editar <i class="bi bi-pencil-square"></i>
                             </a>
 
-
-                            <a class="btn btn-danger flex-grow-1 text-dark" href="#">
+                            <form action="/garment/{{garment.id}}/delete" method="post" class="flex-grow-1">
+                            <button class="btn btn-danger text-dark w-100" type="submit">
                                 Borrar <i class="bi bi-x-lg"></i>
-                            </a>
+                            </button> 
+                            
+                            </form>
                         </div>
                         {{/admin}}
                         {{/logged}}
@@ -158,7 +160,7 @@
             <h3>Añadir comentario</h3>
         </div>
         <hr class="separator-form">
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" action="">
             <div class="mb-3">
                 <label for="inputClothName" class="form-label"><b>Nombre de usuario</b></label>
                 <input type="text" class="form-control" id="inputClothName" name="user" placeholder="Nombre del usuario"
@@ -187,9 +189,9 @@
             </div>
 
             <div class="mb-3">
-                <a class="btn btn-success text-dark fw-bold" href="#">
+                <button class="btn btn-success text-dark fw-bold" type="submit">
                     Enviar <i class="bi bi-chat-left-dots"></i>
-                </a>
+                </button>
             </div>
         </form>
     </div>
