@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,9 +26,16 @@ public class User {
 
 	private String name;
     private String surname;
+
+    @Column(unique = true, nullable = false)
     private String email;
+    
     private String adress;
+
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime creationDate;
+
 	private String encodedPassword;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -39,9 +49,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
-
-	public User() {
-	}
+    
+    public User() {
+    }
 
 	public User(String name, String surname, String email, String adress, String encodedPassword, String... roles) {
 		this.name = name;
@@ -51,6 +61,14 @@ public class User {
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
 	}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 	public String getName() {
 		return name;
@@ -146,5 +164,9 @@ public class User {
     public void removeOrder(Order order) {
         orders.remove(order);
         order.setUser(null);
+    }
+
+    public String getUsername() {
+        return this.email;
     }
 }
