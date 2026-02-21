@@ -77,41 +77,18 @@ public class OrderController {
 			return "garment_not_found";
 		}
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
-        Optional<Order> op = orderService.findByUserId(user.getId()).stream()
-                .filter(order -> order.getCompleted() == false)
-				.findFirst();
-        if (op.isPresent()) {
-            Order order = op.get();
-            order.addGarment(opGarment.get());
-            orderService.save(order);
+        Order cart = user.getCart();
+        if (cart != null) {
+            cart.addGarment(opGarment.get());
+            user.setCart(cart);
+            orderService.save(cart);
         } else {
-            Order newOrder = new Order(1L, "in progress");
-            newOrder.addGarment(new Garment(garmentId));
-            orderService.save(newOrder);
+            Order newOrder = new Order(false, null, null, null, null);
+            newOrder.addGarment(opGarment.get());
+            user.setCart(newOrder);
+            userService.save(user);
         }
-	}
-	
-	@PostMapping("/user/new")
-	public String newGarment(Model model, Garment garment) {
-
-		garmentService.save(garment);
-
-		return "redirect: /garment/" + garment.getId();
-	}
-
-	@GetMapping("/garment/{id}/edit")
-	public String editGarment(Model model, @PathVariable long id) {
-
-		Optional<Garment> op = garmentService.findById(id);
-		if (op.isPresent()) {
-			Garment garment = op.get();
-			model.addAttribute("garment", garment);
-			return "garment_form";
-		} else {
-			model.addAttribute("element", "Prenda");
-            model.addAttribute("masculine", false);
-			return "garment_not_found";
-		}
+        return "redirect:/";
 	}
 
 }
