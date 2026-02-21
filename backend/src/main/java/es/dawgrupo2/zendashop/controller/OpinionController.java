@@ -48,7 +48,7 @@ public class OpinionController {
 	}
 
 	@PostMapping("/garment/{garmentId}/opinion/new")
-	public String newOpinion(Model model,Principal principal, @PathVariable long garmentId, Opinion opinion) {
+	public String newOpinion(Model model, Principal principal, @PathVariable long garmentId, Opinion opinion) {
 		Optional<Garment> op = garmentService.findById(garmentId);
 		if (op.isPresent()) {
 			Garment garment = op.get();
