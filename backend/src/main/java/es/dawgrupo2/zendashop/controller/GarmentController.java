@@ -144,5 +144,4 @@ public class GarmentController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
 }
