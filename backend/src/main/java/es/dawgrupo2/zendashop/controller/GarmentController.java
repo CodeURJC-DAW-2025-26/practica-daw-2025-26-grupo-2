@@ -1,9 +1,10 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.security.Principal;
-import java.sql.SQLException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -67,15 +68,21 @@ public class GarmentController {
 		}
 	}
 
+	@GetMapping("/garment/form")
+	public String showGarmentForm(Model model) {
+		return "garment_form";
+	}
+	
+
 	@PostMapping("/garment/new")
 	public String newGarment(Model model, Garment garment) {
 
 		garmentRepository.save(garment);
 
-		return "saved_garment";
+		return "redirect: /garment/" + garment.getId();
 	}
 
-	@GetMapping("/editgarment/{id}")
+	@GetMapping("/garment/{id}/edit")
 	public String editGarment(Model model, @PathVariable long id) {
 
 		Optional<Garment> op = garmentRepository.findById(id);
@@ -84,18 +91,19 @@ public class GarmentController {
 			model.addAttribute("garment", garment);
 			return "garment_form";
 		} else {
+			model.addAttribute("element", "Prenda");
+            model.addAttribute("masculine", false);
 			return "garment_not_found";
 		}
 	}
 
-	@PostMapping("/editgarment")
+	@PostMapping("/garment/edit")
 	public String editGarmentProcess(Model model, Garment editedGarment) {
 
 		Optional<Garment> op = garmentRepository.findById(editedGarment.getId());
 		if (op.isPresent()) {
 			garmentRepository.save(editedGarment);
-			model.addAttribute("garment", editedGarment);
-			return "edited_garment";
+			return "redirect: /garment/" + editedGarment.getId();
 		} else {
 			return "garment_not_found";
 		}
@@ -108,7 +116,7 @@ public class GarmentController {
 
 		if (garment.isPresent()) {
 			garmentRepository.deleteById(id);
-			return "deleted_garment";
+			return "redirect: /";
 		} else {
 			return "garment_not_found";
 		}

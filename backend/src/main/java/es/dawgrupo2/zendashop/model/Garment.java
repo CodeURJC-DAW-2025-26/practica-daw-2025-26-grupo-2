@@ -24,7 +24,7 @@ public class Garment {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String reference = java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    private final String reference = java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
     private String name;
     private BigDecimal price;
@@ -33,7 +33,7 @@ public class Garment {
     private String features;
 
     @Column(updatable = false)
-    private LocalDateTime creationDate = LocalDateTime.now();
+    private final LocalDateTime creationDate = LocalDateTime.now();
 
     @Lob
     private Blob image;
