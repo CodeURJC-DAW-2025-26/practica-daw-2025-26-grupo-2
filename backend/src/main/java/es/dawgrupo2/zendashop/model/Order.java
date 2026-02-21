@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity(name = "OrderTable")
 public class Order {
@@ -29,6 +30,9 @@ public class Order {
     
     @ManyToOne
     private User user;
+
+    @OneToOne(mappedBy = "cart")
+    private User cartUser;
 
     @ManyToMany(mappedBy = "orders")
     private List<Garment> garments = new ArrayList<>();
