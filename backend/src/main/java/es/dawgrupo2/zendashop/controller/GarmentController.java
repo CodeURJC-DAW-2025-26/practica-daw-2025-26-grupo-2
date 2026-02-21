@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.service.GarmentService;
@@ -31,17 +33,18 @@ public class GarmentController {
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		Principal principal = request.getUserPrincipal();
+		//Principal principal = request.getUserPrincipal();
 
-		if (principal != null) {
+		//if (principal != null) {
 
 			model.addAttribute("logged", true);
-			model.addAttribute("userName", principal.getName());
-			model.addAttribute("admin", request.isUserInRole("ADMIN"));
+			//model.addAttribute("userName", principal.getName());
+			model.addAttribute("admin", "ADMIN");
+			model.addAttribute("admin", true);
 
-		} else {
-			model.addAttribute("logged", false);
-		}
+		//} else {
+			//model.addAttribute("logged", false);
+		//}
 	}
 
 	@GetMapping("/")
@@ -64,7 +67,7 @@ public class GarmentController {
 		} else {
             model.addAttribute("element", "Prenda");
             model.addAttribute("masculine", false);
-			return "garment_not_found";
+			return "not_found";
 		}
 	}
 
@@ -72,14 +75,19 @@ public class GarmentController {
 	public String showGarmentForm(Model model) {
 		return "garment_form";
 	}
-	
 
 	@PostMapping("/garment/new")
-	public String newGarment(Model model, Garment garment) {
+	public String newGarment(Model model, Garment garment, MultipartFile imageFile) {
 
-		garmentService.save(garment);
+		if (!imageFile.isEmpty()) {
+			try {
+			garmentService.save(garment, imageFile);
+			} catch (IOException e) {
+				throw new RuntimeException("Error al guardar la imagen", e);
+			}
+		}
 
-		return "redirect: /garment/" + garment.getId();
+		return "redirect:/garment/" + garment.getId();
 	}
 
 	@GetMapping("/garment/{id}/edit")
@@ -93,19 +101,33 @@ public class GarmentController {
 		} else {
 			model.addAttribute("element", "Prenda");
             model.addAttribute("masculine", false);
-			return "garment_not_found";
+			return "not_found";
 		}
 	}
 
-	@PostMapping("/garment/edit")
-	public String editGarmentProcess(Model model, Garment editedGarment) {
+	@PostMapping("/garment/{id}/edit")
+	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id, MultipartFile imageFile) {
 
-		Optional<Garment> op = garmentService.findById(editedGarment.getId());
+		Optional<Garment> op = garmentService.findById(id);
 		if (op.isPresent()) {
-			garmentService.save(editedGarment);
-			return "redirect: /garment/" + editedGarment.getId();
+			Garment originalGarment = op.get();
+			if (editedGarment.getCategory() == null || editedGarment.getCategory().trim().isEmpty()) {
+				editedGarment.setCategory(originalGarment.getCategory());
+			}
+			originalGarment.setId(originalGarment.getId());
+			originalGarment.setName(editedGarment.getName());
+			originalGarment.setCategory(editedGarment.getCategory());
+			originalGarment.setPrice(editedGarment.getPrice());
+			originalGarment.setDescription(editedGarment.getDescription());
+			originalGarment.setFeatures(editedGarment.getFeatures());
+			try {
+				garmentService.save(originalGarment, imageFile);
+			} catch (IOException e) {
+				throw new RuntimeException("Error al guardar la imagen", e);
+			}
+			return "redirect:/garment/" + originalGarment.getId();
 		} else {
-			return "garment_not_found";
+			return "not_found";
 		}
 	}
 
@@ -116,9 +138,11 @@ public class GarmentController {
 
 		if (garment.isPresent()) {
 			garmentService.delete(id);
-			return "redirect: /";
+			return "redirect:/";
 		} else {
-			return "garment_not_found";
+			model.addAttribute("element", "Prenda");
+			model.addAttribute("masculine", false);
+			return "not_found";
 		}
 	}
 
