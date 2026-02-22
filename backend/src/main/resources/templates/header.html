@@ -1,32 +1,32 @@
 <header class="sticky-top">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="admin_home.html">
-                <img src="../public/logo.png" alt="Logo" class="img-logo">
+            <a class="navbar-brand" href="/">
+                <img src="/logo.png" alt="Logo" class="img-logo">
             </a>
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="admin_home.html">Home</a>
+                    <a class="nav-link nav-link-header" href="/">Home</a>
                 </li>
                 {{#admin}}
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="all_users.html">Gestionar usuarios</a>
+                    <a class="nav-link nav-link-header" href="/users">Gestionar usuarios</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="all_orders.html">Gestionar pedidos</a>
+                    <a class="nav-link nav-link-header" href="/orders">Gestionar pedidos</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="statistics.html">Estadísticas</a>
+                    <a class="nav-link nav-link-header" href="/statistics">Estadísticas</a>
                 </li>
                 {{/admin}}
             </ul>
             <ul class="navbar-nav ms-auto">
                 {{#logged}}
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="cart.html">
+                    <a class="nav-link nav-link-header" href="/cart">
                         <i class="bi bi-cart"></i> Carrito
                     </a>
                 </li>
@@ -40,13 +40,13 @@
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
 
                         <li>
-                            <a class="dropdown-item" href="user_profile.html">
+                            <a class="dropdown-item" href="/profile">
                                 <i class="bi bi-person me-2"></i> Gestionar perfil
                             </a>
                         </li>
 
                         <li>
-                            <a class="dropdown-item" href="user_orders.html">
+                            <a class="dropdown-item" href="/myorders">
                                 <i class="bi bi-bag-check me-2"></i> Mis pedidos
                             </a>
                         </li>
@@ -56,7 +56,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item text-danger" href="login.html">
+                            <a class="dropdown-item text-danger" href="/logout">
                                 <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                             </a>
                         </li>
@@ -65,12 +65,12 @@
                 {{/logged}}
                 {{^logged}}
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="register.html">
+                    <a class="nav-link nav-link-header" href="/register">
                         <i class="bi bi-person"></i> Registrarse
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-header" href="login.html">
+                    <a class="nav-link nav-link-header" href="/login">
                         <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
                     </a>
                 </li>
