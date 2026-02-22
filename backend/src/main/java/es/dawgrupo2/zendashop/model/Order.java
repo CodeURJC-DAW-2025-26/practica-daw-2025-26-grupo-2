@@ -3,22 +3,20 @@ package es.dawgrupo2.zendashop.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity(name = "OrderTable")
@@ -43,11 +41,10 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @OneToOne(mappedBy = "cart")
-    private User cartUser;
+   
 
-    @ManyToMany(mappedBy = "orders")
-    private List<Garment> garments = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {
     }
@@ -110,12 +107,12 @@ public class Order {
         this.user = user;
     }
 
-    public List<Garment> getGarments() {
-        return garments;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setGarments(List<Garment> garments) {
-        this.garments = garments;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public BigDecimal getShippingCost() {
@@ -139,56 +136,39 @@ public class Order {
     }
 
     public void calculateTotal() {
-        this.totalPrice = this.subtotal.add(this.shippingCost);
+        totalPrice = subtotal.add(shippingCost);
     }
 
-    public void addGarment(Garment garment, int quantity) {
-        for (int i = 1; i <= quantity; i++) {
-            this.garments.add(garment);
-        }
-        garment.addOrder(this);
-        this.subtotal = this.subtotal.add(garment.getPrice().multiply(BigDecimal.valueOf(quantity)));
+    public void addOrderItem(OrderItem orderItem) {
+        orderItem.setOrder(this);
+        orderItems.add(orderItem);
+        subtotal = subtotal.add(orderItem.getSubtotal());
         calculateShippingCost();
         calculateTotal();
     }
 
-    public void removeGarment(Garment garment) {
-        if (garments.stream().anyMatch(g -> g.getId() == garment.getId())) {
-            int previousSize = garments.size();
-            garments.removeIf(g -> g.getId() == garment.getId());
-            int removed = previousSize - garments.size();
-            garment.removeOrder(this);
-            this.subtotal = this.subtotal.subtract(garment.getPrice().multiply(BigDecimal.valueOf(removed)));
-            calculateShippingCost();
+    public void removeOrderItem(OrderItem orderItem) {
+        orderItems.remove(orderItem);
+        orderItem.setOrder(null);
+        subtotal = subtotal.subtract(orderItem.getSubtotal());
+        calculateShippingCost();
+        calculateTotal();
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void updateTotalPrice(){
+        subtotal = BigDecimal.valueOf(0);
+        for (OrderItem item : orderItems) {
+            subtotal = subtotal.add(item.getSubtotal());
         }
+        calculateShippingCost();
+        calculateTotal();
     }
-
-    public List<Garment> setQuantities() {
-    if (this.garments == null || this.garments.isEmpty()) {
-        return new ArrayList<>();
-    }
-
-    // 1. Contar con total precisión usando IDs
-    Map<Long, Integer> counts = new HashMap<>();
-    for (Garment g : this.garments) {
-        if (g.getId() != null) {
-            counts.put(g.getId(), counts.getOrDefault(g.getId(), 0) + 1);
-        }
-    }
-
-    // 2. Usar un Map para quedarnos con un solo objeto por ID
-    Map<Long, Garment> distinctMap = new LinkedHashMap<>();
-    for (Garment g : this.garments) {
-        if (!distinctMap.containsKey(g.getId())) {
-            // Seteamos la cantidad obtenida del mapa de conteo
-            int total = counts.getOrDefault(g.getId(), 0);
-            g.setQuantity(total); 
-            
-            distinctMap.put(g.getId(), g);
-        }
-    }
-
-    // 3. Verificación inmediata en consola
-    return(new ArrayList<>(distinctMap.values()));
-}
 }
