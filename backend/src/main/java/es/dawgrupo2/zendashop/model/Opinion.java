@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Opinion {
@@ -13,6 +14,9 @@ public class Opinion {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+    @Transient
+    private boolean isOwn = false;
+    
     private Integer rating;
     private String comment;
 
@@ -73,6 +77,14 @@ public class Opinion {
 
     public String getName() {
         return user.getName();
+    }
+
+    public boolean getOwn(){
+        return isOwn;
+    }
+
+    public void setOwn(boolean isOwn){
+        this.isOwn = isOwn;
     }
     
 }

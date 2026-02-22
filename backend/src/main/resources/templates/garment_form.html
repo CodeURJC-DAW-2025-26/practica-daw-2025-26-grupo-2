@@ -19,7 +19,7 @@
     <main class="mt-5">
         <div class="container container-">
             <div class="container-header-form">
-                <h3>{{#garment.id}}Editar prenda{{/garment.id}}{{^garment.id}}Añadir nueva prenda{{/garment.id}}</h3>
+                <h3>{{#garment}}Editar prenda{{/garment}}{{^garment}}Añadir nueva prenda{{/garment}}</h3>
             </div>
             <hr class="gap-form">
             <form role="form" class="needs-validation" novalidate id="garmentForm" action="{{#garment}}/garment/{{garment.id}}/edit{{/garment}}{{^garment}}/garment/new{{/garment}}" method="post" enctype="multipart/form-data">

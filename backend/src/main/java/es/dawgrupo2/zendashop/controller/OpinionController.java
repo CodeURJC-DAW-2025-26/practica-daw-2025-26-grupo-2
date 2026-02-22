@@ -34,29 +34,33 @@ public class OpinionController {
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		Principal principal = request.getUserPrincipal();
+		//Principal principal = request.getUserPrincipal();
 
-		if (principal != null) {
+		//if (principal != null) {
 
 			model.addAttribute("logged", true);
-			model.addAttribute("userName", principal.getName());
-			model.addAttribute("admin", request.isUserInRole("ADMIN"));
+			//model.addAttribute("userName", principal.getName());
+			model.addAttribute("userName", "ADMIN");
+			model.addAttribute("admin", true);
 
-		} else {
-			model.addAttribute("logged", false);
-		}
+		//} else {
+			//model.addAttribute("logged", false);
+		//}
 	}
 
 	@PostMapping("/garment/{garmentId}/opinion/new")
-	public String newOpinion(Model model, Principal principal, @PathVariable long garmentId, Opinion opinion) {
+	public String newOpinion(Model model, 
+		//Principal principal, 
+		@PathVariable long garmentId, Opinion opinion) {
 		Optional<Garment> op = garmentService.findById(garmentId);
 		if (op.isPresent()) {
 			Garment garment = op.get();
 			garment.addOpinion(opinion);
-			String userEmail = principal.getName();
+			//String userEmail = principal.getName();
+			String userEmail = "juan@example.com";
 			userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
 			opinionService.save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
-			return "redirect: /garment/" + garmentId;
+			return "redirect:/garment/" + garmentId + "#opinionForm";
 		} else {
 			model.addAttribute("element", "Prenda");
 			model.addAttribute("masculine", true);
@@ -65,13 +69,14 @@ public class OpinionController {
 	}
 
 	@GetMapping("/garment/{garmentId}/opinion/{opinionId}/edit")
-	public String editOpinion(Model model, @PathVariable long opinionId) {
+	public String editOpinion(Model model, @PathVariable long garmentId ,@PathVariable long opinionId) {
 
 		Optional<Opinion> op = opinionService.findById(opinionId);
 		if (op.isPresent()) {
 			Opinion opinion = op.get();
 			model.addAttribute("opinion", opinion);
-			return "opinion_form";
+			model.addAttribute("garment", opinion.getGarment());
+			return "show_garment";
 		} else {
 			model.addAttribute("element", "Opinión");
             model.addAttribute("masculine", false);
@@ -79,8 +84,8 @@ public class OpinionController {
 		}
 	}
 
-	@PostMapping("/opinion/edit")
-	public String editOpinionProcess(Model model, Opinion editedOpinion) {
+	@PostMapping("/garment/{garmentId}/opinion/edit")
+	public String editOpinionProcess(Model model, Opinion editedOpinion, @PathVariable Long garmentId) {
 
 		Optional<Opinion> op = opinionService.findById(editedOpinion.getId());
 		if (op.isPresent()) {
@@ -88,7 +93,7 @@ public class OpinionController {
 			originalOpinion.setRating(editedOpinion.getRating());
 			originalOpinion.setComment(editedOpinion.getComment());
 			opinionService.save(originalOpinion);
-			return "redirect: /garment/" + originalOpinion.getGarment().getId();
+			return "redirect:/garment/" + originalOpinion.getGarment().getId();
 		} else {
 			model.addAttribute("element", "Opinión");
 			model.addAttribute("masculine", false);
@@ -96,19 +101,20 @@ public class OpinionController {
 		}
 	}
 
-	@PostMapping("/opinion/{id}/delete")
-	public String deleteOpinion(Model model, @PathVariable long id) {
+	@PostMapping("/garment/{garmentId}/opinion/{opinionId}/delete")
+	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId) {
 
-		Optional<Opinion> opinion = opinionService.findById(id);
+		Optional<Opinion> opinion = opinionService.findById(opinionId);
 
 		if (opinion.isPresent()) {
             Garment garment = opinion.get().getGarment();
+			garmentId = garment.getId(); // Use reference in opinion to avoid problems with url
 			User user = opinion.get().getUser();
 			// Validate if the user is the owner of the opinion or an admin before allowing deletion
             garment.removeOpinion(opinion.get());
 			user.removeOpinion(opinion.get());
-			opinionService.delete(id);
-			return "redirect: /garment/" + garment.getId();
+			opinionService.delete(opinionId);
+			return "redirect:/garment/" + garmentId;
 		} else {
 			return "not_found";
 		}
