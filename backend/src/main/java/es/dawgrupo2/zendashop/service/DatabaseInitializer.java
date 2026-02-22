@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import jakarta.annotation.PostConstruct;
 
@@ -21,6 +19,7 @@ import org.springframework.util.StreamUtils;
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
 import es.dawgrupo2.zendashop.model.Order;
+import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
 
 @Service
@@ -86,22 +85,17 @@ public class DatabaseInitializer {
 		user1.addOpinion(opinion1);
 		user2.addOpinion(opinion2);
 
-		Order order1 = new Order(false, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
+		Order order1 = new Order(true, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
 		user1.addOrder(order1); 
-		order1.addGarment(garment1,2);
-		order1.addGarment(garment2, 1);
+		order1.addOrderItem(new OrderItem(2, "M", garment1));
+		order1.addOrderItem(new OrderItem(1, "L", garment2));
 
 		orderService.save(order1);
-		garmentService.save(garment1);
 
 		Order order2 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
 		user2.addOrder(order2);
-		order2.addGarment(garment2, 1);
+		order2.addOrderItem(new OrderItem(1, "L", garment2));
 
 		orderService.save(order2);
-		garmentService.save(garment2);
 	}
-
-
-
 }
