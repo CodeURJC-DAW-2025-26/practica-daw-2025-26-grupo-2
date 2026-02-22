@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.dawgrupo2.zendashop.model.Garment;
+import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.repository.GarmentRepository;
+
+import es.dawgrupo2.zendashop.service.OrderService;
 
 
 @Service
@@ -19,6 +22,9 @@ public class GarmentService {
 
 	@Autowired
 	private GarmentRepository repository;
+
+	@Autowired
+	private OrderService orderService;
 
 	public Optional<Garment> findById(long id) {
 		return repository.findById(id);
@@ -53,5 +59,16 @@ public class GarmentService {
 
 	public void delete(long id) {
 		repository.deleteById(id);
+		List<Order> carts = orderService.findByCompletedFalse();
+		for (Order cart : carts) {
+			if (cart.getOrderItems().isEmpty()){
+				cart.getUser().setCart(null);
+				orderService.delete(cart.getId());
+			}
+			else{
+				cart.updateTotalPrice();
+				orderService.save(cart);
+			}
+		}
 	}
 }
