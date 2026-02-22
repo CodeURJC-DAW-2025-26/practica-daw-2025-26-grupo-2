@@ -56,8 +56,6 @@ public class DatabaseInitializer {
 		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Ropa", "Pantalones vaqueros",
 				"Talla 32, color azul");
 
-		
-
 		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
 		InputStream inputStream = image.getInputStream();
 
@@ -88,24 +86,20 @@ public class DatabaseInitializer {
 		user1.addOpinion(opinion1);
 		user2.addOpinion(opinion2);
 
-		opinionService.save(opinion1);
-		opinionService.save(opinion2);
-
-		Order order1 = new Order(false, "C/ Falsa 123", LocalDate.now(), "Dejar en portería", BigDecimal.valueOf(3.99));
+		Order order1 = new Order(false, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
 		user1.addOrder(order1); 
-		order1.addGarment(garment1);
-		order1.addGarment(garment2);
+		order1.addGarment(garment1,2);
+		order1.addGarment(garment2, 1);
 
 		orderService.save(order1);
+		garmentService.save(garment1);
 
-		Order order2 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente", BigDecimal.valueOf(0));
+		Order order2 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
 		user2.addOrder(order2);
-		order2.addGarment(garment2);
+		order2.addGarment(garment2, 1);
 
 		orderService.save(order2);
-
-
-
+		garmentService.save(garment2);
 	}
 
 
