@@ -15,9 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Garment {
@@ -39,17 +37,14 @@ public class Garment {
     @Column(updatable = false)
     private LocalDateTime creationDate;
 
-    @Transient
-    private int quantity;
-
     @Lob
     private Blob image;
 
     @OneToMany(mappedBy = "garment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opinion> opinions = new ArrayList<>();
 
-    @ManyToMany
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "garment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Garment() {
     }
@@ -137,12 +132,12 @@ public class Garment {
         opinion.setGarment(null);
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public LocalDateTime getCreationDate() {
@@ -153,28 +148,13 @@ public class Garment {
         return reference;
     }
 
-    public void addOrder(Order order) {
-        orders.add(order);
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setGarment(this);
     }
 
-    public void removeOrder(Order order) {
-        orders.remove(order);
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getQuantity() {
-        return this.quantity;
-    }
-
-    public BigDecimal subtotal() {
-        return price.multiply(BigDecimal.valueOf(quantity));
-    }
-
-    @Override
-    public String toString() {
-        return "Garment{id=" + id + ", quantity=" + quantity + "}";
+    public void removeOrderItem(OrderItem orderItem) {
+        orderItems.remove(orderItem);
+        orderItem.setGarment(null);
     }
 }
