@@ -3,6 +3,7 @@ package es.dawgrupo2.zendashop.controller;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Order;
+import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
+import es.dawgrupo2.zendashop.service.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,6 +42,9 @@ public class OrderController {
 
 	@Autowired
 	private GarmentService garmentService;
+
+	@Autowired
+	private OrderItemService orderItemService;
 
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
@@ -57,13 +63,13 @@ public class OrderController {
 		//}
 	}
 
-    @GetMapping("/orders")
+    @GetMapping("/orders") //FINISHED
     public String showOrders(Model model) {
         model.addAttribute("orders", orderService.findAll());
         return "all_orders";
     }
 
-	@GetMapping("/order/{id}")
+	@GetMapping("/order/{id}") //FINISHED
 	public String getMethodName(Model model, @PathVariable long id) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
@@ -77,7 +83,6 @@ public class OrderController {
 			}
 			model.addAttribute("order", order);
 			model.addAttribute("status", status);
-			model.addAttribute("distinctGarments", order.setQuantities());
 			return "order_detail";
 		} else {
 			model.addAttribute("element", "Pedido");
@@ -85,37 +90,69 @@ public class OrderController {
 			return "not_found";
 		}
 	}
+
+	@GetMapping("/cart") //FINISHED
+	public String showCart(Model model, Principal principal) {
+		//User user = userService.findByEmail(principal.getName()).orElseThrow();
+		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		model.addAttribute("order", user.getCart());
+		return "cart";
+	}
 	
 
-	@GetMapping("/myorders")
+	@GetMapping("/myorders") //FINISHED
 	public String showUserOrders(Model model, Principal principal) {
 		Optional<User> opUser = userService.findByEmail(principal.getName());
 		model.addAttribute("orders", orderService.findByUserId(opUser.get().getId()));
         return "user_orders";
 	}
 
-	@PostMapping("addtocart/{garmentId}")
-	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, @RequestParam int quantity) {
-		// Method to find the order with status "in progress"
+	@PostMapping("/cart/add/{garmentId}") //FINISHED
+	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, OrderItem orderItem) {
         Optional<Garment> opGarment = garmentService.findById(garmentId);
 		if (!opGarment.isPresent()) {
 			model.addAttribute("element", "Prenda");
 			model.addAttribute("masculine", false);
 			return "garment_not_found";
 		}
-		User user = userService.findByEmail(principal.getName()).orElseThrow();
-        Order cart = user.getCart();
+		orderItem.setGarment(opGarment.get());
+		//User user = userService.findByEmail(principal.getName()).orElseThrow();
+        User user = userService.findByEmail("juan@example.com").orElseThrow();
+		Order cart = user.getCart();
         if (cart != null) {
-            cart.addGarment(opGarment.get(), quantity); // Receive from garment cart form the number of garments
-            user.setCart(cart);
-            orderService.save(cart);
+            cart.addOrderItem(orderItem);
+            orderService.save(cart); //OrderItems are saved by cascade, but we need to save the cart to update the relationship
         } else {
             Order newOrder = new Order(false, null, null, null);
-            newOrder.addGarment(opGarment.get(), quantity);
+            orderService.save(newOrder); // We need to save the order first to generate an ID for the relationship
+			newOrder.setUser(user);
+			newOrder.addOrderItem(orderItem);
             user.setCart(newOrder);
             userService.save(user);
         }
         return "redirect:/";
 	}
 
+	@PostMapping("/cart/remove/{orderItemId}") //FINISHED
+	public String removeFromCart(Model model, @PathVariable long orderItemId, Principal principal) {
+		Optional<OrderItem> opOrderItem = orderItemService.findById(orderItemId);
+		if (!opOrderItem.isPresent()) {
+			model.addAttribute("element", "Prenda");
+			model.addAttribute("masculine", false);
+			return "not_found";
+		}
+		//User user = userService.findByEmail(principal.getName()).orElseThrow();
+		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		Order cart = user.getCart();
+		if (cart != null) {
+			cart.removeOrderItem(opOrderItem.get());
+			if (cart.getOrderItems().isEmpty()) {
+				orderService.delete(cart.getId());
+				user.setCart(null);
+			}
+			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order item is deleted
+			userService.save(user);
+		}
+		return "redirect:/";
+	}
 }
