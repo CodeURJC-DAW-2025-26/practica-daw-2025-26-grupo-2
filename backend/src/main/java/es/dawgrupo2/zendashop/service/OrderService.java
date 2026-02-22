@@ -36,11 +36,15 @@ public class OrderService {
 		repository.save(order);
 	}
 
-	public void delete(long id) {
+	public void delete(long id) {	
 		repository.deleteById(id);
 	}
 
     public List<Order> findByUserId(Long userId) {
         return repository.findByUserId(userId);
     }
+
+	public List<Order> findByCompletedFalse() {
+		return repository.findByCompletedFalse();
+	}
 }
