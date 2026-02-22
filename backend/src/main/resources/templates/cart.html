@@ -20,6 +20,7 @@
 
 <body class="body">
     {{>header}}
+    {{#order}}
     <main class="container my-4">
         <section class="cart-shell">
             <div class="cart-header mb-4">
@@ -28,15 +29,16 @@
             </div>
 
             <div class="cart-items">
-                {{#cartItems}}
+                {{#orderItems}}
                 <div class="cart-item d-flex align-items-center justify-content-between mb-3">
                     <div class="cart-item-info d-flex align-items-center gap-3">
-                        <img src="../demo/{{image}}" alt="{{name}}" class="img-fluid cart-item-image" />
+                        <img src="/garment/{{getGarmentId}}/image" alt="{{getGarmentName}}"
+                            class="img-fluid cart-item-image" />
                         <div>
-                            <h5 class="mb-1">{{name}}</h5>
-                            <p class="text-muted mb-0">Ref: {{reference}}</p>
+                            <h5 class="mb-1">{{getGarmentName}}</h5>
+                            <p class="text-muted mb-0">Ref: {{getGarmentReference}}</p>
                             <p class="text-muted mb-0">Talla: {{size}}</p>
-                            <p class="text-muted mb-0">Precio unitario: {{price}}€</p>
+                            <p class="text-muted mb-0">Precio unitario: {{getGarmentPrice}}€</p>
                         </div>
                     </div>
 
@@ -44,68 +46,85 @@
                         <span class="fw-bold">Subtotal: {{subtotal}}€</span>
 
                         <div class="quantity-controls">
-                            <input type="number" class="form-control form-control-quantity" value="{{quantity}}" min="1"
+                            <input disabled type="number" class="form-control form-control-quantity" value="{{quantity}}" min="1"
                                 max="50" />
-                            <button type="button" class="btn btn-danger btn-sm">
+                            <form action="/cart/remove/{{id}}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 <i class="bi bi-x-lg"></i> Eliminar
                             </button>
                         </div>
                     </div>
                 </div>
-                {{/cartItems}}
-            </div>
-
-            <hr class="my-4"/>
-
-            <div class="delivery-info mb-4">
-                <h3 class="mb-3">Preferencias de entrega</h3>
-
-                <div class="mb-3">
-                    <label for="deliveryAddress" class="form-label">Dirección de entrega</label>
-                    <input type="text" class="form-control" id="deliveryAddress" placeholder="Calle, Ciudad, CP"
-                        required />
-                </div>
-
-                <div class="mb-3">
-                    <label for="deliveryDate" class="form-label">Fecha de entrega preferida</label>
-                    <input type="date" class="form-control" id="deliveryDate" required />
-                </div>
-
-                <div class="mb-3">
-                    <label for="deliveryNote" class="form-label">Notas de entrega</label>
-                    <textarea class="form-control" id="deliveryNote" rows="3"
-                        placeholder="Instrucciones especiales, etc."></textarea>
-                </div>
+                {{/orderItems}}
             </div>
 
             <hr class="my-4" />
 
-            <div class="cart-summary mb-4">
-                <h3 class="mb-3">Resumen del carrito</h3>
-                <div class="d-flex justify-content-between">
-                    <span class="text-muted">Total productos</span>
-                    <span>{{totalProducts}}€</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span class="text-muted">Envío</span>
-                    <span>{{shippingCost}}€</span>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-muted">Total a pagar</span>
-                    <span class="fw-bold">{{totalPrice}}€</span>
-                </div>
-            </div>
+            <form role="form" class="needs-validation" id="cartForm" action="/order/{{order.id}}/process" method="post">
 
-            <div class="d-flex justify-content-between">
-                <a href="user_home.html" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left-circle"></i> Continuar comprando
-                </a>
-                <a href="user_home.html" class="btn btn-success">
-                    Comprar <i class="bi bi-credit-card"></i>
-                </a>
-            </div>
+                <div class="delivery-info mb-4">
+                    <h3 class="mb-3">Preferencias de entrega</h3>
+
+                    <div class="mb-3">
+                        <label for="deliveryAddress" class="form-label">Dirección de entrega</label>
+                        <input type="text" class="form-control" id="deliveryAddress" placeholder="Calle, Ciudad, CP"
+                            value="{{#order.deliveryAddress}}{{order.deliveryAddress}}{{/order.deliveryAddress}}{{^order.deliveryAddress}}No especificada{{/order.deliveryAddress}}" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deliveryDate" class="form-label">Fecha de entrega preferida</label>
+                        <input type="date" class="form-control" id="deliveryDate"
+                            value="{{#order.deliveryDate}}{{order.deliveryDate}}{{/order.deliveryDate}}{{^order.deliveryDate}}No especificada{{/order.deliveryDate}}" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deliveryNote" class="form-label">Notas de entrega</label>
+                        <textarea class="form-control" id="deliveryNote" rows="3"
+                            placeholder="Instrucciones especiales, etc.">{{#order.deliveryNote}}{{order.deliveryNote}}{{/order.deliveryNote}}{{^order.deliveryNote}}No especificadas{{/order.deliveryNote}}</textarea>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="cart-summary mb-4">
+                    <h3 class="mb-3">Resumen del carrito</h3>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Total productos</span>
+                        <span>{{order.subtotal}}€</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Envío</span>
+                        <span>{{order.shippingCost}}€</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Total a pagar</span>
+                        <span class="fw-bold">{{order.totalPrice}}€</span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="/" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left-circle"></i> Continuar comprando
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        Comprar <i class="bi bi-credit-card"></i>
+                    </button>
+                </div>
+            </form>
         </section>
     </main>
+    {{/order}}
+    {{^order}}
+    <main class="container my-4">
+        <div class="text-center">
+            <h2 class="mb-3">Tu carrito de compras está vacío</h2>
+            <p class="text-muted mb-4">Explora nuestros productos y añade algo a tu carrito.</p>
+            <a href="/" class="btn btn-primary">
+                <i class="bi bi-shop"></i> Ir a la tienda
+            </a>
+        </div>
+    </main>
+    {{/order}}
     {{>footer}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

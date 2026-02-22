@@ -55,7 +55,21 @@
 
                     {{#logged}}
                     <div class="mt-4">
-                        <form class="needs-validation" action="/addtocart/{{garment.id}}" method="post">
+                        <form class="needs-validation" action="/cart/add/{{garment.id}}" method="post">
+                            <div class="mb-4">
+                                <label for="inputSize" class="form-label"><b>Talla</b></label>
+                                <div class="input-group">
+                                    <select class="form-control" id="inputSize" name="size" required>
+                                        <option value="" disabled selected>Talla de la prenda</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                    </select>
+                                    <div class="invalid-feedback">La talla es obligatoria.</div>
+                                </div>
+                            </div>
+                            
                             <div class="mb-4">
                                 <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
                                 <div class="input-group">
