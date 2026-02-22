@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Garment {
@@ -37,6 +38,9 @@ public class Garment {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime creationDate;
+
+    @Transient
+    private int quantity;
 
     @Lob
     private Blob image;
@@ -151,5 +155,26 @@ public class Garment {
 
     public void addOrder(Order order) {
         orders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public BigDecimal subtotal() {
+        return price.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    @Override
+    public String toString() {
+        return "Garment{id=" + id + ", quantity=" + quantity + "}";
     }
 }

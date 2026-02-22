@@ -22,7 +22,7 @@
     <div class="container container-main mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
-                <a href="user_orders.html" class="btn btn-secondary text-dark">
+                <a href="/orders" class="btn btn-secondary text-dark">
                     <i class="bi bi-arrow-left"></i> Volver
                 </a>
             </div>
@@ -36,11 +36,11 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Fecha del Pedido</th>
-                        <td>{{order.date}}</td>
+                        <td>{{order.creationDate}}</td>
                     </tr>
                     <tr>
                         <th>Precio Total</th>
-                        <td>{{order.totalProducts}}€</td>
+                        <td>{{order.subtotal}}€</td>
                     </tr>
                     <tr>
                         <th>Gastos de Envío</th>
@@ -52,7 +52,7 @@
                     </tr>
                     <tr>
                         <th>Estado del Pedido</th>
-                        <td><span class="badge bg-warning">{{order.status}}</span></td>
+                        <td><span class="badge bg-warning">{{status}}</span></td>
                     </tr>
                 </table>
             </div>
@@ -66,26 +66,24 @@
                         <tr>
                             <th>Producto</th>
                             <th>Imagen</th>
-                            <th>Talla</th>
                             <th>Cantidad</th>
                             <th>Precio por Unidad</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#orderItems}}
+                        {{#distinctGarments}}
                         <tr>
                             <td>
                                 {{name}} <br>
                                 <small class="text-muted">Ref: {{reference}}</small>
                             </td>
-                            <td><img src="../demo/{{image}}" class="img-fluid img-product-order" alt="Producto"></td>
-                            <td>{{size}}</td>
+                            <td><img src="/garment/{{id}}/image" class="img-fluid img-product-order" alt="Producto"></td>
                             <td>{{quantity}}</td>
                             <td>{{price}}€</td>
                             <td>{{subtotal}}€</td>
                         </tr>
-                        {{/orderItems}}
+                        {{/distinctGarments}}
                     </tbody>
                 </table>
             </div>
@@ -101,11 +99,11 @@
                     </tr>
                     <tr>
                         <th>Fecha de Entrega Preferida</th>
-                        <td>{{order.preferredDeliveryDate}}</td>
+                        <td>{{order.deliveryDate}}</td>
                     </tr>
                     <tr>
                         <th>Notas de Entrega</th>
-                        <td>{{order.deliveryNotes}}</td>
+                        <td>{{order.deliveryNote}}</td>
                     </tr>
                 </table>
             </div>

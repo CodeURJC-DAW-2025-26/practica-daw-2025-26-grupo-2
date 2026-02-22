@@ -42,11 +42,11 @@
                     {{#orders}}
                     <tr>
                         <td>{{id}}</td>
-                        <td>{{userEmail}}</td>
-                        <td>{{date}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{creationDate}}</td>
                         <td>{{totalPrice}}€</td>
                         <td>
-                            <a class="btn btn-info btn-sm" href="order_detail.html">
+                            <a class="btn btn-info btn-sm" href="/order/{{id}}">
                                 Ver detalle <i class="bi bi-eye"></i>
                             </a>
                             <button class="btn btn-warning btn-sm">

@@ -53,43 +53,30 @@
                         {{/offer}}
                     </div>
 
+                    {{#logged}}
                     <div class="mt-4">
-                        <div class="mb-3">
-                            <label for="inputSize" class="form-label"><b>Talla</b></label>
-                            <div class="input-group">
-                                <select class="form-select" id="inputSize" name="size" required>
-                                    <option value="" selected disabled>Selecciona talla</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
-                                <div class="invalid-feedback">La talla no puede estar vacía.</div>
+                        <form class="needs-validation" action="/addtocart/{{garment.id}}" method="post">
+                            <div class="mb-4">
+                                <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="inputQuantity" name="quantity"
+                                        step="1" value="" placeholder="Cantidad de prendas" min="1" max="100" required>
+                                    <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mb-4">
-                            <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="inputQuantity" name="quantity" step="1"
-                                    value="" placeholder="Cantidad de prendas" min="1" max="100" required>
-                                <div class="invalid-feedback">La cantidad debe ser un número entre 1 y 100.</div>
+                            <div class="d-grid gap-2 mb-4">
+                                <button class="btn btn-success py-2 fw-bold text-dark" type="submit">
+                                    Añadir al carrito <i class="bi bi-cart-plus"></i>
+                                </button>
                             </div>
-                        </div>
-
-                        {{#logged}}
-                        <div class="d-grid gap-2 mb-4">
-                            <a class="btn btn-success py-2 fw-bold text-dark" href="#">
-                                Añadir al carrito <i class="bi bi-cart-plus"></i>
-                            </a>
-                        </div>
+                        </form>
 
                         {{#admin}}
                         <hr>
 
                         <div class="d-flex gap-2">
-                            <a href='/garment/{{garment.id}}/edit'" class=" btn btn-warning flex-grow-1 text-dark">
+                            <a href="/garment/{{garment.id}}/edit" class=" btn btn-warning flex-grow-1 text-dark">
                                 Editar <i class="bi bi-pencil-square"></i>
                             </a>
 

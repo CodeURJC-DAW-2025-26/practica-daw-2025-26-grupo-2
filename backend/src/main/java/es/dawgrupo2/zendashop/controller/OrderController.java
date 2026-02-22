@@ -25,6 +25,8 @@ import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class OrderController {
@@ -41,24 +43,49 @@ public class OrderController {
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		Principal principal = request.getUserPrincipal();
+		//Principal principal = request.getUserPrincipal();
 
-		if (principal != null) {
+		//if (principal != null) {
 
 			model.addAttribute("logged", true);
-			model.addAttribute("userName", principal.getName());
+			//model.addAttribute("userName", principal.getName());
+			model.addAttribute("userName", "juan@example.com");
 			model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-		} else {
-			model.addAttribute("logged", false);
-		}
+		//} else {
+			//model.addAttribute("logged", false);
+		//}
 	}
 
     @GetMapping("/orders")
     public String showOrders(Model model) {
         model.addAttribute("orders", orderService.findAll());
-        return "orders";
+        return "all_orders";
     }
+
+	@GetMapping("/order/{id}")
+	public String getMethodName(Model model, @PathVariable long id) {
+		Optional<Order> op = orderService.findById(id);
+		if (op.isPresent()) {
+			Order order = op.get();
+			String status;
+			if (order.getCompleted()){
+				status = "COMPLETADO";
+			}
+			else{
+				status = "EN CURSO";
+			}
+			model.addAttribute("order", order);
+			model.addAttribute("status", status);
+			model.addAttribute("distinctGarments", order.setQuantities());
+			return "order_detail";
+		} else {
+			model.addAttribute("element", "Pedido");
+            model.addAttribute("masculine", true);
+			return "not_found";
+		}
+	}
+	
 
 	@GetMapping("/myorders")
 	public String showUserOrders(Model model, Principal principal) {
@@ -67,8 +94,8 @@ public class OrderController {
         return "user_orders";
 	}
 
-	@GetMapping("addtocart/{garmentId}")
-	public String addToCart(Model model, @PathVariable long garmentId, Principal principal) {
+	@PostMapping("addtocart/{garmentId}")
+	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, @RequestParam int quantity) {
 		// Method to find the order with status "in progress"
         Optional<Garment> opGarment = garmentService.findById(garmentId);
 		if (!opGarment.isPresent()) {
@@ -79,12 +106,12 @@ public class OrderController {
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
         Order cart = user.getCart();
         if (cart != null) {
-            cart.addGarment(opGarment.get());
+            cart.addGarment(opGarment.get(), quantity); // Receive from garment cart form the number of garments
             user.setCart(cart);
             orderService.save(cart);
         } else {
-            Order newOrder = new Order(false, null, null, null, null);
-            newOrder.addGarment(opGarment.get());
+            Order newOrder = new Order(false, null, null, null);
+            newOrder.addGarment(opGarment.get(), quantity);
             user.setCart(newOrder);
             userService.save(user);
         }
