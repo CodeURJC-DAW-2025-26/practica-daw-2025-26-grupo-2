@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -42,13 +43,13 @@ public class User {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Order cart;
 
     @Lob
     private Blob avatar;
 
-    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opinion> opinions = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -180,6 +181,5 @@ public class User {
 
     public void setCart(Order cart) {
         this.cart = cart;
-        cart.setUser(this);
     }
 }
