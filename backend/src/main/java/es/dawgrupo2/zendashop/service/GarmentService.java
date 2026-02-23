@@ -12,12 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.dawgrupo2.zendashop.model.Garment;
-import es.dawgrupo2.zendashop.model.Order;
-import es.dawgrupo2.zendashop.repository.GarmentRepository;
-
 import es.dawgrupo2.zendashop.service.OrderService;
 
+import es.dawgrupo2.zendashop.model.Garment;
+import es.dawgrupo2.zendashop.model.Opinion;
+import es.dawgrupo2.zendashop.repository.GarmentRepository;
 
 @Service
 public class GarmentService {
@@ -27,6 +26,9 @@ public class GarmentService {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private OpinionService opinionService;
 
 	public Optional<Garment> findById(long id) {
 		return repository.findById(id);
@@ -40,8 +42,8 @@ public class GarmentService {
 		return repository.existsById(id);
 	}
 
-	public Page<Garment> findAll(Pageable page) {
-		return repository.findAll(page);
+	public Page<Garment> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
     public void save(Garment garment) {
@@ -60,22 +62,25 @@ public class GarmentService {
 	}
 
 	public void delete(long id) {
-		
-		List<Order> carts = orderService.findByCompletedFalse();
-		for (Order cart : carts) {
-			if (cart.getOrderItems().isEmpty()){
-				cart.getUser().setCart(null);
-				orderService.delete(cart.getId());
-			}
-			else{
-				cart.updateTotalPrice();
-				orderService.save(cart);
-			}
-		}
 		repository.deleteById(id);
 	}
 
 	public long getCount() {
 		return repository.count();
+	}
+
+	public Page<Garment> findByAvailableTrue(Pageable pageable) {
+		return repository.findByAvailableTrue(pageable);
+	}
+
+	public void disable(Garment garment) {
+		garment.setAvailable(false);
+		// TODO: Remove opinions
+		//for (Opinion opinion: garment.getOpinions()) {
+			//garment.removeOpinion(opinion);
+			//opinionService.deleteBy(opinion.getId());
+		//}
+		orderService.disableGarmentInCarts(garment);
+		save(garment);
 	}
 }

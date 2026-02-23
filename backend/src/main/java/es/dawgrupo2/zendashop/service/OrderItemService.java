@@ -43,4 +43,8 @@ public class OrderItemService {
 	public void delete(long id) {
 		repository.deleteById(id);
 	}
+
+	public long deleteByOrderCompletedFalseAndGarment_Id(Long garmentId) {
+		return repository.deleteByOrderCompletedFalseAndGarment_Id(garmentId);
+	}
 }

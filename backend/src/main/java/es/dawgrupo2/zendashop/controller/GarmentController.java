@@ -51,7 +51,7 @@ public class GarmentController {
 	@GetMapping("/")
 	public String showGarments(Model model, Pageable page) {
 
-		model.addAttribute("garments", garmentService.findAll(page));
+		model.addAttribute("garments", garmentService.findByAvailableTrue(page));
 
 		return "index";
 	}
@@ -110,12 +110,11 @@ public class GarmentController {
 	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id, MultipartFile imageFile) {
 
 		Optional<Garment> op = garmentService.findById(id);
-		if (op.isPresent()) {
+		if (op.isPresent() ) {
 			Garment originalGarment = op.get();
 			if (editedGarment.getCategory() == null || editedGarment.getCategory().trim().isEmpty()) {
 				editedGarment.setCategory(originalGarment.getCategory());
 			}
-			originalGarment.setId(originalGarment.getId());
 			originalGarment.setName(editedGarment.getName());
 			originalGarment.setCategory(editedGarment.getCategory());
 			originalGarment.setPrice(editedGarment.getPrice());
@@ -135,10 +134,11 @@ public class GarmentController {
 	@PostMapping("/garment/{id}/delete")
 	public String deleteGarment(Model model, @PathVariable long id) {
 
-		Optional<Garment> garment = garmentService.findById(id);
+		Optional<Garment> op = garmentService.findById(id);
 
-		if (garment.isPresent()) {
-			garmentService.delete(id);
+		if (op.isPresent()) {
+			Garment garment = op.get();
+			garmentService.disable(garment);
 			return "redirect:/";
 		} else {
 			model.addAttribute("element", "Prenda");
