@@ -40,11 +40,11 @@ public class WebSecurityConfig {
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**", "/myorders/**", "/garment/*/opinion/new").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**", "/myorders/**", "/garment/*/opinion/new","/profile", "/garment/*/opinion/*/edit").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete").hasRole("ADMIN")
-                        .requestMatchers("/orders").hasRole("ADMIN"))
+                        .requestMatchers("/orders", "/order/{id}", "/users", "/statistics").hasRole("ADMIN"))
 
                 .formLogin(formLogin -> formLogin
                         // Custom login page managed by LoginController
