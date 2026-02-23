@@ -84,6 +84,8 @@ public class DatabaseInitializer {
 		garment2.addOpinion(opinion2);
 		user1.addOpinion(opinion1);
 		user2.addOpinion(opinion2);
+		garmentService.save(garment1);
+		garmentService.save(garment2);
 
 		Order order1 = new Order(true, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
 		user1.addOrder(order1); 

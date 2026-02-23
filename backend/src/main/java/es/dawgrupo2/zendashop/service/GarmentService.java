@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,8 +40,8 @@ public class GarmentService {
 		return repository.existsById(id);
 	}
 
-	public List<Garment> findAll() {
-		return repository.findAll();
+	public Page<Garment> findAll(Pageable page) {
+		return repository.findAll(page);
 	}
 
     public void save(Garment garment) {
@@ -58,7 +60,7 @@ public class GarmentService {
 	}
 
 	public void delete(long id) {
-		repository.deleteById(id);
+		
 		List<Order> carts = orderService.findByCompletedFalse();
 		for (Order cart : carts) {
 			if (cart.getOrderItems().isEmpty()){
@@ -70,5 +72,10 @@ public class GarmentService {
 				orderService.save(cart);
 			}
 		}
+		repository.deleteById(id);
+	}
+
+	public long getCount() {
+		return repository.count();
 	}
 }

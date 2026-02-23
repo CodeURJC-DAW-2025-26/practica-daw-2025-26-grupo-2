@@ -190,7 +190,9 @@
                     Enviar <i class="bi bi-chat-left-dots"></i>
                 </button>
             </div>
-            <input type="hidden" name="id" value="{{#opinion}}{{opinion.id}}{{/opinion}}" />
+            {{#opinion}}
+            <input type="hidden" name="id" value="{{opinion.id}}" />
+            {{/opinion}}
         </form>
     </div>
     {{/logged}}

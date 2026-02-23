@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
@@ -48,9 +49,9 @@ public class GarmentController {
 	}
 
 	@GetMapping("/")
-	public String showGarments(Model model) {
+	public String showGarments(Model model, Pageable page) {
 
-		model.addAttribute("garments", garmentService.findAll());
+		model.addAttribute("garments", garmentService.findAll(page));
 
 		return "index";
 	}
