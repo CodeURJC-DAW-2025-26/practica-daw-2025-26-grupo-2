@@ -13,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StreamUtils;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -37,16 +38,19 @@ public class DatabaseInitializer {
 	@Autowired
 	private OpinionService opinionService;
 
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException {
 
-		User user1 = new User("Juan", "González", "juan@example.com", "Avenida Rey Juan", "password123", "USER");
+		String encodedPass1 = passwordEncoder.encode("password123");
+		String encodedPass2 = passwordEncoder.encode("password456");
+
+		User user1 = new User("Juan", "González", "juan@example.com", "Avenida Rey Juan", encodedPass1, "USER");
 		userService.save(user1);
 
-		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I",	 "password456", "ADMIN");
+		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I",	 encodedPass2, "ADMIN");
 		userService.save(user2);
 
 		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",

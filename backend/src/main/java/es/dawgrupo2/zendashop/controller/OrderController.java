@@ -49,18 +49,17 @@ public class OrderController {
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		//Principal principal = request.getUserPrincipal();
+		Principal principal = request.getUserPrincipal();
 
-		//if (principal != null) {
+		if (principal != null) {
 
 			model.addAttribute("logged", true);
-			//model.addAttribute("userName", principal.getName());
-			model.addAttribute("userName", "juan@example.com");
+			model.addAttribute("username", principal.getName());
 			model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-		//} else {
-			//model.addAttribute("logged", false);
-		//}
+		} else {
+			model.addAttribute("logged", false);
+		}
 	}
 
     @GetMapping("/orders") //FINISHED
@@ -93,8 +92,7 @@ public class OrderController {
 
 	@GetMapping("/cart") //FINISHED
 	public String showCart(Model model, Principal principal) {
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
 		return "cart";
 	}
@@ -107,6 +105,23 @@ public class OrderController {
         return "user_orders";
 	}
 
+	@GetMapping("/myorders/{id}")
+	public String showOrderDetail(Model model, @PathVariable long id, Principal principal) {
+		Optional<Order> order = orderService.findById(id);
+		
+		if (order.isPresent()) {
+			Order o = order.get();
+			model.addAttribute("order", o);
+			
+			// Calculamos el estado para el badge
+			String status = o.getCompleted() ? "Completado" : "Pendiente de pago/envío";
+			model.addAttribute("status", status);
+			
+			return "order_detail";
+		}
+		return "not_found";
+	}
+
 	@PostMapping("/cart/add/{garmentId}") //FINISHED
 	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, OrderItem orderItem) {
         Optional<Garment> opGarment = garmentService.findById(garmentId);
@@ -116,8 +131,7 @@ public class OrderController {
 			return "garment_not_found";
 		}
 		orderItem.setGarment(opGarment.get());
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-        User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
         if (cart != null) {
             cart.addOrderItem(orderItem);
@@ -141,8 +155,7 @@ public class OrderController {
 			model.addAttribute("masculine", false);
 			return "not_found";
 		}
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
 		if (cart != null) {
 			cart.removeOrderItem(opOrderItem.get());

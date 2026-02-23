@@ -25,6 +25,7 @@
             </div>
 
             <form action="/register" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="_csrf" value="{{token}}">
               <div class="text-center mb-3">
                 <img src="../demo/avatar_default.png" alt="Avatar por defecto" class="rounded-circle mb-2" width="96"
                   height="96">

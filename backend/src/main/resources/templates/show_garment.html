@@ -56,6 +56,7 @@
                     {{#logged}}
                     <div class="mt-4">
                         <form class="needs-validation" action="/cart/add/{{garment.id}}" method="post">
+                            <input type="hidden" name="_csrf" value="{{token}}">
                             <div class="mb-4">
                                 <label for="inputSize" class="form-label"><b>Talla</b></label>
                                 <div class="input-group">
@@ -69,7 +70,7 @@
                                     <div class="invalid-feedback">La talla es obligatoria.</div>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-4">
                                 <label for="inputQuantity" class="form-label"><b>Cantidad</b></label>
                                 <div class="input-group">
@@ -164,6 +165,7 @@
         <form id="opinionForm" class="needs-validation"
             action="{{^opinion}}/garment/{{garment.id}}/opinion/new{{/opinion}}{{#opinion}}/garment/{{garment.id}}/opinion/edit{{/opinion}}"
             method="post">
+            <input type="hidden" name="_csrf" value="{{token}}">
             <div class="mb-3">
                 <label for="inputRating" class="form-label"><b>Valoración</b></label>
                 <select class="form-select" id="inputRating" name="rating"
@@ -206,8 +208,9 @@
         <div class="d-flex gap-2">
             <a class="btn btn-warning btn-sm text-dark" href="/garment/{{garment.id}}/opinion/{{id}}/edit">Editar <i
                     class="bi bi-pencil-square"></i></a>
-            <form action="/garment/{{garment.id}}/opinion/{{id}}/delete" method="post" class="flex-grow-1">
-                <button class="btn btn-danger btn-sm text-dark" type="sumbit">
+            <form action="/garment/{{garment.id}}/delete" method="post" class="flex-grow-1">
+                <input type="hidden" name="_csrf" value="{{token}}">
+                <button class="btn btn-danger text-dark w-100" type="submit">
                     Borrar <i class="bi bi-x-lg"></i>
                 </button>
             </form>

@@ -76,13 +76,13 @@
                         {{#order.orderItems}}
                         <tr>
                             <td>
-                                {{getGarmentName}} <br>
-                                <small class="text-muted">Ref: {{getGarmentReference}}</small>
+                                {{garmentName}} <br>
+                                <small class="text-muted">Ref: {{garmentReference}}</small>
                             </td>
-                            <td><img src="/garment/{{getGarmentId}}/image" class="img-fluid img-product-order" alt="Producto"></td>
+                            <td><img src="/garment/{{garmentId}}/image" class="img-fluid img-product-order" alt="Producto"></td>
                             <td>{{size}}</td>
                             <td>{{quantity}}</td>
-                            <td>{{getGarmentPrice}}€</td>
+                            <td>{{garmentPrice}}€</td>
                             <td>{{subtotal}}€</td>
                         </tr>
                         {{/order.orderItems}}
