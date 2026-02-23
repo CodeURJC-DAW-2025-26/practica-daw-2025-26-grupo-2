@@ -15,43 +15,48 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     @Autowired
-	RepositoryUserDetailsService userDetailsService;
+    RepositoryUserDetailsService userDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-		return authProvider;
-	}
+        return authProvider;
+    }
 
     @Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authenticationProvider(authenticationProvider());
 
-		http.authenticationProvider(authenticationProvider());
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        // PUBLIC ACCESS
+                        .requestMatchers("/", "/register","/garment/{id}", "/garment/{id}/image", "/static/**", "/sample_images/**")
+                        .permitAll()
 
-		http
-				.authorizeHttpRequests(authorize -> authorize
-						// PUBLIC PAGES
-						.requestMatchers("/").permitAll()
-						// PRIVATE PAGES
-						.requestMatchers("/user").hasAnyRole("USER")
-                        .requestMatchers("/admin").hasAnyRole("ADMIN"))
-				.formLogin(formLogin -> formLogin
-						.loginPage("/login")
-						.failureUrl("/loginerror")
-						.defaultSuccessUrl("/logged")
-						.permitAll())
-				.logout(logout -> logout
-						.logoutUrl("/logout")
-						.logoutSuccessUrl("/index")
-						.permitAll());
+                        // USER ACCESS: Only logged-in users
+                        .requestMatchers("/cart/**", "/myorders", "/garment/*/opinion/new").hasAnyRole("USER", "ADMIN")
 
-		return http.build();
-	}
+                        // ADMIN ACCESS: Only administrators
+                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete").hasRole("ADMIN")
+                        .requestMatchers("/orders").hasRole("ADMIN"))
+                .formLogin(formLogin -> formLogin
+                        // Custom login page managed by LoginController
+                        .loginPage("/login")
+                        .failureUrl("/loginerror")
+                        .defaultSuccessUrl("/")
+                        .permitAll())
+                .logout(logout -> logout
+                        // Define the logout behavior and redirection
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll());
+
+        return http.build();
+    }
 }
