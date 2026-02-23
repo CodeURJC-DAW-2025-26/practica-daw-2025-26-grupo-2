@@ -32,7 +32,7 @@ public class InvoicePdfService {
             PdfWriter writer = PdfWriter.getInstance(document, os);
             document.open();
 
-            Font titleFont = FontFactory.getFont(FontFactory.TIMES_BOLD, 22, new Color(0, 0, 0));
+            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, new Color(0, 0, 0));
             Font infoLabelFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, new Color(64, 64, 64));
             Font infoValueFont = FontFactory.getFont(FontFactory.HELVETICA, 10, new Color(0, 0, 0));
             Font tableHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, new Color(255, 255, 255));
