@@ -105,6 +105,23 @@ public class OrderController {
         return "user_orders";
 	}
 
+	@GetMapping("/myorders/{id}")
+	public String showOrderDetail(Model model, @PathVariable long id, Principal principal) {
+		Optional<Order> order = orderService.findById(id);
+		
+		if (order.isPresent()) {
+			Order o = order.get();
+			model.addAttribute("order", o);
+			
+			// Calculamos el estado para el badge
+			String status = o.getCompleted() ? "Completado" : "Pendiente de pago/envío";
+			model.addAttribute("status", status);
+			
+			return "order_detail";
+		}
+		return "not_found";
+	}
+
 	@PostMapping("/cart/add/{garmentId}") //FINISHED
 	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, OrderItem orderItem) {
         Optional<Garment> opGarment = garmentService.findById(garmentId);
