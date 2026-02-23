@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -9,6 +10,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.dawgrupo2.zendashop.model.Garment;
@@ -31,28 +35,28 @@ public class GarmentController {
 	@Autowired
 	private GarmentService garmentService;
 
-    @ModelAttribute
+	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		//Principal principal = request.getUserPrincipal();
+		// Principal principal = request.getUserPrincipal();
 
-		//if (principal != null) {
+		// if (principal != null) {
 
-			model.addAttribute("logged", true);
-			//model.addAttribute("userName", principal.getName());
-			model.addAttribute("admin", "ADMIN");
-			model.addAttribute("admin", true);
+		model.addAttribute("logged", true);
+		// model.addAttribute("userName", principal.getName());
+		model.addAttribute("admin", "ADMIN");
+		model.addAttribute("admin", true);
 
-		//} else {
-			//model.addAttribute("logged", false);
-		//}
+		// } else {
+		// model.addAttribute("logged", false);
+		// }
 	}
 
 	@GetMapping("/")
-	public String showGarments(Model model, Pageable page) {
-
-		model.addAttribute("garments", garmentService.findByAvailableTrue(page));
-
+	public String showGarments(@RequestParam(required = false) String nameSearch,
+			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
+			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page) {
+		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, page));
 		return "index";
 	}
 
@@ -64,10 +68,10 @@ public class GarmentController {
 		if (op.isPresent()) {
 			Garment garment = op.get();
 			model.addAttribute("garment", garment);
-			return "show_garment";	
+			return "show_garment";
 		} else {
-            model.addAttribute("element", "Prenda");
-            model.addAttribute("masculine", false);
+			model.addAttribute("element", "Prenda");
+			model.addAttribute("masculine", false);
 			return "not_found";
 		}
 	}
@@ -82,7 +86,7 @@ public class GarmentController {
 
 		if (!imageFile.isEmpty()) {
 			try {
-			garmentService.save(garment, imageFile);
+				garmentService.save(garment, imageFile);
 			} catch (IOException e) {
 				throw new RuntimeException("Error al guardar la imagen", e);
 			}
@@ -101,16 +105,17 @@ public class GarmentController {
 			return "garment_form";
 		} else {
 			model.addAttribute("element", "Prenda");
-            model.addAttribute("masculine", false);
+			model.addAttribute("masculine", false);
 			return "not_found";
 		}
 	}
 
 	@PostMapping("/garment/{id}/edit")
-	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id, MultipartFile imageFile) {
+	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id,
+			MultipartFile imageFile) {
 
 		Optional<Garment> op = garmentService.findById(id);
-		if (op.isPresent() ) {
+		if (op.isPresent()) {
 			Garment originalGarment = op.get();
 			if (editedGarment.getCategory() == null || editedGarment.getCategory().trim().isEmpty()) {
 				editedGarment.setCategory(originalGarment.getCategory());

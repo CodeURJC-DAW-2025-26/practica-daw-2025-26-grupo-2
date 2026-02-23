@@ -49,10 +49,10 @@ public class DatabaseInitializer {
 		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I",	 "password456", "ADMIN");
 		userService.save(user2);
 
-		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Ropa", "Camiseta de algodón",
+		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",
 				"Talla M, color blanco");
 		
-		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Ropa", "Pantalones vaqueros",
+		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros",
 				"Talla 32, color azul");
 
 		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
