@@ -36,15 +36,16 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/register","/garment/{id}", "/garment/{id}/image", "/static/**", "/sample_images/**")
+                        .requestMatchers("/", "/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/sample_images/**")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**", "/myorders", "/garment/*/opinion/new").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**", "/myorders/**", "/garment/*/opinion/new").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete").hasRole("ADMIN")
                         .requestMatchers("/orders").hasRole("ADMIN"))
+
                 .formLogin(formLogin -> formLogin
                         // Custom login page managed by LoginController
                         .loginPage("/login")

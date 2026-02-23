@@ -49,18 +49,17 @@ public class OrderController {
     @ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
-		//Principal principal = request.getUserPrincipal();
+		Principal principal = request.getUserPrincipal();
 
-		//if (principal != null) {
+		if (principal != null) {
 
 			model.addAttribute("logged", true);
-			//model.addAttribute("userName", principal.getName());
-			model.addAttribute("userName", "juan@example.com");
+			model.addAttribute("username", principal.getName());
 			model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-		//} else {
-			//model.addAttribute("logged", false);
-		//}
+		} else {
+			model.addAttribute("logged", false);
+		}
 	}
 
     @GetMapping("/orders") //FINISHED
@@ -93,8 +92,7 @@ public class OrderController {
 
 	@GetMapping("/cart") //FINISHED
 	public String showCart(Model model, Principal principal) {
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
 		return "cart";
 	}
@@ -116,8 +114,7 @@ public class OrderController {
 			return "garment_not_found";
 		}
 		orderItem.setGarment(opGarment.get());
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-        User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
         if (cart != null) {
             cart.addOrderItem(orderItem);
@@ -141,8 +138,7 @@ public class OrderController {
 			model.addAttribute("masculine", false);
 			return "not_found";
 		}
-		//User user = userService.findByEmail(principal.getName()).orElseThrow();
-		User user = userService.findByEmail("juan@example.com").orElseThrow();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
 		if (cart != null) {
 			cart.removeOrderItem(opOrderItem.get());
