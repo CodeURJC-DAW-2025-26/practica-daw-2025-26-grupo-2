@@ -1,16 +1,12 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.security.Principal;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +20,11 @@ import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.GarmentService;
+import es.dawgrupo2.zendashop.service.InvoicePdfService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import es.dawgrupo2.zendashop.service.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 public class OrderController {
@@ -46,7 +41,10 @@ public class OrderController {
 	@Autowired
 	private OrderItemService orderItemService;
 
-    @ModelAttribute
+	@Autowired
+	private InvoicePdfService invoicePdfService;
+
+	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
 		Principal principal = request.getUserPrincipal();
@@ -62,22 +60,21 @@ public class OrderController {
 		}
 	}
 
-    @GetMapping("/orders") //FINISHED
-    public String showOrders(Model model) {
-        model.addAttribute("orders", orderService.findAll());
-        return "all_orders";
-    }
+	@GetMapping("/orders") // FINISHED
+	public String showOrders(Model model) {
+		model.addAttribute("orders", orderService.findAll());
+		return "all_orders";
+	}
 
-	@GetMapping("/order/{id}") //FINISHED
+	@GetMapping("/order/{id}") // FINISHED
 	public String getMethodName(Model model, @PathVariable long id) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
 			Order order = op.get();
 			String status;
-			if (order.getCompleted()){
+			if (order.getCompleted()) {
 				status = "COMPLETADO";
-			}
-			else{
+			} else {
 				status = "EN CURSO";
 			}
 			model.addAttribute("order", order);
@@ -85,46 +82,45 @@ public class OrderController {
 			return "order_detail";
 		} else {
 			model.addAttribute("element", "Pedido");
-            model.addAttribute("masculine", true);
+			model.addAttribute("masculine", true);
 			return "not_found";
 		}
 	}
 
-	@GetMapping("/cart") //FINISHED
+	@GetMapping("/cart") // FINISHED
 	public String showCart(Model model, Principal principal) {
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
 		return "cart";
 	}
-	
 
-	@GetMapping("/myorders") //FINISHED
+	@GetMapping("/myorders") // FINISHED
 	public String showUserOrders(Model model, Principal principal) {
 		Optional<User> opUser = userService.findByEmail(principal.getName());
 		model.addAttribute("orders", orderService.findByUserId(opUser.get().getId()));
-        return "user_orders";
+		return "user_orders";
 	}
 
 	@GetMapping("/myorders/{id}")
 	public String showOrderDetail(Model model, @PathVariable long id, Principal principal) {
 		Optional<Order> order = orderService.findById(id);
-		
+
 		if (order.isPresent()) {
 			Order o = order.get();
 			model.addAttribute("order", o);
-			
+
 			// Calculamos el estado para el badge
 			String status = o.getCompleted() ? "Completado" : "Pendiente de pago/envío";
 			model.addAttribute("status", status);
-			
+
 			return "order_detail";
 		}
 		return "not_found";
 	}
 
-	@PostMapping("/cart/add/{garmentId}") //FINISHED
+	@PostMapping("/cart/add/{garmentId}") // FINISHED
 	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, OrderItem orderItem) {
-        Optional<Garment> opGarment = garmentService.findById(garmentId);
+		Optional<Garment> opGarment = garmentService.findById(garmentId);
 		if (!opGarment.isPresent()) {
 			model.addAttribute("element", "Prenda");
 			model.addAttribute("masculine", false);
@@ -133,21 +129,22 @@ public class OrderController {
 		orderItem.setGarment(opGarment.get());
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
-        if (cart != null) {
-            cart.addOrderItem(orderItem);
-            orderService.save(cart); //OrderItems are saved by cascade, but we need to save the cart to update the relationship
-        } else {
-            Order newOrder = new Order(false, null, null, null);
-            orderService.save(newOrder); // We need to save the order first to generate an ID for the relationship
+		if (cart != null) {
+			cart.addOrderItem(orderItem);
+			orderService.save(cart); // OrderItems are saved by cascade, but we need to save the cart to update the
+										// relationship
+		} else {
+			Order newOrder = new Order(false, null, null, null);
+			orderService.save(newOrder); // We need to save the order first to generate an ID for the relationship
 			newOrder.setUser(user);
 			newOrder.addOrderItem(orderItem);
-            user.setCart(newOrder);
-            userService.save(user);
-        }
-        return "redirect:/";
+			user.setCart(newOrder);
+			userService.save(user);
+		}
+		return "redirect:/";
 	}
 
-	@PostMapping("/cart/remove/{orderItemId}") //FINISHED
+	@PostMapping("/cart/remove/{orderItemId}") // FINISHED
 	public String removeFromCart(Model model, @PathVariable long orderItemId, Principal principal) {
 		Optional<OrderItem> opOrderItem = orderItemService.findById(orderItemId);
 		if (!opOrderItem.isPresent()) {
@@ -163,9 +160,25 @@ public class OrderController {
 				orderService.delete(cart.getId());
 				user.setCart(null);
 			}
-			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order item is deleted
+			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order
+													// item is deleted
 			userService.save(user);
 		}
 		return "redirect:/";
+	}
+
+	@GetMapping("/orders/{id}/invoice.pdf")
+	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) {
+		Order order = orderService.findById(id).orElseThrow();
+		// TODO: Add security check to ensure only the user who made the order or an
+		// admin can access the invoice
+		byte[] pdf = invoicePdfService.generateInvoice(order);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDisposition(
+				ContentDisposition.inline().filename("factura-pedido-" + id + ".pdf").build());
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(pdf);
 	}
 }
