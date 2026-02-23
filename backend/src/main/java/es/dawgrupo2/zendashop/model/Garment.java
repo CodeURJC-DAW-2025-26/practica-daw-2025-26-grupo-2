@@ -32,6 +32,7 @@ public class Garment {
     private String category;
     private String description;
     private String features;
+    private boolean available = true;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -56,6 +57,7 @@ public class Garment {
         this.category = category;
         this.description = description;
         this.features = features;
+        this.available = true;
     }
 
     public Long getId() {
@@ -156,5 +158,13 @@ public class Garment {
     public void removeOrderItem(OrderItem orderItem) {
         orderItems.remove(orderItem);
         orderItem.setGarment(null);
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
