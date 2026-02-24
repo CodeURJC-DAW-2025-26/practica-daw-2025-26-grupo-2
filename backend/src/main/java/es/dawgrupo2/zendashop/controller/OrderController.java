@@ -167,7 +167,7 @@ public class OrderController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/orders/{id}/invoice.pdf")
+	@GetMapping("/orders/{id}/invoice")
 	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) {
 		Order order = orderService.findById(id).orElseThrow();
 		// TODO: Add security check to ensure only the user who made the order or an
