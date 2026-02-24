@@ -187,11 +187,29 @@ public class User {
         return (this.orders != null ? this.orders.size() : 0);
     }
 
-    public LocalDateTime getLastOrderDate(){
+    public LocalDateTime getLastOrderDate() {
+    if (this.orders == null || this.orders.isEmpty()) {
+        return null;
+    }
+    return this.orders.get(this.orders.size() - 1).getCreationDate();
+}
+
+    public boolean getHasAvatar() {
+        return this.avatar != null;
+    }
+
+    public double getAverageTicketLastMonth() {
         if (this.orders == null || this.orders.isEmpty()) {
-            return null;
+            return 0.0;
         }
-        return this.orders.get(this.orders.size() - 1).getCreationDate();
+
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+
+        return this.orders.stream()
+                .filter(o -> o.getCreationDate() != null && o.getCreationDate().isAfter(oneMonthAgo))
+                .mapToDouble(o -> o.getTotalPrice() != null ? o.getTotalPrice().doubleValue() : 0.0)
+                .average()
+                .orElse(0.0);
     }
 
 }

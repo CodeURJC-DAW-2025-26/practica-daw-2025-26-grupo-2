@@ -25,13 +25,18 @@
             <div class="profile-header">
                 <div class="d-flex align-items-center gap-3">
                     <div class="profile-avatar">
-                        <img src="../demo/{{avatar}}.png" alt="User avatar" class="img-fluid">
+                        {{#hasAvatar}}
+                            <img src="/user/{{id}}/avatar" alt="Avatar" class="img-thumbnail">
+                        {{/hasAvatar}}
+                        {{^hasAvatar}}
+                            <img src="/default-avatar.png" alt="Sin avatar" class="img-thumbnail">
+                        {{/hasAvatar}}
                     </div>
 
                     <div class="profile-identity">
-                        <h1 class="profile-name mb-1">{{name}}</h1>
+                        <h1 class="profile-name mb-1">{{user.name}}</h1>
                         <div class="profile-meta">
-                            <span class="me-3"><i class="bi bi-envelope"></i> {{email}}</span>
+                            <span class="me-3"><i class="bi bi-envelope"></i> {{user.email}}</span>
                         </div>
                     </div>
                 </div>
@@ -55,23 +60,23 @@
                         <div class="profile-kv">
                             <div class="profile-kv-row">
                                 <div class="profile-k">Nombre</div>
-                                <div class="profile-v">{{name}}</div>
+                                <div class="profile-v">{{user.name}}</div>
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Apellidos</div>
-                                <div class="profile-v">{{surname}}</div>
+                                <div class="profile-v">{{user.surname}}</div>
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Email</div>
-                                <div class="profile-v">{{email}}</div>
+                                <div class="profile-v">{{user.email}}</div>
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Dirección</div>
-                                <div class="profile-v">{{address}}</div>
+                                <div class="profile-v">{{user.adress}}</div>
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Fecha de registro</div>
-                                <div class="profile-v">{{creationDate}}</div>
+                                <div class="profile-v">{{user.creationDate}}</div>
                             </div>
                         </div>
                     </div>
@@ -91,7 +96,7 @@
                                         <span class="metric-label">Ticket medio (último mes)</span>
                                         <i class="bi bi-graph-up text-primary"></i>
                                     </div>
-                                    <div class="metric-value">{{averageTicketLastMonth}}€</div>
+                                    <div class="metric-value">{{user.averageTicketLastMonth}}€</div>
                                     <div class="metric-hint">Precio promedio por pedido</div>
                                 </div>
                             </div>
@@ -102,7 +107,7 @@
                                         <span class="metric-label">Compras (último mes)</span>
                                         <i class="bi bi-bag-check text-primary"></i>
                                     </div>
-                                    <div class="metric-value">{{ordersCountLastMonth}}</div>
+                                    <div class="metric-value">{{user.orderCount}}</div>
                                     <div class="metric-hint">Pedidos procesados</div>
                                 </div>
                             </div>

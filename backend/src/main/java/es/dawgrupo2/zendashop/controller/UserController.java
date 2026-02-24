@@ -66,14 +66,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/profile")
+    @GetMapping("/profile")
     public String showUserProfile(Model model, HttpServletRequest request) {
 
         Principal principal = request.getUserPrincipal();
         Optional<User> op = userService.findByEmail(principal.getName());
-        model.addAttribute("user", op.get());
-        return "user_profile";
         
+        if (op.isPresent()){
+            model.addAttribute("user", op.get());
+        } else {
+            return "redirect:/login";
+        }
+        return "user_profile";
     }
 
     @GetMapping("/users")
