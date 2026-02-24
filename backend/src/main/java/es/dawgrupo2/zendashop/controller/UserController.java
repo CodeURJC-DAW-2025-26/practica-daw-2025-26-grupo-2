@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.lang.foreign.Linker.Option;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.sql.Blob;
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public String showUserProfile(Model model, @PathVariable Long id) {
+    public String showUserID(Model model, @PathVariable Long id) {
 
         Optional<User> op = userService.findById(id);
 
@@ -59,8 +60,20 @@ public class UserController {
             model.addAttribute("user", op.get());
             return "user_profile";
         } else {
+            model.addAttribute("element", "Usuario");
+            model.addAttribute("masculine", true);
             return "not_found";
         }
+    }
+
+    @GetMapping("/user/profile")
+    public String showUserProfile(Model model, HttpServletRequest request) {
+
+        Principal principal = request.getUserPrincipal();
+        Optional<User> op = userService.findByEmail(principal.getName());
+        model.addAttribute("user", op.get());
+        return "user_profile";
+        
     }
 
     @GetMapping("/user/{id}/edit")
@@ -73,6 +86,8 @@ public class UserController {
             model.addAttribute("user", user);
             return "register";
         } else {
+            model.addAttribute("element", "Usuario");
+            model.addAttribute("masculine", true);
             return "not_found";
         }
     }
@@ -98,6 +113,8 @@ public class UserController {
             }
             return "redirect:/user/" + originalUser.getId();
         } else {
+            model.addAttribute("element", "Usuario");
+            model.addAttribute("masculine", true);
             return "not_found";
         }
 
@@ -135,6 +152,8 @@ public class UserController {
             userService.save(user);
             return "redirect:/";
         } else {
+            model.addAttribute("element", "Usuario");
+            model.addAttribute("masculine", true);
             return "not_found";
         }
     }
