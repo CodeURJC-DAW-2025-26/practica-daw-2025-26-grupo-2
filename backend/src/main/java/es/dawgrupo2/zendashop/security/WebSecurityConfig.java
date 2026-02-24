@@ -36,15 +36,15 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/sample_images/**")
+                        .requestMatchers("/", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/sample_images/**")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**", "/user/**", "/garment/*/opinion/new","/profile", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**", "/user/**", "/garment/*/opinion/new", "/profile", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete").hasRole("ADMIN")
-                        .requestMatchers("/orders", "/order/{id}", "/users", "/statistics").hasRole("ADMIN"))
+                        .requestMatchers("/orders", "/order/**", "/users", "/statistics").hasRole("ADMIN"))
 
                 .formLogin(formLogin -> formLogin
                         // Custom login page managed by LoginController
