@@ -63,20 +63,21 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}edit")
-    public String editUser(Model model, User editedUser, @PathVariable Long id) {
+    @GetMapping("/user/{id}/edit")
+    public String editUser(Model model, @PathVariable Long id) {
 
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
-            model.addAttribute("user", op.get());
-            return "edit_user";
+            User user = op.get();
+            model.addAttribute("user", user);
+            return "register";
         } else {
             return "not_found";
         }
     }
 
-    @PostMapping("/user/{id}edit")
+    @PostMapping("/user/{id}/edit")
     public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar) {
 
         Optional<User> op = userService.findById(id);
@@ -122,6 +123,20 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @PostMapping("user/{id}/delete")
+    public String deleteUser(Model model, @PathVariable Long id) {
+        
+        Optional<User> op = userService.findById(id);
+
+        if (op.isPresent()) {
+            User user = op.get();
+            userService.save(user);
+            return "redirect:/";
+        } else {
+            return "not_found";
+        }
     }
 
 }
