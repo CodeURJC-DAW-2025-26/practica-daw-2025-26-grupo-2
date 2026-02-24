@@ -210,9 +210,9 @@
         <div class="d-flex gap-2">
             <a class="btn btn-warning btn-sm text-dark" href="/garment/{{garment.id}}/opinion/{{id}}/edit">Editar <i
                     class="bi bi-pencil-square"></i></a>
-            <form action="/garment/{{garment.id}}/delete" method="post" class="flex-grow-1">
+            <form action="/garment/{{garment.id}}/opinion/{{id}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}">
-                <button class="btn btn-danger text-dark w-100" type="submit">
+                <button class="btn btn-danger btn-sm text-dark" type="submit">
                     Borrar <i class="bi bi-x-lg"></i>
                 </button>
             </form>
