@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServlet;
 
 import org.springframework.ui.Model;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.http.MediaType;
@@ -33,30 +32,29 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @Controller
 public class UserController {
-    
-    @Autowired UserService userService;
+
+    @Autowired
+    UserService userService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
 
-       if (request.getUserPrincipal() != null) {
+        if (request.getUserPrincipal() != null) {
             model.addAttribute("logged", true);
             model.addAttribute("username", request.getUserPrincipal().getName());
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
-       } else {
+        } else {
             model.addAttribute("logged", false);
-       }
+        }
     }
 
     @GetMapping("/user/{id}")
-    public String showUserProfile(Model model, @PathVariable Long id){
+    public String showUserProfile(Model model, @PathVariable Long id) {
 
         Optional<User> op = userService.findById(id);
-        
+
         if (op.isPresent()) {
             model.addAttribute("user", op.get());
             return "user_profile";
@@ -67,10 +65,9 @@ public class UserController {
 
     @GetMapping("/user/{id}edit")
     public String editUser(Model model, User editedUser, @PathVariable Long id) {
-        
-        
+
         Optional<User> op = userService.findById(id);
-        
+
         if (op.isPresent()) {
             model.addAttribute("user", op.get());
             return "edit_user";
@@ -81,18 +78,18 @@ public class UserController {
 
     @PostMapping("/user/{id}edit")
     public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar) {
-        
+
         Optional<User> op = userService.findById(id);
-        
+
         if (op.isPresent()) {
 
             User originalUser = op.get();
-            
+
             originalUser.setName(editedUser.getName());
             originalUser.setSurname(editedUser.getSurname());
             originalUser.setEmail(editedUser.getEmail());
             originalUser.setId(id);
-            
+
             try {
                 userService.save(originalUser, imageAvatar);
             } catch (Exception e) {
@@ -108,29 +105,23 @@ public class UserController {
     @GetMapping("user/{id}/avatar")
     public ResponseEntity<Object> downloadAvatar(@PathVariable Long id) throws SQLException {
 
-        Optional <User> op = userService.findById(id);
+        Optional<User> op = userService.findById(id);
 
         if (op.isPresent() && op.get().getAvatar() != null) {
             Blob AvatarImage = op.get().getAvatar();
-            Resource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
+            InputStreamResource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
-                .getMediaType("avatar.jpg")
-                .orElse(MediaType.APPLICATION_OCTET_STREAM);
+                    .getMediaType("avatar.jpg")
+                    .orElse(MediaType.APPLICATION_OCTET_STREAM);
 
             return ResponseEntity.ok()
-                .contentType(mediaType)
-                .body(AvatarFile);
-        }else {
+                    .contentType(mediaType)
+                    .body(AvatarFile);
+        } else {
             return ResponseEntity.notFound().build();
         }
 
-
-
     }
-    
 
 }
-    
-
-
