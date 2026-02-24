@@ -1,6 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.lang.foreign.Linker.Option;
+//import java.lang.foreign.Linker.Option;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -75,6 +75,12 @@ public class UserController {
         return "user_profile";
         
     }
+
+    @GetMapping("/users")
+	public String showUsers(Model model) {
+		model.addAttribute("users", userService.findAll());
+		return "all_users";
+	}
 
     @GetMapping("/user/{id}/edit")
     public String editUser(Model model, @PathVariable Long id) {

@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.security;
 
 import org.springframework.context.annotation.Bean;
+import es.dawgrupo2.zendashop.controller.ErrorPageController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,8 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    private final ErrorPageController errorPageController;
+
     @Autowired
     RepositoryUserDetailsService userDetailsService;
+
+    WebSecurityConfig(ErrorPageController errorPageController) {
+        this.errorPageController = errorPageController;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,7 +43,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/sample_images/**")
+                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/sample_images/**")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users

@@ -182,4 +182,16 @@ public class User {
     public void setCart(Order cart) {
         this.cart = cart;
     }
+    
+    public int getOrderCount() {
+        return (this.orders != null ? this.orders.size() : 0);
+    }
+
+    public LocalDateTime getLastOrderDate(){
+        if (this.orders == null || this.orders.isEmpty()) {
+            return null;
+        }
+        return this.orders.get(this.orders.size() - 1).getCreationDate();
+    }
+
 }
