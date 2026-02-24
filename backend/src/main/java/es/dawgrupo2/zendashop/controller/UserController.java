@@ -112,7 +112,7 @@ public class UserController {
 
         if (op.isPresent() && op.get().getAvatar() != null) {
             Blob AvatarImage = op.get().getAvatar();
-            Resource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
+            InputStreamResource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
                 .getMediaType("avatar.jpg")
