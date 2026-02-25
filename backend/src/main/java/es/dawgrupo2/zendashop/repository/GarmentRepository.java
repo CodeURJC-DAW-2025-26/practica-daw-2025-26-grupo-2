@@ -46,7 +46,8 @@ public interface GarmentRepository extends JpaRepository<Garment, Long> {
         ") " +
         "SELECT g.* " +
         "FROM garment g " +
-        "WHERE NOT EXISTS ( " +
+        "WHERE g.available = true " +
+        "AND NOT EXISTS ( " +
         "  SELECT 1 FROM order_item oi_me " +
         "  JOIN order_table ot_me ON oi_me.order_id = ot_me.id " +
         "  WHERE ot_me.user_id = :userId AND oi_me.garment_id = g.id " +

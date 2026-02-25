@@ -96,6 +96,7 @@
                             </a>
 
                             <form action="/garment/{{garment.id}}/delete" method="post" class="flex-grow-1">
+                                <input type="hidden" name="_csrf" value="{{token}}">
                                 <button class="btn btn-danger text-dark w-100" type="submit">
                                     Borrar <i class="bi bi-x-lg"></i>
                                     <!-- TODO: Add csrf tokens in all forms -->

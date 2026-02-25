@@ -22,13 +22,13 @@
                 <h3>{{#garment}}Editar prenda{{/garment}}{{^garment}}Añadir nueva prenda{{/garment}}</h3>
             </div>
             <hr class="gap-form">
-            <form role="form" class="needs-validation" novalidate id="garmentForm" action="{{#garment}}/garment/{{garment.id}}/edit{{/garment}}{{^garment}}/garment/new{{/garment}}" method="post" enctype="multipart/form-data">
+            <form role="form" class="needs-validation" novalidate id="garmentForm" action="{{#garment}}/garment/{{id}}/edit{{/garment}}{{^garment}}/garment/new{{/garment}}" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="inputClothName" class="form-label"><b>Nombre</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-alphabet"></i></span>
                         <input type="text" class="form-control" id="inputClothName" name="name"
-                            placeholder="Nombre de la prenda" value="{{#garment}}{{garment.name}}{{/garment}}" required>
+                            placeholder="Nombre de la prenda" value="{{#garment}}{{name}}{{/garment}}" required>
                         <div class="invalid-feedback" id="titleMesssage">
                             El nombre no puede estar vacío
                         </div>
@@ -39,7 +39,7 @@
                     <label for="inputCategory" class="form-label"><b>Categoría</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                        <select class="form-select" id="inputCategory" name="category" value="{{#garment}}{{garment.category}}{{/garment}}" required>
+                        <select class="form-select" id="inputCategory" name="category" value="{{#garment}}{{category}}{{/garment}}" required>
                             <option value="" selected disabled>Selecciona categoría</option>
                             <option value="Camisas">Camisas</option>
                             <option value="Pantalones">Pantalones</option>
@@ -57,7 +57,7 @@
                     <label for="inputClothPrice" class="form-label"><b>Precio</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
-                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value="{{#garment}}{{garment.price}}{{/garment}}"
+                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value="{{#garment}}{{price}}{{/garment}}"
                             placeholder="Precio de la prenda" min="5" max="5000" required>
                         <span class="input-group-text" id="input-group-price">€</span>
                         <div class="invalid-feedback">
@@ -86,7 +86,7 @@
                         <span class="input-group-text"><i class="bi bi-list-ul"></i></span>
                         <textarea class="form-control" id="inputClothDescription" name="description"
                             placeholder="Descripción de la prenda" rows="5" minlength="3" maxlength="200"
-                            required>{{#garment}}{{garment.description}}{{/garment}}</textarea>
+                            required>{{#garment}}{{description}}{{/garment}}</textarea>
                         <div class="invalid-feedback">
                             La descripción debe tener entre 3 y 200 caracteres.
                         </div>
@@ -99,7 +99,7 @@
                         <span class="input-group-text"><i class="bi bi-list-ul"></i></span>
                         <textarea class="form-control" id="inputClothFeatures" name="features"
                             placeholder="Características de la prenda" rows="5" minlength="5" maxlength="300"
-                            required>{{#garment}}{{garment.features}}{{/garment}}</textarea>
+                            required>{{#garment}}{{features}}{{/garment}}</textarea>
                         <div class="invalid-feedback">
                             Las características deben tener entre 5 y 300 caracteres.
                         </div>
@@ -107,17 +107,15 @@
                 </div>
 
                 <br>
-
+                <input type="hidden" name="_csrf" value="{{token}}"/>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success text-dark">
                         Guardar <i class="bi bi-check-lg"></i>
                     </button>
-                    <button type="button" onclick="window.location.href='{{#garment.id}}/garment/{{garment.id}}{{/garment.id}}{{^garment.id}}/{{/garment.id}}'" class="btn btn-danger text-dark">
-                        Cancelar <i class="bi bi-x-lg"></i>
-                    </button>
+                    <a href="{{#garment}}/garment/{{id}}{{/garment}}{{^garment}}/{{/garment}}" class="btn btn-danger text-dark">Cancelar <i class="bi bi-x-lg"></i></a>
                 </div>
                 <br>
-                <input type="hidden" name="id" value="{{garment.id}}" />
+                <input type="hidden" name="id" value="{{#garment}}{{id}}{{/garment}}">
             </form>
         </div>
     </main>
