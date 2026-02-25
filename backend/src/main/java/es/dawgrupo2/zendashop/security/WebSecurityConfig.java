@@ -47,10 +47,10 @@ public class WebSecurityConfig {
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
-                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/edit", "/user/{id}/delete").hasRole("ADMIN")
+                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete").hasRole("ADMIN")
                         .requestMatchers("/orders", "/order/**", "/users", "/statistics").hasRole("ADMIN"))
 
                 .formLogin(formLogin -> formLogin
