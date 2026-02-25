@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.dawgrupo2.zendashop.model.Garment;
+import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.GarmentService;
+import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -35,6 +37,9 @@ public class GarmentController {
 	@Autowired
 	private GarmentService garmentService;
 
+	@Autowired
+	private UserService userService;
+
 	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
 
@@ -42,21 +47,32 @@ public class GarmentController {
 
 		if (principal != null) {
 
+		String userEmail = principal.getName();
+		User user = userService.findByEmail(userEmail).orElseThrow();
+    	Long userID = user.getId();
+
 		model.addAttribute("logged", true);
+		model.addAttribute("userID", userID);
 		model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
 		} else {
 		model.addAttribute("logged", false);
-		 }
+		model.addAttribute("userID", null);
+		}
 	}
 
 	@GetMapping("/")
 	public String showGarments(@RequestParam(required = false) String nameSearch,
 			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
-			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page) {
+			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page, @ModelAttribute("userID") Long userID) {
+
 		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, page));
+		if (userID != null) {
+        model.addAttribute("offers", garmentService.findSmartRecommendations(userID));
+    }
+
 		return "index";
-	}
+		}
 
 	@GetMapping("/garment/{id}")
 	public String showGarment(Model model, @PathVariable long id) {

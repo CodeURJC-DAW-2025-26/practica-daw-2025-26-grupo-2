@@ -89,4 +89,8 @@ public class GarmentService {
 	public Page<Garment> findAvailableGarmentsByOptionalFilters(String name, String category, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
 		return repository.findAvailableGarmentsByOptionalFilters(name, category, minPrice, maxPrice, pageable);
 	}
+
+	public List<Garment> findSmartRecommendations(Long id){
+		return repository.findSmartRecommendations(id);
+	}
 }
