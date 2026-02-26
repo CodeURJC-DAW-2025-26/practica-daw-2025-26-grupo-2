@@ -15,14 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final ErrorPageController errorPageController;
-
     @Autowired
     RepositoryUserDetailsService userDetailsService;
-
-    WebSecurityConfig(ErrorPageController errorPageController) {
-        this.errorPageController = errorPageController;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

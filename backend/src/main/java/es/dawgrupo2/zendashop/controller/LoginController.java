@@ -22,9 +22,9 @@ public class LoginController {
     }
 
     @GetMapping("/loginerror")
-    public String loginError(RedirectAttributes re) {
-        re.addFlashAttribute("message", "Credenciales inválidas");
-        re.addFlashAttribute("backLink", "/login");
-        return "redirect:/customerror"; // The interceptor adds the "token" to the model automatically
+    public String loginError(Model model) {
+        model.addAttribute("message", "Usuario o contraseña incorrectos.");
+        model.addAttribute("backLink", "/login");
+        return "error";
     }
 }
