@@ -1,5 +1,7 @@
 package es.dawgrupo2.zendashop.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +39,8 @@ public class OrderService {
 		return repository.existsById(id);
 	}
 
-	public List<Order> findAll() {
-		return repository.findAll();
+	public List<Order> findByCompletedTrue() {
+		return repository.findByCompletedTrue();
 	}
 
 	public void save(Order order) {
@@ -49,8 +51,8 @@ public class OrderService {
 		repository.deleteById(id);
 	}
 
-	public List<Order> findByUserId(Long userId) {
-		return repository.findByUserId(userId);
+	public List<Order> findByUserIdAndCompletedTrue(Long userId) {
+		return repository.findByUserIdAndCompletedTrue(userId);
 	}
 
 	public List<Order> findByCompletedFalseAndOrderItems_Garment_Id(long id) {
@@ -91,5 +93,47 @@ public class OrderService {
 			userService.save(user);
 		}
 		repository.delete(cart);
+	}
+
+	@Transactional
+	public void processOrder(Long orderId, Long userId, String address, String dateStr, String note) {
+		// get the order
+		Order order = repository.findById(orderId).orElseThrow();
+		User user = userService.findById(userId).orElseThrow();
+
+		// just checking the owner
+		if (!order.getUser().getId().equals(userId)) {
+			throw new RuntimeException("Acceso denegado");
+		}
+
+		// process the order
+		order.setCompleted(true);
+		order.setDeliveryAddress(address);
+		order.setDeliveryNote(note);
+		
+		// the date
+		if (dateStr != null && !dateStr.isEmpty()) {
+			order.setDeliveryDate(LocalDate.parse(dateStr));
+		} else {
+			order.setDeliveryDate(LocalDate.now()); // by default
+		}
+
+		// just checking
+		order.setUser(user);
+
+		// add the order to the user's orders
+		if (user.getOrders() == null) {
+			user.setOrders(new ArrayList<>());
+		}
+		if (!user.getOrders().contains(order)) {
+			user.getOrders().add(order);
+		}
+
+		// we save the order in the ddbb
+		repository.saveAndFlush(order);
+
+		// we change to a new cart
+		user.setCart(null);
+		userService.save(user);
 	}
 }

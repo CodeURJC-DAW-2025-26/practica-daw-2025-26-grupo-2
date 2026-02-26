@@ -52,6 +52,7 @@
                             <button type="submit" class="btn btn-danger btn-sm">
                                 <i class="bi bi-x-lg"></i> Eliminar
                             </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -60,27 +61,27 @@
 
             <hr class="my-4" />
 
-            <form role="form" class="needs-validation" id="cartForm" action="/order/{{order.id}}/process" method="post">
+            <form role="form" class="needs-validation" id="cartForm" action="/order/{{id}}/process" method="post">
 
                 <div class="delivery-info mb-4">
                     <h3 class="mb-3">Preferencias de entrega</h3>
 
                     <div class="mb-3">
                         <label for="deliveryAddress" class="form-label">Dirección de entrega</label>
-                        <input type="text" class="form-control" id="deliveryAddress" placeholder="Calle, Ciudad, CP"
-                            value="{{#order.deliveryAddress}}{{order.deliveryAddress}}{{/order.deliveryAddress}}{{^order.deliveryAddress}}No especificada{{/order.deliveryAddress}}" />
+                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" placeholder="Calle, Ciudad, CP"
+                            value="{{#deliveryAddress}}{{deliveryAddress}}{{/deliveryAddress}}{{^deliveryAddress}}No especificada{{/deliveryAddress}}" />
                     </div>
 
                     <div class="mb-3">
                         <label for="deliveryDate" class="form-label">Fecha de entrega preferida</label>
-                        <input type="date" class="form-control" id="deliveryDate"
-                            value="{{#order.deliveryDate}}{{order.deliveryDate}}{{/order.deliveryDate}}{{^order.deliveryDate}}No especificada{{/order.deliveryDate}}" />
+                        <input type="date" class="form-control" id="deliveryDate" name="deliveryDate"
+                            value="{{#deliveryDate}}{{deliveryDate}}{{/deliveryDate}}" />
                     </div>
 
                     <div class="mb-3">
                         <label for="deliveryNote" class="form-label">Notas de entrega</label>
-                        <textarea class="form-control" id="deliveryNote" rows="3"
-                            placeholder="Instrucciones especiales, etc.">{{#order.deliveryNote}}{{order.deliveryNote}}{{/order.deliveryNote}}{{^order.deliveryNote}}No especificadas{{/order.deliveryNote}}</textarea>
+                        <textarea class="form-control" id="deliveryNote" name="deliveryNote" rows="3"
+                            placeholder="Instrucciones especiales, etc.">{{#deliveryNote}}{{deliveryNote}}{{/deliveryNote}}{{^deliveryNote}}No especificadas{{/deliveryNote}}</textarea>
                     </div>
                 </div>
 
@@ -90,15 +91,15 @@
                     <h3 class="mb-3">Resumen del carrito</h3>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted">Total productos</span>
-                        <span>{{order.subtotal}}€</span>
+                        <span>{{subtotal}}€</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span class="text-muted">Envío</span>
-                        <span>{{order.shippingCost}}€</span>
+                        <span>{{shippingCost}}€</span>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
                         <span class="text-muted">Total a pagar</span>
-                        <span class="fw-bold">{{order.totalPrice}}€</span>
+                        <span class="fw-bold">{{totalPrice}}€</span>
                     </div>
                 </div>
 
@@ -106,6 +107,8 @@
                     <a href="/" class="btn btn-secondary">
                         <i class="bi bi-arrow-left-circle"></i> Continuar comprando
                     </a>
+                    <input type="hidden" name="_csrf" value="{{token}}">
+                    <span>ID del pedido: {{id}}</span>
                     <button type="submit" class="btn btn-success">
                         Comprar <i class="bi bi-credit-card"></i>
                     </button>

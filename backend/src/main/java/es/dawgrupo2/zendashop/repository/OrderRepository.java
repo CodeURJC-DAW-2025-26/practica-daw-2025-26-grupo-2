@@ -10,7 +10,8 @@ import es.dawgrupo2.zendashop.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findByUserId(Long userId);
+    List<Order> findByUserIdAndCompletedTrue(Long userId);
+    List<Order> findByCompletedTrue();
 
     List<Order> findDistinctByCompletedFalseAndOrderItems_Garment_Id(Long garmentId);
 }

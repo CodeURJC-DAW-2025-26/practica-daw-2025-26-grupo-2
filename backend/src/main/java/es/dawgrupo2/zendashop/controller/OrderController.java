@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Order;
@@ -62,7 +63,7 @@ public class OrderController {
 
 	@GetMapping("/orders") // FINISHED
 	public String showOrders(Model model) {
-		model.addAttribute("orders", orderService.findAll());
+		model.addAttribute("orders", orderService.findByCompletedTrue());
 		return "all_orders";
 	}
 
@@ -97,7 +98,7 @@ public class OrderController {
 	@GetMapping("/myorders") // FINISHED
 	public String showUserOrders(Model model, Principal principal) {
 		Optional<User> opUser = userService.findByEmail(principal.getName());
-		model.addAttribute("orders", orderService.findByUserId(opUser.get().getId()));
+		model.addAttribute("orders", orderService.findByUserIdAndCompletedTrue(opUser.get().getId()));
 		return "user_orders";
 	}
 
@@ -180,5 +181,23 @@ public class OrderController {
 		return ResponseEntity.ok()
 				.headers(headers)
 				.body(pdf);
+	}
+
+	@PostMapping("/order/{id}/process")
+	public String processOrder(
+			@PathVariable Long id,
+			@RequestParam String deliveryAddress,
+			@RequestParam String deliveryDate, // El input date envía String "yyyy-MM-dd"
+			@RequestParam String deliveryNote,
+			HttpServletRequest request) {
+
+		// get the user
+		String email = request.getUserPrincipal().getName();
+		User user = userService.findByEmail(email).orElseThrow();
+
+		// process shopping
+		orderService.processOrder(id, user.getId(), deliveryAddress, deliveryDate, deliveryNote);
+
+    	return "redirect:/myorders";
 	}
 }
