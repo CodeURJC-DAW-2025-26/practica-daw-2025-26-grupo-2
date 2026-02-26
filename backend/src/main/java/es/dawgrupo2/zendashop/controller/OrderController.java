@@ -158,8 +158,9 @@ public class OrderController {
 		if (cart != null) {
 			cart.removeOrderItem(opOrderItem.get());
 			if (cart.getOrderItems().isEmpty()) {
-				orderService.delete(cart.getId());
 				user.setCart(null);
+				userService.save(user);
+				orderService.delete(cart.getId());
 			}
 			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order
 													// item is deleted
