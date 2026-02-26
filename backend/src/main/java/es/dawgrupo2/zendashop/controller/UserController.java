@@ -87,13 +87,20 @@ public class UserController {
 	}
 
     @GetMapping("/user/{id}/edit")
-    public String editUser(Model model, @PathVariable Long id) {
+    public String editUser(Model model, @PathVariable Long id, HttpServletRequest request) {
 
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
-            User user = op.get();
-            model.addAttribute("user", user);
+            User userToEdit = op.get();
+            String loggedInEmail = request.getUserPrincipal().getName();
+            boolean isAdmin = request.isUserInRole("ADMIN");
+
+            if (!isAdmin && !userToEdit.getEmail().equals(loggedInEmail)) {
+                return "redirect:/"; 
+            }
+
+            model.addAttribute("user", userToEdit);
             return "register";
         } else {
             model.addAttribute("element", "Usuario");
@@ -103,18 +110,22 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/edit")
-    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar) {
+    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar, HttpServletRequest request) {
 
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
-
             User originalUser = op.get();
+            String loggedInEmail = request.getUserPrincipal().getName();
+            boolean isAdmin = request.isUserInRole("ADMIN");
+
+            if (!isAdmin && !originalUser.getEmail().equals(loggedInEmail)) {
+                return "redirect:/";
+            }
 
             originalUser.setName(editedUser.getName());
             originalUser.setSurname(editedUser.getSurname());
             originalUser.setEmail(editedUser.getEmail());
-            originalUser.setId(id);
 
             try {
                 userService.save(originalUser, imageAvatar);
@@ -127,7 +138,6 @@ public class UserController {
             model.addAttribute("masculine", true);
             return "not_found";
         }
-
     }
 
     @GetMapping("user/{id}/avatar")

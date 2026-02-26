@@ -22,24 +22,26 @@
     <div class="container container-main-offers">
       <div class="d-flex align-items-center justify-content-center mb-5 container-offers-title">
         <hr class="flex-grow-1 d-none d-sm-block border-2">
-        <h2 class="text-center mx-4 fw-bold mb-0 text-uppercase">Ofertas para ti</h2>
+        <h2 class="text-center mx-4 fw-bold mb-0 text-uppercase">Recomendaciones para ti</h2>
         <hr class="flex-grow-1 d-none d-sm-block border-2">
       </div>
       <div class="row" id="offers-list">
         {{#offers}}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-          <div class="position-relative">
-            <div class="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 fw-bold m-2 rounded-1 shadow-sm"
-              style="z-index: 1;">
-              -{{discount}}%
-            </div>
-            <a href="show_garment_offer.html">
-              <img src="../demo/bolso_marron.webp" class="img-fluid">
-            </a>
-          </div>
+          <a href="/garment/{{id}}">
+            <img src="/garment/{{id}}/image" class="img-fluid">
+          </a>
           <h4>{{name}}</h4>
-          <h5><del class="text-muted">{{price}}€</del> <span class="fw-bold">{{finalPrice}}€</span></h5>
+          <h5>{{price}}€</h5>
         </div>
+        {{/offers}}
+
+        {{^offers}}
+          <div class="col-12 d-flex justify-content-center">
+            <p class="text-muted fs-5 text-center my-5">
+            Te mantendremos informado con próximas novedades
+            </p>
+          </div>
         {{/offers}}
       </div>
     </div>

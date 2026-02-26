@@ -59,6 +59,9 @@ public class DatabaseInitializer {
 		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros",
 				"Talla 32, color azul");
 
+		Garment garment3 = new Garment("Pantalones de pinzas", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones de pinzas",
+				"Talla 32, color azul");
+
 		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
 		InputStream inputStream = image.getInputStream();
 
@@ -80,6 +83,8 @@ public class DatabaseInitializer {
 				StreamUtils.copyToByteArray(inputStream));
 
 		garmentService.save(garment2, multipartFile);
+
+		garmentService.save(garment3, multipartFile);
 
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
