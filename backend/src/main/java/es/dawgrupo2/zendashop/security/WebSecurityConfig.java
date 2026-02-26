@@ -1,7 +1,6 @@
 package es.dawgrupo2.zendashop.security;
 
 import org.springframework.context.annotation.Bean;
-import es.dawgrupo2.zendashop.controller.ErrorPageController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
