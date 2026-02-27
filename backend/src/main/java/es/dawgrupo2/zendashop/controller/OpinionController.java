@@ -51,13 +51,14 @@ public class OpinionController {
 	@PostMapping("/garment/{garmentId}/opinion/new")
 	public String newOpinion(Model model, 
 		//Principal principal, 
-		@PathVariable long garmentId, Opinion opinion) {
+		@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(garmentId);
 		if (op.isPresent()) {
 			Garment garment = op.get();
 			garment.addOpinion(opinion);
 			//String userEmail = principal.getName();
-			String userEmail = "juan@example.com";
+			//String userEmail = "juan@example.com";
+			String userEmail = request.getUserPrincipal().getName();
 			userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
 			opinionService.save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
 			return "redirect:/garment/" + garmentId + "#opinionForm";
