@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 
 import es.dawgrupo2.zendashop.model.User;
 
@@ -62,7 +63,9 @@ public class UserController {
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
-            model.addAttribute("user", op.get());
+            User user = op.get();
+            model.addAttribute("user", user);
+            model.addAttribute("hasAvatar", user.getAvatar()!=null);
             return "user_profile";
         } else {
             model.addAttribute("element", "Usuario");
@@ -78,7 +81,9 @@ public class UserController {
         Optional<User> op = userService.findByEmail(principal.getName());
         
         if (op.isPresent()){
-            model.addAttribute("user", op.get());
+            User user = op.get();
+            model.addAttribute("user", user);
+            model.addAttribute("hasAvatar", user.getAvatar()!=null);
         } else {
             return "redirect:/login";
         }
@@ -158,10 +163,10 @@ public class UserController {
 
         if (op.isPresent() && op.get().getAvatar() != null) {
             Blob AvatarImage = op.get().getAvatar();
-            InputStreamResource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
+            Resource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
-                    .getMediaType("avatar.jpg")
+                    .getMediaType(AvatarFile)
                     .orElse(MediaType.APPLICATION_OCTET_STREAM);
 
             return ResponseEntity.ok()

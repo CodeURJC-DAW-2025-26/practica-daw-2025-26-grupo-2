@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**")
+                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
