@@ -2,8 +2,13 @@ package es.dawgrupo2.zendashop.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +84,152 @@ public class OrderService {
 
 	public Double sumIncomeByYear(int year){
 		return repository.sumIncomeByYear(year);
+	}
+
+	public List<String> getDailyLabelsLastDays(int days) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+		List<String> labels = new ArrayList<>();
+		for (int offset = days - 1; offset >= 0; offset--) {
+			labels.add(LocalDate.now().minusDays(offset).format(formatter));
+		}
+		return labels;
+	}
+
+	public List<Double> getDailyIncomeLastDays(int days) {
+		Map<LocalDate, Double> incomeByDay = new LinkedHashMap<>();
+		for (int offset = days - 1; offset >= 0; offset--) {
+			incomeByDay.put(LocalDate.now().minusDays(offset), 0.0);
+		}
+
+		LocalDate firstDay = LocalDate.now().minusDays(days - 1);
+		LocalDateTime start = firstDay.atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			LocalDate day = order.getCreationDate().toLocalDate();
+			double current = incomeByDay.getOrDefault(day, 0.0);
+			double orderTotal = order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0;
+			incomeByDay.put(day, current + orderTotal);
+		}
+
+		return new ArrayList<>(incomeByDay.values());
+	}
+
+	public List<Long> getDailyOrdersLastDays(int days) {
+		Map<LocalDate, Long> ordersByDay = new LinkedHashMap<>();
+		for (int offset = days - 1; offset >= 0; offset--) {
+			ordersByDay.put(LocalDate.now().minusDays(offset), 0L);
+		}
+
+		LocalDate firstDay = LocalDate.now().minusDays(days - 1);
+		LocalDateTime start = firstDay.atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			LocalDate day = order.getCreationDate().toLocalDate();
+			ordersByDay.put(day, ordersByDay.getOrDefault(day, 0L) + 1);
+		}
+
+		return new ArrayList<>(ordersByDay.values());
+	}
+
+	public List<String> getMonthlyLabelsLastMonths(int months) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy", new Locale("es", "ES"));
+		List<String> labels = new ArrayList<>();
+		for (int offset = months - 1; offset >= 0; offset--) {
+			labels.add(YearMonth.now().minusMonths(offset).format(formatter));
+		}
+		return labels;
+	}
+
+	public List<Double> getMonthlyIncomeLastMonths(int months) {
+		Map<YearMonth, Double> incomeByMonth = new LinkedHashMap<>();
+		for (int offset = months - 1; offset >= 0; offset--) {
+			incomeByMonth.put(YearMonth.now().minusMonths(offset), 0.0);
+		}
+
+		YearMonth firstMonth = YearMonth.now().minusMonths(months - 1);
+		LocalDateTime start = firstMonth.atDay(1).atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			YearMonth month = YearMonth.from(order.getCreationDate());
+			double current = incomeByMonth.getOrDefault(month, 0.0);
+			double orderTotal = order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0;
+			incomeByMonth.put(month, current + orderTotal);
+		}
+
+		return new ArrayList<>(incomeByMonth.values());
+	}
+
+	public List<Long> getMonthlyOrdersLastMonths(int months) {
+		Map<YearMonth, Long> ordersByMonth = new LinkedHashMap<>();
+		for (int offset = months - 1; offset >= 0; offset--) {
+			ordersByMonth.put(YearMonth.now().minusMonths(offset), 0L);
+		}
+
+		YearMonth firstMonth = YearMonth.now().minusMonths(months - 1);
+		LocalDateTime start = firstMonth.atDay(1).atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			YearMonth month = YearMonth.from(order.getCreationDate());
+			ordersByMonth.put(month, ordersByMonth.getOrDefault(month, 0L) + 1);
+		}
+
+		return new ArrayList<>(ordersByMonth.values());
+	}
+
+	public List<String> getYearlyLabelsLastYears(int years) {
+		List<String> labels = new ArrayList<>();
+		for (int offset = years - 1; offset >= 0; offset--) {
+			labels.add(String.valueOf(LocalDate.now().minusYears(offset).getYear()));
+		}
+		return labels;
+	}
+
+	public List<Double> getYearlyIncomeLastYears(int years) {
+		Map<Integer, Double> incomeByYear = new LinkedHashMap<>();
+		for (int offset = years - 1; offset >= 0; offset--) {
+			incomeByYear.put(LocalDate.now().minusYears(offset).getYear(), 0.0);
+		}
+
+		int firstYear = LocalDate.now().minusYears(years - 1).getYear();
+		LocalDateTime start = LocalDate.of(firstYear, 1, 1).atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			int year = order.getCreationDate().getYear();
+			double current = incomeByYear.getOrDefault(year, 0.0);
+			double orderTotal = order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0;
+			incomeByYear.put(year, current + orderTotal);
+		}
+
+		return new ArrayList<>(incomeByYear.values());
+	}
+
+	public List<Long> getYearlyOrdersLastYears(int years) {
+		Map<Integer, Long> ordersByYear = new LinkedHashMap<>();
+		for (int offset = years - 1; offset >= 0; offset--) {
+			ordersByYear.put(LocalDate.now().minusYears(offset).getYear(), 0L);
+		}
+
+		int firstYear = LocalDate.now().minusYears(years - 1).getYear();
+		LocalDateTime start = LocalDate.of(firstYear, 1, 1).atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetween(start, end);
+
+		for (Order order : orders) {
+			int year = order.getCreationDate().getYear();
+			ordersByYear.put(year, ordersByYear.getOrDefault(year, 0L) + 1);
+		}
+
+		return new ArrayList<>(ordersByYear.values());
 	}
 
 	@Transactional

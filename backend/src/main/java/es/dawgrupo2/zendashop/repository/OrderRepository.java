@@ -16,6 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserIdAndCompletedTrue(Long userId);
     List<Order> findByCompletedTrue();
+    List<Order> findByCompletedTrueAndCreationDateBetween(LocalDateTime start, LocalDateTime end);
 
     List<Order> findDistinctByCompletedFalseAndOrderItems_Garment_Id(Long garmentId);
 
