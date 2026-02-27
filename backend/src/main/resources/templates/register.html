@@ -20,22 +20,28 @@
         <div class="col-12 col-sm-11 col-md-9 col-lg-8">
           <section class="login-card">
             <div class="login-header">
+              {{#error}}
+                <div class="alert alert-danger">{{error}}</div>
+              {{/error}}
               <h1 class="login-title">
-                {{#user}}Editar perfil{{/user}}
-                {{^user}}Crear cuenta{{/user}}
+                {{^isNew}}Editar perfil{{/isNew}}
+                {{#isNew}}Crear cuenta{{/isNew}}
               </h1>
             </div>
 
-            <form action="{{#user}}/user/{{id}}/edit{{/user}}{{^user}}/register{{/user}}" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="_csrf" value="{{token}}">
+            <form action="{{^isNew}}/user/{{user.id}}/edit{{/isNew}}{{#isNew}}/register{{/isNew}}" method="post" enctype="multipart/form-data">
               
               <div class="text-center mb-3">
+                {{^isNew}}
                 {{#user.hasAvatar}}
                   <img src="/user/{{user.id}}/avatar" alt="Tu Avatar" class="rounded-circle mb-2" width="96" height="96" style="object-fit: cover;">
                 {{/user.hasAvatar}}
+                {{/isNew}}
+                {{#isNew}}
                 {{^user.hasAvatar}}
                   <img src="/avatar_default.png" alt="Avatar por defecto" class="rounded-circle mb-2" width="96" height="96">
                 {{/user.hasAvatar}}
+                {{/isNew}}
 
                 <div class="mb-2">
                   <label for="avatar" class="form-label d-block">Imagen de perfil</label>
@@ -47,7 +53,7 @@
                 <label for="name" class="form-label">Nombre</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-person"></i></span>
-                  <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{#user}}{{name}}{{/user}}" required>
+                  <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{^isNew}}{{user.name}}{{/isNew}}" required>
                 </div>
               </div>
 
@@ -55,7 +61,7 @@
                 <label for="surname" class="form-label">Apellidos</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-person-lines-fill"></i></span>
-                  <input type="text" id="surname" name="surname" class="form-control" placeholder="Tus apellidos" value="{{#user}}{{surname}}{{/user}}" required>
+                  <input type="text" id="surname" name="surname" class="form-control" placeholder="Tus apellidos" value="{{^isNew}}{{user.surname}}{{/isNew}}" required>
                 </div>
               </div>
 
@@ -63,17 +69,17 @@
                 <label for="email" class="form-label">Email</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-envelope"></i></span>
-                  <input type="email" id="email" name="email" class="form-control" placeholder="tuemail@ejemplo.com" value="{{#user}}{{email}}{{/user}}" required>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="tuemail@ejemplo.com" value="{{^isNew}}{{user.email}}{{/isNew}}" required>
                 </div>
               </div>
 
               <div class="mb-3">
                 <label for="password" class="form-label">
-                  Contraseña {{#user}}<small class="text-muted">(Déjalo en blanco para no cambiarla)</small>{{/user}}
+                  Contraseña {{^isNew}}<small class="text-muted">(Déjalo en blanco para no cambiarla)</small>{{/isNew}}
                 </label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-lock"></i></span>
-                  <input type="password" id="password" name="encodedPassword" class="form-control" placeholder="••••••••" {{^user}}required{{/user}}>
+                  <input type="password" id="password" name="encodedPassword" class="form-control" placeholder="••••••••" {{#isNew}}required{{/isNew}}>
                 </div>
               </div>
 
@@ -81,18 +87,19 @@
                 <label for="adress" class="form-label">Dirección</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-geo-alt"></i></span>
-                  <input type="text" id="adress" name="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000" value="{{#user}}{{adress}}{{/user}}">
+                  <input type="text" id="adress" name="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000" value="{{^isNew}}{{user.adress}}{{/isNew}}">
                 </div>
               </div>
 
               <div class="d-grid mt-4">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
                 <button type="submit" class="btn btn-primary btn-lg">
-                  {{#user}}Guardar cambios{{/user}}
-                  {{^user}}Crear cuenta{{/user}}
+                  {{^isNew}}Guardar cambios{{/isNew}}
+                  {{#isNew}}Crear cuenta{{/isNew}}
                 </button>
               </div>
 
-              {{^user}}
+              {{#isNew}}
               <div class="login-divider">
                 <span>o</span>
               </div>
@@ -104,7 +111,7 @@
               <p class="login-footer mt-3">
                 ¿Ya tienes cuenta? <a href="/login" class="login-link">Iniciar sesión</a>
               </p>
-              {{/user}}
+              {{/isNew}}
 
             </form>
           </section>

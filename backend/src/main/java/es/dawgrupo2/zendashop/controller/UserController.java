@@ -23,6 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.core.io.InputStreamResource;
 
 import es.dawgrupo2.zendashop.model.User;
@@ -38,6 +40,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -114,6 +119,8 @@ public class UserController {
 
         Optional<User> op = userService.findById(id);
 
+        String newPassword = editedUser.getEncodedPassword();
+
         if (op.isPresent()) {
             User originalUser = op.get();
             String loggedInEmail = request.getUserPrincipal().getName();
@@ -126,6 +133,10 @@ public class UserController {
             originalUser.setName(editedUser.getName());
             originalUser.setSurname(editedUser.getSurname());
             originalUser.setEmail(editedUser.getEmail());
+    
+            if (newPassword != null && !newPassword.isBlank()) {
+                originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
+            }
 
             try {
                 userService.save(originalUser, imageAvatar);
