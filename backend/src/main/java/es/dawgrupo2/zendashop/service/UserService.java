@@ -45,7 +45,7 @@ public class UserService {
 	}
 
     public void save(User user) {
-        repository.save(user);
+        repository.saveAndFlush(user);
     }
 
 	public void save(User user, MultipartFile imageFile) throws IOException{

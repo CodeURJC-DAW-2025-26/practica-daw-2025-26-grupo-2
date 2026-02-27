@@ -36,11 +36,11 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**")
+                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**", "/order/*/process").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice.pdf", "/garment/*/opinion/**", "/myorders/**", "/order/*/process").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete").hasRole("ADMIN")

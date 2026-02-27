@@ -23,7 +23,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 
 import es.dawgrupo2.zendashop.model.User;
@@ -37,6 +40,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -56,7 +62,9 @@ public class UserController {
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
-            model.addAttribute("user", op.get());
+            User user = op.get();
+            model.addAttribute("user", user);
+            model.addAttribute("hasAvatar", user.getHasAvatar());
             return "user_profile";
         } else {
             model.addAttribute("element", "Usuario");
@@ -72,7 +80,9 @@ public class UserController {
         Optional<User> op = userService.findByEmail(principal.getName());
         
         if (op.isPresent()){
-            model.addAttribute("user", op.get());
+            User user = op.get();
+            model.addAttribute("user", user);
+            model.addAttribute("hasAvatar", user.getHasAvatar());
         } else {
             return "redirect:/login";
         }
@@ -113,6 +123,8 @@ public class UserController {
 
         Optional<User> op = userService.findById(id);
 
+        String newPassword = editedUser.getEncodedPassword();
+
         if (op.isPresent()) {
             User originalUser = op.get();
             String loggedInEmail = request.getUserPrincipal().getName();
@@ -125,6 +137,10 @@ public class UserController {
             originalUser.setName(editedUser.getName());
             originalUser.setSurname(editedUser.getSurname());
             originalUser.setEmail(editedUser.getEmail());
+    
+            if (newPassword != null && !newPassword.isBlank()) {
+                originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
+            }
 
             try {
                 userService.save(originalUser, imageAvatar);
@@ -146,10 +162,10 @@ public class UserController {
 
         if (op.isPresent() && op.get().getAvatar() != null) {
             Blob AvatarImage = op.get().getAvatar();
-            InputStreamResource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
+            Resource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
-                    .getMediaType("avatar.jpg")
+                    .getMediaType(AvatarFile)
                     .orElse(MediaType.APPLICATION_OCTET_STREAM);
 
             return ResponseEntity.ok()

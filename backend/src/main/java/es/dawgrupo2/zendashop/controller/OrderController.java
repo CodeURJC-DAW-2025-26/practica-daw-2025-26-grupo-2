@@ -80,6 +80,7 @@ public class OrderController {
 			}
 			model.addAttribute("order", order);
 			model.addAttribute("status", status);
+			model.addAttribute("backLink", "/orders");
 			return "order_detail";
 		} else {
 			model.addAttribute("element", "Pedido");
@@ -113,6 +114,7 @@ public class OrderController {
 			// Calculamos el estado para el badge
 			String status = o.getCompleted() ? "Completado" : "Pendiente de pago/envío";
 			model.addAttribute("status", status);
+			model.addAttribute("backLink", "/myorders");
 
 			return "order_detail";
 		}
@@ -169,7 +171,7 @@ public class OrderController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/orders/{id}/invoice")
+	@GetMapping("/orders/{id}/invoice.pdf")
 	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) {
 		Order order = orderService.findById(id).orElseThrow();
 		// TODO: Add security check to ensure only the user who made the order or an
