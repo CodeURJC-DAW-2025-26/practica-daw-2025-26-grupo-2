@@ -32,7 +32,7 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Administrador</th>
+                        <th>Rol</th>
                         <th class="d-none d-md-table-cell">Fecha de alta</th>
                         <th class="d-none d-md-table-cell">Nº pedidos</th>
                         <th class="d-none d-lg-table-cell">Último pedido</th>
@@ -47,7 +47,7 @@
                         <td>{{id}}</td>
                         <td>{{name}}</td>
                         <td>{{email}}</td>
-                        <td>{{admin}}</td>
+                        <td>{{#admin}}Admin{{/admin}}{{^admin}}Usuario{{/admin}}</td>
                         <td class="d-none d-md-table-cell">{{creationDate}}</td>
                         <td class="d-none d-md-table-cell">{{orderCount}}</td>
                         <td class="d-none d-lg-table-cell">{{lastOrderDate}}</td>
@@ -56,12 +56,18 @@
                             <a class="btn btn-info btn-sm" href="/user/{{id}}">
                                 Ver <i class="bi bi-eye"></i>
                             </a>
-                            <a class="btn btn-warning btn-sm" href="/user/{{id}}/edit">
-                                Editar <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#">
-                                Borrar <i class="bi bi-x-lg"></i>
-                            </a>
+                            <form method="post" action="/user/{{id}}/edit">
+                                <button class="btn btn-warning btn-sm" type="submit">
+                                    Editar <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                            </form>
+                            <form method="post" action="/user/{{id}}/delete">
+                                <button class="btn btn-danger btn-sm" type="submit">
+                                    Borrar <i class="bi bi-x-lg"></i>
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                            </form>
                         </td>
                     </tr>
                     {{/users}}

@@ -24,14 +24,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Pageable;
 
 import es.dawgrupo2.zendashop.model.User;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
@@ -81,8 +80,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-	public String showUsers(Model model) {
-		model.addAttribute("users", userService.findAll());
+	public String showUsers(Model model, Pageable pageable) {
+		model.addAttribute("users", userService.findByDisabledFalse(pageable));
 		return "all_users";
 	}
 
@@ -163,19 +162,28 @@ public class UserController {
     }
 
     @PostMapping("user/{id}/delete")
-    public String deleteUser(Model model, @PathVariable Long id) {
-        
+    public String deleteUser(Model model, @PathVariable Long id, HttpServletRequest request) { 
+        User userSession = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
+        if (!request.isUserInRole("ADMIN") && !userSession.getId().equals(id)) {
+            model.addAttribute("message", "No tienes permiso para eliminar este usuario");
+            model.addAttribute("backLink", "/");
+            return "error";
+        }
         Optional<User> op = userService.findById(id);
-
         if (op.isPresent()) {
-            User user = op.get();
-            userService.save(user);
+            userService.disableUser(id);
+            if (userSession.getId().equals(id)){
+                try {
+                    request.logout();
+                } catch (Exception e) {
+                    throw new RuntimeException("Error al cerrar sesión después de eliminar el usuario", e);
+                }
+            }
             return "redirect:/";
         } else {
-            model.addAttribute("element", "Usuario");
-            model.addAttribute("masculine", true);
-            return "not_found";
+            model.addAttribute("message", "Usuario no encontrado");
+            model.addAttribute("backLink", "/");
+            return "error";
         }
     }
-
 }

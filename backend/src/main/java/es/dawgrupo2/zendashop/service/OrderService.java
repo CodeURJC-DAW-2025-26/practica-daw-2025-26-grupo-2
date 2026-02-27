@@ -13,6 +13,7 @@ import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.repository.OrderRepository;
+import es.dawgrupo2.zendashop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -22,7 +23,7 @@ public class OrderService {
 	private OrderRepository repository;
 
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
 	private OrderItemService orderItemService;
@@ -83,6 +84,9 @@ public class OrderService {
 	}
 
 	public void deleteCart(Order cart) {
+		if (cart == null) {
+			return;
+		}
 		for (OrderItem item : cart.getOrderItems()) {
 			orderItemService.delete(item.getId());
 		}
@@ -90,7 +94,7 @@ public class OrderService {
 		if (user != null) {
 			user.setCart(null);
 			cart.setUser(null);
-			userService.save(user);
+			userRepository.save(user);
 		}
 		repository.delete(cart);
 	}
@@ -99,7 +103,7 @@ public class OrderService {
 	public void processOrder(Long orderId, Long userId, String address, String dateStr, String note) {
 		// get the order
 		Order order = repository.findById(orderId).orElseThrow();
-		User user = userService.findById(userId).orElseThrow();
+		User user = userRepository.findById(userId).orElseThrow();
 
 		// just checking the owner
 		if (!order.getUser().getId().equals(userId)) {
@@ -134,6 +138,5 @@ public class OrderService {
 
 		// we change to a new cart
 		user.setCart(null);
-		userService.save(user);
-	}
+		userRepository.save(user);}
 }

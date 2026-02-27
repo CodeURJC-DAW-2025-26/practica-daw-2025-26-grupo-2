@@ -54,6 +54,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
+
+    private boolean disabled;
     
     public User() {
     }
@@ -65,6 +67,7 @@ public class User {
 		this.adress = adress;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
+        this.disabled = false;
 	}
 
     public Long getId() {
@@ -212,4 +215,15 @@ public class User {
                 .orElse(0.0);
     }
 
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public boolean admin(){
+        return this.roles.contains("ADMIN");
+    }
 }
