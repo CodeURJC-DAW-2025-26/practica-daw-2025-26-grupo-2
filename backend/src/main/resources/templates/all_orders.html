@@ -49,12 +49,18 @@
                             <a class="btn btn-info btn-sm" href="/order/{{id}}">
                                 Ver detalle <i class="bi bi-eye"></i>
                             </a>
-                            <button class="btn btn-warning btn-sm">
-                                Editar <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm">
-                                Borrar <i class="bi bi-x-lg"></i>
-                            </button>
+                            <form method="post" action="/order/{{id}}/edit">
+                                <button class="btn btn-warning btn-sm" type="submit">
+                                    Editar <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                            </form>
+                            <form method="post" action="/order/{{id}}/delete">
+                                <button class="btn btn-danger btn-sm" type="submit">
+                                    Borrar <i class="bi bi-x-lg"></i>
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                            </form>
                         </td>
                     </tr>
                     {{/orders}}
