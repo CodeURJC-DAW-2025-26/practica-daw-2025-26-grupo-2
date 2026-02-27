@@ -65,7 +65,7 @@ public class UserController {
         if (op.isPresent()) {
             User user = op.get();
             model.addAttribute("user", user);
-            model.addAttribute("hasAvatar", user.getAvatar()!=null);
+            model.addAttribute("hasAvatar", user.getHasAvatar());
             return "user_profile";
         } else {
             model.addAttribute("element", "Usuario");
@@ -83,7 +83,7 @@ public class UserController {
         if (op.isPresent()){
             User user = op.get();
             model.addAttribute("user", user);
-            model.addAttribute("hasAvatar", user.getAvatar()!=null);
+            model.addAttribute("hasAvatar", user.getHasAvatar());
         } else {
             return "redirect:/login";
         }
