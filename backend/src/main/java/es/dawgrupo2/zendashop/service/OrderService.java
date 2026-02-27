@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,26 @@ public class OrderService {
 
 	public List<Order> findByCompletedFalseAndOrderItems_Garment_Id(long id) {
 		return repository.findDistinctByCompletedFalseAndOrderItems_Garment_Id(id);
+	}
+
+	public Double sumIncomeBetween(LocalDateTime start, LocalDateTime end){
+		return repository.sumIncomeBetween(start, end);
+	}
+
+	public long countOrdersBetween(LocalDateTime start, LocalDateTime end){
+		return repository.countOrdersBetween(start, end);
+	}
+
+	public Double sumIncomeByMonth(int month, int year){
+		return repository.sumIncomeByMonth(month, year);
+	}
+
+	public long countByMonth(int month, int year){
+		return repository.countOrdersByMonth(month, year);
+	}
+
+	public Double sumIncomeByYear(int year){
+		return repository.sumIncomeByYear(year);
 	}
 
 	@Transactional
