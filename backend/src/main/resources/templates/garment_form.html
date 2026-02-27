@@ -115,7 +115,9 @@
                     <a href="{{#garment}}/garment/{{id}}{{/garment}}{{^garment}}/{{/garment}}" class="btn btn-danger text-dark">Cancelar <i class="bi bi-x-lg"></i></a>
                 </div>
                 <br>
-                <input type="hidden" name="id" value="{{#garment}}{{id}}{{/garment}}">
+                {{#garment}}
+                <input type="hidden" name="id" value="{{id}}">
+                {{/garment}}
             </form>
         </div>
     </main>
