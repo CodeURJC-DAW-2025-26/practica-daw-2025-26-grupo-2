@@ -91,6 +91,16 @@
                 </div>
               </div>
 
+              {{#admin}}
+              <div class="mb-3">
+                <label for="adress" class="form-label">Rol</label>
+                  <select name="rol" class="form-select">
+                    <option value="USER" selected>Usuario</option>
+                    <option value="ADMIN">Administrador</option>
+                  </select>
+              </div>
+              {{/admin}}
+
               <div class="d-grid mt-4">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 <button type="submit" class="btn btn-primary btn-lg">

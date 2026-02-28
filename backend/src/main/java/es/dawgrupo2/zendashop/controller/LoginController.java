@@ -41,10 +41,14 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String addUser(Model model, User user, MultipartFile imageAvatar) {
+    public String addUser(Model model, User user, MultipartFile imageAvatar, @RequestParam(required = false) String rol) {
 
         user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-        user.setRoles(List.of("USER"));
+        if (!rol.equals("ADMIN")){
+            user.setRoles(List.of("USER"));
+        } else {
+            user.setRoles(List.of("USER", "ADMIN"));
+        }
 
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             model.addAttribute("error", "El email seleccionado ya pertence a un usuario registrado");
