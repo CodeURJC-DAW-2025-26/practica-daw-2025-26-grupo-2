@@ -59,12 +59,9 @@
                             <a class="btn btn-info btn-sm" href="/user/{{id}}">
                                 Ver <i class="bi bi-eye"></i>
                             </a>
-                            <form method="post" action="/user/{{id}}/edit">
-                                <button class="btn btn-warning btn-sm" type="submit">
-                                    Editar <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <input type="hidden" name="_csrf" value="{{token}}">
-                            </form>
+                            <a class="btn btn-warning btn-sm" href="/user/{{id}}/edit">
+                                Editar <i class="bi bi-pencil-square"></i>
+                            </a>
                             <form method="post" action="/user/{{id}}/delete">
                                 <button class="btn btn-danger btn-sm" type="submit">
                                     Borrar <i class="bi bi-x-lg"></i>
