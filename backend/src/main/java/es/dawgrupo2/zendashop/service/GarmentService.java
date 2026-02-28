@@ -93,4 +93,31 @@ public class GarmentService {
 	public List<Garment> findSmartRecommendations(Long id){
 		return repository.findSmartRecommendations(id);
 	}
+
+	public String validateFields(Garment garment, MultipartFile imageFile) {
+
+		String errorMsg = "";
+		if (garment.getName() == null || garment.getName().isEmpty() || garment.getName().length() < 4 || garment.getName().length() > 100) {
+			errorMsg += "El nombre no puede estar vacío, debe tener entre 4 y 100 caracteres. <br>";
+		}
+		if (garment.getPrice() == null || garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0 || garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
+			errorMsg += "El precio debe ser un número positivo menor o igual a 5000. <br>";
+		}
+		if (garment.getCategory() == null || garment.getCategory().isEmpty() || garment.getCategory().length() < 4 || garment.getCategory().length() > 100) {
+			errorMsg += "La categoría no puede estar vacía y debe tener entre 4 y 100 caracteres. <br>";
+		}
+		if (garment.getDescription() == null || garment.getDescription().isEmpty() || garment.getDescription().length() < 3 || garment.getDescription().length() > 200) {
+			errorMsg += "La descripción no puede estar vacía y debe tener entre 3 y 200 caracteres. <br>";
+		}
+
+		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3 || garment.getFeatures().length() > 300) {
+			errorMsg += "Las características no pueden estar vacías y deben tener entre 3 y 300 caracteres. <br>";
+		}
+		if (imageFile == null || imageFile.isEmpty()) {
+			errorMsg += "La imagen no puede estar vacía. <br>";
+		} else if (!imageFile.getContentType().startsWith("image")) {
+			errorMsg += "El archivo debe ser una imagen de tipo JPG, JPEG o PNG. <br>";
+		}
+		return errorMsg;
+	}
 }

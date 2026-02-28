@@ -40,39 +40,20 @@ public class GarmentController {
 	@Autowired
 	private UserService userService;
 
-	@ModelAttribute
-	public void addAttributes(Model model, HttpServletRequest request) {
-
-		Principal principal = request.getUserPrincipal();
-
-		if (principal != null) {
-
-		String userEmail = principal.getName();
-		User user = userService.findByEmail(userEmail).orElseThrow();
-    	Long userID = user.getId();
-
-		model.addAttribute("logged", true);
-		model.addAttribute("userID", userID);
-		model.addAttribute("admin", request.isUserInRole("ADMIN"));
-
-		} else {
-		model.addAttribute("logged", false);
-		model.addAttribute("userID", null);
-		}
-	}
-
 	@GetMapping("/")
 	public String showGarments(@RequestParam(required = false) String nameSearch,
 			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
-			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page, @ModelAttribute("userID") Long userID) {
+			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page, HttpServletRequest request) {
 
-		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, page));
-		if (userID != null) {
-        model.addAttribute("offers", garmentService.findSmartRecommendations(userID));
-    }
+		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
+				minPrice, maxPrice, page));
+		if (request.getUserPrincipal() != null) {
+			String userEmail = request.getUserPrincipal().getName();
+			userService.findByEmail(userEmail).ifPresent(user -> model.addAttribute("offers", garmentService.findSmartRecommendations(user.getId())));
+		}
 
 		return "index";
-		}
+	}
 
 	@GetMapping("/garment/{id}")
 	public String showGarment(Model model, @PathVariable long id) {
@@ -94,18 +75,37 @@ public class GarmentController {
 	public String showGarmentForm(Model model) {
 		return "garment_form";
 	}
+	/*
+	 * @PostMapping("/garment/new")
+	 * public String newGarment(Model model, Garment garment, MultipartFile
+	 * imageFile) {
+	 * 
+	 * if (!imageFile.isEmpty()) {
+	 * try {
+	 * garmentService.save(garment, imageFile);
+	 * } catch (IOException e) {
+	 * throw new RuntimeException("Error al guardar la imagen", e);
+	 * }
+	 * }
+	 * 
+	 * return "redirect:/garment/" + garment.getId();
+	 * }
+	 */
 
 	@PostMapping("/garment/new")
 	public String newGarment(Model model, Garment garment, MultipartFile imageFile) {
 
-		if (!imageFile.isEmpty()) {
-			try {
-				garmentService.save(garment, imageFile);
-			} catch (IOException e) {
-				throw new RuntimeException("Error al guardar la imagen", e);
-			}
+		String errorMsg = garmentService.validateFields(garment, imageFile);
+		if (!errorMsg.isEmpty()) {
+			model.addAttribute("message", errorMsg);
+			model.addAttribute("backLink", "/garment/new");
+			return "customError";
 		}
-
+		try {
+			garmentService.save(garment, imageFile);
+		} catch (IOException e) {
+			throw new RuntimeException("Error al guardar la imagen", e);
+		}
 		return "redirect:/garment/" + garment.getId();
 	}
 
