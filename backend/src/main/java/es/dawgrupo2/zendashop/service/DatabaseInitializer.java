@@ -46,12 +46,72 @@ public class DatabaseInitializer {
 
 		String encodedPass1 = passwordEncoder.encode("password123");
 		String encodedPass2 = passwordEncoder.encode("password456");
+		String encodedPass3 = passwordEncoder.encode("password789");
+		String encodedPass4 = passwordEncoder.encode("password101");
+		String encodedPass5 = passwordEncoder.encode("password102");
+		String encodedPass6 = passwordEncoder.encode("password103");
+		String encodedPass7 = passwordEncoder.encode("password104");
+		String encodedPass8 = passwordEncoder.encode("password105");
+		String encodedPass9 = passwordEncoder.encode("password106");
+		String encodedPass10 = passwordEncoder.encode("password107");
+		String encodedPass11 = passwordEncoder.encode("password108");
+		String encodedPass12 = passwordEncoder.encode("password109");
+		String encodedPass13 = passwordEncoder.encode("password110");
+		String encodedPass14 = passwordEncoder.encode("password111");
+		String encodedPass15 = passwordEncoder.encode("password112");
+		String encodedPass16 = passwordEncoder.encode("password113");
+		String encodedPass17 = passwordEncoder.encode("password114");
 
 		User user1 = new User("Juan", "González", "juan@example.com", "Avenida Rey Juan", encodedPass1, "USER");
 		userService.save(user1);
 
 		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I",	 encodedPass2, "ADMIN");
 		userService.save(user2);
+
+		User user3 = new User("Carlos", "López", "carlos@example.com", "Calle Mayor 1", encodedPass3, "USER");
+		userService.save(user3);
+
+		User user4 = new User("Ana", "Ruiz", "ana@example.com", "Calle Mayor 2", encodedPass4, "USER");
+		userService.save(user4);
+
+		User user5 = new User("Pedro", "Sánchez", "pedro@example.com", "Calle Mayor 3", encodedPass5, "USER");
+		userService.save(user5);
+
+		User user6 = new User("Lucía", "Fernández", "lucia@example.com", "Calle Mayor 4", encodedPass6, "USER");
+		userService.save(user6);
+
+		User user7 = new User("Javier", "Torres", "javier@example.com", "Calle Mayor 5", encodedPass7, "USER");
+		userService.save(user7);
+
+		User user8 = new User("Elena", "Romero", "elena@example.com", "Calle Mayor 6", encodedPass8, "USER");
+		userService.save(user8);
+
+		User user9 = new User("Miguel", "Navarro", "miguel@example.com", "Calle Mayor 7", encodedPass9, "USER");
+		userService.save(user9);
+
+		User user10 = new User("Laura", "Domínguez", "laura@example.com", "Calle Mayor 8", encodedPass10, "USER");
+		userService.save(user10);
+
+		User user11 = new User("Sergio", "Vázquez", "sergio@example.com", "Calle Mayor 9", encodedPass11, "USER");
+		userService.save(user11);
+
+		User user12 = new User("Paula", "Ortega", "paula@example.com", "Calle Mayor 10", encodedPass12, "ADMIN");
+		userService.save(user12);
+
+		User user13 = new User("Raúl", "Castro", "raul@example.com", "Calle Mayor 11", encodedPass13, "USER");
+		userService.save(user13);
+
+		User user14 = new User("Carmen", "Molina", "carmen@example.com", "Calle Mayor 12", encodedPass14, "USER");
+		userService.save(user14);
+
+		User user15 = new User("David", "Delgado", "david@example.com", "Calle Mayor 13", encodedPass15, "USER");
+		userService.save(user15);
+
+		User user16 = new User("Marta", "Gil", "marta@example.com", "Calle Mayor 14", encodedPass16, "USER");
+		userService.save(user16);
+
+		User user17 = new User("Álvaro", "Herrera", "alvaro@example.com", "Calle Mayor 15", encodedPass17, "ADMIN");
+		userService.save(user17);
 
 		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",
 				"Talla M, color blanco");
@@ -111,6 +171,7 @@ public class DatabaseInitializer {
 
 		garmentService.save(garment2, multipartFile);
 		garmentService.save(garment3, multipartFile);
+
 		image = new ClassPathResource("sample_images/jersey.jpg");
 		inputStream = image.getInputStream();
 
@@ -162,11 +223,107 @@ public class DatabaseInitializer {
 		order4.addOrderItem(new OrderItem(10, "L", garment2));
 		orderService.save(order4);
 
+		Order order5 = new Order(true, "C/ Mayor 2", LocalDate.now(), "Entrega estándar");
+		user3.addOrder(order5);
+		order5.addOrderItem(new OrderItem(1, "M", garment4));
+		orderService.save(order5);
+
+		Order order6 = new Order(false, "Av. Andalucía 15", LocalDate.now(), "Pago pendiente");
+		user4.addOrder(order6);
+		order6.addOrderItem(new OrderItem(2, "L", garment5));
+		orderService.save(order6);
+
+		Order order7 = new Order(true, "C/ Sol 8", LocalDate.now(), "Entrega en horario laboral");
+		user5.addOrder(order7);
+		order7.addOrderItem(new OrderItem(1, "M", garment6));
+		orderService.save(order7);
+
+		Order order8 = new Order(true, "C/ Luna 3", LocalDate.now(), "Sin observaciones");
+		user6.addOrder(order8);
+		order8.addOrderItem(new OrderItem(1, "L", garment7));
+		orderService.save(order8);
+
+		Order order9 = new Order(false, "C/ Norte 10", LocalDate.now(), "Pendiente confirmación");
+		user7.addOrder(order9);
+		order9.addOrderItem(new OrderItem(3, "M", garment8));
+		orderService.save(order9);
+
+		Order order10 = new Order(true, "C/ Sur 22", LocalDate.now(), "Regalo");
+		user8.addOrder(order10);
+		order10.addOrderItem(new OrderItem(1, "S", garment9));
+		orderService.save(order10);
+
+		Order order11 = new Order(true, "C/ Este 5", LocalDate.now(), "Entrega rápida");
+		user9.addOrder(order11);
+		order11.addOrderItem(new OrderItem(2, "M", garment10));
+		orderService.save(order11);
+
+		Order order12 = new Order(false, "C/ Oeste 14", LocalDate.now(), "Pago contra reembolso");
+		user10.addOrder(order12);
+		order12.addOrderItem(new OrderItem(1, "L", garment11));
+		orderService.save(order12);
+
+		Order order13 = new Order(true, "Av. Libertad 7", LocalDate.now(), "Cliente frecuente");
+		user11.addOrder(order13);
+		order13.addOrderItem(new OrderItem(1, "M", garment12));
+		orderService.save(order13);
+
+		Order order14 = new Order(true, "C/ Jardín 4", LocalDate.now(), "Entrega antes del viernes");
+		user12.addOrder(order14);
+		order14.addOrderItem(new OrderItem(1, "40", garment3));
+		orderService.save(order14);
+
+		Order order15 = new Order(false, "C/ Río 9", LocalDate.now(), "Pendiente stock");
+		user13.addOrder(order15);
+		order15.addOrderItem(new OrderItem(2, "S", garment1));
+		orderService.save(order15);
+
+		Order order16 = new Order(true, "C/ Montaña 6", LocalDate.now(), "Urgente");
+		user14.addOrder(order16);
+		order16.addOrderItem(new OrderItem(1, "M", garment5));
+		orderService.save(order16);
+
+		Order order17 = new Order(true, "C/ Playa 12", LocalDate.now(), "Entrega en oficina");
+		user15.addOrder(order17);
+		order17.addOrderItem(new OrderItem(1, "L", garment6));
+		orderService.save(order17);
+
+		Order order18 = new Order(false, "C/ Bosque 18", LocalDate.now(), "Pago pendiente");
+		user16.addOrder(order18);
+		order18.addOrderItem(new OrderItem(3, "M", garment7));
+		orderService.save(order18);
+
+		Order order19 = new Order(true, "C/ Centro 1", LocalDate.now(), "Entrega 24h");
+		user17.addOrder(order19);
+		order19.addOrderItem(new OrderItem(1, "42", garment8));
+		orderService.save(order19);
+
 
 		// Update creation dates to have orders in different periods for statistics testing
 		orderService.forceCreationDate(order1.getId(), LocalDate.now().minusDays(1).atStartOfDay());
 		orderService.forceCreationDate(order2.getId(), LocalDate.now().minusMonths(1).atStartOfDay());
 		orderService.forceCreationDate(order3.getId(), LocalDate.now().minusYears(1).atStartOfDay());
 		orderService.forceCreationDate(order4.getId(), LocalDate.now().minusYears(3).atStartOfDay());
-	}
+		orderService.forceCreationDate(order5.getId(),  LocalDate.now().minusDays(2).atStartOfDay());
+		orderService.forceCreationDate(order6.getId(),  LocalDate.now().minusDays(5).atStartOfDay());
+		orderService.forceCreationDate(order7.getId(),  LocalDate.now().minusWeeks(2).atStartOfDay());
+
+		orderService.forceCreationDate(order8.getId(),  LocalDate.now().minusMonths(2).atStartOfDay());
+		orderService.forceCreationDate(order9.getId(),  LocalDate.now().minusMonths(4).atStartOfDay());
+		orderService.forceCreationDate(order10.getId(), LocalDate.now().minusMonths(6).atStartOfDay());
+
+		orderService.forceCreationDate(order11.getId(), LocalDate.now().minusYears(1).atStartOfDay());
+		orderService.forceCreationDate(order12.getId(), LocalDate.now().minusYears(1).minusMonths(3).atStartOfDay());
+
+		orderService.forceCreationDate(order13.getId(), LocalDate.now().minusYears(2).atStartOfDay());
+		orderService.forceCreationDate(order14.getId(), LocalDate.now().minusYears(2).minusMonths(6).atStartOfDay());
+
+		orderService.forceCreationDate(order15.getId(), LocalDate.now().minusYears(3).atStartOfDay());
+		orderService.forceCreationDate(order16.getId(), LocalDate.now().minusYears(3).minusMonths(4).atStartOfDay());
+
+		orderService.forceCreationDate(order17.getId(), LocalDate.now().minusYears(4).atStartOfDay());
+		orderService.forceCreationDate(order18.getId(), LocalDate.now().minusYears(5).atStartOfDay());
+
+		orderService.forceCreationDate(order19.getId(), LocalDate.now().minusYears(6).atStartOfDay());
+			}
 }
