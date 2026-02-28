@@ -32,7 +32,7 @@ public class Garment {
     private String category;
     private String description;
     private String features;
-    private boolean available = true;
+    private boolean available;
 
     @CreationTimestamp
     @Column(updatable = false)
