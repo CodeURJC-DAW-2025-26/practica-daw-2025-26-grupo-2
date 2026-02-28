@@ -121,6 +121,10 @@ public class Order {
         this.shippingCost = shippingCost;
     }
 
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }

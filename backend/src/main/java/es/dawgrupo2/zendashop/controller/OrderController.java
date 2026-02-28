@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -26,6 +27,9 @@ import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import es.dawgrupo2.zendashop.service.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.time.LocalDate;
+
 
 @Controller
 public class OrderController {
@@ -191,4 +195,57 @@ public class OrderController {
 
     	return "redirect:/myorders";
 	}
+
+	@PostMapping("/orders/{id}/update")
+	public String updateOrderDetails(@PathVariable Long id, 
+			@RequestParam BigDecimal totalPrice,
+			@RequestParam BigDecimal shippingCost,
+			@RequestParam String status,
+			@RequestParam String deliveryAddress,
+			@RequestParam LocalDate deliveryDate,
+			@RequestParam String deliveryNote,
+			HttpServletRequest request) {
+
+		Optional<Order> op = orderService.findById(id);
+
+		if (op.isPresent()) {
+			Order originalOrder = op.get();
+
+			if(!request.isUserInRole("ADMIN")){
+				return "redirect:/access-denied";
+			}
+
+			if (totalPrice != null) {
+				originalOrder.setTotalPrice(totalPrice);
+			}
+			
+			if (shippingCost != null) {
+				originalOrder.setShippingCost(shippingCost);
+			}
+
+			if (status != null) {
+				originalOrder.setCompleted("COMPLETED".equals(status));
+			}
+
+			if (deliveryAddress != null) {
+				originalOrder.setDeliveryAddress(deliveryAddress);
+			}
+
+			if (deliveryDate != null) {
+				originalOrder.setDeliveryDate(deliveryDate);
+			}
+
+			if (deliveryNote != null) {
+				originalOrder.setDeliveryNote(deliveryNote);
+			}
+
+			orderService.save(originalOrder);
+			
+			return "redirect:/order/" + id;
+		} 
+		else {
+			return "not_found";
+		}
+	}
+	
 }
