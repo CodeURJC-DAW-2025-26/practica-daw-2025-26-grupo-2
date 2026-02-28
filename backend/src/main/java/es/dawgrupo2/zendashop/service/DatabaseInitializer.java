@@ -61,6 +61,33 @@ public class DatabaseInitializer {
 
 		Garment garment3 = new Garment("Pantalones de pinzas", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones de pinzas",
 				"Talla 32, color azul");
+		
+		Garment garment4 = new Garment("Falda", BigDecimal.valueOf(29.99), "Accesorios", "Falda de tela ligera",
+				"Talla S, color rojo");
+
+		Garment garment5 = new Garment("Chaqueta", BigDecimal.valueOf(59.99), "Camisas", "Chaqueta de cuero sintético",
+				"Talla L, color negro");
+		
+		Garment garment6 = new Garment("Vestido", BigDecimal.valueOf(49.99), "Accesorios", "Vestido de verano",
+				"Talla M, color amarillo");
+		
+		Garment garment7 = new Garment("Sudadera", BigDecimal.valueOf(34.99), "Camisas", "Sudadera con capucha",
+				"Talla L, color gris");
+
+		Garment garment8 = new Garment("Pantalones cortos", BigDecimal.valueOf(24.99), "Pantalones", "Pantalones cortos de algodón",
+				"Talla M, color verde");
+
+		Garment garment9 = new Garment("Blusa", BigDecimal.valueOf(29.99), "Camisas", "Blusa de seda",
+				"Talla S, color rosa");
+
+		Garment garment10 = new Garment("Abrigo", BigDecimal.valueOf(79.99), "Accesorios", "Abrigo de lana",
+				"Talla M, color marrón");
+
+		Garment garment11 = new Garment("Pantalones de chándal", BigDecimal.valueOf(29.99), "Pantalones", "Pantalones de chándal cómodos",
+				"Talla L, color gris");
+
+		Garment garment12 = new Garment("Camisa de manga larga", BigDecimal.valueOf(34.99), "Camisas", "Camisa de manga larga de algodón",
+				"Talla M, color azul claro");
 
 		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
 		InputStream inputStream = image.getInputStream();
@@ -83,8 +110,24 @@ public class DatabaseInitializer {
 				StreamUtils.copyToByteArray(inputStream));
 
 		garmentService.save(garment2, multipartFile);
-
 		garmentService.save(garment3, multipartFile);
+		image = new ClassPathResource("sample_images/jersey.jpg");
+		inputStream = image.getInputStream();
+
+		multipartFile = new MockMultipartFile(
+				"image",
+				"jersey.jpg",
+				"image/jpg",
+				StreamUtils.copyToByteArray(inputStream));
+		garmentService.save(garment4, multipartFile);
+		garmentService.save(garment5, multipartFile);
+		garmentService.save(garment6, multipartFile);
+		garmentService.save(garment7, multipartFile);
+		garmentService.save(garment8, multipartFile);
+		garmentService.save(garment9, multipartFile);
+		garmentService.save(garment10, multipartFile);
+		garmentService.save(garment11, multipartFile);
+		garmentService.save(garment12, multipartFile);
 
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");

@@ -43,14 +43,29 @@ public class GarmentController {
 	@GetMapping("/")
 	public String showGarments(@RequestParam(required = false) String nameSearch,
 			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
-			@RequestParam(required = false) BigDecimal maxPrice, Model model, @PageableDefault(size = 10) Pageable page, HttpServletRequest request) {
+			@RequestParam(required = false) BigDecimal maxPrice, Model model,
+			@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
 
 		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
-				minPrice, maxPrice, page));
+				minPrice, maxPrice, pageable));
 		if (request.getUserPrincipal() != null) {
 			String userEmail = request.getUserPrincipal().getName();
-			userService.findByEmail(userEmail).ifPresent(user -> model.addAttribute("offers", garmentService.findSmartRecommendations(user.getId())));
+			userService.findByEmail(userEmail).ifPresent(
+					user -> model.addAttribute("offers", garmentService.findSmartRecommendations(user.getId())));
 		}
+
+		String sortParam = "";
+		if (pageable.getSort().isSorted()) {
+			sortParam = pageable.getSort().stream()
+					.map(order -> order.getProperty() + "," + order.getDirection().name().toLowerCase())
+					.findFirst()
+					.orElse("");
+		}
+
+		model.addAttribute("loadMoreLink", "/?nameSearch=" + (nameSearch != null ? nameSearch : "") + "&categorySearch="
+				+ (categorySearch != null ? categorySearch : "") + "&minPrice=" + (minPrice != null ? minPrice : "")
+				+ "&maxPrice=" + (maxPrice != null ? maxPrice : "") + "&sort=" + sortParam + "&page="
+				+ pageable.next().getPageNumber());
 
 		return "index";
 	}
