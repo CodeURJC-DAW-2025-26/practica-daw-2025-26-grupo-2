@@ -40,13 +40,13 @@
             {{#orders}}
             <tr>
               <td>{{id}}</td>
-              <td>{{creationDate}}</td>
+              <td>{{convertCreationDateToLocalDate}}</td>
               <td>{{totalPrice}}€</td>
               <td>
                 <a class="btn btn-info btn-sm" href="/myorders/{{id}}">
                   Ver detalle <i class="bi bi-eye"></i>
                 </a>
-                <a class="btn btn-success btn-sm" href="/orders/{{id}}/invoice.pdf">
+                <a class="btn btn-success btn-sm" href="/orders/{{id}}/invoice">
                   Generar factura <i class="bi bi-file-earmark-pdf"></i>
                 </a>
               </td>

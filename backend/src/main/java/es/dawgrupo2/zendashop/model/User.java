@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.model;
 
 import java.sql.Blob;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,11 +191,11 @@ public class User {
         return (this.orders != null ? this.orders.size() : 0);
     }
 
-    public LocalDateTime getLastOrderDate() {
+    public String getLastOrderDate() {
     if (this.orders == null || this.orders.isEmpty()) {
         return null;
     }
-    return this.orders.get(this.orders.size() - 1).getCreationDate();
+    return this.orders.get(this.orders.size() - 1).getCreationDate().toLocalDate().toString();
 }
 
     public boolean getHasAvatar() {
@@ -225,5 +226,9 @@ public class User {
 
     public boolean admin(){
         return this.roles.contains("ADMIN");
+    }
+
+    public String convertCreationDateToLocalDate() {
+        return this.creationDate.toLocalDate().toString();
     }
 }

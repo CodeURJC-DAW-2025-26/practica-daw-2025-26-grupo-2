@@ -45,8 +45,8 @@
                         <td>{{user.email}}</td>
                         <td>{{creationDate}}</td>
                         <td>{{totalPrice}}€</td>
-                        <td>
-                            <a class="btn btn-info btn-sm" href="/order/{{id}}">
+                        <td class = "d-flex flex-wrap gap-2">
+                            <a class="btn btn-info btn-sm d-inline" href="/order/{{id}}">
                                 Ver detalle <i class="bi bi-eye"></i>
                             </a>
                             <form method="post" action="/order/{{id}}/edit">

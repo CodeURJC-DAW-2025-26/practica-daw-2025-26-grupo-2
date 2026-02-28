@@ -36,7 +36,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Fecha del Pedido</th>
-                        <td>{{order.creationDate}}</td>
+                        <td>{{order.convertCreationDateToLocalDate}}</td>
                     </tr>
                     <tr>
                         <th>Precio Total</th>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <button type="button" class="btn btn-info" onclick="window.location.href='/orders/{{order.id}}/invoice.pdf'">
+            <button type="button" class="btn btn-info" onclick="window.location.href='/orders/{{order.id}}/invoice'">
                 Generar Factura <i class="bi bi-file-earmark-text"></i>
             </button>       
         </div>
