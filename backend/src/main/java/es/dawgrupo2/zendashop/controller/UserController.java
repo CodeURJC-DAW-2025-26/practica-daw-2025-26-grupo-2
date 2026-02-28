@@ -44,18 +44,6 @@ public class UserController {
     @Autowired
 	private PasswordEncoder passwordEncoder;
 
-    @ModelAttribute
-    public void addAttributes(Model model, HttpServletRequest request) {
-
-        if (request.getUserPrincipal() != null) {
-            model.addAttribute("logged", true);
-            model.addAttribute("username", request.getUserPrincipal().getName());
-            model.addAttribute("admin", request.isUserInRole("ADMIN"));
-        } else {
-            model.addAttribute("logged", false);
-        }
-    }
-
     @GetMapping("/user/{id}")
     public String showUserID(Model model, @PathVariable Long id) {
 

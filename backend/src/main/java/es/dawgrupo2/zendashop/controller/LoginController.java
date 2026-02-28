@@ -20,15 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.UserService;
 
-
 @Controller
 public class LoginController {
 
     @Autowired
-	private UserService userService;
+    private UserService userService;
 
     @Autowired
-	private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login() {
@@ -47,11 +46,11 @@ public class LoginController {
         user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
         user.setRoles(List.of("USER"));
 
-        if(userService.findByEmail(user.getEmail()).isPresent()){
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
             model.addAttribute("error", "El email seleccionado ya pertence a un usuario registrado");
             model.addAttribute("isNew", true);
             return "register";
-        }else if (imageAvatar != null && !imageAvatar.isEmpty()) {
+        } else if (imageAvatar != null && !imageAvatar.isEmpty()) {
             try {
                 userService.save(user, imageAvatar);
             } catch (IOException e) {
@@ -62,5 +61,12 @@ public class LoginController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/loginerror")
+    public String loginError(Model model) {
+        model.addAttribute("message", "Usuario o contraseña incorrectos.");
+        model.addAttribute("backLink", "/login");
+        return "customError";
     }
 }

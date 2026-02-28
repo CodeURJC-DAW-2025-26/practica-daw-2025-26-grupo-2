@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/accessDenied")
+                        .requestMatchers("/", "/error", "/error/**", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/customError")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
@@ -44,7 +44,9 @@ public class WebSecurityConfig {
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete").hasRole("ADMIN")
-                        .requestMatchers("/orders", "/order/**", "/users", "/statistics").hasRole("ADMIN"))
+                        .requestMatchers("/orders", "/order/**", "/users", "/statistics").hasRole("ADMIN")
+                        
+                        .anyRequest().permitAll())
 
                 .formLogin(formLogin -> formLogin
                         // Custom login page managed by LoginController
@@ -56,9 +58,7 @@ public class WebSecurityConfig {
                         // Define the logout behavior and redirection
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .permitAll())
-                .exceptionHandling(ex -> ex.accessDeniedPage("/accessDenied"));
-                
+                        .permitAll());
 
         return http.build();
     }

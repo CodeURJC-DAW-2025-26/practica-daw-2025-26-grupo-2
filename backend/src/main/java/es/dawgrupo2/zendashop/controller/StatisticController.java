@@ -25,18 +25,6 @@ public class StatisticController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @ModelAttribute
-    public void addAttributes(Model model, HttpServletRequest request) {
-
-        if (request.getUserPrincipal() != null) {
-            model.addAttribute("logged", true);
-            model.addAttribute("username", request.getUserPrincipal().getName());
-            model.addAttribute("admin", request.isUserInRole("ADMIN"));
-        } else {
-            model.addAttribute("logged", false);
-        }
-    }
-
     @GetMapping("/statistics")
     public String showStatistics(Model model) {
         

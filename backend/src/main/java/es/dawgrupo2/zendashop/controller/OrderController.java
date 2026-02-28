@@ -45,22 +45,6 @@ public class OrderController {
 	@Autowired
 	private InvoicePdfService invoicePdfService;
 
-	@ModelAttribute
-	public void addAttributes(Model model, HttpServletRequest request) {
-
-		Principal principal = request.getUserPrincipal();
-
-		if (principal != null) {
-
-			model.addAttribute("logged", true);
-			model.addAttribute("username", principal.getName());
-			model.addAttribute("admin", request.isUserInRole("ADMIN"));
-
-		} else {
-			model.addAttribute("logged", false);
-		}
-	}
-
 	@GetMapping("/orders") // FINISHED
 	public String showOrders(Model model) {
 		model.addAttribute("orders", orderService.findByCompletedTrue());

@@ -31,23 +31,6 @@ public class OpinionController {
 	@Autowired
 	private UserService userService;
 
-    @ModelAttribute
-	public void addAttributes(Model model, HttpServletRequest request) {
-
-		//Principal principal = request.getUserPrincipal();
-
-		//if (principal != null) {
-
-			model.addAttribute("logged", true);
-			//model.addAttribute("userName", principal.getName());
-			model.addAttribute("userName", "ADMIN");
-			model.addAttribute("admin", true);
-
-		//} else {
-			//model.addAttribute("logged", false);
-		//}
-	}
-
 	@PostMapping("/garment/{garmentId}/opinion/new")
 	public String newOpinion(Model model, 
 		//Principal principal, 
