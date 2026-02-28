@@ -52,19 +52,23 @@ public class OrderController {
 	}
 
 	@GetMapping("/order/{id}") // FINISHED
-	public String getMethodName(Model model, @PathVariable long id) {
+	public String getMethodName(Model model, @PathVariable long id, Principal principal) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
 			Order order = op.get();
+			User user = userService.findByEmail(principal.getName()).orElseThrow();
 			String status;
 			if (order.getCompleted()) {
 				status = "COMPLETADO";
+				model.addAttribute("isCompleted", true);
 			} else {
 				status = "EN CURSO";
+				model.addAttribute("isPending", true);
 			}
 			model.addAttribute("order", order);
 			model.addAttribute("status", status);
 			model.addAttribute("backLink", "/orders");
+			model.addAttribute("admin", user.admin());
 			return "order_detail";
 		} else {
 			model.addAttribute("element", "Pedido");
