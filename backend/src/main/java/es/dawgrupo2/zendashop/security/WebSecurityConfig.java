@@ -36,11 +36,11 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar")
+                        .requestMatchers("/", "/error", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/accessDenied")
                         .permitAll()
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice.pdf", "/garment/*/opinion/**", "/myorders/**", "/order/*/process").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**", "/order/*/process").hasAnyRole("USER", "ADMIN")
 
                         // ADMIN ACCESS: Only administrators
                         .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete").hasRole("ADMIN")
@@ -56,7 +56,9 @@ public class WebSecurityConfig {
                         // Define the logout behavior and redirection
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .permitAll());
+                        .permitAll())
+                .exceptionHandling(ex -> ex.accessDeniedPage("/accessDenied"));
+                
 
         return http.build();
     }

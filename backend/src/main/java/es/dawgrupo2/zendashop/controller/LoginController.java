@@ -63,11 +63,4 @@ public class LoginController {
 
         return "redirect:/";
     }
-
-    @GetMapping("/loginerror")
-    public String loginError(Model model) {
-        model.addAttribute("message", "Usuario o contraseña incorrectos.");
-        model.addAttribute("backLink", "/login");
-        return "error";
-    }
 }
