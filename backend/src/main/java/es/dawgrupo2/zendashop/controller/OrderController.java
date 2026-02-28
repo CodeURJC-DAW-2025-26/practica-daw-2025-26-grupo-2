@@ -171,7 +171,7 @@ public class OrderController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/orders/{id}/invoice.pdf")
+	@GetMapping("/orders/{id}/invoice")
 	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) {
 		Order order = orderService.findById(id).orElseThrow();
 		// TODO: Add security check to ensure only the user who made the order or an
@@ -190,7 +190,7 @@ public class OrderController {
 	public String processOrder(
 			@PathVariable Long id,
 			@RequestParam String deliveryAddress,
-			@RequestParam String deliveryDate, // El input date envía String "yyyy-MM-dd"
+			@RequestParam String deliveryDate,
 			@RequestParam String deliveryNote,
 			HttpServletRequest request) {
 

@@ -78,9 +78,9 @@ public class StatisticController {
         model.addAttribute("monthlyIncomeJson", toJson(orderService.getMonthlyIncomeLastMonths(12)));
         model.addAttribute("monthlyOrdersJson", toJson(orderService.getMonthlyOrdersLastMonths(12)));
 
-        model.addAttribute("yearlyLabelsJson", toJson(orderService.getYearlyLabelsLastYears(5)));
-        model.addAttribute("yearlyIncomeJson", toJson(orderService.getYearlyIncomeLastYears(5)));
-        model.addAttribute("yearlyOrdersJson", toJson(orderService.getYearlyOrdersLastYears(5)));
+        model.addAttribute("yearlyLabelsJson", toJson(orderService.getYearlyLabelsLastYears(6)));
+        model.addAttribute("yearlyIncomeJson", toJson(orderService.getYearlyIncomeLastYears(6)));
+        model.addAttribute("yearlyOrdersJson", toJson(orderService.getYearlyOrdersLastYears(6)));
 
         return "statistics";
     }

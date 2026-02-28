@@ -169,4 +169,8 @@ public class Order {
         calculateShippingCost();
         calculateTotal();
     }
+
+    public String getConvertCreationDateToLocalDate() {
+        return creationDate.toLocalDate().toString();
+    }
 }

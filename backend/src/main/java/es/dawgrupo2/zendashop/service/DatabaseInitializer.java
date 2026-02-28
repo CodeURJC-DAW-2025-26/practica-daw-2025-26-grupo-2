@@ -108,5 +108,22 @@ public class DatabaseInitializer {
 		order2.addOrderItem(new OrderItem(1, "L", garment2));
 
 		orderService.save(order2);
+
+		Order order3 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
+		user2.addOrder(order3);
+		order3.addOrderItem(new OrderItem(10, "L", garment2));
+		orderService.save(order3);
+
+		Order order4 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
+		user2.addOrder(order4);
+		order4.addOrderItem(new OrderItem(10, "L", garment2));
+		orderService.save(order4);
+
+
+		// Update creation dates to have orders in different periods for statistics testing
+		orderService.forceCreationDate(order1.getId(), LocalDate.now().minusDays(1).atStartOfDay());
+		orderService.forceCreationDate(order2.getId(), LocalDate.now().minusMonths(1).atStartOfDay());
+		orderService.forceCreationDate(order3.getId(), LocalDate.now().minusYears(1).atStartOfDay());
+		orderService.forceCreationDate(order4.getId(), LocalDate.now().minusYears(3).atStartOfDay());
 	}
 }

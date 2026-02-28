@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Order;
@@ -39,4 +41,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // Incomes of a specific year
     @Query("SELECT SUM(o.totalPrice) FROM OrderTable o WHERE YEAR(o.creationDate) = :year")
     Double sumIncomeByYear(int year);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE order_table SET creation_date = :date WHERE id = :id", nativeQuery = true)
+    void forceCreationDate(Long id, LocalDateTime date);
 }

@@ -58,6 +58,10 @@ public class OrderService {
 		repository.deleteById(id);
 	}
 
+	public void forceCreationDate(Long id, LocalDateTime date) {
+		repository.forceCreationDate(id, date);
+	}
+
 	public List<Order> findByUserIdAndCompletedTrue(Long userId) {
 		return repository.findByUserIdAndCompletedTrue(userId);
 	}
