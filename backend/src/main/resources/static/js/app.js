@@ -27,11 +27,10 @@ async function loadMore(event, url, list, item) {
             targetList.appendChild(importedNode);
         });
         const nextUrl = url.replace(/page=(\d+)/, (match, p1) => `page=${parseInt(p1) + 1}`);
-
+        button.setAttribute('onclick', `loadMore(event, '${nextUrl}', '${list}', '${item}')`);
         if (hasMore) {
             button.disabled = false;
             button.innerHTML = 'Cargar más <i class="bi bi-arrow-down-circle"></i>';
-            button.setAttribute('onclick', `loadMore(event, '${nextUrl}', '${list}', '${item}')`);
         } else {
             button.remove();
         }

@@ -36,14 +36,14 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // ADMIN ACCESS: Only administrators
-                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete").hasRole("ADMIN")
-                        .requestMatchers("/orders", "/order/**", "/users", "/statistics").hasRole("ADMIN")
+                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/user/{id}/delete",  "/loadMoreOrders", "/order/*/edit", "/order/*/delete").hasRole("ADMIN")
+                        .requestMatchers("/orders", "/users", "/statistics").hasRole("ADMIN")
 
                         // USER ACCESS: Only logged-in users
-                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders/**", "/order/*/process").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**","/user/{id}", "/garment/*/opinion/new", "/profile","/user/{id}/edit", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/**", "/myorders", "/order/*/process", "/loadMoreMyOrders",  "/order/*").hasAnyRole("USER", "ADMIN")
 
                         // PUBLIC ACCESS
-                        .requestMatchers("/", "/error", "/error/**", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/customError")
+                        .requestMatchers("/", "/error", "/error/**", "/customerror","/register", "/garment/{id}", "/garment/{id}/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/customError", "/loadMoreGarments")
                         .permitAll()
                         
                         .anyRequest().permitAll())
