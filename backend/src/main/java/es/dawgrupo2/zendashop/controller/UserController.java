@@ -47,14 +47,14 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
-    public String showUsers(Model model, @PageableDefault(size = 2) Pageable pageable) {
+    public String showUsers(Model model, @PageableDefault(size = 10) Pageable pageable) {
             model.addAttribute("users", userService.findByDisabledFalse(pageable));
             model.addAttribute("hasMore", userService.findByDisabledFalse(pageable.next()).hasContent());
         return "all_users";
     }
 
     @GetMapping("/loadMoreUsers")
-	public String loadMoreUsers(Model model, @PageableDefault(size = 2) Pageable pageable, HttpServletResponse response) {
+	public String loadMoreUsers(Model model, @PageableDefault(size = 10) Pageable pageable, HttpServletResponse response) {
 		model.addAttribute("users", userService.findByDisabledFalse(pageable));
 		response.addHeader("X-Has-More", String.valueOf(userService
 				.findByDisabledFalse(pageable.next())
