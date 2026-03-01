@@ -304,15 +304,11 @@ public class OrderService {
 		order.setUser(user);
 
 		// add the order to the user's orders
-		if (user.getOrders() == null) {
-			user.setOrders(new ArrayList<>());
-		}
-		if (!user.getOrders().contains(order)) {
-			user.getOrders().add(order);
-		}
+		
+		user.addOrder(order);
 
 		// we save the order in the ddbb
-		repository.saveAndFlush(order);
+		repository.save(order);
 
 		// we change to a new cart
 		user.setCart(null);
@@ -386,4 +382,6 @@ public class OrderService {
 
 		return meanTickets;
 	}
+
+	
 }
