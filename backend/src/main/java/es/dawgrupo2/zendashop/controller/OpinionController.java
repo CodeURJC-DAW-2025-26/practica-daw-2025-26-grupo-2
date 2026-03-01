@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class OpinionController {
 
-    @Autowired
+	@Autowired
 	private GarmentService garmentService;
 
 	@Autowired
@@ -32,64 +32,90 @@ public class OpinionController {
 	private UserService userService;
 
 	@PostMapping("/garment/{garmentId}/opinion/new")
-	public String newOpinion(Model model, 
-		//Principal principal, 
-		@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
+	public String newOpinion(Model model,
+			// Principal principal,
+			@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(garmentId);
+		String errorMsg = opinionService.validateFields(opinion);
+		if (!errorMsg.isEmpty()) {
+			model.addAttribute("message", errorMsg);
+			model.addAttribute("backLink", "/garment/" + garmentId);
+			return "customError";
+		}
 		if (op.isPresent()) {
 			Garment garment = op.get();
 			garment.addOpinion(opinion);
-			//String userEmail = principal.getName();
-			//String userEmail = "juan@example.com";
+			// String userEmail = principal.getName();
+			// String userEmail = "juan@example.com";
 			String userEmail = request.getUserPrincipal().getName();
 			userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
 			opinionService.save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
 			return "redirect:/garment/" + garmentId + "#opinionForm";
 		} else {
-			model.addAttribute("element", "Prenda");
-			model.addAttribute("masculine", true);
-			return "not_found";
+			model.addAttribute("message", "Prenda no encontrada.");
+			model.addAttribute("backLink", "/garments");
+			return "customError";
 		}
 	}
 
 	@GetMapping("/garment/{garmentId}/opinion/{opinionId}/edit")
-	public String editOpinion(Model model, @PathVariable long garmentId ,@PathVariable long opinionId) {
+	public String editOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId,
+			HttpServletRequest request) {
 
 		Optional<Opinion> op = opinionService.findById(opinionId);
+		String userEmail = request.getUserPrincipal().getName();
+		User user = userService.findByEmail(userEmail).orElseThrow();
 		if (op.isPresent()) {
+			if (!request.isUserInRole("ADMIN") && !op.get().getUser().getId().equals(user.getId())) {
+				model.addAttribute("message", "Quieto parao! No tienes permiso para editar esta opinión.");
+				model.addAttribute("backLink", "/garment/" + garmentId);
+				return "customError";
+			}
 			Opinion opinion = op.get();
 			model.addAttribute("opinion", opinion);
 			model.addAttribute("garment", opinion.getGarment());
 			return "show_garment";
 		} else {
-			model.addAttribute("element", "Opinión");
-            model.addAttribute("masculine", false);
-			return "not_found";
+			model.addAttribute("message", "Opinión no encontrada.");
+			model.addAttribute("backLink", "/garment/" + garmentId);
+			return "customError";
 		}
+
 	}
 
 	@PostMapping("/garment/{garmentId}/opinion/edit")
-	public String editOpinionProcess(Model model, Opinion editedOpinion, @PathVariable Long garmentId) {
+	public String editOpinionProcess(Model model, Opinion editedOpinion, @PathVariable Long garmentId,
+			HttpServletRequest request) {
 
 		Optional<Opinion> op = opinionService.findById(editedOpinion.getId());
+		String userEmail = request.getUserPrincipal().getName();
+		User user = userService.findByEmail(userEmail).orElseThrow();
 		if (op.isPresent()) {
+			if (!request.isUserInRole("ADMIN") && !op.get().getUser().getId().equals(user.getId())) {
+				model.addAttribute("message", "Quieto parao! No tienes permiso para editar esta opinión.");
+				model.addAttribute("backLink", "/garment/" + garmentId);
+				return "customError";
+			}
+
 			Opinion originalOpinion = op.get();
+
 			originalOpinion.setRating(editedOpinion.getRating());
 			originalOpinion.setComment(editedOpinion.getComment());
 			opinionService.save(originalOpinion);
 			return "redirect:/garment/" + originalOpinion.getGarment().getId();
 		} else {
-			model.addAttribute("element", "Opinión");
-			model.addAttribute("masculine", false);
-			return "not_found";
+			model.addAttribute("message", "Opinión no encontrada.");
+			model.addAttribute("backLink", "/garment/" + garmentId);
+			return "customError";
 		}
 	}
 
 	@PostMapping("/garment/{garmentId}/opinion/{opinionId}/delete")
-	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId, HttpServletRequest request) {
+	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId,
+			HttpServletRequest request) {
 
 		Optional<Opinion> opinion = opinionService.findById(opinionId);
-		
+
 		if (opinion.isPresent()) {
 			String userEmail = request.getUserPrincipal().getName();
 			User user = userService.findByEmail(userEmail).orElseThrow();
@@ -98,15 +124,17 @@ public class OpinionController {
 				model.addAttribute("backLink", "/garment/" + garmentId);
 				return "customError";
 			}
-	
-            Garment garment = opinion.get().getGarment();
+
+			Garment garment = opinion.get().getGarment();
 			garmentId = garment.getId(); // Use reference in opinion to avoid problems with url
-            garment.removeOpinion(opinion.get());
+			garment.removeOpinion(opinion.get());
 			user.removeOpinion(opinion.get());
 			opinionService.delete(opinionId);
 			return "redirect:/garment/" + garmentId;
 		} else {
-			return "not_found";
+			model.addAttribute("message", "Opinión no encontrada.");
+			model.addAttribute("backLink", "/garment/" + garmentId);
+			return "customError";
 		}
 	}
 }

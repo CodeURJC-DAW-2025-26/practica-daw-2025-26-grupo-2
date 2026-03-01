@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
 import es.dawgrupo2.zendashop.model.User;
+import es.dawgrupo2.zendashop.model.Opinion;
 import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
