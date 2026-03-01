@@ -33,6 +33,7 @@ public class Order {
     private BigDecimal subtotal;
     private BigDecimal shippingCost;
     private BigDecimal totalPrice;
+  
 
     @CreationTimestamp
     @Column(updatable = false)
