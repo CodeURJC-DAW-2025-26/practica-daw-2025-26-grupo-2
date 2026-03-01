@@ -106,6 +106,8 @@ public class GarmentController {
 			for (Opinion opinion : garment.getOpinions()) {
 				opinion.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
 						|| opinion.getUser().getEmail().equals(request.getUserPrincipal().getName())));
+				// Set the star rating as a string of "★" characters for display purposes
+				opinion.setStarsRating("★".repeat(opinion.getRating()) + "☆".repeat(5 - opinion.getRating()));
 			}
 			model.addAttribute("garment", garment);
 			return "show_garment";

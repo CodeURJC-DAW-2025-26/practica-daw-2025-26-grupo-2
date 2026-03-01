@@ -16,6 +16,9 @@ public class Opinion {
 	
     @Transient
     private boolean isOwn;
+
+    @Transient
+    private String starsRating; // To store the star rating as a string of "★" characters for display purposes
     
     private Integer rating;
     private String comment;
@@ -85,6 +88,14 @@ public class Opinion {
 
     public void setOwn(boolean isOwn){
         this.isOwn = isOwn;
+    }
+
+    public String getStarsRating() {
+        return starsRating;
+    }
+
+    public void setStarsRating(String starsRating) {
+        this.starsRating = starsRating;
     }
     
 }
