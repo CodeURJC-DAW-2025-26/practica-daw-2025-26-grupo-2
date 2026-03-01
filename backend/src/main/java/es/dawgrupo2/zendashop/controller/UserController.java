@@ -144,12 +144,22 @@ public class UserController {
 
     @PostMapping("/user/{id}/edit")
     public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar,
-            HttpServletRequest request, @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage) {
+            HttpServletRequest request,
+            @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage) {
 
         Optional<User> op = userService.findById(id);
-
+        String errorMsg = userService.validateFields(editedUser);
         String newPassword = editedUser.getEncodedPassword();
-
+        if (!errorMsg.isEmpty()) {
+            model.addAttribute("message", errorMsg);
+            model.addAttribute("backLink", "/user/" + id + "/edit");
+            return "customError";
+        }
+        if (userService.findByEmail(editedUser.getEmail()).isPresent()) {
+            model.addAttribute("message", "El email seleccionado ya pertence a un usuario registrado");
+            model.addAttribute("backLink", "/user/" + id + "/edit");
+            return "customError";
+        }
         if (op.isPresent()) {
             User originalUser = op.get();
             String originalEmail = originalUser.getEmail();

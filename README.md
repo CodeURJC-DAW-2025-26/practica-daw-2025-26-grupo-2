@@ -227,12 +227,11 @@ Solo si han cambiado.
 
 ### **Diagrama de Entidades de Base de Datos**
 
-Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images/database-diagram.png)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+![Diagrama Entidad-Relación](images/diagram_BD.png)
 
+> El diagrama entidad-relación de ZENDA Shop muestra las entidades principales del dominio (user_table, garment, order_table, order_item y opinion) y sus relaciones. Un usuario puede realizar varios pedidos y escribir varias opiniones; cada pedido se compone de múltiples líneas en order_item, que enlazan prenda, talla y cantidad, resolviendo la relación N:M entre pedidos y prendas. 
 ### **Diagrama de Clases y Templates**
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
