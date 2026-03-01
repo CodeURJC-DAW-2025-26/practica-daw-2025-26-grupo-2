@@ -22,13 +22,16 @@
                 <h3>{{#garment}}Editar prenda{{/garment}}{{^garment}}Añadir nueva prenda{{/garment}}</h3>
             </div>
             <hr class="gap-form">
-            <form role="form" class="needs-validation" novalidate id="garmentForm" action="{{#garment}}/garment/{{id}}/edit{{/garment}}{{^garment}}/garment/new{{/garment}}" method="post" enctype="multipart/form-data">
+            <form role="form" class="needs-validation" novalidate id="garmentForm"
+                action="{{#garment}}/garment/{{id}}/edit{{/garment}}{{^garment}}/garment/new{{/garment}}" method="post"
+                enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="inputClothName" class="form-label"><b>Nombre</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-alphabet"></i></span>
                         <input type="text" class="form-control" id="inputClothName" name="name"
-                            placeholder="Nombre de la prenda" value="{{#garment}}{{name}}{{/garment}}" minlength="4" maxlength="100" required>
+                            placeholder="Nombre de la prenda" value="{{#garment}}{{name}}{{/garment}}" minlength="4"
+                            maxlength="100" required>
                         <div class="invalid-feedback" id="titleMesssage">
                             El nombre no puede estar vacío y debe tener entre 4 y 100 caracteres.
                         </div>
@@ -39,12 +42,13 @@
                     <label for="inputCategory" class="form-label"><b>Categoría</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                        <select class="form-select" id="inputCategory" name="category" value="{{#garment}}{{category}}{{/garment}}" minlength="4" maxlength="100" required>
-                            <option value="" selected disabled>Selecciona categoría</option>
+                        <select class="form-select" id="inputCategory" name="category"
+                            minlength="4" maxlength="100" required>
+                            <option value="{{#garment}}{{category}}{{/garment}}" selected disabled>{{#garment}}{{category}}{{/garment}}{{^garment}}Selecciona categoría{{/garment}}</option>
                             <option value="Camisas">Camisas</option>
                             <option value="Pantalones">Pantalones</option>
                             <option value="Zapatos">Zapatos</option>
-                            <option value="Chaquetas">Chaquetas</option>        
+                            <option value="Chaquetas">Chaquetas</option>
                             <option value="Accesorios">Accesorios</option>
                             <option value="Otros">Otros</option>
                         </select>
@@ -58,8 +62,9 @@
                     <label for="inputClothPrice" class="form-label"><b>Precio</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-cash-coin"></i></span>
-                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01" value="{{#garment}}{{price}}{{/garment}}"
-                            placeholder="Precio de la prenda" min="1" max="5000" required>
+                        <input type="number" class="form-control" id="inputClothPrice" name="price" step="0.01"
+                            value="{{#garment}}{{price}}{{/garment}}" placeholder="Precio de la prenda" min="1"
+                            max="5000" required>
                         <span class="input-group-text" id="input-group-price">€</span>
                         <div class="invalid-feedback">
                             El precio debe ser un número entre 1 y 5000.
@@ -69,14 +74,29 @@
 
                 <div class="mb-3">
                     <label for="inputClothImage" class="form-label"><b>Imagen</b></label>
-                    <div class="mb-2">
-                        <span class="form-text">Ruta actual: Ninguna</span>
+                    {{#garment}}
+                    <div class="mb-3">
+                        <img src="/garment/{{id}}/image" alt="{{name}}" class="img-fluid mb-2"
+                            style="max-width: 200px;">
                     </div>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="updateImage" name="updateImage">
+                        <label class="form-check-label" for="updateImage">
+                            Actualizar imagen
+                        </label>
+                    </div>
+                    {{/garment}}
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-image"></i></span>
-                        <input type="file" class="form-control" id="inputClothImage" name="imageFile" accept=".jpg,.jpeg,.png">
+                        <input type="file" class="form-control" id="inputClothImage" name="imageFile"
+                            accept=".jpg,.jpeg,.png" required>
                         <div class="invalid-feedback">
+                            {{#garment}}
+                            Si no quieres actualizar la imagen, desmarca la casilla "Actualizar imagen".{{/garment}}
+                            {{^garment}}
                             La imagen no puede estar vacía.
+                            {{/garment}}
                         </div>
                     </div>
                 </div>
@@ -108,7 +128,7 @@
                 </div>
 
                 <br>
-                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <input type="hidden" name="_csrf" value="{{token}}" />
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success text-dark">
                         Guardar <i class="bi bi-check-lg"></i>
@@ -124,5 +144,40 @@
     {{>footer}}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(() => {
+  'use strict';
+
+  const forms = document.querySelectorAll('.needs-validation');
+  const updateImage = document.getElementById('updateImage');
+  const imageInput = document.getElementById('inputClothImage');
+
+  function syncImageValidation() {
+    if (!updateImage || !imageInput) return;
+    const enabled = updateImage.checked;
+    imageInput.disabled = !enabled;
+    imageInput.required = enabled;
+    if (!enabled) imageInput.value = '';
+  }
+
+  syncImageValidation();
+
+  if (updateImage) {
+    updateImage.addEventListener('change', syncImageValidation);
+  }
+
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      syncImageValidation();
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
 
 </html>

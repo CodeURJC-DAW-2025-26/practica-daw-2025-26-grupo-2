@@ -94,13 +94,13 @@ public class GarmentService {
 		return repository.findSmartRecommendations(id);
 	}
 
-	public String validateFields(Garment garment, MultipartFile imageFile) {
+	public String validateFields(Garment garment, MultipartFile imageFile, boolean updateImage) {
 
 		String errorMsg = "";
 		if (garment.getName() == null || garment.getName().isEmpty() || garment.getName().length() < 4 || garment.getName().length() > 100) {
 			errorMsg += "El nombre no puede estar vacío, debe tener entre 4 y 100 caracteres. <br>";
 		}
-		if (garment.getPrice() == null || garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0 || garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
+		if (garment.getPrice() == null || !(garment.getPrice() instanceof BigDecimal) || garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0 || garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
 			errorMsg += "El precio debe ser un número positivo menor o igual a 5000. <br>";
 		}
 		if (garment.getCategory() == null || garment.getCategory().isEmpty() || !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
@@ -112,9 +112,9 @@ public class GarmentService {
 		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3 || garment.getFeatures().length() > 300) {
 			errorMsg += "Las características no pueden estar vacías y deben tener entre 3 y 300 caracteres. <br>";
 		}
-		if (imageFile == null || imageFile.isEmpty()) {
+		if (updateImage && (imageFile == null || imageFile.isEmpty())) {
 			errorMsg += "La imagen no puede estar vacía. <br>";
-		} else if (!imageFile.getContentType().startsWith("image")) {
+		} else if (updateImage && !imageFile.getContentType().startsWith("image")) {
 			errorMsg += "El archivo debe ser una imagen de tipo JPG, JPEG o PNG. <br>";
 		}
 
