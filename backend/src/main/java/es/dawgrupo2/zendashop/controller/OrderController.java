@@ -34,7 +34,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDate;
 
-
 @Controller
 public class OrderController {
 
@@ -61,7 +60,8 @@ public class OrderController {
 	}
 
 	@GetMapping("/loadMoreOrders")
-	public String loadMoreGarments(Model model, @PageableDefault(size = 10) Pageable pageable, HttpServletResponse response) {
+	public String loadMoreGarments(Model model, @PageableDefault(size = 10) Pageable pageable,
+			HttpServletResponse response) {
 		model.addAttribute("orders", orderService.findByCompletedTrue(pageable));
 		response.addHeader("X-Has-More", String.valueOf(orderService
 				.findByCompletedTrue(pageable.next())
@@ -70,11 +70,16 @@ public class OrderController {
 	}
 
 	@GetMapping("/order/{id}") // FINISHED
-	public String getMethodName(Model model, @PathVariable long id, Principal principal) {
+	public String getMethodName(Model model, @PathVariable long id, Principal principal), HttpServletRequest request) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
 			Order order = op.get();
 			User user = userService.findByEmail(principal.getName()).orElseThrow();
+			if (!request.isUserInRole("ADMIN") && !user.getName().equals(order.getUser().getEmail())) {
+				model.addAttribute("message", "Quieto parao! No tienes permiso para ver este pedido.");
+				model.addAttribute("backLink", "/myorders");
+				return "customError";
+			}
 			String status;
 			if (order.getCompleted()) {
 				status = "COMPLETADO";
@@ -86,12 +91,11 @@ public class OrderController {
 			model.addAttribute("order", order);
 			model.addAttribute("status", status);
 			model.addAttribute("backLink", "/orders");
-			model.addAttribute("admin", user.admin());
 			return "order_detail";
 		} else {
-			model.addAttribute("element", "Pedido");
-			model.addAttribute("masculine", true);
-			return "not_found";
+			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado");
+			model.addAttribute("backLink", "/");
+			return "customError";
 		}
 	}
 
@@ -107,24 +111,6 @@ public class OrderController {
 		Optional<User> opUser = userService.findByEmail(principal.getName());
 		model.addAttribute("orders", orderService.findByUserIdAndCompletedTrue(opUser.get().getId()));
 		return "user_orders";
-	}
-
-	@GetMapping("/myorders/{id}")
-	public String showOrderDetail(Model model, @PathVariable long id, Principal principal) {
-		Optional<Order> order = orderService.findById(id);
-
-		if (order.isPresent()) {
-			Order o = order.get();
-			model.addAttribute("order", o);
-
-			// Calculamos el estado para el badge
-			String status = o.getCompleted() ? "Completado" : "Pendiente de pago/envío";
-			model.addAttribute("status", status);
-			model.addAttribute("backLink", "/myorders");
-
-			return "order_detail";
-		}
-		return "not_found";
 	}
 
 	@PostMapping("/cart/add/{garmentId}") // FINISHED
@@ -207,11 +193,11 @@ public class OrderController {
 		// process shopping
 		orderService.processOrder(id, user.getId(), deliveryAddress, deliveryDate, deliveryNote);
 
-    	return "redirect:/myorders";
+		return "redirect:/myorders";
 	}
 
 	@PostMapping("/orders/{id}/update")
-	public String updateOrderDetails(@PathVariable Long id, 
+	public String updateOrderDetails(@PathVariable Long id,
 			@RequestParam BigDecimal totalPrice,
 			@RequestParam BigDecimal shippingCost,
 			@RequestParam String status,
@@ -225,14 +211,14 @@ public class OrderController {
 		if (op.isPresent()) {
 			Order originalOrder = op.get();
 
-			if(!request.isUserInRole("ADMIN")){
+			if (!request.isUserInRole("ADMIN")) {
 				return "redirect:/access-denied";
 			}
 
 			if (totalPrice != null) {
 				originalOrder.setTotalPrice(totalPrice);
 			}
-			
+
 			if (shippingCost != null) {
 				originalOrder.setShippingCost(shippingCost);
 			}
@@ -254,12 +240,11 @@ public class OrderController {
 			}
 
 			orderService.save(originalOrder);
-			
+
 			return "redirect:/order/" + id;
-		} 
-		else {
+		} else {
 			return "not_found";
 		}
 	}
-	
+
 }
