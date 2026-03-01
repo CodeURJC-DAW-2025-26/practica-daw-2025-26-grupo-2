@@ -18,7 +18,7 @@ import es.dawgrupo2.zendashop.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findByUserIdAndCompletedTrue(Long userId);
+    Page<Order> findByUserIdAndCompletedTrue(Long userId, Pageable pageable);
     Page<Order> findByCompletedTrue(Pageable pageable);
     List<Order> findByCompletedTrueAndCreationDateBetween(LocalDateTime start, LocalDateTime end);
 

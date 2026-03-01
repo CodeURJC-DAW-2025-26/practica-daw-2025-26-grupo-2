@@ -40,27 +40,21 @@
                         <tr>
                             <th>Precio Total</th>
                             <td>
-                                {{#admin}}<input type="number" step="0.01" name="totalPrice" class="form-control" value="{{order.totalPrice}}">{{/admin}}
-                                {{^admin}}{{order.totalPrice}}€{{/admin}}
+                                {{#edditingOrder}}<input type="number" step="0.01" name="totalPrice" class="form-control" value="{{order.totalPrice}}">{{/edditingOrder}}
+                                {{^edditingOrder}}{{order.totalPrice}}€{{/edditingOrder}}
                             </td>
                         </tr>
                         <tr>
                             <th>Gastos de Envío</th>
                             <td>
-                                {{#admin}}<input type="number" step="0.01" name="shippingCost" class="form-control" value="{{order.shippingCost}}">{{/admin}}
-                                {{^admin}}{{order.shippingCost}}€{{/admin}}
+                                {{#edditingOrder}}<input type="number" step="0.01" name="shippingCost" class="form-control" value="{{order.shippingCost}}">{{/edditingOrder}}
+                                {{^edditingOrder}}{{order.shippingCost}}€{{/edditingOrder}}
                             </td>
                         </tr>
                         <tr>
                             <th>Estado del Pedido</th>
                             <td>
-                                {{#admin}}
-                                <select name="status" class="form-select">
-                                    <option value="PENDING" {{#isPending}}selected{{/isPending}}>EN CURSO</option>
-                                    <option value="COMPLETED" {{#isCompleted}}selected{{/isCompleted}}>COMPLETADO</option>
-                                </select>
-                                {{/admin}}
-                                {{^admin}}<span class="badge bg-warning">{{status}}</span>{{/admin}}
+                                <span class="badge bg-warning">{{status}}</span>
                             </td>
                         </tr>
                     </table>
@@ -74,33 +68,33 @@
                         <tr>
                             <th>Dirección de Entrega</th>
                             <td>
-                                {{#admin}}<input type="text" name="deliveryAddress" class="form-control" value="{{order.deliveryAddress}}">{{/admin}}
-                                {{^admin}}{{#order.deliveryAddress}}{{order.deliveryAddress}}{{/order.deliveryAddress}}{{^order.deliveryAddress}}No especificada{{/order.deliveryAddress}}{{/admin}}
+                                {{#edditingOrder}}<input type="text" name="deliveryAddress" class="form-control" value="{{order.deliveryAddress}}">{{/edditingOrder}}
+                                {{^edditingOrder}}{{#order.deliveryAddress}}{{order.deliveryAddress}}{{/order.deliveryAddress}}{{^order.deliveryAddress}}No especificada{{/order.deliveryAddress}}{{/edditingOrder}}
                             </td>
                         </tr>
                         <tr>
                             <th>Fecha de Entrega Preferida</th>
                             <td>
-                                {{#admin}}<textarea name="deliveryDate" class="form-control">{{order.deliveryDate}}</textarea>{{/admin}}
-                                {{^admin}}{{#order.deliveryDate}}{{order.deliveryDate}}{{/order.deliveryDate}}{{^order.deliveryDate}}No especificada{{/order.deliveryDate}}{{/admin}}
+                                {{#edditingOrder}}<textarea name="deliveryDate" class="form-control">{{order.deliveryDate}}</textarea>{{/edditingOrder}}
+                                {{^edditingOrder}}{{#order.deliveryDate}}{{order.deliveryDate}}{{/order.deliveryDate}}{{^order.deliveryDate}}No especificada{{/order.deliveryDate}}{{/edditingOrder}}
                             </td>
                         </tr>
                         <tr>
                             <th>Notas de Entrega</th>
                             <td>
-                                {{#admin}}<textarea name="deliveryNote" class="form-control">{{order.deliveryNote}}</textarea>{{/admin}}
-                                {{^admin}}{{#order.deliveryNote}}{{order.deliveryNote}}{{/order.deliveryNote}}{{^order.deliveryNote}}No especificadas{{/order.deliveryNote}}{{/admin}}
+                                {{#edditingOrder}}<textarea name="deliveryNote" class="form-control">{{order.deliveryNote}}</textarea>{{/edditingOrder}}
+                                {{^edditingOrder}}{{#order.deliveryNote}}{{order.deliveryNote}}{{/order.deliveryNote}}{{^order.deliveryNote}}No especificadas{{/order.deliveryNote}}{{/edditingOrder}}
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            {{#admin}}
+            {{#edditingOrder}}
             <div class="text-center mt-3">
                 <button type="submit" class="btn btn-success">Guardar Cambios <i class="bi bi-check-circle"></i></button>
             </div>
-            {{/admin}}
+            {{/edditingOrder}}
         </form>
 
         <div class="row mt-4">

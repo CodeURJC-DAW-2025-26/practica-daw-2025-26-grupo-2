@@ -70,12 +70,24 @@ public class OrderController {
 	}
 
 	@GetMapping("/order/{id}") // FINISHED
-	public String getMethodName(Model model, @PathVariable long id, Principal principal), HttpServletRequest request) {
+	public String getMethodName(Model model, @PathVariable long id, HttpServletRequest request) {
+		return showOrderDetail(model, id, request, false);
+	}
+
+	@PostMapping("/order/{id}/edit")
+	public String editOrder(Model model, @PathVariable long id, HttpServletRequest request) {
+		return showOrderDetail(model, id, request, true);
+	}
+
+	private String showOrderDetail(Model model, long id, HttpServletRequest request, boolean editing) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
+			Order edittingOrder = null;
+			String backLink;
 			Order order = op.get();
+			Principal principal = request.getUserPrincipal();
 			User user = userService.findByEmail(principal.getName()).orElseThrow();
-			if (!request.isUserInRole("ADMIN") && !user.getName().equals(order.getUser().getEmail())) {
+			if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(order.getUser().getEmail())) {
 				model.addAttribute("message", "Quieto parao! No tienes permiso para ver este pedido.");
 				model.addAttribute("backLink", "/myorders");
 				return "customError";
@@ -83,14 +95,30 @@ public class OrderController {
 			String status;
 			if (order.getCompleted()) {
 				status = "COMPLETADO";
-				model.addAttribute("isCompleted", true);
 			} else {
 				status = "EN CURSO";
-				model.addAttribute("isPending", true);
 			}
 			model.addAttribute("order", order);
 			model.addAttribute("status", status);
-			model.addAttribute("backLink", "/orders");
+			if (editing){
+				edittingOrder = order;
+				backLink = "/orders";
+			}
+			else{
+				if (request.isUserInRole("ADMIN")){
+					if (order.getUser().getEmail().equals(user.getEmail())){
+						backLink = "/myorders";
+					}
+					else{
+						backLink = "/orders";
+					}
+				}
+				else{
+					backLink = "/myorders";
+				}
+			}
+			model.addAttribute("backLink", backLink);
+			model.addAttribute("edditingOrder", edittingOrder);
 			return "order_detail";
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado");
@@ -98,30 +126,47 @@ public class OrderController {
 			return "customError";
 		}
 	}
+	
 
 	@GetMapping("/cart") // FINISHED
-	public String showCart(Model model, Principal principal) {
+	public String showCart(Model model, HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
 		return "cart";
 	}
 
 	@GetMapping("/myorders") // FINISHED
-	public String showUserOrders(Model model, Principal principal) {
+	public String showUserOrders(Model model, HttpServletRequest request, @PageableDefault(size = 10) Pageable pageable) {
+		Principal principal = request.getUserPrincipal();
 		Optional<User> opUser = userService.findByEmail(principal.getName());
-		model.addAttribute("orders", orderService.findByUserIdAndCompletedTrue(opUser.get().getId()));
+		model.addAttribute("orders", orderService.findByUserIdAndCompletedTrue(opUser.get().getId(), pageable));
+		model.addAttribute("hasMore", orderService.findByUserIdAndCompletedTrue(opUser.get().getId(), pageable.next()).hasContent());
 		return "user_orders";
 	}
 
+	@GetMapping("/loadMoreMyOrders")
+	public String loadMoreMyOrders(Model model, @PageableDefault(size = 10) Pageable pageable,
+			HttpServletResponse response, HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
+		model.addAttribute("orders", orderService.findByUserIdAndCompletedTrue(user.getId(), pageable));
+		response.addHeader("X-Has-More", String.valueOf(orderService
+				.findByUserIdAndCompletedTrue(user.getId(), pageable.next())
+				.hasContent()));
+		return "user_orders_cards";
+	}
+
 	@PostMapping("/cart/add/{garmentId}") // FINISHED
-	public String addToCart(Model model, @PathVariable long garmentId, Principal principal, OrderItem orderItem) {
+	public String addToCart(Model model, @PathVariable long garmentId, OrderItem orderItem, HttpServletRequest request) {
 		Optional<Garment> opGarment = garmentService.findById(garmentId);
 		if (!opGarment.isPresent()) {
-			model.addAttribute("element", "Prenda");
-			model.addAttribute("masculine", false);
-			return "garment_not_found";
+			model.addAttribute("message", "¿Qué buscabas? La prenda que has intentado añadir no existe.");
+			model.addAttribute("backLink", "/");
+			return "customError";
 		}
 		orderItem.setGarment(opGarment.get());
+		Principal principal = request.getUserPrincipal();
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
 		if (cart != null) {
@@ -143,9 +188,9 @@ public class OrderController {
 	public String removeFromCart(Model model, @PathVariable long orderItemId, Principal principal) {
 		Optional<OrderItem> opOrderItem = orderItemService.findById(orderItemId);
 		if (!opOrderItem.isPresent()) {
-			model.addAttribute("element", "Prenda");
-			model.addAttribute("masculine", false);
-			return "not_found";
+			model.addAttribute("message", "¿Qué buscabas? No se ha encontrado el artículo que has intentado eliminar del carrito.");
+			model.addAttribute("backLink", "/cart");
+			return "customError";
 		}
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		Order cart = user.getCart();
@@ -164,10 +209,19 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders/{id}/invoice")
-	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) {
-		Order order = orderService.findById(id).orElseThrow();
-		// TODO: Add security check to ensure only the user who made the order or an
-		// admin can access the invoice
+	public Object generateInvoice(@PathVariable Long id, Model model, HttpServletRequest request) {
+		Optional<Order> opOrder = orderService.findById(id);
+		if(!opOrder.isPresent()) {
+			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado.");
+			model.addAttribute("backLink", "/orders");
+			return "customError";
+		}
+		Order order = opOrder.get();
+		if (!request.isUserInRole("ADMIN") && !request.getUserPrincipal().getName().equals(order.getUser().getEmail())) {
+			model.addAttribute("message", "Quieto parao! No tienes permiso para ver esta factura.");
+			model.addAttribute("backLink", "/myorders");
+			return "customError";
+		}
 		byte[] pdf = invoicePdfService.generateInvoice(order);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);
@@ -200,7 +254,6 @@ public class OrderController {
 	public String updateOrderDetails(@PathVariable Long id,
 			@RequestParam BigDecimal totalPrice,
 			@RequestParam BigDecimal shippingCost,
-			@RequestParam String status,
 			@RequestParam String deliveryAddress,
 			@RequestParam LocalDate deliveryDate,
 			@RequestParam String deliveryNote,
@@ -211,20 +264,12 @@ public class OrderController {
 		if (op.isPresent()) {
 			Order originalOrder = op.get();
 
-			if (!request.isUserInRole("ADMIN")) {
-				return "redirect:/access-denied";
-			}
-
 			if (totalPrice != null) {
 				originalOrder.setTotalPrice(totalPrice);
 			}
 
 			if (shippingCost != null) {
 				originalOrder.setShippingCost(shippingCost);
-			}
-
-			if (status != null) {
-				originalOrder.setCompleted("COMPLETED".equals(status));
 			}
 
 			if (deliveryAddress != null) {

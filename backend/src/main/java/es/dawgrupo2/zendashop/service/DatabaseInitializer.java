@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 import jakarta.annotation.PostConstruct;
 
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -298,6 +299,55 @@ public class DatabaseInitializer {
 		order19.addOrderItem(new OrderItem(1, "42", garment8));
 		orderService.save(order19);
 
+		Order order20 = new Order(true, "C/ Futura 99", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order20);
+		order20.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order20);
+
+		Order order21 = new Order(true, "C/ Futura 100", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order21);
+		order21.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order21);
+
+		Order order22 = new Order(true, "C/ Futura 101", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order22);
+		order22.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order22);
+
+		Order order23 = new Order(true, "C/ Futura 102", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order23);
+		order23.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order23);
+
+		Order order24 = new Order(true, "C/ Futura 103", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order24);
+		order24.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order24);
+
+		Order order25 = new Order(true, "C/ Futura 104", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order25);
+		order25.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order25);
+		
+		Order order26 = new Order(true, "C/ Futura 105", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order26);
+		order26.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order26);
+
+		Order order27 = new Order(true, "C/ Futura 106", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order27);
+		order27.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order27);
+
+		Order order28 = new Order(true, "C/ Futura 107", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order28);
+		order28.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order28);
+
+		Order order29 = new Order(true, "C/ Futura 108", LocalDate.now(), "Sin observaciones");
+		user2.addOrder(order29);
+		order29.addOrderItem(new OrderItem(1, "M", garment1));
+		orderService.save(order29);
 
 		// Update creation dates to have orders in different periods for statistics testing
 		orderService.forceCreationDate(order1.getId(), LocalDate.now().minusDays(1).atStartOfDay());
