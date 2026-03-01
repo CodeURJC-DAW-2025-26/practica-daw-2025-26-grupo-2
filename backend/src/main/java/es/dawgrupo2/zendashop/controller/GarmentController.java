@@ -44,14 +44,17 @@ public class GarmentController {
 			@RequestParam(required = false) BigDecimal maxPrice, Model model,
 			@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
 
+		// Add first page of garments with filters to the model
 		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
 				minPrice, maxPrice, pageable));
+		// If the user is logged in, add personalized offers to the model
 		if (request.getUserPrincipal() != null) {
 			String userEmail = request.getUserPrincipal().getName();
 			userService.findByEmail(userEmail).ifPresent(
 					user -> model.addAttribute("offers", garmentService.findSmartRecommendations(user.getId())));
 		}
 
+		// Convert the pageable sort to a string to maintain the sorting in the "load more" link
 		String sortParam = "";
 		if (pageable.getSort().isSorted()) {
 			sortParam = pageable.getSort().stream()
@@ -60,6 +63,7 @@ public class GarmentController {
 					.orElse("");
 		}
 
+		// Add the "load more" link including the current filters, sorting and next page number, and whether there are more garments to load to the model
 		model.addAttribute("loadMoreLink",
 				"/loadMoreGarments?nameSearch=" + (nameSearch != null ? nameSearch : "") + "&categorySearch="
 						+ (categorySearch != null ? categorySearch : "") + "&minPrice="
@@ -74,17 +78,21 @@ public class GarmentController {
 		return "index";
 	}
 
-	@GetMapping("/loadMoreGarments")
+	@GetMapping("/loadMoreGarments") // This method is called by AJAX when the user clicks the "load more" button
+	// It is possible to unify both methods / and /loadMoreGarments by considering request headers, but we do it like this
+	// to enhance readability and maintainability, as the logic for loading more garments is different from the logic for loading the first page (for example, it does not need to load personalized offers)
 	public String loadMoreGarments(@RequestParam(required = false) String nameSearch,
 			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
 			@RequestParam(required = false) BigDecimal maxPrice, Model model,
 			@PageableDefault(size = 10) Pageable pageable, HttpServletResponse response) {
+		
 		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
 				minPrice, maxPrice, pageable));
+		// Add whether there are more garments to load to the response headers, so the javascript code can know whether to show the "load more" button or not
 		response.addHeader("X-Has-More", String.valueOf(garmentService
 				.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, pageable.next())
 				.hasContent()));
-		return "garments_cards";
+		return "garments_cards"; // This is a fragment of the index.html template that only contains the garment cards, so it can be loaded by AJAX and replace the existing cards without reloading the whole page
 	}
 
 	@GetMapping("/garment/{id}")
@@ -94,6 +102,7 @@ public class GarmentController {
 
 		if (op.isPresent()) {
 			Garment garment = op.get();
+			// For each opinion of the garment, set whether the logged in user is the owner of the opinion or an admin, so the view can decide whether to show the edit and delete buttons for each opinion
 			for (Opinion opinion : garment.getOpinions()) {
 				opinion.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
 						|| opinion.getUser().getEmail().equals(request.getUserPrincipal().getName())));
@@ -115,7 +124,10 @@ public class GarmentController {
 	@PostMapping("/garment/new")
 	public String newGarment(Model model, Garment garment, MultipartFile imageFile, HttpServletRequest request) {
 
+		// Backend validation of fields, including the image file, to prevent users from bypassing frontend validation
+		// As it is a new garment, image is required, so we pass true as the third parameter of validateFields
 		String errorMsg = garmentService.validateFields(garment, imageFile, true);
+		// If there are validation errors, show the error page with a link to go back to the garment form
 		if (!errorMsg.isEmpty()) {
 			model.addAttribute("message", errorMsg);
 			model.addAttribute("backLink", "/garment/new");
@@ -148,7 +160,13 @@ public class GarmentController {
 	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id,
 		MultipartFile imageFile, @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(id);
+
+		// Not necessary to check if the user has permission to edit the garment
+		// as only admins can access this link (Spring Security configuration ensures that)
 		
+		// Backend validation of fields, including the image file if updateImage is true, to prevent users from bypassing frontend validation
+		// As it is an edit of an existing garment, image is not required, so we pass the value of updateImage as the third parameter of validateFields,
+		// so the image file will only be validated if the user has chosen to update the image
 		String errorMsg = garmentService.validateFields(editedGarment, imageFile, updateImage);
 		if (!errorMsg.isEmpty()) {
 			model.addAttribute("message", errorMsg);
@@ -158,7 +176,9 @@ public class GarmentController {
 
 		if (op.isPresent()) {
 			Garment originalGarment = op.get();
-			garmentService.setFields(originalGarment, editedGarment, updateImage, imageFile);
+			// Update the fields of the original garment with the values of the edited garment
+			// and save the original garment, as it is a persistent entity, so it will be updated in the database
+			garmentService.setFieldsAndSave(originalGarment, editedGarment, updateImage, imageFile);
 			return "redirect:/garment/" + originalGarment.getId();
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");
@@ -172,8 +192,14 @@ public class GarmentController {
 
 		Optional<Garment> op = garmentService.findById(id);
 
+		// Not necessary to check if the user has permission to delete the garment
+		// as only admins can access this link (Spring Security configuration ensures that)
+
 		if (op.isPresent()) {
 			Garment garment = op.get();
+			// To avoid issues with completed orders, we do not delete the garment, 
+			// but we set it as unavailable, so it will not be shown in the store and cannot be bought, 
+			// but the existing orders with this garment will not be affected
 			garmentService.disable(garment);
 			return "redirect:/";
 		} else {
