@@ -64,8 +64,8 @@ public class OrderService {
 		repository.forceCreationDate(id, date);
 	}
 
-	public List<Order> findByUserIdAndCompletedTrue(Long userId) {
-		return repository.findByUserIdAndCompletedTrue(userId);
+	public Page<Order> findByUserIdAndCompletedTrue(Long userId, Pageable pageable) {
+		return repository.findByUserIdAndCompletedTrue(userId, pageable);
 	}
 
 	public List<Order> findByCompletedFalseAndOrderItems_Garment_Id(long id) {
