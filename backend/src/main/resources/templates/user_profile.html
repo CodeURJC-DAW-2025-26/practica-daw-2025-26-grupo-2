@@ -26,10 +26,10 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="profile-avatar">
                         {{#hasAvatar}}
-                            <img src="/user/{{user.id}}/avatar" alt="Avatar" class="img-thumbnail">
+                        <img src="/user/{{user.id}}/avatar" alt="Avatar" class="img-thumbnail">
                         {{/hasAvatar}}
                         {{^hasAvatar}}
-                            <img src="/avatar_default.png" alt="Sin avatar" class="img-thumbnail">
+                        <img src="/avatar_default.png" alt="Sin avatar" class="img-thumbnail">
                         {{/hasAvatar}}
                     </div>
 
@@ -115,18 +115,20 @@
 
                         <div class="chart-container">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div>
-                                    <h4 class="h6 fw-bold mb-0 d-inline-block me-2">Evolución del ticket medio</h4>
+                                <h3 class="mb-0">Evolución del ticket medio</h3>
+                                <div class="btn-group btn-group-sm shadow-sm" role="group">
+                                    <input type="radio" class="btn-check" name="meanTicketPeriod" id="monthly_ticket"
+                                        value="monthly">
+                                    <label class="btn btn-outline-primary px-3" for="monthly_ticket">Mensual</label>
+
+                                    <input type="radio" class="btn-check" name="meanTicketPeriod" id="yearly_ticket"
+                                        value="yearly">
+                                    <label class="btn btn-outline-primary px-3" for="yearly_ticket">Anual</label>
                                 </div>
-
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <input type="radio" class="btn-check" name="periodo" id="m" value="mensual" checked>
-                                    <label class="btn btn-outline-primary border-secondary-subtle px-3"
-                                        for="m">Mensual</label>
-
-                                    <input type="radio" class="btn-check" name="periodo" id="a" value="anual">
-                                    <label class="btn btn-outline-primary border-secondary-subtle px-3"
-                                        for="a">Anual</label>
+                            </div>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <canvas id="meanTicketChart" height="110"></canvas>
                                 </div>
                             </div>
 
@@ -146,6 +148,51 @@
     </main>
     {{>footer}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function parseTemplateJson(rawJSON) {
+            try {
+                return JSON.parse(rawJSON);
+            } catch (e) {
+                return [];
+            }
+        }
+
+        const mean_ticket = {
+            monthly: {
+                labels: parseTemplateJson('{{{monthlyLabelsJson}}}'),
+                data: parseTemplateJson('{{{monthlyMeanTicketJson}}}')
+            },
+            yearly: {
+                labels: parseTemplateJson('{{{yearlyLabelsJson}}}'),
+                data: parseTemplateJson('{{{yearlyMeanTicketsJson}}}')
+            }
+        };
+
+        const meanTicketChart = new Chart(document.getElementById("meanTicketChart"), {
+            type: "line",
+            data: {
+                labels: mean_ticket.monthly.labels,
+                datasets: [{
+                    label: "Ticket medio (€)",
+                    data: mean_ticket.monthly.data,
+                    tension: 0.3
+                }]
+            }
+        });
+
+        function updateMeanTicketChart(period) {
+            meanTicketChart.data.labels = mean_ticket[period].labels;
+            meanTicketChart.data.datasets[0].data = mean_ticket[period].data;
+            meanTicketChart.update();
+        }
+
+        document.querySelectorAll('input[name="meanTicketPeriod"]').forEach((radio) => {
+            radio.addEventListener("change", (event) => {
+                updateMeanTicketChart(event.target.value);
+            });
+        });
+    </script>
 </body>
 
 </html>

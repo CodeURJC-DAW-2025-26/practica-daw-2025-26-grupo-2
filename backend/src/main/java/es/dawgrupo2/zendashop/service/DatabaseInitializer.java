@@ -114,82 +114,66 @@ public class DatabaseInitializer {
 		User user17 = new User("Álvaro", "Herrera", "alvaro@example.com", "Calle Mayor 15", encodedPass17, "ADMIN");
 		userService.save(user17);
 
-		Garment garment1 = new Garment("Camiseta", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",
-				"Talla M, color blanco");
+		Garment garment1 = new Garment("Camiseta blanca", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",
+				"Pequeño, color blanco");
 		
 		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros",
-				"Talla 32, color azul");
+				"Grande, color azul");
 
-		Garment garment3 = new Garment("Pantalones de pinzas", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones de pinzas",
-				"Talla 32, color azul");
+		Garment garment3 = new Garment("Camiseta azul", BigDecimal.valueOf(39.99), "Camisas", "Camiseta de algodón",
+				"Mediano, color azul");
 		
-		Garment garment4 = new Garment("Falda", BigDecimal.valueOf(29.99), "Accesorios", "Falda de tela ligera",
-				"Talla S, color rojo");
+		Garment garment4 = new Garment("Camiseta roja", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de algodón",
+				"Pequeño, color rojo");
 
-		Garment garment5 = new Garment("Chaqueta", BigDecimal.valueOf(59.99), "Camisas", "Chaqueta de cuero sintético",
-				"Talla L, color negro");
+		Garment garment5 = new Garment("Jersey", BigDecimal.valueOf(59.99), "Chaquetas", "Jersey de lana",
+				"Grande, color marrón");
 		
-		Garment garment6 = new Garment("Vestido", BigDecimal.valueOf(49.99), "Accesorios", "Vestido de verano",
-				"Talla M, color amarillo");
+		Garment garment6 = new Garment("Camiseta amarilla", BigDecimal.valueOf(49.99), "Camisas", "Camiseta de verano",
+				"Mediano, color amarillo");
 		
-		Garment garment7 = new Garment("Sudadera", BigDecimal.valueOf(34.99), "Camisas", "Sudadera con capucha",
-				"Talla L, color gris");
+		Garment garment7 = new Garment("Camiseta gris", BigDecimal.valueOf(34.99), "Camisas", "Camiseta de algodón",
+				"Grande, color gris");
 
-		Garment garment8 = new Garment("Pantalones cortos", BigDecimal.valueOf(24.99), "Pantalones", "Pantalones cortos de algodón",
-				"Talla M, color verde");
+		Garment garment8 = new Garment("Camiseta verde", BigDecimal.valueOf(24.99), "Camisas", "Camiseta de algodón",
+				"Mediano, color verde");
 
-		Garment garment9 = new Garment("Blusa", BigDecimal.valueOf(29.99), "Camisas", "Blusa de seda",
-				"Talla S, color rosa");
+		Garment garment9 = new Garment("Camiseta rosa", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de seda",
+				"Pequeño, color rosa");
 
-		Garment garment10 = new Garment("Abrigo", BigDecimal.valueOf(79.99), "Accesorios", "Abrigo de lana",
-				"Talla M, color marrón");
+		Garment garment10 = new Garment("Camiseta azul marino", BigDecimal.valueOf(79.99), "Camisas", "Camiseta de lana",
+				"Mediano, color azul marino");
 
-		Garment garment11 = new Garment("Pantalones de chándal", BigDecimal.valueOf(29.99), "Pantalones", "Pantalones de chándal cómodos",
-				"Talla L, color gris");
+		Garment garment11 = new Garment("Camiseta negra", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de algodón",
+				"Grande, color negro");
 
-		Garment garment12 = new Garment("Camisa de manga larga", BigDecimal.valueOf(34.99), "Camisas", "Camisa de manga larga de algodón",
-				"Talla M, color azul claro");
+		Garment garment12 = new Garment("Camiseta turquesa", BigDecimal.valueOf(34.99), "Camisas", "Camiseta de manga larga de algodón",
+				"Mediano, color azul claro");
 
-		Resource image = new ClassPathResource("sample_images/camiseta.jpg");
-		InputStream inputStream = image.getInputStream();
+		Garment garment13 = new Garment("Zapatos", BigDecimal.valueOf(89.99), "Calzado", "Zapatos de cuero", 
+				"Bonitos, elegantes");
 
-		MockMultipartFile multipartFile = new MockMultipartFile(
-				"image",
-				"camiseta.jpg",
-				"image/jpg",
-				StreamUtils.copyToByteArray(inputStream));
+		Garment garment14 = new Garment("Sudadera", BigDecimal.valueOf(49.99), "Chaquetas", "Sudadera con capucha de algodón", 
+				"Cómoda, cálida");
 
-		garmentService.save(garment1, multipartFile);
+		Garment garment15 = new Garment("Bolso negro", BigDecimal.valueOf(99.99), "Accesorios", "Bolso de cuero", 
+				"Resistente, elegante");
 
-		image = new ClassPathResource("sample_images/pantalon.jpg");
-		inputStream = image.getInputStream();
-
-		multipartFile = new MockMultipartFile(
-				"image",
-				"pantalon.jpg",
-				"image/jpg",
-				StreamUtils.copyToByteArray(inputStream));
-
-		garmentService.save(garment2, multipartFile);
-		garmentService.save(garment3, multipartFile);
-
-		image = new ClassPathResource("sample_images/jersey.jpg");
-		inputStream = image.getInputStream();
-
-		multipartFile = new MockMultipartFile(
-				"image",
-				"jersey.jpg",
-				"image/jpg",
-				StreamUtils.copyToByteArray(inputStream));
-		garmentService.save(garment4, multipartFile);
-		garmentService.save(garment5, multipartFile);
-		garmentService.save(garment6, multipartFile);
-		garmentService.save(garment7, multipartFile);
-		garmentService.save(garment8, multipartFile);
-		garmentService.save(garment9, multipartFile);
-		garmentService.save(garment10, multipartFile);
-		garmentService.save(garment11, multipartFile);
-		garmentService.save(garment12, multipartFile);
+		garmentService.save(garment1, convertImage("sample_images/camiseta.jpg"));
+		garmentService.save(garment2, convertImage("sample_images/pantalon.jpg"));
+		garmentService.save(garment3, convertImage("sample_images/camiseta-azul.jpg"));
+		garmentService.save(garment4, convertImage("sample_images/camiseta-roja.jpg"));
+		garmentService.save(garment5, convertImage("sample_images/jersey.jpg"));
+		garmentService.save(garment6, convertImage("sample_images/camiseta-amarilla.jpg"));
+		garmentService.save(garment7, convertImage("sample_images/camiseta-gris.jpg"));
+		garmentService.save(garment8, convertImage("sample_images/camiseta-verde.jpg"));
+		garmentService.save(garment9, convertImage("sample_images/camiseta-rosa.jpg"));
+		garmentService.save(garment10, convertImage("sample_images/camiseta-azul-marino.jpg"));
+		garmentService.save(garment11, convertImage("sample_images/camiseta-negra.jpg"));
+		garmentService.save(garment12, convertImage("sample_images/camiseta-turquesa.jpg"));
+		garmentService.save(garment13, convertImage("sample_images/zapatos.jpg"));
+		garmentService.save(garment14, convertImage("sample_images/sudadera.jpg"));
+		garmentService.save(garment15, convertImage("sample_images/bolso-negro.jpg"));
 
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
@@ -375,5 +359,17 @@ public class DatabaseInitializer {
 		orderService.forceCreationDate(order18.getId(), LocalDate.now().minusYears(5).atStartOfDay());
 
 		orderService.forceCreationDate(order19.getId(), LocalDate.now().minusYears(6).atStartOfDay());
-			}
+	}
+
+	private MockMultipartFile convertImage(String imageUrl) throws IOException {
+		Resource image = new ClassPathResource(imageUrl);
+		InputStream inputStream = image.getInputStream();
+
+		MockMultipartFile multipartFile = new MockMultipartFile(
+				"image",
+				"camiseta.jpg",
+				"image/jpg",
+				StreamUtils.copyToByteArray(inputStream));
+		return multipartFile;
+	}
 }

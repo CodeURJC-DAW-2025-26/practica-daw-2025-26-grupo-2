@@ -103,13 +103,12 @@ public class GarmentService {
 		if (garment.getPrice() == null || garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0 || garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
 			errorMsg += "El precio debe ser un número positivo menor o igual a 5000. <br>";
 		}
-		if (garment.getCategory() == null || garment.getCategory().isEmpty() || garment.getCategory().length() < 4 || garment.getCategory().length() > 100) {
-			errorMsg += "La categoría no puede estar vacía y debe tener entre 4 y 100 caracteres. <br>";
+		if (garment.getCategory() == null || garment.getCategory().isEmpty() || !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
+			errorMsg += "La categoría tiene que ser una de las siguientes: Camisas, Pantalones, Zapatos, Chaquetas, Accesorios, Otros. <br>";
 		}
 		if (garment.getDescription() == null || garment.getDescription().isEmpty() || garment.getDescription().length() < 3 || garment.getDescription().length() > 200) {
 			errorMsg += "La descripción no puede estar vacía y debe tener entre 3 y 200 caracteres. <br>";
 		}
-
 		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3 || garment.getFeatures().length() > 300) {
 			errorMsg += "Las características no pueden estar vacías y deben tener entre 3 y 300 caracteres. <br>";
 		}
