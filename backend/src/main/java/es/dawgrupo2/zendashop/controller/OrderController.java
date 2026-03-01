@@ -58,7 +58,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/loadMoreOrders")
-	public String loadMoreGarments(Model model, @PageableDefault(size = 10) Pageable pageable,
+	public String loadMoreOrders(Model model, @PageableDefault(size = 10) Pageable pageable,
 			HttpServletResponse response) {
 		model.addAttribute("orders", orderService.findByCompletedTrue(pageable));
 		response.addHeader("X-Has-More", String.valueOf(orderService
@@ -127,10 +127,18 @@ public class OrderController {
 	
 
 	@GetMapping("/cart") // FINISHED
-	public String showCart(Model model, HttpServletRequest request) {
+	public String showCart(Model model, HttpServletRequest request, @PageableDefault(size = 10) Pageable pageable) {
 		Principal principal = request.getUserPrincipal();
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
+		if (user.getCart() != null) {
+			model.addAttribute("orderItemsCart", orderItemService.findByOrderId(user.getCart().getId(), pageable));
+			model.addAttribute("hasMore", orderItemService
+					.findByOrderId(user.getCart().getId(), pageable.next())
+					.hasContent());
+		} else {
+			model.addAttribute("hasMore", false);
+		}
 		return "cart";
 	}
 
@@ -317,6 +325,16 @@ public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest
 			model.addAttribute("backLink", "/orders");
 			return "customError";
 		}
+	}
+
+	@GetMapping("/loadMoreOrderItems")
+	public String loadMoreOrderItems(@RequestParam Long orderId, Model model, @PageableDefault(size = 10) Pageable pageable,
+			HttpServletResponse response) {
+		model.addAttribute("orderItemsCart", orderItemService.findByOrderId(orderId, pageable));
+		response.addHeader("X-Has-More", String.valueOf(orderItemService
+				.findByOrderId(orderId, pageable.next())
+				.hasContent()));
+		return "cart_items_cards";
 	}
 
 }

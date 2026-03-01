@@ -3,8 +3,9 @@ package es.dawgrupo2.zendashop.service;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import es.dawgrupo2.zendashop.model.OrderItem;
@@ -43,5 +44,9 @@ public class OrderItemService {
 
 	public long deleteByOrderCompletedFalseAndGarment_Id(Long garmentId) {
 		return repository.deleteByOrderCompletedFalseAndGarment_Id(garmentId);
+	}
+
+	public Page<OrderItem> findByOrderId(Long orderId, Pageable pageable) {
+		return repository.findByOrder_Id(orderId, pageable);
 	}
 }

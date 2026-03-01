@@ -382,6 +382,5 @@ public class OrderService {
 
 		return meanTickets;
 	}
-
 	
 }
