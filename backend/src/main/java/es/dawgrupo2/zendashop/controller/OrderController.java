@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +30,6 @@ import es.dawgrupo2.zendashop.service.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDate;
 
 @Controller
@@ -160,15 +158,15 @@ public class OrderController {
 	@PostMapping("/cart/add/{garmentId}") // FINISHED
 	public String addToCart(Model model, @PathVariable long garmentId, OrderItem orderItem, HttpServletRequest request) {
 		Optional<Garment> opGarment = garmentService.findById(garmentId);
+		Principal principal = request.getUserPrincipal();
+		User user = userService.findByEmail(principal.getName()).orElseThrow();
+		Order cart = user.getCart();
 		if (!opGarment.isPresent()) {
 			model.addAttribute("message", "¿Qué buscabas? La prenda que has intentado añadir no existe.");
 			model.addAttribute("backLink", "/");
 			return "customError";
 		}
 		orderItem.setGarment(opGarment.get());
-		Principal principal = request.getUserPrincipal();
-		User user = userService.findByEmail(principal.getName()).orElseThrow();
-		Order cart = user.getCart();
 		if (cart != null) {
 			cart.addOrderItem(orderItem);
 			orderService.save(cart); // OrderItems are saved by cascade, but we need to save the cart to update the

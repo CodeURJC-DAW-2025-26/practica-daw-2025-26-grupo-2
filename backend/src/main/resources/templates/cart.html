@@ -46,13 +46,13 @@
                         <span class="fw-bold">Subtotal: {{subtotal}}€</span>
 
                         <div class="quantity-controls">
-                            <input disabled type="number" class="form-control form-control-quantity" value="{{quantity}}" min="1"
-                                max="50" />
+                            <input disabled type="number" class="form-control form-control-quantity"
+                                value="{{quantity}}" min="1" max="50" />
                             <form action="/cart/remove/{{id}}" method="post" class="d-inline">
-                            <input type="hidden" name="_csrf" value="{{token}}">
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-x-lg"></i> Eliminar
-                            </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-x-lg"></i> Eliminar
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -63,13 +63,16 @@
             <hr class="my-4" />
 
             <form role="form" class="needs-validation" id="cartForm" action="/order/{{id}}/process" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}">
+
 
                 <div class="delivery-info mb-4">
                     <h3 class="mb-3">Preferencias de entrega</h3>
 
                     <div class="mb-3">
                         <label for="deliveryAddress" class="form-label">Dirección de entrega</label>
-                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" placeholder="Calle, Ciudad, CP"
+                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress"
+                            placeholder="Calle, Ciudad, CP"
                             value="{{#deliveryAddress}}{{deliveryAddress}}{{/deliveryAddress}}{{^deliveryAddress}}No especificada{{/deliveryAddress}}" />
                     </div>
 
@@ -108,7 +111,6 @@
                     <a href="/" class="btn btn-secondary">
                         <i class="bi bi-arrow-left-circle"></i> Continuar comprando
                     </a>
-                    <input type="hidden" name="_csrf" value="{{token}}">
                     <span>ID del pedido: {{id}}</span>
                     <button type="submit" class="btn btn-success">
                         Comprar <i class="bi bi-credit-card"></i>
