@@ -251,6 +251,33 @@ public class OrderController {
 		return "redirect:/myorders";
 	}
 
+	//-------------------------------
+@PostMapping("/order/{id}/delete")
+public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest request) {
+	if (!request.isUserInRole("ADMIN")) {
+		model.addAttribute("message", "Quieto parao! No tienes permiso para eliminar este pedido");
+		model.addAttribute("backLink", "/");
+		return "customError";
+	}
+	Optional<Order> op = orderService.findById(id);
+	if (op.isPresent()) {
+		Order order = op.get();
+		User user = order.getUser();
+		if (!order.getCompleted()){
+			user.setCart(null);
+		}else {
+			user.removeOrder(order);
+		}
+		userService.save(user);
+		orderService.delete(id);
+		return "redirect:/orders";
+	} else {
+		model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado");
+		model.addAttribute("backLink", "/");
+		return "customError";
+	}
+}
+	
 	@PostMapping("/orders/{id}/update")
 	public String updateOrderDetails(@PathVariable Long id,
 			@RequestParam BigDecimal totalPrice,
