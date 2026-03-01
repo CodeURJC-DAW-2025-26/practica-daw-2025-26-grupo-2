@@ -21,3 +21,10 @@
     {{/isOwn}}
 </div>
 {{/opinionsPage}}
+{{^opinionsPage}}
+{{^opinion}}
+<div class="alert alert-info" role="alert">
+    No hay opiniones disponibles.
+</div>
+{{/opinion}}
+{{/opinionsPage}}

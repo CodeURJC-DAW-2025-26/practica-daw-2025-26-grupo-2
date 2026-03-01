@@ -7,3 +7,10 @@
     <h5>{{price}}€</h5>
 </div>
 {{/garments}}
+{{^garments}}
+<div class="col-12">
+    <div class="alert alert-info" role="alert">
+        No hay prendas disponibles.
+    </div>
+</div>
+{{/garments}}
