@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import es.dawgrupo2.zendashop.model.User;
 
@@ -42,7 +44,23 @@ public class UserController {
     UserService userService;
 
     @Autowired
-	private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/users")
+    public String showUsers(Model model, @PageableDefault(size = 2) Pageable pageable) {
+            model.addAttribute("users", userService.findByDisabledFalse(pageable));
+            model.addAttribute("hasMore", userService.findByDisabledFalse(pageable.next()).hasContent());
+        return "all_users";
+    }
+
+    @GetMapping("/loadMoreUsers")
+	public String loadMoreUsers(Model model, @PageableDefault(size = 2) Pageable pageable, HttpServletResponse response) {
+		model.addAttribute("users", userService.findByDisabledFalse(pageable));
+		response.addHeader("X-Has-More", String.valueOf(userService
+				.findByDisabledFalse(pageable.next())
+				.hasContent()));
+		return "users_cards";
+	}
 
     @GetMapping("/user/{id}")
     public String showUserID(Model model, @PathVariable Long id) {
@@ -66,8 +84,8 @@ public class UserController {
 
         Principal principal = request.getUserPrincipal();
         Optional<User> op = userService.findByEmail(principal.getName());
-        
-        if (op.isPresent()){
+
+        if (op.isPresent()) {
             User user = op.get();
             model.addAttribute("user", user);
             model.addAttribute("hasAvatar", user.getHasAvatar());
@@ -76,12 +94,6 @@ public class UserController {
         }
         return "user_profile";
     }
-
-    @GetMapping("/users")
-	public String showUsers(Model model, Pageable pageable) {
-		model.addAttribute("users", userService.findByDisabledFalse(pageable));
-		return "all_users";
-	}
 
     @GetMapping("/user/{id}/edit")
     public String editUser(Model model, @PathVariable Long id, HttpServletRequest request) {
@@ -94,7 +106,7 @@ public class UserController {
             boolean isAdmin = request.isUserInRole("ADMIN");
 
             if (!isAdmin && !userToEdit.getEmail().equals(loggedInEmail)) {
-                return "redirect:/"; 
+                return "redirect:/";
             }
 
             model.addAttribute("user", userToEdit);
@@ -107,7 +119,8 @@ public class UserController {
     }
 
     @PostMapping("/user/{id}/edit")
-    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar, HttpServletRequest request) {
+    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar,
+            HttpServletRequest request) {
 
         Optional<User> op = userService.findById(id);
 
@@ -125,7 +138,7 @@ public class UserController {
             originalUser.setName(editedUser.getName());
             originalUser.setSurname(editedUser.getSurname());
             originalUser.setEmail(editedUser.getEmail());
-    
+
             if (newPassword != null && !newPassword.isBlank()) {
                 originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
             }
@@ -166,7 +179,7 @@ public class UserController {
     }
 
     @PostMapping("user/{id}/delete")
-    public String deleteUser(Model model, @PathVariable Long id, HttpServletRequest request) { 
+    public String deleteUser(Model model, @PathVariable Long id, HttpServletRequest request) {
         User userSession = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
         if (!request.isUserInRole("ADMIN") && !userSession.getId().equals(id)) {
             model.addAttribute("message", "No tienes permiso para eliminar este usuario");
@@ -176,7 +189,7 @@ public class UserController {
         Optional<User> op = userService.findById(id);
         if (op.isPresent()) {
             userService.disableUser(id);
-            if (userSession.getId().equals(id)){
+            if (userSession.getId().equals(id)) {
                 try {
                     request.logout();
                 } catch (Exception e) {

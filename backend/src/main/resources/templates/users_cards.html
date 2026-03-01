@@ -1,0 +1,29 @@
+{{#users}}
+<tr class="user-item">
+    <td>{{id}}</td>
+    <td>{{name}}</td>
+    <td>{{email}}</td>
+    <td>{{#admin}}Admin{{/admin}}{{^admin}}Usuario{{/admin}}</td>
+    <td class="d-none d-md-table-cell">{{convertCreationDateToLocalDate}}</td>
+    <td class="d-none d-md-table-cell">{{orderCount}}</td>
+    <td class="d-none d-lg-table-cell">
+        {{#lastOrderDate}}{{lastOrderDate}}{{/lastOrderDate}}
+        {{^lastOrderDate}}Sin pedidos{{/lastOrderDate}}
+    </td>
+
+    <td class="d-flex flex-wrap gap-2">
+        <a class="btn btn-info btn-sm" href="/user/{{id}}">
+            Ver <i class="bi bi-eye"></i>
+        </a>
+        <a class="btn btn-warning btn-sm" href="/user/{{id}}/edit">
+            Editar <i class="bi bi-pencil-square"></i>
+        </a>
+        <form method="post" action="/user/{{id}}/delete">
+            <button class="btn btn-danger btn-sm" type="submit">
+                Borrar <i class="bi bi-x-lg"></i>
+            </button>
+            <input type="hidden" name="_csrf" value="{{token}}">
+        </form>
+    </td>
+</tr>
+{{/users}}
