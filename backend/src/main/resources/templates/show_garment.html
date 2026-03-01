@@ -207,7 +207,7 @@
         <h5>Usuario: {{user.name}}</h5>
         <h5>Puntuación: {{rating}}</h5>
         <p>{{comment}}</p>
-        {{#admin}}
+        {{#isOwn}}
         <div class="d-flex gap-2">
             <a class="btn btn-warning btn-sm text-dark" href="/garment/{{garment.id}}/opinion/{{id}}/edit">Editar <i
                     class="bi bi-pencil-square"></i></a>
@@ -218,7 +218,7 @@
                 </button>
             </form>
         </div>
-        {{/admin}}
+        {{/isOwn}}
     </div>
     {{/garment.opinions}}
     </div>
