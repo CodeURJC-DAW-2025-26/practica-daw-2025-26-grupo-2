@@ -86,15 +86,21 @@ public class OpinionController {
 	}
 
 	@PostMapping("/garment/{garmentId}/opinion/{opinionId}/delete")
-	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId) {
+	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId, HttpServletRequest request) {
 
 		Optional<Opinion> opinion = opinionService.findById(opinionId);
-
+		
 		if (opinion.isPresent()) {
+			String userEmail = request.getUserPrincipal().getName();
+			User user = userService.findByEmail(userEmail).orElseThrow();
+			if (!request.isUserInRole("ADMIN") && !opinion.get().getUser().getId().equals(user.getId())) {
+				model.addAttribute("message", "Quieto parao! No tienes permiso para eliminar esta opinión.");
+				model.addAttribute("backLink", "/garment/" + garmentId);
+				return "customError";
+			}
+	
             Garment garment = opinion.get().getGarment();
 			garmentId = garment.getId(); // Use reference in opinion to avoid problems with url
-			User user = opinion.get().getUser();
-			// Validate if the user is the owner of the opinion or an admin before allowing deletion
             garment.removeOpinion(opinion.get());
 			user.removeOpinion(opinion.get());
 			opinionService.delete(opinionId);

@@ -118,6 +118,7 @@ public class GarmentService {
 		} else if (!imageFile.getContentType().startsWith("image")) {
 			errorMsg += "El archivo debe ser una imagen de tipo JPG, JPEG o PNG. <br>";
 		}
+
 		return errorMsg;
 	}
 }

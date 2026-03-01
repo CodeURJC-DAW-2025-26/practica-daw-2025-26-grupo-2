@@ -15,7 +15,7 @@ public class Opinion {
 	private Long id;
 	
     @Transient
-    private boolean isOwn = false;
+    private boolean isOwn;
     
     private Integer rating;
     private String comment;

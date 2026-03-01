@@ -53,7 +53,7 @@
                 <label for="name" class="form-label">Nombre</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-person"></i></span>
-                  <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{^isNew}}{{user.name}}{{/isNew}}" required>
+                  <input type="text" id="name" name="name" class="form-control" placeholder="Tu nombre" value="{{^isNew}}{{user.name}}{{/isNew}}" minlength="5" maxlength="50" required>
                 </div>
               </div>
 
@@ -61,7 +61,7 @@
                 <label for="surname" class="form-label">Apellidos</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-person-lines-fill"></i></span>
-                  <input type="text" id="surname" name="surname" class="form-control" placeholder="Tus apellidos" value="{{^isNew}}{{user.surname}}{{/isNew}}" required>
+                  <input type="text" id="surname" name="surname" class="form-control" placeholder="Tus apellidos" value="{{^isNew}}{{user.surname}}{{/isNew}}" minlength="5" maxlength="100" required>
                 </div>
               </div>
 
@@ -69,7 +69,7 @@
                 <label for="email" class="form-label">Email</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-envelope"></i></span>
-                  <input type="email" id="email" name="email" class="form-control" placeholder="tuemail@ejemplo.com" value="{{^isNew}}{{user.email}}{{/isNew}}" required>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="tuemail@ejemplo.com" value="{{^isNew}}{{user.email}}{{/isNew}}" minlength="3" maxlength="90" required>
                 </div>
               </div>
 
@@ -79,7 +79,7 @@
                 </label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-lock"></i></span>
-                  <input type="password" id="password" name="encodedPassword" class="form-control" placeholder="••••••••" {{#isNew}}required{{/isNew}}>
+                  <input type="password" id="password" name="encodedPassword" class="form-control" placeholder="••••••••" minlength="8" maxlength="100" {{#isNew}}required{{/isNew}}>
                 </div>
               </div>
 
@@ -87,7 +87,7 @@
                 <label for="adress" class="form-label">Dirección</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-geo-alt"></i></span>
-                  <input type="text" id="adress" name="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000" value="{{^isNew}}{{user.adress}}{{/isNew}}">
+                  <input type="text" id="adress" name="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000" value="{{^isNew}}{{user.adress}}{{/isNew}}" minlength="10" maxlength="150">
                 </div>
               </div>
 

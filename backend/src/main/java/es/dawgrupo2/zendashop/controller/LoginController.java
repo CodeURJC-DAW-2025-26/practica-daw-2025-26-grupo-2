@@ -41,19 +41,24 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String addUser(Model model, User user, MultipartFile imageAvatar, @RequestParam(required = false) String rol) {
-
+    public String addUser(Model model, User user, MultipartFile imageAvatar,
+            @RequestParam(required = false) String rol, HttpServletRequest request) {
+        String errorMsg = userService.validateFields(user);
+        if (!errorMsg.isEmpty()) {
+            model.addAttribute("message", errorMsg);
+            model.addAttribute("backLink", "/register");
+            return "customError";
+        }
         user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-        if (!rol.equals("ADMIN")){
+        if (rol == null || !rol.equals("ADMIN")) {
             user.setRoles(List.of("USER"));
         } else {
             user.setRoles(List.of("USER", "ADMIN"));
         }
-
         if (userService.findByEmail(user.getEmail()).isPresent()) {
-            model.addAttribute("error", "El email seleccionado ya pertence a un usuario registrado");
-            model.addAttribute("isNew", true);
-            return "register";
+            model.addAttribute("message", "El email seleccionado ya pertence a un usuario registrado");
+            model.addAttribute("backLink", "/register");
+            return "customError";
         } else if (imageAvatar != null && !imageAvatar.isEmpty()) {
             try {
                 userService.save(user, imageAvatar);
@@ -62,6 +67,9 @@ public class LoginController {
             }
         } else {
             userService.save(user);
+        }
+        if (request.getUserPrincipal() != null) {
+            return "redirect:/users";
         }
 
         return "redirect:/";
