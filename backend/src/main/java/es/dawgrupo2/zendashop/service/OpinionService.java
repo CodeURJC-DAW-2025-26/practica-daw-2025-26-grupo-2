@@ -42,7 +42,7 @@ public class OpinionService {
 
 	public String validateFields (Opinion opinion) {
 		String errorMsg = "";
-		if (opinion.getRating() == null || opinion.getRating() < 1 || opinion.getRating() > 5) {
+		if (opinion.getRating() == null || !(opinion.getRating() instanceof Integer) || opinion.getRating() < 1 || opinion.getRating() > 5) {
 			errorMsg += "La valoración debe ser un número entre 1 y 5. ";
 		}
 		if (opinion.getComment() == null || opinion.getComment().isEmpty() || opinion.getComment().length() > 50 || opinion.getComment().length() < 5) {

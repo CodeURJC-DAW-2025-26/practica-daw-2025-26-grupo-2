@@ -162,8 +162,13 @@
             <div class="mb-3">
                 <label for="inputRating" class="form-label"><b>Valoración</b></label>
                 <select class="form-select" id="inputRating" name="rating"
-                    value="{{#opinion}}{{opinion.rating}}{{/opinion}}" required>
+                    value="{{#opinion}}{{opinion.getStarsRating}}{{/opinion}}" required>
+                    {{#opinion}}
+                    <option value="{{opinion.rating}}" selected>{{opinion.getStarsRating}}({{opinion.rating}} estrellas)</option>
+                    {{/opinion}}
+                    {{^opinion}}
                     <option value="" selected disabled>Selecciona una puntuación</option>
+                    {{/opinion}}
                     <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; (5 estrellas)</option>
                     <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; (4 estrellas)</option>
                     <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; (3 estrellas)</option>
@@ -195,12 +200,16 @@
     {{#garment.opinions}}
     <div class="review p-3 border rounded mb-3 bg-light" id="review-1">
         <h5>Usuario: {{user.name}}</h5>
-        <h5>Puntuación: {{rating}}</h5>
+        <h5>Puntuación: {{getStarsRating}}({{rating}} estrellas)</h5>
         <p>{{comment}}</p>
         {{#isOwn}}
         <div class="d-flex gap-2">
-            <a class="btn btn-warning btn-sm text-dark" href="/garment/{{garment.id}}/opinion/{{id}}/edit">Editar <i
-                    class="bi bi-pencil-square"></i></a>
+            <form action="/garment/{{garment.id}}/opinion/{{id}}/form" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}">
+                <button class="btn btn-primary btn-sm text-dark" type="submit">
+                    Editar <i class="bi bi-pencil-square"></i>
+                </button>
+            </form>
             <form action="/garment/{{garment.id}}/opinion/{{id}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}">
                 <button class="btn btn-danger btn-sm text-dark" type="submit">

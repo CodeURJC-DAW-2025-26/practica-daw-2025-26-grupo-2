@@ -2,6 +2,7 @@ package es.dawgrupo2.zendashop.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,14 +11,13 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.dawgrupo2.zendashop.service.OrderService;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
+import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.repository.GarmentRepository;
 
 @Service
@@ -31,7 +31,6 @@ public class GarmentService {
 
 	@Autowired
 	private OpinionService opinionService;
-
 	public Optional<Garment> findById(long id) {
 		return repository.findById(id);
 	}
@@ -77,11 +76,14 @@ public class GarmentService {
 
 	public void disable(Garment garment) {
 		garment.setAvailable(false);
-		// TODO: Remove opinions
-		// for (Opinion opinion: garment.getOpinions()) {
-		// garment.removeOpinion(opinion);
-		// opinionService.deleteBy(opinion.getId());
-		// }
+		// Delete opinions and remove them from users and garment to avoid orphan records and maintain consistency
+		for (Opinion opinion: new ArrayList<>(garment.getOpinions())) {
+			User user = opinion.getUser();
+			user.removeOpinion(opinion);
+			garment.removeOpinion(opinion);
+			opinionService.delete(opinion.getId());
+		}
+		// Disable garment in all carts to avoid problems with unavailable garments in carts
 		orderService.disableGarmentInCarts(garment);
 		save(garment);
 	}

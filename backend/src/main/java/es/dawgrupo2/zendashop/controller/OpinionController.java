@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -31,8 +30,7 @@ public class OpinionController {
 
 	@PostMapping("/garment/{garmentId}/opinion/new")
 	public String newOpinion(Model model,
-			// Principal principal,
-			@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
+		@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(garmentId);
 		String errorMsg = opinionService.validateFields(opinion);
 		if (!errorMsg.isEmpty()) {
@@ -56,7 +54,7 @@ public class OpinionController {
 		}
 	}
 
-	@GetMapping("/garment/{garmentId}/opinion/{opinionId}/edit")
+	@PostMapping("/garment/{garmentId}/opinion/{opinionId}/form")
 	public String editOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId,
 			HttpServletRequest request) {
 
@@ -70,6 +68,11 @@ public class OpinionController {
 				return "customError";
 			}
 			Opinion opinion = op.get();
+			for (Opinion opi : opinion.getGarment().getOpinions()) {
+				opi.setStarsRating("★".repeat(opi.getRating()) + "☆".repeat(5 - opi.getRating()));
+				opi.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
+						|| opi.getUser().getEmail().equals(request.getUserPrincipal().getName())));
+			}
 			model.addAttribute("opinion", opinion);
 			model.addAttribute("garment", opinion.getGarment());
 			return "show_garment";
@@ -130,7 +133,7 @@ public class OpinionController {
 			opinionService.delete(opinionId);
 			return "redirect:/garment/" + garmentId;
 		} else {
-			model.addAttribute("message", "Opinión no encontrada.");
+			model.addAttribute("message", "¿Qué buscabas? Opinión no encontrada.");
 			model.addAttribute("backLink", "/garment/" + garmentId);
 			return "customError";
 		}
