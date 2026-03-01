@@ -249,7 +249,6 @@ public class OrderController {
 		return "redirect:/myorders";
 	}
 
-	//-------------------------------
 @PostMapping("/order/{id}/delete")
 public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest request) {
 	if (!request.isUserInRole("ADMIN")) {

@@ -31,13 +31,14 @@
 
             <form action="{{^isNew}}/user/{{user.id}}/edit{{/isNew}}{{#isNew}}/register{{/isNew}}" method="post"
               enctype="multipart/form-data" novalidate class="needs-validation">
-
+              {{^isNew}}
               <div class="form-check mb-2">
                 <input class="form-check-input" type="checkbox" id="updateImage" name="updateImage">
                 <label class="form-check-label" for="updateImage">
                   Actualizar imagen
                 </label>
               </div>
+              {{/isNew}}
               <div class="text-center mb-3">
                 {{^isNew}}
                 {{#user.getHasAvatar}}
@@ -132,22 +133,22 @@
                   {{#isNew}}Crear cuenta{{/isNew}}
                 </button>
               </div>
-
-              {{#isNew}}
-              <div class="login-divider">
-                <span>o</span>
-              </div>
-
-              <div class="d-grid gap-2">
-                <a href="/" class="btn btn-secondary login-secondary">Volver a la tienda</a>
-              </div>
-
-              <p class="login-footer mt-3">
-                ¿Ya tienes cuenta? <a href="/login" class="login-link">Iniciar sesión</a>
-              </p>
-              {{/isNew}}
-
             </form>
+
+            {{#isNew}}
+            <div class="login-divider">
+              <span>o</span>
+            </div>
+
+            <div class="d-grid gap-2">
+              <a href="/" class="btn btn-secondary login-secondary">Volver a la tienda</a>
+            </div>
+
+            <p class="login-footer mt-3">
+              ¿Ya tienes cuenta? <a href="/login" class="login-link">Iniciar sesión</a>
+            </p>
+            {{/isNew}}
+
           </section>
 
         </div>
