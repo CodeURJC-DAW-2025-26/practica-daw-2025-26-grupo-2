@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sql.rowset.serial.SerialBlob;
 
 import es.dawgrupo2.zendashop.repository.UserRepository;
-import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.model.User;
 
 @Service
@@ -93,38 +92,65 @@ public class UserService {
 		return repository.findByDisabledFalse(pageable);
 	}
 
-	public String validateFields(User user) {
+	public String validateFields(User user, boolean updatePassword) {
 
 		String errorMsg = "";
 
 		if (user.getName() == null || user.getName().isEmpty() || user.getName().length() < 4
 				|| user.getName().length() > 50) {
-			return errorMsg += "El nombre del usuario no puede estar vacío o tener menos de 4 caracteres o más de 50.";
+			return errorMsg += "El nombre debe tener al menos 4 caracteres y no más de 50.";
 		}
 
 		if (user.getSurname() == null || user.getSurname().isEmpty() || user.getSurname().length() < 5
 				|| user.getSurname().length() > 100) {
-			return errorMsg += "Los apellidos del usuario no pueden estar vacíos o tener menos de 5 caracteres o más de 100.";
+			return errorMsg += "Los apellidos deben tener al menos 5 caracteres y no más de 100.";
 		}
 
 		if (user.getEmail() == null || user.getEmail().isEmpty() || user.getEmail().length() < 3
 				|| user.getEmail().length() > 90) {
-			return errorMsg += "El email del usuario no puede estar vacío o tener menos de 3 caracteres o más de 90.";
+			return errorMsg += "El email debe tener al menos 3 caracteres y no más de 90.";
 		}
 
 		String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 		if (!user.getEmail().matches(emailRegex)) {
-			return "El email del usuario no tiene un formato válido.";
+			return "El email no tiene un formato válido.";
 		}
 
-		if (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty()
-				|| user.getEncodedPassword().length() < 8 || user.getEncodedPassword().length() > 100) {
-			return errorMsg += "La contraseña del usuario no puede estar vacía o tener menos de 8 caracteres o más de 100.";
+		if (updatePassword && (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty()
+				|| user.getEncodedPassword().length() < 8 || user.getEncodedPassword().length() > 100)) {
+			return errorMsg += "La contraseña debe tener al menos 8 caracteres y no más de 100.";
 		}
 
 		if (user.getAdress() != null && (user.getAdress().length() < 10 || user.getAdress().length() > 150)) {
-			return errorMsg += "La dirección del usuario no puede tener menos de 10 caracteres o más de 150.";
+			return errorMsg += "La dirección debe tener al menos 10 caracteres y no más de 150.";
 		}
 		return errorMsg;
+	}
+
+	public void updateUserFromEditedAndSave(User originalUser, User editedUser, boolean updatePassword,
+			boolean updateImage, MultipartFile imageAvatar) {
+		originalUser.setName(editedUser.getName());
+		originalUser.setSurname(editedUser.getSurname());
+		originalUser.setEmail(editedUser.getEmail());
+		originalUser.setAdress(editedUser.getAdress());
+		if (updatePassword) {
+			originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
+		}
+
+		if (updateImage) {
+			if (imageAvatar != null && !imageAvatar.isEmpty()) {
+				try {
+					save(originalUser, imageAvatar);
+				} catch (IOException e) {
+					throw new RuntimeException("Error al guardar la imagen", e);
+				}
+			} else {
+				originalUser.setAvatar(null);
+				save(originalUser);
+			}
+		}
+		else {
+			save(originalUser);
+		}
 	}
 }

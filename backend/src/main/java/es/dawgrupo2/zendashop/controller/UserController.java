@@ -1,7 +1,5 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.io.IOException;
-//import java.lang.foreign.Linker.Option;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -30,7 +28,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -60,9 +57,6 @@ public class UserController {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
     public String showUsers(Model model, @PageableDefault(size = 10) Pageable pageable) {
@@ -145,54 +139,32 @@ public class UserController {
     @PostMapping("/user/{id}/edit")
     public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar,
             HttpServletRequest request,
-            @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage) {
+            @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage, @RequestParam(name = "updatePassword", defaultValue = "false") boolean updatePassword) {
 
         Optional<User> op = userService.findById(id);
-        String errorMsg = userService.validateFields(editedUser);
-        String newPassword = editedUser.getEncodedPassword();
+        User originalUser = op.get();
+        String originalEmail = originalUser.getEmail();
+        String errorMsg = userService.validateFields(editedUser, updatePassword);
+        String loggedInEmail = request.getUserPrincipal().getName();
+         if (!request.isUserInRole("ADMIN") && !originalUser.getEmail().equals(loggedInEmail)) {
+                model.addAttribute("message", "Quieto parao! No tienes permiso para editar este perfil");
+                model.addAttribute("backLink", "/");
+                return "customError";
+            }
         if (!errorMsg.isEmpty()) {
             model.addAttribute("message", errorMsg);
             model.addAttribute("backLink", "/user/" + id + "/edit");
             return "customError";
         }
-        if (userService.findByEmail(editedUser.getEmail()).isPresent()) {
-            model.addAttribute("message", "El email seleccionado ya pertence a un usuario registrado");
+        if (!loggedInEmail.equals(editedUser.getEmail()) && userService.findByEmail(editedUser.getEmail()).isPresent()) {
+            model.addAttribute("message", "El email seleccionado ya pertenece a un usuario registrado.");
             model.addAttribute("backLink", "/user/" + id + "/edit");
             return "customError";
         }
         if (op.isPresent()) {
-            User originalUser = op.get();
-            String originalEmail = originalUser.getEmail();
-            String loggedInEmail = request.getUserPrincipal().getName();
-            boolean isAdmin = request.isUserInRole("ADMIN");
+            userService.updateUserFromEditedAndSave(originalUser, editedUser, updatePassword, updateImage, imageAvatar);
 
-            if (!isAdmin && !originalUser.getEmail().equals(loggedInEmail)) {
-                model.addAttribute("message", "Quieto parao! No tienes permiso para editar este perfil");
-                model.addAttribute("backLink", "/");
-                return "customError";
-            }
-
-            originalUser.setName(editedUser.getName());
-            originalUser.setSurname(editedUser.getSurname());
-            originalUser.setEmail(editedUser.getEmail());
-
-            if (newPassword != null && !newPassword.isBlank()) {
-                originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
-            }
-
-            if (updateImage) {
-                if (imageAvatar != null && !imageAvatar.isEmpty()) {
-                    try {
-                        userService.save(originalUser, imageAvatar);
-                    } catch (IOException e) {
-                        throw new RuntimeException("Error al guardar la imagen", e);
-                    }
-                } else {
-                    originalUser.setAvatar(null);
-                    userService.save(originalUser);
-                }
-            }
-
+            // If the user changed their own email, we need to update the authentication token in the session
             if (originalEmail.equals(loggedInEmail)) {
                 Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
                 UserDetails updatedDetails = userDetailsService.loadUserByUsername(originalUser.getEmail());

@@ -41,7 +41,7 @@ public class LoginController {
     @PostMapping("/register")
     public String addUser(Model model, User user, MultipartFile imageAvatar,
             @RequestParam(required = false) String rol, HttpServletRequest request) {
-        String errorMsg = userService.validateFields(user);
+        String errorMsg = userService.validateFields(user, true);
         if (!errorMsg.isEmpty()) {
             model.addAttribute("message", errorMsg);
             model.addAttribute("backLink", "/register");
