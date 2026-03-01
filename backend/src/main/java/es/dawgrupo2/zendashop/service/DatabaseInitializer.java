@@ -228,7 +228,7 @@ public class DatabaseInitializer {
 		order5.addOrderItem(new OrderItem(1, "M", garment4));
 		orderService.save(order5);
 
-		Order order6 = new Order(false, "Av. Andalucía 15", LocalDate.now(), "Pago pendiente");
+		Order order6 = new Order(true, "Av. Andalucía 15", LocalDate.now(), "Pago pendiente");
 		user4.addOrder(order6);
 		order6.addOrderItem(new OrderItem(2, "L", garment5));
 		orderService.save(order6);
@@ -243,7 +243,7 @@ public class DatabaseInitializer {
 		order8.addOrderItem(new OrderItem(1, "L", garment7));
 		orderService.save(order8);
 
-		Order order9 = new Order(false, "C/ Norte 10", LocalDate.now(), "Pendiente confirmación");
+		Order order9 = new Order(true, "C/ Norte 10", LocalDate.now(), "Pendiente confirmación");
 		user7.addOrder(order9);
 		order9.addOrderItem(new OrderItem(3, "M", garment8));
 		orderService.save(order9);
@@ -258,7 +258,7 @@ public class DatabaseInitializer {
 		order11.addOrderItem(new OrderItem(2, "M", garment10));
 		orderService.save(order11);
 
-		Order order12 = new Order(false, "C/ Oeste 14", LocalDate.now(), "Pago contra reembolso");
+		Order order12 = new Order(true, "C/ Oeste 14", LocalDate.now(), "Pago contra reembolso");
 		user10.addOrder(order12);
 		order12.addOrderItem(new OrderItem(1, "L", garment11));
 		orderService.save(order12);
@@ -273,7 +273,7 @@ public class DatabaseInitializer {
 		order14.addOrderItem(new OrderItem(1, "40", garment3));
 		orderService.save(order14);
 
-		Order order15 = new Order(false, "C/ Río 9", LocalDate.now(), "Pendiente stock");
+		Order order15 = new Order(true, "C/ Río 9", LocalDate.now(), "Pendiente stock");
 		user13.addOrder(order15);
 		order15.addOrderItem(new OrderItem(2, "S", garment1));
 		orderService.save(order15);
@@ -288,7 +288,7 @@ public class DatabaseInitializer {
 		order17.addOrderItem(new OrderItem(1, "L", garment6));
 		orderService.save(order17);
 
-		Order order18 = new Order(false, "C/ Bosque 18", LocalDate.now(), "Pago pendiente");
+		Order order18 = new Order(true, "C/ Bosque 18", LocalDate.now(), "Pago pendiente");
 		user16.addOrder(order18);
 		order18.addOrderItem(new OrderItem(3, "M", garment7));
 		orderService.save(order18);
