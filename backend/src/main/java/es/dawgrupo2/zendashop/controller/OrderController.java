@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,6 +29,8 @@ import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import es.dawgrupo2.zendashop.service.OrderItemService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import java.time.LocalDate;
 
@@ -50,9 +54,19 @@ public class OrderController {
 	private InvoicePdfService invoicePdfService;
 
 	@GetMapping("/orders") // FINISHED
-	public String showOrders(Model model) {
-		model.addAttribute("orders", orderService.findByCompletedTrue());
+	public String showOrders(Model model, @PageableDefault(size = 10) Pageable pageable) {
+		model.addAttribute("orders", orderService.findByCompletedTrue(pageable));
+		model.addAttribute("hasMore", orderService.findByCompletedTrue(pageable.next()).hasContent());
 		return "all_orders";
+	}
+
+	@GetMapping("/loadMoreOrders")
+	public String loadMoreGarments(Model model, @PageableDefault(size = 10) Pageable pageable, HttpServletResponse response) {
+		model.addAttribute("orders", orderService.findByCompletedTrue(pageable));
+		response.addHeader("X-Has-More", String.valueOf(orderService
+				.findByCompletedTrue(pageable.next())
+				.hasContent()));
+		return "orders_cards";
 	}
 
 	@GetMapping("/order/{id}") // FINISHED

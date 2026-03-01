@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +19,7 @@ import es.dawgrupo2.zendashop.model.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserIdAndCompletedTrue(Long userId);
-    List<Order> findByCompletedTrue();
+    Page<Order> findByCompletedTrue(Pageable pageable);
     List<Order> findByCompletedTrueAndCreationDateBetween(LocalDateTime start, LocalDateTime end);
 
     List<Order> findDistinctByCompletedFalseAndOrderItems_Garment_Id(Long garmentId);
