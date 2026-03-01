@@ -211,12 +211,24 @@ public class DatabaseInitializer {
 		garmentService.save(garment1);
 		garmentService.save(garment2);
 
-		Order order1 = new Order(true, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
-		user1.addOrder(order1); 
+		Order order1 = new Order(false, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
+		user1.setCart(order1); 
+		order1.setUser(user1);
 		order1.addOrderItem(new OrderItem(2, "M", garment1));
 		order1.addOrderItem(new OrderItem(1, "L", garment2));
+		order1.addOrderItem(new OrderItem(1, "S", garment3));
+		order1.addOrderItem(new OrderItem(1, "M", garment4));
+		order1.addOrderItem(new OrderItem(1, "L", garment5));
+		order1.addOrderItem(new OrderItem(1, "M", garment6));
+		order1.addOrderItem(new OrderItem(1, "L", garment7));
+		order1.addOrderItem(new OrderItem(1, "M", garment8));
+		order1.addOrderItem(new OrderItem(1, "S", garment9));
+		order1.addOrderItem(new OrderItem(1, "M", garment10));
+		order1.addOrderItem(new OrderItem(1, "L", garment11));
+		order1.addOrderItem(new OrderItem(1, "M", garment12));
 
 		orderService.save(order1);
+		userService.save(user1);
 
 		Order order2 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
 		user2.addOrder(order2);
