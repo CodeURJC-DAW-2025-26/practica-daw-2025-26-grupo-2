@@ -1,6 +1,5 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class OpinionController {
 	private UserService userService;
 
 	@GetMapping("/loadMoreOpinions")
-	public String loadMoreOpinions(Model model, @RequestParam long id, @PageableDefault(size = 1) Pageable pageable,
+	public String loadMoreOpinions(Model model, @RequestParam long id, @PageableDefault(size = 10) Pageable pageable,
 			HttpServletResponse response, HttpServletRequest request) {
 		Page<Opinion> opinions = opinionService.findByGarmentId(id, pageable);
 

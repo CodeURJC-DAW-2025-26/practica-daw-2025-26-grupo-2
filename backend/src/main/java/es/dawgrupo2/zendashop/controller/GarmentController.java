@@ -101,7 +101,7 @@ public class GarmentController {
 	}
 
 	@GetMapping("/garment/{id}")
-	public String showGarment(Model model, @PathVariable long id, HttpServletRequest request, @PageableDefault(size = 1) Pageable pageable) {
+	public String showGarment(Model model, @PathVariable long id, HttpServletRequest request, @PageableDefault(size = 10) Pageable pageable) {
 
 		Optional<Garment> op = garmentService.findById(id);
 
