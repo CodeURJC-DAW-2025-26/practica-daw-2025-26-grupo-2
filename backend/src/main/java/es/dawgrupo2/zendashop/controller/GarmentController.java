@@ -30,6 +30,7 @@ import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class GarmentController {
@@ -62,21 +63,41 @@ public class GarmentController {
 					.orElse("");
 		}
 
-		model.addAttribute("loadMoreLink", "/?nameSearch=" + (nameSearch != null ? nameSearch : "") + "&categorySearch="
+		model.addAttribute("loadMoreLink", "/loadMoreGarments?nameSearch=" + (nameSearch != null ? nameSearch : "") + "&categorySearch="
 				+ (categorySearch != null ? categorySearch : "") + "&minPrice=" + (minPrice != null ? minPrice : "")
 				+ "&maxPrice=" + (maxPrice != null ? maxPrice : "") + "&sort=" + sortParam + "&page="
 				+ pageable.next().getPageNumber());
 
+		model.addAttribute("hasMore", garmentService
+				.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, pageable.next())
+				.hasContent());
+
 		return "index";
 	}
 
+	@GetMapping("/loadMoreGarments")
+	public String loadMoreGarments(@RequestParam(required = false) String nameSearch,
+			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
+			@RequestParam(required = false) BigDecimal maxPrice, Model model,
+			@PageableDefault(size = 10) Pageable pageable, HttpServletResponse response) {
+		model.addAttribute("garments", garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
+				minPrice, maxPrice, pageable));
+		response.addHeader("X-Has-More", String.valueOf(garmentService
+				.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch, minPrice, maxPrice, pageable.next())
+				.hasContent()));
+		return "garments_cards";
+	}
+
 	@GetMapping("/garment/{id}")
-	public String showGarment(Model model, @PathVariable long id) {
+	public String showGarment(Model model, @PathVariable long id, HttpServletRequest request) {
 
 		Optional<Garment> op = garmentService.findById(id);
 
 		if (op.isPresent()) {
 			Garment garment = op.get();
+			for (Opinion opinion : garment.getOpinions()){
+				opinion.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN") || opinion.getUser().getEmail().equals(request.getUserPrincipal().getName())));
+			}
 			model.addAttribute("garment", garment);
 			return "show_garment";
 		} else {
