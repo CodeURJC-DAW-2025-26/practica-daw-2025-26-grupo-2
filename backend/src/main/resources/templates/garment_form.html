@@ -42,9 +42,13 @@
                     <label for="inputCategory" class="form-label"><b>Categoría</b></label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                        <select class="form-select" id="inputCategory" name="category"
-                            minlength="4" maxlength="100" required>
-                            <option value="{{#garment}}{{category}}{{/garment}}" selected disabled>{{#garment}}{{category}}{{/garment}}{{^garment}}Selecciona categoría{{/garment}}</option>
+                        <select class="form-select" id="inputCategory" name="category" required>
+                            {{#garment}}
+                            <option value="{{category}}" selected>{{category}}</option>
+                            {{/garment}}
+                            {{^garment}}
+                            <option value="" disabled selected>Selecciona categoría</option>
+                            {{/garment}}
                             <option value="Camisas">Camisas</option>
                             <option value="Pantalones">Pantalones</option>
                             <option value="Zapatos">Zapatos</option>
@@ -53,7 +57,7 @@
                             <option value="Otros">Otros</option>
                         </select>
                         <div class="invalid-feedback">
-                            La categoría no puede estar vacía y debe tener entre 4 y 100 caracteres.
+                            La categoría no puede estar vacía.
                         </div>
                     </div>
                 </div>

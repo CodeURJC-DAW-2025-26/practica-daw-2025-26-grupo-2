@@ -36,10 +36,10 @@ public class GarmentService {
 		return repository.findById(id);
 	}
 
-	public List<Garment> findById(List<Long> ids){
+	public List<Garment> findById(List<Long> ids) {
 		return repository.findAllById(ids);
 	}
-	
+
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
@@ -48,12 +48,12 @@ public class GarmentService {
 		return repository.findAll(pageable);
 	}
 
-    public void save(Garment garment) {
-        repository.save(garment);
-    }
+	public void save(Garment garment) {
+		repository.save(garment);
+	}
 
-	public void save(Garment garment, MultipartFile imageFile) throws IOException{
-		if(!imageFile.isEmpty()) {
+	public void save(Garment garment, MultipartFile imageFile) throws IOException {
+		if (!imageFile.isEmpty()) {
 			try {
 				garment.setImage(new SerialBlob(imageFile.getBytes()));
 			} catch (Exception e) {
@@ -78,38 +78,45 @@ public class GarmentService {
 	public void disable(Garment garment) {
 		garment.setAvailable(false);
 		// TODO: Remove opinions
-		//for (Opinion opinion: garment.getOpinions()) {
-			//garment.removeOpinion(opinion);
-			//opinionService.deleteBy(opinion.getId());
-		//}
+		// for (Opinion opinion: garment.getOpinions()) {
+		// garment.removeOpinion(opinion);
+		// opinionService.deleteBy(opinion.getId());
+		// }
 		orderService.disableGarmentInCarts(garment);
 		save(garment);
 	}
 
-	public Page<Garment> findAvailableGarmentsByOptionalFilters(String name, String category, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+	public Page<Garment> findAvailableGarmentsByOptionalFilters(String name, String category, BigDecimal minPrice,
+			BigDecimal maxPrice, Pageable pageable) {
 		return repository.findAvailableGarmentsByOptionalFilters(name, category, minPrice, maxPrice, pageable);
 	}
 
-	public List<Garment> findSmartRecommendations(Long id){
+	public List<Garment> findSmartRecommendations(Long id) {
 		return repository.findSmartRecommendations(id);
 	}
 
 	public String validateFields(Garment garment, MultipartFile imageFile, boolean updateImage) {
 
 		String errorMsg = "";
-		if (garment.getName() == null || garment.getName().isEmpty() || garment.getName().length() < 4 || garment.getName().length() > 100) {
+		if (garment.getName() == null || garment.getName().isEmpty() || garment.getName().length() < 4
+				|| garment.getName().length() > 100) {
 			errorMsg += "El nombre no puede estar vacío, debe tener entre 4 y 100 caracteres. <br>";
 		}
-		if (garment.getPrice() == null || !(garment.getPrice() instanceof BigDecimal) || garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0 || garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
+		if (garment.getPrice() == null || !(garment.getPrice() instanceof BigDecimal)
+				|| garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0
+				|| garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
 			errorMsg += "El precio debe ser un número positivo menor o igual a 5000. <br>";
 		}
-		if (garment.getCategory() == null || garment.getCategory().isEmpty() || !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
+		if (garment.getCategory() == null || garment.getCategory().isEmpty()
+				|| !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
 			errorMsg += "La categoría tiene que ser una de las siguientes: Camisas, Pantalones, Zapatos, Chaquetas, Accesorios, Otros. <br>";
 		}
-		if (garment.getDescription() == null || garment.getDescription().isEmpty() || garment.getDescription().length() < 3 || garment.getDescription().length() > 200) {
+		if (garment.getDescription() == null || garment.getDescription().isEmpty()
+				|| garment.getDescription().length() < 3 || garment.getDescription().length() > 200) {
 			errorMsg += "La descripción no puede estar vacía y debe tener entre 3 y 200 caracteres. <br>";
 		}
-		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3 || garment.getFeatures().length() > 300) {
+		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3
+				|| garment.getFeatures().length() > 300) {
 			errorMsg += "Las características no pueden estar vacías y deben tener entre 3 y 300 caracteres. <br>";
 		}
 		if (updateImage && (imageFile == null || imageFile.isEmpty())) {
@@ -119,5 +126,22 @@ public class GarmentService {
 		}
 
 		return errorMsg;
+	}
+
+	public void setFields(Garment originalGarment, Garment editedGarment, Boolean updateImage, MultipartFile imageFile) {
+		originalGarment.setName(editedGarment.getName());
+		originalGarment.setCategory(editedGarment.getCategory());
+		originalGarment.setPrice(editedGarment.getPrice());
+		originalGarment.setDescription(editedGarment.getDescription());
+		originalGarment.setFeatures(editedGarment.getFeatures());
+		if (updateImage) {
+			try {
+				save(originalGarment, imageFile);
+			} catch (IOException e) {
+				throw new RuntimeException("Error al guardar la imagen", e);
+			}
+		} else {
+			save(originalGarment);
+		}
 	}
 }

@@ -101,9 +101,9 @@ public class GarmentController {
 			model.addAttribute("garment", garment);
 			return "show_garment";
 		} else {
-			model.addAttribute("element", "Prenda");
-			model.addAttribute("masculine", false);
-			return "not_found";
+			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");
+			model.addAttribute("backLink", "/");
+			return "customError";
 		}
 	}
 
@@ -146,28 +146,19 @@ public class GarmentController {
 
 	@PostMapping("/garment/{id}/edit")
 	public String editGarmentProcess(Model model, Garment editedGarment, @PathVariable long id,
-			MultipartFile imageFile, @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage, HttpServletRequest request) {
+		MultipartFile imageFile, @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(id);
+		
+		String errorMsg = garmentService.validateFields(editedGarment, imageFile, updateImage);
+		if (!errorMsg.isEmpty()) {
+			model.addAttribute("message", errorMsg);
+			model.addAttribute("backLink", "/garment/" + id + "/edit");
+			return "customError";
+		}
+
 		if (op.isPresent()) {
 			Garment originalGarment = op.get();
-			if (editedGarment.getCategory() == null || editedGarment.getCategory().trim().isEmpty()) {
-				editedGarment.setCategory(originalGarment.getCategory());
-			}
-			originalGarment.setName(editedGarment.getName());
-			originalGarment.setCategory(editedGarment.getCategory());
-			originalGarment.setPrice(editedGarment.getPrice());
-			originalGarment.setDescription(editedGarment.getDescription());
-			originalGarment.setFeatures(editedGarment.getFeatures());
-			if (updateImage) {
-				try {
-					garmentService.save(originalGarment, imageFile);
-				} catch (IOException e) {
-					throw new RuntimeException("Error al guardar la imagen", e);
-				}
-			}
-			else{
-				garmentService.save(originalGarment);
-			}
+			garmentService.setFields(originalGarment, editedGarment, updateImage, imageFile);
 			return "redirect:/garment/" + originalGarment.getId();
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");

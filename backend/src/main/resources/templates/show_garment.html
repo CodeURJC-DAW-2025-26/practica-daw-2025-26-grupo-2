@@ -42,15 +42,7 @@
 
                 <div class="col-md-6">
                     <div class="container-price-item-detail">
-                        {{#offer}}
-                        <h3><del>{{garment.price}}€</del> <span class="fw-bold"
-                                style="color: #D32F2F;">{{new_price}}€</span></h3>
-                        <p class="text-success">Aprovecha esta oferta ¡Solo hoy con un {{discount}}% de descuento!
-                        </p>
-                        {{/offer}}
-                        {{^offer}}
                         <h3 class="fw-bold">{{garment.price}}€</h3>
-                        {{/offer}}
                     </div>
 
                     {{#logged}}
@@ -99,8 +91,6 @@
                                 <input type="hidden" name="_csrf" value="{{token}}">
                                 <button class="btn btn-danger text-dark w-100" type="submit">
                                     Borrar <i class="bi bi-x-lg"></i>
-                                    <!-- TODO: Add csrf tokens in all forms -->
-                                    <!-- TODO: Convert all buttons for delete actions to use a form with method POST -->
                                 </button>
                             </form>
 
