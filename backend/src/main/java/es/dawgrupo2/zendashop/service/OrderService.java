@@ -142,7 +142,7 @@ public class OrderService {
 	}
 
 	public List<String> getMonthlyLabelsLastMonths(int months) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy", new Locale("es", "ES"));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy", Locale.of("es", "ES"));
 		List<String> labels = new ArrayList<>();
 		for (int offset = months - 1; offset >= 0; offset--) {
 			labels.add(YearMonth.now().minusMonths(offset).format(formatter));

@@ -1,14 +1,11 @@
 package es.dawgrupo2.zendashop.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.repository.OrderItemRepository;

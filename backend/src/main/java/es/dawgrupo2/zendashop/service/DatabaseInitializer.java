@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 import jakarta.annotation.PostConstruct;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -35,9 +34,6 @@ public class DatabaseInitializer {
 
 	@Autowired
 	private OrderService orderService;
-
-	@Autowired
-	private OpinionService opinionService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

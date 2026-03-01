@@ -1,6 +1,5 @@
 package es.dawgrupo2.zendashop.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
