@@ -190,6 +190,11 @@
                 <button class="btn btn-success text-dark fw-bold" type="submit">
                     Enviar <i class="bi bi-chat-left-dots"></i>
                 </button>
+                {{#opinion}}
+                <a href="/garment/{{garment.id}}" class="btn btn-danger text-dark fw-bold">
+                    Cancelar <i class="bi bi-x-lg"></i>
+                </a>
+                {{/opinion}}
             </div>
             {{#opinion}}
             <input type="hidden" name="id" value="{{opinion.id}}" />
@@ -225,4 +230,4 @@
     <script src="/js/app.js"></script>
 </body>
 
-</html>
+</html>   
