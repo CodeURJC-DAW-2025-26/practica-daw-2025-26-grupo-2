@@ -1,0 +1,23 @@
+{{#opinionsPage}}
+<div class="review p-3 border rounded mb-3 bg-light opinion-item">
+    <h5>Usuario: {{user.name}}</h5>
+    <h5>Puntuación: {{getStarsRating}}({{rating}} estrellas)</h5>
+    <p>{{comment}}</p>
+    {{#isOwn}}
+    <div class="d-flex gap-2">
+        <form action="/garment/{{getGarmentId}}/opinion/{{id}}/form" method="post">
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <button class="btn btn-primary btn-sm text-dark" type="submit">
+                Editar <i class="bi bi-pencil-square"></i>
+            </button>
+        </form>
+        <form action="/garment/{{getGarmentId}}/opinion/{{id}}/delete" method="post">
+            <input type="hidden" name="_csrf" value="{{token}}">
+            <button class="btn btn-danger btn-sm text-dark" type="submit">
+                Borrar <i class="bi bi-x-lg"></i>
+            </button>
+        </form>
+    </div>
+    {{/isOwn}}
+</div>
+{{/opinionsPage}}

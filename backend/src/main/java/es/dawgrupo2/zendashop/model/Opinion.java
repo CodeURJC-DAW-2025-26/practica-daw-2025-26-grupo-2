@@ -91,11 +91,11 @@ public class Opinion {
     }
 
     public String getStarsRating() {
-        return starsRating;
+        return "★".repeat(rating) + "☆".repeat(5 - rating);
     }
 
-    public void setStarsRating(String starsRating) {
-        this.starsRating = starsRating;
+    public Long getGarmentId(){
+        return garment.getId();
     }
     
 }

@@ -70,7 +70,7 @@ public class LoginController {
             return "redirect:/users";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/loginerror")

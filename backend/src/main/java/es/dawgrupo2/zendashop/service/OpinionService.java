@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.dawgrupo2.zendashop.model.Opinion;
@@ -49,5 +51,9 @@ public class OpinionService {
 			errorMsg += "El comentario no puede estar vacío ni tener más de 50 caracteres ni menos de 5.";
 		}
 		return errorMsg;
+	}
+
+	public Page<Opinion> findByGarmentId(long garmentId, Pageable pageable) {
+		return repository.findByGarment_Id(garmentId, pageable);
 	}
 }

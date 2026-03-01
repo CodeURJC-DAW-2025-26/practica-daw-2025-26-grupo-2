@@ -1,12 +1,18 @@
 package es.dawgrupo2.zendashop.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
@@ -15,6 +21,7 @@ import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.OpinionService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class OpinionController {
@@ -28,9 +35,31 @@ public class OpinionController {
 	@Autowired
 	private UserService userService;
 
+	@GetMapping("/loadMoreOpinions")
+	public String loadMoreOpinions(Model model, @RequestParam long id, @PageableDefault(size = 1) Pageable pageable,
+			HttpServletResponse response, HttpServletRequest request) {
+		Page<Opinion> opinions = opinionService.findByGarmentId(id, pageable);
+
+		
+		for (Opinion opi : opinions) {
+			opi.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
+					|| opi.getUser().getEmail().equals(request.getUserPrincipal().getName())));
+		}
+		model.addAttribute("opinionsPage", opinions);
+
+		// Add whether there are more opinions to load to the response headers, so the
+		// javascript code can know whether to show the "load more" button or not
+		response.addHeader("X-Has-More", String.valueOf(opinionService
+				.findByGarmentId(id, pageable.next())
+				.hasContent()));
+		return "opinions_cards"; // This is a fragment of the show_garment.html template that only contains the opinion
+									// cards, so it can be loaded by AJAX and replace the existing cards without
+									// reloading the whole page
+	}
+
 	@PostMapping("/garment/{garmentId}/opinion/new")
 	public String newOpinion(Model model,
-		@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
+			@PathVariable long garmentId, Opinion opinion, HttpServletRequest request) {
 		Optional<Garment> op = garmentService.findById(garmentId);
 		String errorMsg = opinionService.validateFields(opinion);
 		if (!errorMsg.isEmpty()) {
@@ -68,11 +97,6 @@ public class OpinionController {
 				return "customError";
 			}
 			Opinion opinion = op.get();
-			for (Opinion opi : opinion.getGarment().getOpinions()) {
-				opi.setStarsRating("★".repeat(opi.getRating()) + "☆".repeat(5 - opi.getRating()));
-				opi.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
-						|| opi.getUser().getEmail().equals(request.getUserPrincipal().getName())));
-			}
 			model.addAttribute("opinion", opinion);
 			model.addAttribute("garment", opinion.getGarment());
 			return "show_garment";

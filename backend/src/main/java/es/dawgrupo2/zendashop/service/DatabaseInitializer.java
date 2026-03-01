@@ -177,11 +177,41 @@ public class DatabaseInitializer {
 
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
+		Opinion opinion3 = new Opinion(3, "La talla no es la correcta, pero el material es bueno.");
+		Opinion opinion4 = new Opinion(4, "El diseño es bonito, pero la tela podría ser más suave.");
+		Opinion opinion5 = new Opinion(1, "Malísima");
+		Opinion opinion6 = new Opinion(5, "Excelente, superó mis expectativas.");
+		Opinion opinion7 = new Opinion(4, "Buena relación calidad-precio.");
+		Opinion opinion8 = new Opinion(2, "No me gustó, esperaba más.");
+		Opinion opinion9 = new Opinion(5, "Perfecto, tal como lo esperaba.");
+		Opinion opinion10 = new Opinion(3, "Está bien, pero podría ser mejor.");
+		Opinion opinion11 = new Opinion(4, "Muy buena calidad, pero el diseño no es mi favorito.");
+		Opinion opinion12 = new Opinion(5, "Increíble, superó todas mis expectativas.");
 		
 		garment1.addOpinion(opinion1);
 		garment2.addOpinion(opinion2);
+		garment1.addOpinion(opinion3);
+		garment1.addOpinion(opinion4);
+		garment1.addOpinion(opinion5);
+		garment1.addOpinion(opinion6);
+		garment1.addOpinion(opinion7);
+		garment1.addOpinion(opinion8);
+		garment1.addOpinion(opinion9);
+		garment1.addOpinion(opinion10);
+		garment1.addOpinion(opinion11);
+		garment1.addOpinion(opinion12);
 		user1.addOpinion(opinion1);
 		user2.addOpinion(opinion2);
+		user1.addOpinion(opinion3);
+		user1.addOpinion(opinion4);
+		user2.addOpinion(opinion5);
+		user1.addOpinion(opinion6);
+		user1.addOpinion(opinion7);
+		user1.addOpinion(opinion8);
+		user2.addOpinion(opinion9);
+		user1.addOpinion(opinion10);
+		user1.addOpinion(opinion11);
+		user1.addOpinion(opinion12);
 		garmentService.save(garment1);
 		garmentService.save(garment2);
 

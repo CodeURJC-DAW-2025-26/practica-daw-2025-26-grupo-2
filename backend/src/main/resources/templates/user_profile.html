@@ -26,10 +26,12 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="profile-avatar">
                         {{#hasAvatar}}
-                        <img src="/user/{{user.id}}/avatar" alt="Avatar" class="img-thumbnail">
+                        <img src="/user/{{user.id}}/avatar" alt="Avatar" class="rounded-circle mb-2" width="96" height="96"
+                  >
                         {{/hasAvatar}}
                         {{^hasAvatar}}
-                        <img src="/avatar_default.png" alt="Sin avatar" class="img-thumbnail">
+                        <img src="/avatar_default.png" alt="Sin avatar" class="rounded-circle mb-2" width="96" height="96"
+                  >
                         {{/hasAvatar}}
                     </div>
 

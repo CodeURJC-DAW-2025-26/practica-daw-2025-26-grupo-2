@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.core.io.Resource;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.Opinion;
 import es.dawgrupo2.zendashop.service.GarmentService;
+import es.dawgrupo2.zendashop.service.OpinionService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,6 +36,9 @@ public class GarmentController {
 
 	@Autowired
 	private GarmentService garmentService;
+
+	@Autowired
+	private OpinionService opinionService;
 
 	@Autowired
 	private UserService userService;
@@ -96,20 +101,24 @@ public class GarmentController {
 	}
 
 	@GetMapping("/garment/{id}")
-	public String showGarment(Model model, @PathVariable long id, HttpServletRequest request) {
+	public String showGarment(Model model, @PathVariable long id, HttpServletRequest request, @PageableDefault(size = 1) Pageable pageable) {
 
 		Optional<Garment> op = garmentService.findById(id);
 
 		if (op.isPresent()) {
 			Garment garment = op.get();
+			Page<Opinion> opinions = opinionService.findByGarmentId(id, pageable);
+
 			// For each opinion of the garment, set whether the logged in user is the owner of the opinion or an admin, so the view can decide whether to show the edit and delete buttons for each opinion
-			for (Opinion opinion : garment.getOpinions()) {
+			for (Opinion opinion : opinions) {
 				opinion.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
 						|| opinion.getUser().getEmail().equals(request.getUserPrincipal().getName())));
-				// Set the star rating as a string of "★" characters for display purposes
-				opinion.setStarsRating("★".repeat(opinion.getRating()) + "☆".repeat(5 - opinion.getRating()));
 			}
+			model.addAttribute("hasMore", opinionService
+				.findByGarmentId(id, pageable.next())
+				.hasContent());
 			model.addAttribute("garment", garment);
+			model.addAttribute("opinionsPage", opinions);
 			return "show_garment";
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");
