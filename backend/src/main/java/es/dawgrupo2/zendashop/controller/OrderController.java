@@ -258,7 +258,7 @@ public class OrderController {
 			@RequestParam String deliveryAddress,
 			@RequestParam LocalDate deliveryDate,
 			@RequestParam String deliveryNote,
-			HttpServletRequest request) {
+			HttpServletRequest request, Model model) {
 
 		Optional<Order> op = orderService.findById(id);
 
@@ -289,7 +289,9 @@ public class OrderController {
 
 			return "redirect:/order/" + id;
 		} else {
-			return "not_found";
+			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado.");
+			model.addAttribute("backLink", "/orders");
+			return "customError";
 		}
 	}
 

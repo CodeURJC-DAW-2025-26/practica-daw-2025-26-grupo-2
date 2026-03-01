@@ -128,7 +128,7 @@ public class GarmentService {
 		return errorMsg;
 	}
 
-	public void setFields(Garment originalGarment, Garment editedGarment, Boolean updateImage, MultipartFile imageFile) {
+	public void setFieldsAndSave(Garment originalGarment, Garment editedGarment, Boolean updateImage, MultipartFile imageFile) {
 		originalGarment.setName(editedGarment.getName());
 		originalGarment.setCategory(editedGarment.getCategory());
 		originalGarment.setPrice(editedGarment.getPrice());
