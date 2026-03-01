@@ -23,6 +23,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByCompletedTrueAndCreationDateBetween(LocalDateTime start, LocalDateTime end);
 
     List<Order> findDistinctByCompletedFalseAndOrderItems_Garment_Id(Long garmentId);
+    List<Order> findByCompletedTrueAndCreationDateBetweenAndUser_Id(LocalDateTime start, LocalDateTime end, Long userId);
 
     // Incomes of a specific day
     @Query("SELECT SUM(o.totalPrice) FROM OrderTable o WHERE o.creationDate BETWEEN :start AND :end")
@@ -48,4 +49,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Modifying
     @Query(value = "UPDATE order_table SET creation_date = :date WHERE id = :id", nativeQuery = true)
     void forceCreationDate(Long id, LocalDateTime date);
+
 }

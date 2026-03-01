@@ -72,23 +72,23 @@ public class OrderService {
 		return repository.findDistinctByCompletedFalseAndOrderItems_Garment_Id(id);
 	}
 
-	public Double sumIncomeBetween(LocalDateTime start, LocalDateTime end){
+	public Double sumIncomeBetween(LocalDateTime start, LocalDateTime end) {
 		return repository.sumIncomeBetween(start, end);
 	}
 
-	public long countOrdersBetween(LocalDateTime start, LocalDateTime end){
+	public long countOrdersBetween(LocalDateTime start, LocalDateTime end) {
 		return repository.countOrdersBetween(start, end);
 	}
 
-	public Double sumIncomeByMonth(int month, int year){
+	public Double sumIncomeByMonth(int month, int year) {
 		return repository.sumIncomeByMonth(month, year);
 	}
 
-	public long countByMonth(int month, int year){
+	public long countByMonth(int month, int year) {
 		return repository.countOrdersByMonth(month, year);
 	}
 
-	public Double sumIncomeByYear(int year){
+	public Double sumIncomeByYear(int year) {
 		return repository.sumIncomeByYear(year);
 	}
 
@@ -292,7 +292,7 @@ public class OrderService {
 		order.setCompleted(true);
 		order.setDeliveryAddress(address);
 		order.setDeliveryNote(note);
-		
+
 		// the date
 		if (dateStr != null && !dateStr.isEmpty()) {
 			order.setDeliveryDate(LocalDate.parse(dateStr));
@@ -316,5 +316,74 @@ public class OrderService {
 
 		// we change to a new cart
 		user.setCart(null);
-		userRepository.save(user);}
+		userRepository.save(user);
+	}
+
+	public List<Double> getMonthlyMeanTicketLastMonthsById(int months, Long userId) {
+		Map<YearMonth, Double> totalAmountByMonth = new LinkedHashMap<>();
+		Map<YearMonth, Integer> countByMonth = new LinkedHashMap<>();
+
+		for (int offset = months - 1; offset >= 0; offset--) {
+			YearMonth ym = YearMonth.now().minusMonths(offset);
+			totalAmountByMonth.put(ym, 0.0);
+			countByMonth.put(ym, 0);
+		}
+
+		YearMonth firstMonth = YearMonth.now().minusMonths(months - 1);
+		LocalDateTime start = firstMonth.atDay(1).atStartOfDay();
+		LocalDateTime end = LocalDateTime.now();
+
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetweenAndUser_Id(start, end, userId);
+
+		for (Order order : orders) {
+			YearMonth month = YearMonth.from(order.getCreationDate());
+			if (totalAmountByMonth.containsKey(month)) {
+				double orderTotal = order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0;
+				totalAmountByMonth.put(month, totalAmountByMonth.get(month) + orderTotal);
+				countByMonth.put(month, countByMonth.get(month) + 1);
+			}
+		}
+
+		List<Double> meanTickets = new ArrayList<>();
+		totalAmountByMonth.forEach((month, total) -> {
+			Integer count = countByMonth.get(month);
+			double average = (count > 0) ? (total / count) : 0.0;
+			meanTickets.add(average);
+		});
+
+		return meanTickets;
+	}
+
+	public List<Double> getYearlyMeanTicketLastYearsById(int years, Long userId) {
+		Map<Integer, Double> totalAmountByYear = new LinkedHashMap<>();
+		Map<Integer, Integer> countByYear = new LinkedHashMap<>();
+		for (int offset = years - 1; offset >= 0; offset--) {
+			int year = LocalDate.now().minusYears(offset).getYear();
+			totalAmountByYear.put(year, 0.0);
+			countByYear.put(year, 0);
+		}
+
+		int firstYear = LocalDate.now().minusYears(years - 1).getYear();
+		LocalDateTime start = LocalDate.of(firstYear, 1, 1).atStartOfDay();
+		LocalDateTime end = LocalDate.now().atTime(23, 59, 59);
+		List<Order> orders = repository.findByCompletedTrueAndCreationDateBetweenAndUser_Id(start, end, userId);
+
+		for (Order order : orders) {
+			int year = order.getCreationDate().getYear();
+			if (totalAmountByYear.containsKey(year)) {
+				double orderTotal = order.getTotalPrice() != null ? order.getTotalPrice().doubleValue() : 0.0;
+				totalAmountByYear.put(year, totalAmountByYear.get(year) + orderTotal);
+				countByYear.put(year, countByYear.get(year) + 1);
+			}
+		}
+
+		List<Double> meanTickets = new ArrayList<>();
+		totalAmountByYear.forEach((year, total) -> {
+			Integer count = countByYear.get(year);
+			double average = (count > 0) ? (total / count) : 0.0;
+			meanTickets.add(average);
+		});
+
+		return meanTickets;
+	}
 }

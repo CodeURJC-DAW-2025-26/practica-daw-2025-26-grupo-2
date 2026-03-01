@@ -202,18 +202,19 @@ public class User {
         return this.avatar != null;
     }
 
-    public double getAverageTicketLastMonth() {
+    public String getAverageTicketLastMonth() {
         if (this.orders == null || this.orders.isEmpty()) {
-            return 0.0;
+            return String.format("%.1f", 0.0);
         }
 
         LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
 
-        return this.orders.stream()
+        Double average =  this.orders.stream()
                 .filter(o -> o.getCreationDate() != null && o.getCreationDate().isAfter(oneMonthAgo))
                 .mapToDouble(o -> o.getTotalPrice() != null ? o.getTotalPrice().doubleValue() : 0.0)
                 .average()
                 .orElse(0.0);
+        return String.format("%.2f", average);
     }
 
     public boolean isDisabled() {

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import org.springframework.web.bind.annotation.PathVariable;
+
+import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServlet;
 
@@ -37,11 +39,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import tools.jackson.databind.ObjectMapper;
+
+
 @Controller
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -63,19 +74,28 @@ public class UserController {
 	}
 
     @GetMapping("/user/{id}")
-    public String showUserID(Model model, @PathVariable Long id) {
+    public String showUserID(Model model, @PathVariable Long id, HttpServletRequest request) {
 
         Optional<User> op = userService.findById(id);
 
         if (op.isPresent()) {
+            if (!request.isUserInRole("ADMIN") && !op.get().getEmail().equals(request.getUserPrincipal().getName())) {
+                model.addAttribute("message", "Quieto parao! No tienes permiso para ver este perfil");
+                model.addAttribute("backLink", "/");
+                return "customError";
+            }
             User user = op.get();
             model.addAttribute("user", user);
             model.addAttribute("hasAvatar", user.getHasAvatar());
+            model.addAttribute("monthlyLabelsJson", toJson(orderService.getMonthlyLabelsLastMonths(12)));
+            model.addAttribute("monthlyMeanTicketJson", toJson(orderService.getMonthlyMeanTicketLastMonthsById(12, user.getId())));
+            model.addAttribute("yearlyLabelsJson", toJson(orderService.getYearlyLabelsLastYears(6)));
+            model.addAttribute("yearlyMeanTicketJson", toJson(orderService.getYearlyMeanTicketLastYearsById(6, user.getId())));
             return "user_profile";
         } else {
-            model.addAttribute("element", "Usuario");
-            model.addAttribute("masculine", true);
-            return "not_found";
+            model.addAttribute("message", "¿Qué buscabas? Usuario no encontrado");
+            model.addAttribute("backLink", "/");
+            return "customError";
         }
     }
 
@@ -83,16 +103,8 @@ public class UserController {
     public String showUserProfile(Model model, HttpServletRequest request) {
 
         Principal principal = request.getUserPrincipal();
-        Optional<User> op = userService.findByEmail(principal.getName());
-
-        if (op.isPresent()) {
-            User user = op.get();
-            model.addAttribute("user", user);
-            model.addAttribute("hasAvatar", user.getHasAvatar());
-        } else {
-            return "redirect:/login";
-        }
-        return "user_profile";
+        User user = userService.findByEmail(principal.getName()).orElseThrow();
+        return "redirect:/user/" + user.getId();
     }
 
     @GetMapping("/user/{id}/edit")
@@ -112,9 +124,9 @@ public class UserController {
             model.addAttribute("user", userToEdit);
             return "register";
         } else {
-            model.addAttribute("element", "Usuario");
-            model.addAttribute("masculine", true);
-            return "not_found";
+            model.addAttribute("message", "¿Qué buscabas? Usuario no encontrado");
+            model.addAttribute("backLink", "/");
+            return "customError";
         }
     }
 
@@ -150,9 +162,9 @@ public class UserController {
             }
             return "redirect:/user/" + originalUser.getId();
         } else {
-            model.addAttribute("element", "Usuario");
-            model.addAttribute("masculine", true);
-            return "not_found";
+            model.addAttribute("message", "¿Qué buscabas? Usuario no encontrado");
+            model.addAttribute("backLink", "/");
+            return "customError";
         }
     }
 
@@ -182,9 +194,9 @@ public class UserController {
     public String deleteUser(Model model, @PathVariable Long id, HttpServletRequest request) {
         User userSession = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
         if (!request.isUserInRole("ADMIN") && !userSession.getId().equals(id)) {
-            model.addAttribute("message", "No tienes permiso para eliminar este usuario");
+            model.addAttribute("message", "Quieto parao! No tienes permiso para eliminar este usuario");
             model.addAttribute("backLink", "/");
-            return "error";
+            return "customError";
         }
         Optional<User> op = userService.findById(id);
         if (op.isPresent()) {
@@ -198,9 +210,16 @@ public class UserController {
             }
             return "redirect:/";
         } else {
-            model.addAttribute("message", "Usuario no encontrado");
+            model.addAttribute("message", "¿Qué buscabas? Usuario no encontrado");
             model.addAttribute("backLink", "/");
-            return "error";
+            return "customError";
+        }
+    }
+    private String toJson(Object value) {
+        try {
+            return objectMapper.writeValueAsString(value);
+        } catch (Exception e) {
+            return "[]";
         }
     }
 }

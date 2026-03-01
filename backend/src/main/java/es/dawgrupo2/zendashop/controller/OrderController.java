@@ -200,10 +200,11 @@ public class OrderController {
 				user.setCart(null);
 				userService.save(user);
 				orderService.delete(cart.getId());
+				return "redirect:/";
 			}
-			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order
-													// item is deleted
+			orderItemService.delete(orderItemId); // Not necessary if orphanRemoval is set, but it ensures the order item is deleted
 			userService.save(user);
+			return "redirect:/cart";
 		}
 		return "redirect:/";
 	}
