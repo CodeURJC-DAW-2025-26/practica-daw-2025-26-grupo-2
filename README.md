@@ -214,21 +214,37 @@ Solo si ha cambiado.
 - **Maven**: versión 3.8 o superior
 - **MySQL**: versión 8.0 o superior
 - **Git**: para clonar el repositorio
+- **Variable de entorno** `DB_PASSWORD` con la contraseña de MySQL
 
 #### **Pasos para ejecutar la aplicación**
 
-1. **Clonar el repositorio**
+1. **Crear el schema en MySQL**
+   ```sql
+   CREATE SCHEMA IF NOT EXISTS zenda;
+   ```
+
+2. **Configurar la variable de entorno `DB_PASSWORD`**
+   - Linux/macOS:
+     ```bash
+     export DB_PASSWORD=tu_contraseña_mysql
+     ```
+   - Windows (PowerShell):
+     ```powershell
+     $env:DB_PASSWORD="tu_contraseña_mysql"
+     ```
+
+3. **Clonar el repositorio**
    ```bash
    git clone https://github.com/[usuario]/[nombre-repositorio].git
    cd [nombre-repositorio]
    ```
 
-2. **Entrar al backend**
+4. **Entrar al backend**
    ```bash
    cd backend
    ```
 
-3. **Compilar el proyecto**
+5 **Compilar el proyecto**
    - Linux/macOS:
      ```bash
      ./mvnw clean install
@@ -238,7 +254,7 @@ Solo si ha cambiado.
      mvnw.cmd clean install
      ```
 
-4. **Ejecutar la aplicación**
+6. **Ejecutar la aplicación**
    - Linux/macOS:
      ```bash
      ./mvnw spring-boot:run
@@ -248,7 +264,7 @@ Solo si ha cambiado.
      mvnw.cmd spring-boot:run
      ```
 
-5. **Abrir en navegador**
+7. **Abrir en navegador**
    - `https://localhost:8443`
 
 ### **Credenciales de prueba**
