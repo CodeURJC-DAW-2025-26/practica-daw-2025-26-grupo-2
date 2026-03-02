@@ -156,7 +156,7 @@ public class UserController {
             model.addAttribute("backLink", "/user/" + id + "/edit");
             return "customError";
         }
-        if (!loggedInEmail.equals(editedUser.getEmail()) && userService.findByEmail(editedUser.getEmail()).isPresent()) {
+        if (!loggedInEmail.equals(editedUser.getEmail()) && !originalEmail.equals(editedUser.getEmail()) && userService.findByEmail(editedUser.getEmail()).isPresent()) {
             model.addAttribute("message", "El email seleccionado ya pertenece a un usuario registrado.");
             model.addAttribute("backLink", "/user/" + id + "/edit");
             return "customError";
