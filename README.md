@@ -249,7 +249,7 @@ Solo si ha cambiado.
      ```
 
 5. **Abrir en navegador**
-   - `http://localhost:8443`
+   - `https://localhost:8443`
 
 ### **Credenciales de prueba**
 
@@ -262,12 +262,6 @@ Solo si ha cambiado.
 - **Usuario registrado**
   - Usuario: `juan@example.com`
   - Contraseña: `password123`  
-
-2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
-
-#### **Credenciales de prueba**
-- **Usuario Admin**: usuario: `admin`, contraseña: `admin`
-- **Usuario Registrado**: usuario: `user`, contraseña: `user`
 
 ### **Diagrama de Entidades de Base de Datos**
 
