@@ -68,16 +68,16 @@ public class OrderController {
 	}
 
 	@GetMapping("/order/{id}") // FINISHED
-	public String getMethodName(Model model, @PathVariable long id, HttpServletRequest request) {
-		return showOrderDetail(model, id, request, false);
+	public String showOrder(Model model, @PathVariable long id, HttpServletRequest request, @PageableDefault(size = 10) Pageable pageable) {
+		return showOrderDetail(model, id, request, false, pageable);
 	}
 
-	@PostMapping("/order/{id}/edit")
-	public String editOrder(Model model, @PathVariable long id, HttpServletRequest request) {
-		return showOrderDetail(model, id, request, true);
+	@GetMapping("/order/{id}/edit")
+	public String editOrder(Model model, @PathVariable long id, HttpServletRequest request, @PageableDefault(size = 10) Pageable pageable) {
+		return showOrderDetail(model, id, request, true, pageable);
 	}
 
-	private String showOrderDetail(Model model, long id, HttpServletRequest request, boolean editing) {
+	private String showOrderDetail(Model model, long id, HttpServletRequest request, boolean editing, Pageable pageable) {
 		Optional<Order> op = orderService.findById(id);
 		if (op.isPresent()) {
 			Order edittingOrder = null;
@@ -97,6 +97,8 @@ public class OrderController {
 				status = "EN CURSO";
 			}
 			model.addAttribute("order", order);
+			model.addAttribute("orderItemsList", orderItemService.findByOrderId(order.getId(), pageable));
+			model.addAttribute("hasMore", orderItemService.findByOrderId(order.getId(), pageable.next()).hasContent());
 			model.addAttribute("status", status);
 			if (editing){
 				edittingOrder = order;
@@ -117,6 +119,7 @@ public class OrderController {
 			}
 			model.addAttribute("backLink", backLink);
 			model.addAttribute("edditingOrder", edittingOrder);
+			model.addAttribute("tableFormat", true);
 			return "order_detail";
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado");
@@ -132,7 +135,7 @@ public class OrderController {
 		User user = userService.findByEmail(principal.getName()).orElseThrow();
 		model.addAttribute("order", user.getCart());
 		if (user.getCart() != null) {
-			model.addAttribute("orderItemsCart", orderItemService.findByOrderId(user.getCart().getId(), pageable));
+			model.addAttribute("orderItemsList", orderItemService.findByOrderId(user.getCart().getId(), pageable));
 			model.addAttribute("hasMore", orderItemService
 					.findByOrderId(user.getCart().getId(), pageable.next())
 					.hasContent());
@@ -245,8 +248,20 @@ public class OrderController {
 			@RequestParam String deliveryAddress,
 			@RequestParam String deliveryDate,
 			@RequestParam String deliveryNote,
-			HttpServletRequest request) {
-
+			HttpServletRequest request, Model model) {
+		
+		Optional<Order> opOrder = orderService.findById(id);
+		if(!opOrder.isPresent()) {
+			model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado.");
+			model.addAttribute("backLink", "/orders");
+			return "customError";
+		}
+		Order order = opOrder.get();
+		if (!request.isUserInRole("ADMIN") && !request.getUserPrincipal().getName().equals(order.getUser().getEmail())) {
+			model.addAttribute("message", "Quieto parao! No tienes permiso para procesar este pedido");
+			model.addAttribute("backLink", "/");
+			return "customError";
+		}
 		// get the user
 		String email = request.getUserPrincipal().getName();
 		User user = userService.findByEmail(email).orElseThrow();
@@ -258,32 +273,31 @@ public class OrderController {
 	}
 
 @PostMapping("/order/{id}/delete")
-public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest request) {
+	public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest request) {
+	Optional<Order> opOrder = orderService.findById(id);
+	if(!opOrder.isPresent()) {
+		model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado.");
+		model.addAttribute("backLink", "/orders");
+		return "customError";
+	}
+	Order order = opOrder.get();
 	if (!request.isUserInRole("ADMIN")) {
 		model.addAttribute("message", "Quieto parao! No tienes permiso para eliminar este pedido");
 		model.addAttribute("backLink", "/");
 		return "customError";
 	}
-	Optional<Order> op = orderService.findById(id);
-	if (op.isPresent()) {
-		Order order = op.get();
-		User user = order.getUser();
-		if (!order.getCompleted()){
-			user.setCart(null);
-		}else {
-			user.removeOrder(order);
-		}
-		userService.save(user);
-		orderService.delete(id);
-		return "redirect:/orders";
-	} else {
-		model.addAttribute("message", "¿Qué buscabas? Pedido no encontrado");
-		model.addAttribute("backLink", "/");
-		return "customError";
+	User user = order.getUser();
+	if (!order.getCompleted()){
+		user.setCart(null);
+	}else {
+		user.removeOrder(order);
 	}
+	userService.save(user);
+	orderService.delete(id);
+	return "redirect:/orders";
 }
 	
-	@PostMapping("/orders/{id}/update")
+	@PostMapping("/order/{id}/edit")
 	public String updateOrderDetails(@PathVariable Long id,
 			@RequestParam BigDecimal totalPrice,
 			@RequestParam BigDecimal shippingCost,
@@ -292,30 +306,20 @@ public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest
 			@RequestParam String deliveryNote,
 			HttpServletRequest request, Model model) {
 
+		
+		//Not neessary to check if user has permission, because only admins can access to this url
 		Optional<Order> op = orderService.findById(id);
 
 		if (op.isPresent()) {
 			Order originalOrder = op.get();
 
-			if (totalPrice != null) {
-				originalOrder.setTotalPrice(totalPrice);
-			}
+			orderService.validateFields(shippingCost, totalPrice);
 
-			if (shippingCost != null) {
-				originalOrder.setShippingCost(shippingCost);
-			}
-
-			if (deliveryAddress != null) {
-				originalOrder.setDeliveryAddress(deliveryAddress);
-			}
-
-			if (deliveryDate != null) {
-				originalOrder.setDeliveryDate(deliveryDate);
-			}
-
-			if (deliveryNote != null) {
-				originalOrder.setDeliveryNote(deliveryNote);
-			}
+			originalOrder.setShippingCost(shippingCost);
+			originalOrder.setTotalPrice(totalPrice);
+			originalOrder.setDeliveryAddress(deliveryAddress);
+			originalOrder.setDeliveryDate(deliveryDate);
+			originalOrder.setDeliveryNote(deliveryNote);
 
 			orderService.save(originalOrder);
 
@@ -327,14 +331,26 @@ public String deleteOrder(Model model, @PathVariable long id, HttpServletRequest
 		}
 	}
 
-	@GetMapping("/loadMoreOrderItems")
-	public String loadMoreOrderItems(@RequestParam Long orderId, Model model, @PageableDefault(size = 10) Pageable pageable,
-			HttpServletResponse response) {
-		model.addAttribute("orderItemsCart", orderItemService.findByOrderId(orderId, pageable));
+	private String loadMoreOrderItems(Long orderId, Model model, Pageable pageable,
+			HttpServletResponse response, boolean tableFormat) {
+		model.addAttribute("orderItemsList", orderItemService.findByOrderId(orderId, pageable));
 		response.addHeader("X-Has-More", String.valueOf(orderItemService
 				.findByOrderId(orderId, pageable.next())
 				.hasContent()));
-		return "cart_items_cards";
+		model.addAttribute("tableFormat", tableFormat);
+		return "order_items_cards";
+	}
+
+	@GetMapping("/loadMoreOrderItemsCart")
+	public String loadMoreOrderItemsCart(@RequestParam Long orderId, Model model, @PageableDefault(size = 10) Pageable pageable,
+			HttpServletResponse response) {
+		return loadMoreOrderItems(orderId, model, pageable, response, false);
+	}
+
+	@GetMapping("/loadMoreOrderItemsOrder")
+	public String loadMoreOrderItemsOrder(@RequestParam Long orderId, Model model, @PageableDefault(size = 10) Pageable pageable,
+			HttpServletResponse response) {
+		return loadMoreOrderItems(orderId, model, pageable, response, true);
 	}
 
 }

@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -381,6 +382,17 @@ public class OrderService {
 		});
 
 		return meanTickets;
+	}
+
+	public String validateFields(BigDecimal shippingCost, BigDecimal totalPrice) {
+		String errorMsg = "";
+		if (shippingCost == null || shippingCost.compareTo(BigDecimal.ZERO) < 0 || shippingCost.compareTo(new BigDecimal("1000000")) > 0) {
+			errorMsg += "El coste de envío no puede ser negativo ni superar 1.000.000.";
+		}
+		if (totalPrice == null || totalPrice.compareTo(BigDecimal.ZERO) < 0 || totalPrice.compareTo(new BigDecimal("1000000")) > 0) {
+			errorMsg += "El precio total no puede ser negativo ni superar 1.000.000.";
+		}
+		return errorMsg;
 	}
 	
 }

@@ -71,6 +71,10 @@ public class UserService {
 		User user = repository.findById(id).orElseThrow();
 		if (user != null) {
 			user.setDisabled(true);
+			if (user.getCart() != null) {
+				orderService.deleteCart(user.getCart());
+				this.save(user);
+			}
 			if (user.getOrders().size() > 0) {
 				String uuid = UUID.randomUUID().toString();
 				user.setName("Anonymous" + uuid);
@@ -78,14 +82,12 @@ public class UserService {
 				user.setEncodedPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 				orderService.deleteCart(user.getCart());
 				this.save(user);
-			} else {
-				if (user.getCart() != null) {
-					orderService.deleteCart(user.getCart());
-				}
+			}
+			else{
 				this.delete(id);
 			}
-
 		}
+
 	}
 
 	public Page<User> findByDisabledFalse(Pageable pageable) {
@@ -148,8 +150,7 @@ public class UserService {
 				originalUser.setAvatar(null);
 				save(originalUser);
 			}
-		}
-		else {
+		} else {
 			save(originalUser);
 		}
 	}

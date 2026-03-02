@@ -29,12 +29,12 @@
             </div>
 
             <div id="cart-items">
-                {{>cart_items_cards}}
+                {{>order_items_cards}}
             </div>
             {{#hasMore}}
             <div class="text-center mt-4">
                 <button class="btn btn-primary" type="button"
-                    onclick="loadMore(event, '/loadMoreOrderItems?orderId={{order.id}}&page=1', 'cart-items', 'cart-item')">
+                    onclick="loadMore(event, '/loadMoreOrderItemsCart?orderId={{order.id}}&page=1', 'cart-items', 'cart-item')">
                     Cargar más <i class="bi bi-plus-circle"></i>
                 </button>
             </div>

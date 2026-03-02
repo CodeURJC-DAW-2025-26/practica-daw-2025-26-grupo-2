@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // ADMIN ACCESS: Only administrators
-                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete",  "/loadMoreOrders", "/order/*/edit", "/order/*/delete").hasRole("ADMIN")
+                        .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete",  "/loadMoreOrders", "/order/*/edit", "/order/*/delete", "/order/*/edit").hasRole("ADMIN")
                         .requestMatchers("/orders", "/users", "/statistics").hasRole("ADMIN")
 
                         // USER ACCESS: Only logged-in users
