@@ -1,4 +1,21 @@
-{{#orderItemsCart}}
+{{#tableFormat}}
+{{#orderItemsList}}
+<tr class="order-item">
+    <td>
+        {{garmentName}} <br>
+        <small class="text-muted">Ref: {{garmentReference}}</small>
+    </td>
+    <td><img src="/garment/{{garmentId}}/image" class="img-fluid img-product-order" style="width: 50px;" alt="Producto">
+    </td>
+    <td>{{size}}</td>
+    <td>{{quantity}}</td>
+    <td>{{garmentPrice}}€</td>
+    <td>{{subtotal}}€</td>
+</tr>
+{{/orderItemsList}}
+{{/tableFormat}}
+{{^tableFormat}}
+{{#orderItemsList}}
 <div class="cart-item d-flex align-items-center justify-content-between mb-3">
     <div class="cart-item-info d-flex align-items-center gap-3">
         <img src="/garment/{{getGarmentId}}/image" alt="{{getGarmentName}}" class="img-fluid cart-item-image" />
@@ -25,4 +42,5 @@
         </div>
     </div>
 </div>
-{{/orderItemsCart}}
+{{/orderItemsList}}
+{{/tableFormat}}
