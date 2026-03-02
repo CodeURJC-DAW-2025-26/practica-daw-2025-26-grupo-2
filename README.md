@@ -201,7 +201,11 @@ Solo si ha cambiado.
 
 #### **Capturas de Pantalla Actualizadas**
 
-Solo si han cambiado.
+#### **4. Página Principal (usuario registrado)**
+![User home 1](images/recomendations.png)
+![User home 2](images/load.png)
+
+>La página principal para usuarios registrados mantiene la estructura del catálogo, pero añade funcionalidades pensadas para una experiencia más personalizada. En la barra superior se incorporan accesos directos al carrito y un menú desplegable de perfil, desde el que el usuario puede gestionar sus datos, consultar sus pedidos o cerrar sesión. Se incluye una sección de “Recomendaciones para ti” al inicio, apartado de recomendaciones destacadas. A continuación, se mantiene el listado general de artículos con el mismo sistema de filtrado desplegable (búsqueda, categoría, rango de precio y ordenación), además, tienes la opción de cargar más artículos. El footer conserva enlaces informativos y redes sociales.
 
 ### **Instrucciones de Ejecución**
 
@@ -218,6 +222,46 @@ Solo si han cambiado.
    git clone https://github.com/[usuario]/[nombre-repositorio].git
    cd [nombre-repositorio]
    ```
+
+2. **Entrar al backend**
+   ```bash
+   cd backend
+   ```
+
+3. **Compilar el proyecto**
+   - Linux/macOS:
+     ```bash
+     ./mvnw clean install
+     ```
+   - Windows:
+     ```bash
+     mvnw.cmd clean install
+     ```
+
+4. **Ejecutar la aplicación**
+   - Linux/macOS:
+     ```bash
+     ./mvnw spring-boot:run
+     ```
+   - Windows:
+     ```bash
+     mvnw.cmd spring-boot:run
+     ```
+
+5. **Abrir en navegador**
+   - `http://localhost:8443`
+
+### **Credenciales de prueba**
+
+> En el login se usa **email** como usuario.
+
+- **Administrador**
+  - Usuario: `maria@example.com`
+  - Contraseña: `password456`
+
+- **Usuario registrado**
+  - Usuario: `juan@example.com`
+  - Contraseña: `password123`  
 
 2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
 
@@ -236,9 +280,9 @@ Solo si han cambiado.
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
 
-![Diagrama de Clases](images/classes-diagram.png)
+![Diagrama de Clases](images/template.png)
 
-> [Descripción opcional del diagrama y relaciones principales]
+> La carpeta images almacena todas las capturas de pantalla de la interfaz (para diferentes roles de usuario) y diagramas de la arquitectura (navegación, entidad-relación, clases y componentes React).Los templates HTML ubicados en templates contienen todas las vistas Mustache que genera el servidor: páginas de autenticación (login, registro), perfil de usuario, catálogo de productos, carrito, gestión de pedidos, panel de administración y componentes reutilizables (header, footer, tarjetas de productos); estos templates reciben datos del controlador y aplican estilos CSS desde static.
 
 ### **Participación de Miembros en la Práctica 1**
 
@@ -285,6 +329,19 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 ---
 
 #### **Alumno 4 - [Nombre Completo]**
+
+[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
+|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
+|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
+|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+
+---
+#### **Alumno 5 - Sara Guillén Martínez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
