@@ -328,30 +328,52 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - [Samuel Melián Benito]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Creación del primer esquema del modelo.
+
+En el frontend, gráficas dinámicas de ingresos y pedidos para la sección de estadísticas, también para la sección de perfil de usuario. 
+
+Migrado de los HTML a plantillas mustache. 
+
+Creación del fichero js para la funcionalidad de cargar más con AJAX.
+
+En el backend, implementación de toda la funcionalidad necesaria para cargar más de todas las entidades, filtros opcionales (y varios simultáneos) para la búsqueda de prendas y combinación del filtro con la funcionalidad de cargar más.
+
+Implementación de la mayoría de los controladores, tratando especialmente detalles como la lógica al deshabilitar una prenda o al deshabilitar un usuario, actualizando carritos con esa prenda.
+
+Control de acceso por dueño en todas las entidades que lo requieren.
+
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Migrado de todas los html a plantillas de mustache](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/57636d5b3f1cf9e4de08bebce7c66a2b0420f9e9)  | [GarmentController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentController.java)   |
+|2| [Implementación de filtros (simultáneos y opcionales) para búsqueda de prendas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a83999bf44e438f1484439f162d7c782fcfbb6c1)  | [OrderController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderController.java)   |
+|3| [Gráficas dinámicas en la sección de estadísticas para ingresos y número de pedidos por distintos perdiodos de tiempo](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5c39397d683e8d5aa82c18b7692611808ebd5892)  | [OrderService.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/OrderService.java)   |
+|4| [Implementación de la funcionalidad cargar más para prendas con AJAX](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a8789fa836443f33e82473f23012def4a72c4b47)  | [User.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/model/User.java)   |
+|5| [Implementación de la funcionalidad de deshabilitar prenda (en sustitución de borrar, para que no se modifiquen los pedidos en los que aparecía). Implementación de la lógica y consultas para actualizar los carritos que contenían dicha prenda](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/f78b5ce418418af00f50194dd650e20c3307ffde)  | [Order.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/model/Order.java)   |
 
 ---
+
 #### **Alumno 5 - Sara Guillén Martínez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+En la parte de usuarios, he mejorado el modelo User añadiendo la unicidad del email, el timestamp de creación y métodos para obtener el nombre de usuario. He trabajado en el proceso de registro y edición, incorporando validaciones de campos y el manejo de errores . También he añadido métodos en UserService para la gestión y guardado de usuarios, incluyendo la gestión de la imagen de perfil.
+
+En cuanto a los pedidos, he implementado los métodos necesarios en OrderService para poder crear, recuperar y gestionar pedidos. He desarrollado la funcionalidad de mostrar todos los pedidos y “mis pedidos”, así como la gestión del carrito (añadir productos y eliminarlos). También he implementado la eliminación de pedidos con control de permisos según el rol del usuario. Además, he añadido la generación de facturas en PDF para los pedidos realizados.
+
+En la gestión de opiniones, he creado y mejorado el OpinionController, implementando la lógica para crear y gestionar opiniones y he añadido la vacidación.
+
+Respecto a las prendas, he refactorizado el formulario de prendas añadiendo validaciones.
+
+Parte del README
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Generar facturas PDF ](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d32056935c753d851dcfa78f1a6c8671ccf4195b)  | [InvoicePdfService](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/InvoicePdfService.java)  |
+|2| [Lógica OpinionController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/9363a9c9b379af5be8b8cfbd91f8f88c10c6f841)  | [OpinionController](URL_archivo_2)   |
+|3| [Borrar un pedido](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/c6b808f27f919460ee2c95959bbc82c24dde9704)  | [OrderController](URL_archivo_3)   |
+|4| [Mejorar el registro de usuarios y la gestión de opiniones; añadir validación y manejo de errores](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d8f8a861147ffa1c04aea050796b2652fc5f9cc5)  | [UserService](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/UserService.java)   |
+|5| [Validación del formulario de prendas y el manejo de errores.](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/2890e4b57c7f8c00f556c23cd879975b7bb554a3)  | [GarmentController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentController.java)   |
 
 ---
 
@@ -495,28 +517,6 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 5 - Sara Guillén Martínez**
-
-En la parte de usuarios, he mejorado el modelo User añadiendo la unicidad del email, el timestamp de creación y métodos para obtener el nombre de usuario. He trabajado en el proceso de registro y edición, incorporando validaciones de campos y el manejo de errores . También he añadido métodos en UserService para la gestión y guardado de usuarios, incluyendo la gestión de la imagen de perfil.
-
-En cuanto a los pedidos, he implementado los métodos necesarios en OrderService para poder crear, recuperar y gestionar pedidos. He desarrollado la funcionalidad de mostrar todos los pedidos y “mis pedidos”, así como la gestión del carrito (añadir productos y eliminarlos). También he implementado la eliminación de pedidos con control de permisos según el rol del usuario. Además, he añadido la generación de facturas en PDF para los pedidos realizados.
-
-En la gestión de opiniones, he creado y mejorado el OpinionController, implementando la lógica para crear y gestionar opiniones y he añadido la vacidación.
-
-Respecto a las prendas, he refactorizado el formulario de prendas añadiendo validaciones.
-
-Parte del README
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Generar facturas PDF ](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d32056935c753d851dcfa78f1a6c8671ccf4195b)  | [InvoicePdfService](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/InvoicePdfService.java)  |
-|2| [Lógica OpinionController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/9363a9c9b379af5be8b8cfbd91f8f88c10c6f841)  | [OpinionController](URL_archivo_2)   |
-|3| [Borrar un pedido](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/c6b808f27f919460ee2c95959bbc82c24dde9704)  | [OrderController](URL_archivo_3)   |
-|4| [Mejorar el registro de usuarios y la gestión de opiniones; añadir validación y manejo de errores](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d8f8a861147ffa1c04aea050796b2652fc5f9cc5)  | [UserService](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/UserService.java)   |
-|5| [Validación del formulario de prendas y el manejo de errores.](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/2890e4b57c7f8c00f556c23cd879975b7bb554a3)  | [GarmentController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentController.java)   |
 
 ---
 
