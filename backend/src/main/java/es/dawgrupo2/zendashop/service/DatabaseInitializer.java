@@ -155,6 +155,29 @@ public class DatabaseInitializer {
 		Garment garment15 = new Garment("Bolso negro", BigDecimal.valueOf(99.99), "Accesorios", "Bolso de cuero", 
 				"Resistente, elegante");
 
+		Garment garment16 = new Garment("Bermudas", BigDecimal.valueOf(59.99), "Pantalones", "Bermudas de verano de algodón", 
+				"Frescas, cómodas");
+		
+		Garment garment17 = new Garment("Pantalón corto", BigDecimal.valueOf(39.99), "Pantalones", "Pantalón corto de algodón", 
+				"Bonito, cómodo");
+		
+		Garment garment18 = new Garment("Pantalón corto azul", BigDecimal.valueOf(49.99), "Pantalones", "Pantalón corto de verano de algodón", 
+				"Bonito, cómodo, color azul");
+		
+		Garment garment19 = new Garment("Pantalón corto crema", BigDecimal.valueOf(44.99), "Pantalones", "Pantalón corto de verano de algodón", 
+				"Bonito, cómodo, color crema");
+
+		Garment garment20 = new Garment("Pantalón corto gris", BigDecimal.valueOf(39.99), "Pantalones", "Pantalón corto de verano de algodón", 
+				"Bonito, cómodo, color gris");
+
+		Garment garment21 = new Garment("Pantalón corto turquesa", BigDecimal.valueOf(49.99), "Pantalones", "Pantalón corto de verano de algodón", 
+				"Bonito, cómodo, color turquesa");
+		
+		Garment garment22 = new Garment("Pantalones vaqueros", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros de algodón", 
+				"Bonitos, cómodos, color azul");
+		
+
+
 		garmentService.save(garment1, convertImage("sample_images/camiseta.jpg"));
 		garmentService.save(garment2, convertImage("sample_images/pantalon.jpg"));
 		garmentService.save(garment3, convertImage("sample_images/camiseta-azul.jpg"));
@@ -170,6 +193,14 @@ public class DatabaseInitializer {
 		garmentService.save(garment13, convertImage("sample_images/zapatos.jpg"));
 		garmentService.save(garment14, convertImage("sample_images/sudadera.jpg"));
 		garmentService.save(garment15, convertImage("sample_images/bolso-negro.jpg"));
+		garmentService.save(garment16, convertImage("sample_images/bermudas.jpg"));
+		garmentService.save(garment17, convertImage("sample_images/pantalon-corto.jpg"));
+		garmentService.save(garment18, convertImage("sample_images/pantalon-corto-azul.jpg"));
+		garmentService.save(garment19, convertImage("sample_images/pantalon-corto-crema.jpg"));
+		garmentService.save(garment20, convertImage("sample_images/pantalon-corto-gris.jpg"));
+		garmentService.save(garment21, convertImage("sample_images/pantalon-corto-turquesa.jpg"));
+		garmentService.save(garment22, convertImage("sample_images/vaqueros.jpg"));
+
 
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
@@ -231,8 +262,19 @@ public class DatabaseInitializer {
 		userService.save(user1);
 
 		Order order2 = new Order(true, "C/ Admin 1", LocalDate.now(), "Entrega urgente");
-		user2.addOrder(order2);
+		user1.addOrder(order2);
 		order2.addOrderItem(new OrderItem(1, "L", garment2));
+		order2.addOrderItem(new OrderItem(1, "M", garment1));
+		order2.addOrderItem(new OrderItem(1, "S", garment3));
+		order2.addOrderItem(new OrderItem(1, "L", garment4));
+		order2.addOrderItem(new OrderItem(1, "M", garment5));
+		order2.addOrderItem(new OrderItem(1, "L", garment6));
+		order2.addOrderItem(new OrderItem(1, "M", garment7));
+		order2.addOrderItem(new OrderItem(1, "L", garment8));
+		order2.addOrderItem(new OrderItem(1, "M", garment9));
+		order2.addOrderItem(new OrderItem(1, "S", garment10));
+		order2.addOrderItem(new OrderItem(1, "M", garment11));
+		order2.addOrderItem(new OrderItem(1, "L", garment12));
 
 		orderService.save(order2);
 
