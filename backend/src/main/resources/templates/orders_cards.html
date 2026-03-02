@@ -1,5 +1,5 @@
 {{#orders}}
-<tr class ="order-item">
+<tr class="order-item">
     <td>{{id}}</td>
     <td>{{user.email}}</td>
     <td>{{convertCreationDateToLocalDate}}</td>
@@ -8,12 +8,9 @@
         <a class="btn btn-info btn-sm d-inline" href="/order/{{id}}">
             Ver detalle <i class="bi bi-eye"></i>
         </a>
-        <form method="post" action="/order/{{id}}/edit">
-            <button class="btn btn-warning btn-sm" type="submit">
-                Editar <i class="bi bi-pencil"></i>
-            </button>
-            <input type="hidden" name="_csrf" value="{{token}}">
-        </form>
+        <a class="btn btn-warning btn-sm" href="/order/{{id}}/edit">
+            Editar <i class="bi bi-pencil"></i>
+        </a>
         <form method="post" action="/order/{{id}}/delete">
             <button class="btn btn-danger btn-sm" type="submit">
                 Borrar <i class="bi bi-x-lg"></i>
