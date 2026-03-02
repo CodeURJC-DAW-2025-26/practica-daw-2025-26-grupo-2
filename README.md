@@ -280,17 +280,19 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [Alejandro Lefebvre Valiente]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Mis principales responsabilidades y funcionalidades desarrolladas fueron:
+Incorporación y primera configuración de la base de datos en el proyecto.
+Configuración de la seguridad, los tokens CSRF, los permisos y otras labores relacionadas con los roles.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Incorporación de una base de datos común](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/e7c3a60576b50a625548b6b9b00b9ad33d25108e)  | [application.properties](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/resources/application.properties)   |
+|2| [Configuración de seguridad de la web](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/b6c1e030f83b3379a60fdfa27dae9f3a331805fc)  | [WebSecurityConfig](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/WebSecurityConfig.java)   |
+|3| [Configuración del servicio de detalles de usuario]([URL_commit_3](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/608cbee852a20679af3e897eadc2e9935b695c0c))  | [RepositoryUserDetailsService](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/RepositoryUserDetailsService.java)   |
+|4| [Configuración del loginController e introducción del sistema de tokens CSRF](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a80458a3dfc541f061c774eb28919b1514ca8f7d)  | [CSRFHandlerConfiguration](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/CSRFHandlerConfiguration.java)   |
+|5| [Correcciones en el orderController y configuración de tokens CSRF en formularios]((https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/494ecd465a302b03d6764518dcf30291042d8a6e))  | [OrderController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderController.java)   |
 
 ---
 
