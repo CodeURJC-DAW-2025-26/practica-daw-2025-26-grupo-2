@@ -106,8 +106,8 @@ public class GarmentService {
 		}
 		if (garment.getPrice() == null || !(garment.getPrice() instanceof BigDecimal)
 				|| garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0
-				|| garment.getPrice().compareTo(BigDecimal.valueOf(5000)) > 0) {
-			errorMsg += "El precio debe ser un número positivo menor o igual a 5000. <br>";
+				|| garment.getPrice().compareTo(BigDecimal.valueOf(6000)) > 0) {
+			errorMsg += "El precio debe ser un número positivo menor o igual a 6000. <br>";
 		}
 		if (garment.getCategory() == null || garment.getCategory().isEmpty()
 				|| !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
