@@ -190,7 +190,7 @@ La página principal para el administrador mantiene la estructura del catálogo,
 ## 🛠 **Práctica 1: Web con HTML generado en servidor y AJAX**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube DAW P1 G2](https://www.youtube.com/watch?v=t6XaqsGho6Q)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Navegación y Capturas de Pantalla**
@@ -214,21 +214,37 @@ Solo si ha cambiado.
 - **Maven**: versión 3.8 o superior
 - **MySQL**: versión 8.0 o superior
 - **Git**: para clonar el repositorio
+- **Variable de entorno** `DB_PASSWORD` con la contraseña de MySQL
 
 #### **Pasos para ejecutar la aplicación**
 
-1. **Clonar el repositorio**
+1. **Crear el schema en MySQL**
+   ```sql
+   CREATE SCHEMA IF NOT EXISTS zenda;
+   ```
+
+2. **Configurar la variable de entorno `DB_PASSWORD`**
+   - Linux/macOS:
+     ```bash
+     export DB_PASSWORD=tu_contraseña_mysql
+     ```
+   - Windows (PowerShell):
+     ```powershell
+     $env:DB_PASSWORD="tu_contraseña_mysql"
+     ```
+
+3. **Clonar el repositorio**
    ```bash
    git clone https://github.com/[usuario]/[nombre-repositorio].git
    cd [nombre-repositorio]
    ```
 
-2. **Entrar al backend**
+4. **Entrar al backend**
    ```bash
    cd backend
    ```
 
-3. **Compilar el proyecto**
+5 **Compilar el proyecto**
    - Linux/macOS:
      ```bash
      ./mvnw clean install
@@ -238,7 +254,7 @@ Solo si ha cambiado.
      mvnw.cmd clean install
      ```
 
-4. **Ejecutar la aplicación**
+6. **Ejecutar la aplicación**
    - Linux/macOS:
      ```bash
      ./mvnw spring-boot:run
@@ -248,7 +264,7 @@ Solo si ha cambiado.
      mvnw.cmd spring-boot:run
      ```
 
-5. **Abrir en navegador**
+7. **Abrir en navegador**
    - `https://localhost:8443`
 
 ### **Credenciales de prueba**
@@ -296,17 +312,20 @@ Configuración de la seguridad, los tokens CSRF, los permisos y otras labores re
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Víctor Navarro Santos]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+- Desarrollo del controlador de usuarios, implementando la lógica necesaria para su funcionamiento dentro de la aplicación.
+- Adaptación y corrección del sistema de permisos existente para permitir el acceso correcto a determinadas funcionalidades.
+- Implementación de funcionalidades relacionadas con la gestión de garments.
+- Identificación y corrección de errores durante el desarrollo.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Impllementación de la página de Order Management](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/compare/de0dc76aefd210408b732d210dce4a3fc73e196f...6b3add8e75356b3f8fd969938ffeec53f96e8d89)  | [all_orders](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/c7b81863aa1dd6a5f53c323cc61e169a04357fa6/backend/src/main/resources/templates/all_orders.html)   |
+|2| [Primer intento de User Controller, sin perfeccionar](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/compare/d6bbae60e846239c3c0729b1bb4506ef5a228644...988069310ee48bfb266c1ec335cfac492ccbc78e)  | [UserController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/c7b81863aa1dd6a5f53c323cc61e169a04357fa6/backend/src/main/java/es/dawgrupo2/zendashop/controller/UserController.java)   |
+|3| [feat: add listing endpoint enhance security configuration (being able to access to "Gestionar usuarios" part being admin)](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/compare/b43ed0877e27fd24a6701cba224e8f3a110ecffa...2077fcf84b37be421a1affd8516c0f84896dd434)  | [User](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/520a3db75996494df0e839ac3afd5f7933fd6b66/backend/src/main/java/es/dawgrupo2/zendashop/model/User.java)   |
+|4| [Corrección del código para que el apartado de "gestionar perfil" funcione correctamente](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/compare/2077fcf84b37be421a1affd8516c0f84896dd434...520a3db75996494df0e839ac3afd5f7933fd6b66)  | [User](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/520a3db75996494df0e839ac3afd5f7933fd6b66/backend/src/main/java/es/dawgrupo2/zendashop/model/User.java)   |
+|5| [Implementación de la edición de perfiles de usuario por parte del administrador](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/compare/b067ac0fb9a2db67a3f419d3e023d27122ebe93a...c7b81863aa1dd6a5f53c323cc61e169a04357fa6)  | [UserController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/c7b81863aa1dd6a5f53c323cc61e169a04357fa6/backend/src/main/java/es/dawgrupo2/zendashop/controller/UserController.java)   |
 
 ---
 
