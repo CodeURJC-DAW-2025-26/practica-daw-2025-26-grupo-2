@@ -154,4 +154,12 @@ public class UserService {
 			save(originalUser);
 		}
 	}
+
+	public void setUserRoles(User user, String rol) {
+		if (rol == null || !rol.equals("ADMIN")) {
+            user.setRoles(List.of("USER"));
+        } else {
+            user.setRoles(List.of("USER", "ADMIN"));
+        }
+	}
 }

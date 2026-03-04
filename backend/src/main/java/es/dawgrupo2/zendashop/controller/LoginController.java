@@ -48,11 +48,7 @@ public class LoginController {
             return "customError";
         }
         user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-        if (rol == null || !rol.equals("ADMIN")) {
-            user.setRoles(List.of("USER"));
-        } else {
-            user.setRoles(List.of("USER", "ADMIN"));
-        }
+        userService.setUserRoles(user, rol);
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             model.addAttribute("message", "El email seleccionado ya pertence a un usuario registrado");
             model.addAttribute("backLink", "/register");

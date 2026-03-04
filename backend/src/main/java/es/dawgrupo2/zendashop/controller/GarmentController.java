@@ -114,6 +114,7 @@ public class GarmentController {
 				opinion.setOwn(request.getUserPrincipal() != null && (request.isUserInRole("ADMIN")
 						|| opinion.getUser().getEmail().equals(request.getUserPrincipal().getName())));
 			}
+			
 			model.addAttribute("hasMore", opinionService
 				.findByGarmentId(id, pageable.next())
 				.hasContent());
