@@ -67,13 +67,9 @@ public class OpinionController {
 			return "customError";
 		}
 		if (op.isPresent()) {
-			Garment garment = op.get();
-			garment.addOpinion(opinion);
-			// String userEmail = principal.getName();
-			// String userEmail = "juan@example.com";
 			String userEmail = request.getUserPrincipal().getName();
-			userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
-			opinionService.save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
+			Garment garment = op.get();
+			opinionService.newOpinion(opinion, garment, userEmail);
 			return "redirect:/garment/" + garmentId + "#opinionForm";
 		} else {
 			model.addAttribute("message", "Prenda no encontrada.");
@@ -122,10 +118,7 @@ public class OpinionController {
 			}
 
 			Opinion originalOpinion = op.get();
-
-			originalOpinion.setRating(editedOpinion.getRating());
-			originalOpinion.setComment(editedOpinion.getComment());
-			opinionService.save(originalOpinion);
+			opinionService.updateOpinion(originalOpinion, editedOpinion);
 			return "redirect:/garment/" + originalOpinion.getGarment().getId();
 		} else {
 			model.addAttribute("message", "Opinión no encontrada.");
@@ -138,23 +131,19 @@ public class OpinionController {
 	public String deleteOpinion(Model model, @PathVariable long garmentId, @PathVariable long opinionId,
 			HttpServletRequest request) {
 
-		Optional<Opinion> opinion = opinionService.findById(opinionId);
+		Optional<Opinion> opOpinion = opinionService.findById(opinionId);
 
-		if (opinion.isPresent()) {
+		if (opOpinion.isPresent()) {
+			Opinion opinion = opOpinion.get();
 			String userEmail = request.getUserPrincipal().getName();
 			User user = userService.findByEmail(userEmail).orElseThrow();
-			if (!request.isUserInRole("ADMIN") && !opinion.get().getUser().getId().equals(user.getId())) {
+			if (!request.isUserInRole("ADMIN") && !opinion.getUser().getId().equals(user.getId())) {
 				model.addAttribute("message", "Quieto parao! No tienes permiso para eliminar esta opinión.");
 				model.addAttribute("backLink", "/garment/" + garmentId);
 				return "customError";
 			}
-
-			Garment garment = opinion.get().getGarment();
-			garmentId = garment.getId(); // Use reference in opinion to avoid problems with url
-			garment.removeOpinion(opinion.get());
-			user.removeOpinion(opinion.get());
-			opinionService.delete(opinionId);
-			return "redirect:/garment/" + garmentId;
+			opinionService.removeOpinion(opinion);
+			return "redirect:/garment/" + opinion.getGarmentId();
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Opinión no encontrada.");
 			model.addAttribute("backLink", "/garment/" + garmentId);

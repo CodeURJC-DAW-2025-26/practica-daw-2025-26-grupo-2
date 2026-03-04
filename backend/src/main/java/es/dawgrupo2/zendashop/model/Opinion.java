@@ -96,6 +96,5 @@ public class Opinion {
 
     public Long getGarmentId(){
         return garment.getId();
-    }
-    
+    }    
 }

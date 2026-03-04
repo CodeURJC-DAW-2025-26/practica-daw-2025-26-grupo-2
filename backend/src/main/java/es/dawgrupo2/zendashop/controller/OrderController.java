@@ -90,16 +90,10 @@ public class OrderController {
 				model.addAttribute("backLink", "/myorders");
 				return "customError";
 			}
-			String status;
-			if (order.getCompleted()) {
-				status = "COMPLETADO";
-			} else {
-				status = "EN CURSO";
-			}
 			model.addAttribute("order", order);
 			model.addAttribute("orderItemsList", orderItemService.findByOrderId(order.getId(), pageable));
 			model.addAttribute("hasMore", orderItemService.findByOrderId(order.getId(), pageable.next()).hasContent());
-			model.addAttribute("status", status);
+			model.addAttribute("status", order.getCompleted() ? "COMPLETADO" : "EN CURSO");
 			if (editing){
 				edittingOrder = order;
 				backLink = "/orders";
@@ -183,12 +177,7 @@ public class OrderController {
 			orderService.save(cart); // OrderItems are saved by cascade, but we need to save the cart to update the
 										// relationship
 		} else {
-			Order newOrder = new Order(false, null, null, null);
-			orderService.save(newOrder); // We need to save the order first to generate an ID for the relationship
-			newOrder.setUser(user);
-			newOrder.addOrderItem(orderItem);
-			user.setCart(newOrder);
-			userService.save(user);
+			orderService.newCart(orderItem, user);
 		}
 		return "redirect:/";
 	}

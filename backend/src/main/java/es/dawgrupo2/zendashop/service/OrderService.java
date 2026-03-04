@@ -394,5 +394,13 @@ public class OrderService {
 		}
 		return errorMsg;
 	}
-	
+
+	public void newCart(OrderItem orderItem, User user) {
+		Order newOrder = new Order(false, null, null, null);
+		save(newOrder); // We need to save the order first to generate an ID for the relationship
+		newOrder.setUser(user);
+		newOrder.addOrderItem(orderItem);
+		user.setCart(newOrder);
+		userRepository.save(user);
+	}
 }

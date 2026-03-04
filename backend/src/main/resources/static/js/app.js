@@ -2,7 +2,7 @@ async function loadMore(event, url, list, item) {
     event.preventDefault();
 
     const button = event.currentTarget;
-    const spinner = document.getElementById('loading-spinner'); // O busca por clase relativa
+    const spinner = document.getElementById('loading-spinner');
 
     button.classList.add('d-none');
     spinner.classList.remove('d-none');
