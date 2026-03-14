@@ -15,7 +15,7 @@ import es.dawgrupo2.zendashop.service.OrderService;
 import tools.jackson.databind.ObjectMapper;
 
 @Controller
-public class StatisticController {
+public class StatisticWebController {
 
     @Autowired
     private OrderService orderService;

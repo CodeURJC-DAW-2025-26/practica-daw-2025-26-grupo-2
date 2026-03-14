@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-public class OpinionController {
+public class OpinionWebController {
 
 	@Autowired
 	private GarmentService garmentService;

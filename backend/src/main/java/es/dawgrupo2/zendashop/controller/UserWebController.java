@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tools.jackson.databind.ObjectMapper;
 
 @Controller
-public class UserController {
+public class UserWebController {
 
     @Autowired
     private UserDetailsService userDetailsService;

@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 
 @Controller
-public class OrderController {
+public class OrderWebController {
 
 	@Autowired
 	private OrderService orderService;
