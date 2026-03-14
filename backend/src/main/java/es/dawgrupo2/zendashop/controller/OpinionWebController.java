@@ -143,7 +143,7 @@ public class OpinionWebController {
 				return "customError";
 			}
 			opinionService.removeOpinion(opinion);
-			return "redirect:/garment/" + opinion.getGarmentId();
+			return "redirect:/garment/" + garmentId;
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Opinión no encontrada.");
 			model.addAttribute("backLink", "/garment/" + garmentId);
