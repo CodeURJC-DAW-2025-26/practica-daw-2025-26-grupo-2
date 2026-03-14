@@ -1,7 +1,6 @@
 package es.dawgrupo2.zendashop.service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -12,12 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StreamUtils;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 
 import es.dawgrupo2.zendashop.model.Garment;
+import es.dawgrupo2.zendashop.model.Image;
 import es.dawgrupo2.zendashop.model.Opinion;
 import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.model.OrderItem;
@@ -34,6 +32,9 @@ public class DatabaseInitializer {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private ImageService imageService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -178,30 +179,52 @@ public class DatabaseInitializer {
 		
 
 
-		garmentService.save(garment1, convertImage("sample_images/camiseta.jpg"));
-		garmentService.save(garment2, convertImage("sample_images/pantalon.jpg"));
-		garmentService.save(garment3, convertImage("sample_images/camiseta-azul.jpg"));
-		garmentService.save(garment4, convertImage("sample_images/camiseta-roja.jpg"));
-		garmentService.save(garment5, convertImage("sample_images/jersey.jpg"));
-		garmentService.save(garment6, convertImage("sample_images/camiseta-amarilla.jpg"));
-		garmentService.save(garment7, convertImage("sample_images/camiseta-gris.jpg"));
-		garmentService.save(garment8, convertImage("sample_images/camiseta-verde.jpg"));
-		garmentService.save(garment9, convertImage("sample_images/camiseta-rosa.jpg"));
-		garmentService.save(garment10, convertImage("sample_images/camiseta-azul-marino.jpg"));
-		garmentService.save(garment11, convertImage("sample_images/camiseta-negra.jpg"));
-		garmentService.save(garment12, convertImage("sample_images/camiseta-turquesa.jpg"));
-		garmentService.save(garment13, convertImage("sample_images/zapatos.jpg"));
-		garmentService.save(garment14, convertImage("sample_images/sudadera.jpg"));
-		garmentService.save(garment15, convertImage("sample_images/bolso-negro.jpg"));
-		garmentService.save(garment16, convertImage("sample_images/bermudas.jpg"));
-		garmentService.save(garment17, convertImage("sample_images/pantalon-corto.jpg"));
-		garmentService.save(garment18, convertImage("sample_images/pantalon-corto-azul.jpg"));
-		garmentService.save(garment19, convertImage("sample_images/pantalon-corto-crema.jpg"));
-		garmentService.save(garment20, convertImage("sample_images/pantalon-corto-gris.jpg"));
-		garmentService.save(garment21, convertImage("sample_images/pantalon-corto-turquesa.jpg"));
-		garmentService.save(garment22, convertImage("sample_images/vaqueros.jpg"));
+		setGarmentImage(garment1, "sample_images/camiseta.jpg");
+		setGarmentImage(garment2, "sample_images/pantalon.jpg");
+		setGarmentImage(garment3, "sample_images/camiseta-azul.jpg");
+		setGarmentImage(garment4, "sample_images/camiseta-roja.jpg");
+		setGarmentImage(garment5, "sample_images/jersey.jpg");
+		setGarmentImage(garment6, "sample_images/camiseta-amarilla.jpg");
+		setGarmentImage(garment7, "sample_images/camiseta-gris.jpg");
+		setGarmentImage(garment8, "sample_images/camiseta-verde.jpg");
+		setGarmentImage(garment9, "sample_images/camiseta-rosa.jpg");
+		setGarmentImage(garment10, "sample_images/camiseta-azul-marino.jpg");
+		setGarmentImage(garment11, "sample_images/camiseta-negra.jpg");
+		setGarmentImage(garment12, "sample_images/camiseta-turquesa.jpg");
+		setGarmentImage(garment13, "sample_images/zapatos.jpg");
+		setGarmentImage(garment14, "sample_images/sudadera.jpg");
+		setGarmentImage(garment15, "sample_images/bolso-negro.jpg");
+		setGarmentImage(garment16, "sample_images/bermudas.jpg");
+		setGarmentImage(garment17, "sample_images/pantalon-corto.jpg");
+		setGarmentImage(garment18, "sample_images/pantalon-corto-azul.jpg");
+		setGarmentImage(garment19, "sample_images/pantalon-corto-crema.jpg");
+		setGarmentImage(garment20, "sample_images/pantalon-corto-gris.jpg");
+		setGarmentImage(garment21, "sample_images/pantalon-corto-turquesa.jpg");
+		setGarmentImage(garment22, "sample_images/vaqueros.jpg");
+		garmentService.save(garment1);
+		garmentService.save(garment2);
+		garmentService.save(garment3);
+		garmentService.save(garment4);
+		garmentService.save(garment5);
+		garmentService.save(garment6);
+		garmentService.save(garment7);
+		garmentService.save(garment8);
+		garmentService.save(garment9);
+		garmentService.save(garment10);
+		garmentService.save(garment11);
+		garmentService.save(garment12);
+		garmentService.save(garment13);
+		garmentService.save(garment14);
+		garmentService.save(garment15);
+		garmentService.save(garment16);
+		garmentService.save(garment17);
+		garmentService.save(garment18);
+		garmentService.save(garment19);
+		garmentService.save(garment20);
+		garmentService.save(garment21);
+		garmentService.save(garment22);
 
-
+		
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
 		Opinion opinion3 = new Opinion(3, "La talla no es la correcta, pero el material es bueno.");
@@ -441,15 +464,9 @@ public class DatabaseInitializer {
 		orderService.forceCreationDate(order19.getId(), LocalDate.now().minusYears(6).atStartOfDay());
 	}
 
-	private MockMultipartFile convertImage(String imageUrl) throws IOException {
-		Resource image = new ClassPathResource(imageUrl);
-		InputStream inputStream = image.getInputStream();
-
-		MockMultipartFile multipartFile = new MockMultipartFile(
-				"image",
-				"camiseta.jpg",
-				"image/jpg",
-				StreamUtils.copyToByteArray(inputStream));
-		return multipartFile;
+	public void setGarmentImage(Garment garment, String classpathResource) throws IOException {
+		Resource image = new ClassPathResource(classpathResource);
+		Image createdImage = imageService.createImage(image.getInputStream());
+		garment.setImage(createdImage);
 	}
 }

@@ -1,7 +1,6 @@
 package es.dawgrupo2.zendashop.model;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Garment {
@@ -38,8 +37,9 @@ public class Garment {
     @Column(updatable = false)
     private LocalDateTime creationDate;
 
-    @Lob
-    private Blob image;
+    // TODO: Consider cascade relationship
+    @OneToOne
+    private Image image;
 
     @OneToMany(mappedBy = "garment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opinion> opinions = new ArrayList<>();
@@ -108,11 +108,11 @@ public class Garment {
         this.features = features;
     }
 
-    public Blob getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
