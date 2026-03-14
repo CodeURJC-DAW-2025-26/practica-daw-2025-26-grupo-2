@@ -13,6 +13,7 @@ public record GarmentDTO (
     String features,
     // TODO: Ask if is necessary to incude delete endpoint for Garment, as in our web we don't consider that option. That would change a lot of logic
     // Same for orders, cart, users...
+    // TODO: Ask how to manage deletion of opinions when there are not yours
     List<OpinionBasicDTO> opinions
 ) {
 }
