@@ -80,7 +80,7 @@
                     <label for="inputClothImage" class="form-label"><b>Imagen</b></label>
                     {{#garment}}
                     <div class="mb-3">
-                        <img src="/garment/{{id}}/image" alt="{{name}}" class="img-fluid mb-2"
+                        <img src="/images/{{image.id}}" alt="{{name}}" class="img-fluid mb-2"
                             style="max-width: 200px;">
                     </div>
 
@@ -93,7 +93,7 @@
                     {{/garment}}
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-image"></i></span>
-                        <input type="file" class="form-control" id="inputClothImage" name="imageFile"
+                        <input type="file" class="form-control" id="inputClothImage" name="imageField"
                             accept=".jpg,.jpeg,.png" required>
                         <div class="invalid-feedback">
                             {{#garment}}

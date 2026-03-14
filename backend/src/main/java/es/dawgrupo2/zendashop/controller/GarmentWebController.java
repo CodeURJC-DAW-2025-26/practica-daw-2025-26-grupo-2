@@ -146,7 +146,7 @@ public class GarmentWebController {
 		try {
 			Image image = imageService.createImage(imageField.getInputStream());
 			garment.setImage(image);
-			garmentService.save(garment);
+			garmentService.createGarment(garment);
 		} catch (IOException e) {
 			throw new RuntimeException("Error al guardar la imagen", e);
 		}

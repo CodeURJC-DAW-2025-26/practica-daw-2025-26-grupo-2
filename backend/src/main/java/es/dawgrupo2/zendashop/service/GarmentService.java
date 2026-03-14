@@ -53,17 +53,14 @@ public class GarmentService {
 		repository.save(garment);
 	}
 
-	public Garment addImageToGarment(long id, Image image) {
-		Garment garment = repository.findById(id).orElseThrow();
-		garment.setImage(image);
-		repository.save(garment);
-		return garment;
-	}
+	public Garment createGarment(Garment garment) {
 
-	public Garment removeImageFromGarment(long garmentId, Image image) {
-		Garment garment = repository.findById(garmentId).orElseThrow();
-		garment.setImage(null);
-		repository.save(garment);
+		if (garment.getId() != null) {
+			throw new IllegalArgumentException();
+		}
+
+		save(garment);
+
 		return garment;
 	}
 
@@ -147,7 +144,7 @@ public class GarmentService {
 		if (updateImage) {
 			try {
 				Image image = imageService.replaceImageFile(originalGarment.getImage().getId(), imageField.getInputStream());
-				addImageToGarment(originalGarment.getId(), image);
+				originalGarment.setImage(image);
 			} catch (IOException e) {
 				throw new RuntimeException("Error al guardar la imagen", e);
 			}
