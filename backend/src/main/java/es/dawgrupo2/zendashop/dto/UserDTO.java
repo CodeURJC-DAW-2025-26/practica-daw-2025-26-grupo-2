@@ -15,7 +15,7 @@ public record UserDTO(
     List<String> roles,
     OrderDTO cart,
     Blob avatar,
-    List<OpinionDTO> opinions,
+    List<OpinionBasicDTO> opinions,
     List<OrderDTO> orders
 ) {
     
