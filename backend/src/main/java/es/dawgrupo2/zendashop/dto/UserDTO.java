@@ -11,7 +11,6 @@ public record UserDTO(
     String email,
     String adress,
     LocalDateTime creationDate,
-    String encodedPassword,
     List<String> roles,
     OrderDTO cart,
     Blob avatar,
