@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record OrderDTO(
+public record OrderExtendedDTO(
     Long id,
     LocalDateTime orderDate,
     String status,

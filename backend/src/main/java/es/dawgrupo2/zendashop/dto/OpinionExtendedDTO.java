@@ -1,6 +1,6 @@
 package es.dawgrupo2.zendashop.dto;
 
-public record OpinionDTO(
+public record OpinionExtendedDTO(
     Long id,
     String comment,
     Integer rating,

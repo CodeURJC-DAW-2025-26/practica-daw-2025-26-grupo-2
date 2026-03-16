@@ -2,7 +2,7 @@ package es.dawgrupo2.zendashop.dto;
 
 import java.util.List;
 
-public record GarmentDTO (
+public record GarmentExtendedDTO (
     Long id,
     String name,
     Double price,

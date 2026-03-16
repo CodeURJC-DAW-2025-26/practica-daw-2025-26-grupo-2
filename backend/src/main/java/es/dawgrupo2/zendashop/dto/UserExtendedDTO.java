@@ -3,7 +3,7 @@ package es.dawgrupo2.zendashop.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record UserDTO(
+public record UserExtendedDTO(
     Long id,
     String name,
     String surname,
