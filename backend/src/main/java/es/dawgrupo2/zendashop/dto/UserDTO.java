@@ -9,7 +9,7 @@ public record UserDTO(
     String name,
     String surname,
     String email,
-    String adress,
+    String address,
     LocalDateTime creationDate,
     List<String> roles,
     OrderDTO cart,
