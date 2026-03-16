@@ -1,11 +1,9 @@
 package es.dawgrupo2.zendashop.dto;
 
-public record OrderItemDTO (
+public record OrderItemBasicDTO(
     Long id,
     GarmentBasicDTO garment,
     int quantity,
-    String size,
-    OrderBasicDTO order
-){
-    
+    String size
+) {
 }
