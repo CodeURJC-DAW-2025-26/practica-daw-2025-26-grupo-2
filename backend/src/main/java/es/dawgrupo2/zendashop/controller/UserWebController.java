@@ -1,12 +1,9 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.Optional;
-import java.sql.Blob;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -25,12 +22,7 @@ import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
@@ -137,7 +129,7 @@ public class UserWebController {
     }
 
     @PostMapping("/user/{id}/edit")
-    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageAvatar,
+    public String editUserProcess(Model model, User editedUser, @PathVariable Long id, MultipartFile imageField,
             HttpServletRequest request,
             @RequestParam(name = "updateImage", defaultValue = "false") boolean updateImage, @RequestParam(name = "updatePassword", defaultValue = "false") boolean updatePassword) {
 
@@ -162,8 +154,9 @@ public class UserWebController {
             return "customError";
         }
         if (op.isPresent()) {
-            userService.updateUserFromEditedAndSave(originalUser, editedUser, updatePassword, updateImage, imageAvatar);
-
+            userService.updateUser(originalUser, editedUser, updatePassword, updateImage);
+            userService.updateAvatar(originalUser, imageField, updateImage);
+            userService.save(originalUser);
             // If the user changed their own email, we need to update the authentication token in the session
             if (originalEmail.equals(loggedInEmail)) {
                 Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -188,27 +181,6 @@ public class UserWebController {
             model.addAttribute("message", "¿Qué buscabas? Usuario no encontrado");
             model.addAttribute("backLink", "/");
             return "customError";
-        }
-    }
-
-    @GetMapping("user/{id}/avatar")
-    public ResponseEntity<Object> downloadAvatar(@PathVariable Long id) throws SQLException {
-
-        Optional<User> op = userService.findById(id);
-
-        if (op.isPresent() && op.get().getAvatar() != null) {
-            Blob AvatarImage = op.get().getAvatar();
-            Resource AvatarFile = new InputStreamResource(AvatarImage.getBinaryStream());
-
-            MediaType mediaType = MediaTypeFactory
-                    .getMediaType(AvatarFile)
-                    .orElse(MediaType.APPLICATION_OCTET_STREAM);
-
-            return ResponseEntity.ok()
-                    .contentType(mediaType)
-                    .body(AvatarFile);
-        } else {
-            return ResponseEntity.notFound().build();
         }
 
     }

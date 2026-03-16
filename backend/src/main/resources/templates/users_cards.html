@@ -1,6 +1,6 @@
 {{#users}}
 <tr class="user-item">
-    <td>{{#hasAvatar}}<img src="/user/{{id}}/avatar" alt="Avatar de {{name}}" class="avatar rounded-circle" width="40" height="40">{{/hasAvatar}}
+    <td>{{#hasAvatar}}<img src="/images/{{user.avatar.id}}" alt="Avatar de {{name}}" class="avatar rounded-circle" width="40" height="40">{{/hasAvatar}}
     {{^hasAvatar}}<img src="/avatar_default.png" alt="Avatar por defecto" class="avatar rounded-circle" width="40" height="40">{{/hasAvatar}}</td>
     <td>{{id}}</td>
     <td>{{name}}</td>

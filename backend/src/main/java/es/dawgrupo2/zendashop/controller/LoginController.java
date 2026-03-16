@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
+import es.dawgrupo2.zendashop.service.ImageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.dawgrupo2.zendashop.model.Image;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.UserService;
 
@@ -23,7 +24,7 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private ImageService imageService;
 
     @GetMapping("/login")
     public String login() {
@@ -37,7 +38,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String addUser(Model model, User user, MultipartFile imageAvatar,
+    public String addUser(Model model, User user, MultipartFile imageField,
             @RequestParam(required = false) String rol, HttpServletRequest request) {
         String errorMsg = userService.validateFields(user, true);
         if (!errorMsg.isEmpty()) {
@@ -45,21 +46,21 @@ public class LoginController {
             model.addAttribute("backLink", "/register");
             return "customError";
         }
-        user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
+        userService.setEncodedPassword(user);
         userService.setUserRoles(user, rol);
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             model.addAttribute("message", "El email seleccionado ya pertence a un usuario registrado");
             model.addAttribute("backLink", "/register");
             return "customError";
-        } else if (imageAvatar != null && !imageAvatar.isEmpty()) {
+        } else if (imageField != null && !imageField.isEmpty()) {
             try {
-                userService.save(user, imageAvatar);
+                Image avatar = imageService.createImage(imageField.getInputStream());
+                user.setAvatar(avatar);
             } catch (IOException e) {
                 throw new RuntimeException("Error al guardar la imagen", e);
             }
-        } else {
-            userService.save(user);
         }
+        userService.save(user);
         if (request.getUserPrincipal() != null) {
             return "redirect:/users";
         }

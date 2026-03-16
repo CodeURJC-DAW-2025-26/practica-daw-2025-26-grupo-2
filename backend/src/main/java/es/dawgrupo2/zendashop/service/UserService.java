@@ -11,13 +11,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.sql.rowset.serial.SerialBlob;
 
 import es.dawgrupo2.zendashop.repository.UserRepository;
+import es.dawgrupo2.zendashop.model.Image;
 import es.dawgrupo2.zendashop.model.User;
 
 @Service
 public class UserService {
+
+	private final ImageService imageService;
 
 	@Autowired
 	private UserRepository repository;
@@ -27,6 +29,10 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	UserService(ImageService imageService) {
+		this.imageService = imageService;
+	}
 
 	public Optional<User> findById(long id) {
 		return repository.findById(id);
@@ -48,15 +54,15 @@ public class UserService {
 		repository.save(user);
 	}
 
-	public void save(User user, MultipartFile imageFile) throws IOException {
-		if (!imageFile.isEmpty()) {
-			try {
-				user.setAvatar(new SerialBlob(imageFile.getBytes()));
-			} catch (Exception e) {
-				throw new IOException("Failed to create image blob", e);
-			}
+	public User createUser(User user) {
+
+		if (user.getId() != null) {
+			throw new IllegalArgumentException();
 		}
-		this.save(user);
+
+		save(user);
+
+		return user;
 	}
 
 	public void delete(long id) {
@@ -82,8 +88,7 @@ public class UserService {
 				user.setEncodedPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 				orderService.deleteCart(user.getCart());
 				this.save(user);
-			}
-			else{
+			} else {
 				this.delete(id);
 			}
 		}
@@ -123,43 +128,65 @@ public class UserService {
 			return errorMsg += "La contraseña debe tener al menos 8 caracteres y no más de 100.";
 		}
 
-		if (user.getAdress() != null && (user.getAdress().length() < 10 || user.getAdress().length() > 150)) {
+		if (user.getAddress() != null && (user.getAddress().length() < 10 || user.getAddress().length() > 150)) {
 			return errorMsg += "La dirección debe tener al menos 10 caracteres y no más de 150.";
 		}
 		return errorMsg;
 	}
 
-	public void updateUserFromEditedAndSave(User originalUser, User editedUser, boolean updatePassword,
-			boolean updateImage, MultipartFile imageAvatar) {
+	// Handles all the logic related to updating the user's fields, including password encoding if necessary
+	public void updateUser(User originalUser, User editedUser, boolean updatePassword,
+			boolean updateImage) {
 		originalUser.setName(editedUser.getName());
 		originalUser.setSurname(editedUser.getSurname());
 		originalUser.setEmail(editedUser.getEmail());
-		originalUser.setAdress(editedUser.getAdress());
+		originalUser.setAddress(editedUser.getAddress());
 		if (updatePassword) {
 			originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
 		}
-
-		if (updateImage) {
-			if (imageAvatar != null && !imageAvatar.isEmpty()) {
-				try {
-					save(originalUser, imageAvatar);
-				} catch (IOException e) {
-					throw new RuntimeException("Error al guardar la imagen", e);
-				}
-			} else {
-				originalUser.setAvatar(null);
-				save(originalUser);
-			}
-		} else {
-			save(originalUser);
-		}
 	}
+
+	//TODO: Create method in all services
 
 	public void setUserRoles(User user, String rol) {
 		if (rol == null || !rol.equals("ADMIN")) {
-            user.setRoles(List.of("USER"));
-        } else {
-            user.setRoles(List.of("USER", "ADMIN"));
-        }
+			user.setRoles(List.of("USER"));
+		} else {
+			user.setRoles(List.of("USER", "ADMIN"));
+		}
+	}
+
+	// Handles all the logic related to updating the user's avatar, including deleting the old one if necessary
+	public void updateAvatar(User user, MultipartFile imageField, boolean updateImage) {
+		if (updateImage) {
+			if (imageField != null && !imageField.isEmpty()) {
+				if (user.getAvatar() != null) {
+					try {
+						Image avatar = imageService.replaceImageFile(user.getAvatar().getId(),
+								imageField.getInputStream());
+						user.setAvatar(avatar);
+					} catch (IOException e) {
+						throw new RuntimeException("Error al guardar la imagen", e);
+					}
+				} else {
+					try {
+						Image avatar = imageService.createImage(imageField.getInputStream());
+						user.setAvatar(avatar);
+					} catch (IOException e) {
+						throw new RuntimeException("Error al guardar la imagen", e);
+					}
+				}
+			} else {
+				if (user.getAvatar() != null) {
+					Long imageId = user.getAvatar().getId();
+					user.setAvatar(null);
+					imageService.deleteImage(imageId);
+				}
+			}
+		}
+	}
+
+	public void setEncodedPassword(User user) {
+		user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
 	}
 }

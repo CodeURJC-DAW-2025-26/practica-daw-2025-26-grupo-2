@@ -26,7 +26,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="profile-avatar">
                         {{#hasAvatar}}
-                        <img src="/user/{{user.id}}/avatar" alt="Avatar" class="rounded-circle mb-2" width="96"
+                        <img src="/images/{{user.avatar.id}}" alt="Avatar" class="rounded-circle mb-2" width="96"
                             height="96">
                         {{/hasAvatar}}
                         {{^hasAvatar}}
@@ -80,7 +80,7 @@
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Dirección</div>
-                                <div class="profile-v">{{user.adress}}</div>
+                                <div class="profile-v">{{user.address}}</div>
                             </div>
                             <div class="profile-kv-row">
                                 <div class="profile-k">Fecha de registro</div>
