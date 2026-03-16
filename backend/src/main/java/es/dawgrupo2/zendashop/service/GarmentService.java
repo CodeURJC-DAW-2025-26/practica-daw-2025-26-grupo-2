@@ -89,6 +89,9 @@ public class GarmentService {
 		// Disable garment in all carts to avoid problems with unavailable garments in
 		// carts
 		orderService.disableGarmentInCarts(garment);
+		Long garmentId = garment.getImage().getId();
+		garment.setImage(null);
+		imageService.deleteImage(garmentId);
 		save(garment);
 	}
 
@@ -134,21 +137,22 @@ public class GarmentService {
 		return errorMsg;
 	}
 
-	public void setFieldsAndSave(Garment originalGarment, Garment editedGarment, Boolean updateImage,
-			MultipartFile imageField) {
+	public void updateGarment(Garment originalGarment, Garment editedGarment) {
 		originalGarment.setName(editedGarment.getName());
 		originalGarment.setCategory(editedGarment.getCategory());
 		originalGarment.setPrice(editedGarment.getPrice());
 		originalGarment.setDescription(editedGarment.getDescription());
 		originalGarment.setFeatures(editedGarment.getFeatures());
+	}
+
+	public void updateImage(boolean updateImage, MultipartFile imageField, Garment garment) {
 		if (updateImage) {
 			try {
-				Image image = imageService.replaceImageFile(originalGarment.getImage().getId(), imageField.getInputStream());
-				originalGarment.setImage(image);
+				Image image = imageService.replaceImageFile(garment.getImage().getId(), imageField.getInputStream());
+				garment.setImage(image);
 			} catch (IOException e) {
 				throw new RuntimeException("Error al guardar la imagen", e);
 			}
 		} 
-		save(originalGarment);
 	}
 }

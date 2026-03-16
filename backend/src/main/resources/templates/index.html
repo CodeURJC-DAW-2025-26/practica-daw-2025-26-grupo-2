@@ -26,23 +26,7 @@
         <hr class="flex-grow-1 d-none d-sm-block border-2">
       </div>
       <div class="row" id="offers-list">
-        {{#offers}}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-          <a href="/garment/{{id}}">
-            <img src="/garment/{{id}}/image" class="img-fluid">
-          </a>
-          <h4>{{name}}</h4>
-          <h5>{{price}}€</h5>
-        </div>
-        {{/offers}}
-
-        {{^offers}}
-        <div class="col-12 d-flex justify-content-center">
-          <p class="text-muted fs-5 text-center my-5">
-            Te mantendremos informado con próximas novedades
-          </p>
-        </div>
-        {{/offers}}
+        {{>offers_cards}}
       </div>
     </div>
   </section>

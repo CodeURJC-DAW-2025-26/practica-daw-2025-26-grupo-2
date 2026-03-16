@@ -190,7 +190,9 @@ public class GarmentWebController {
 			Garment originalGarment = op.get();
 			// Update the fields of the original garment with the values of the edited garment
 			// and save the original garment, as it is a persistent entity, so it will be updated in the database
-			garmentService.setFieldsAndSave(originalGarment, editedGarment, updateImage, imageField);
+			garmentService.updateGarment(originalGarment, editedGarment);
+			garmentService.updateImage(updateImage, imageField, originalGarment);
+			garmentService.save(originalGarment);
 			return "redirect:/garment/" + originalGarment.getId();
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");

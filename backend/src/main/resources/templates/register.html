@@ -42,7 +42,7 @@
               <div class="text-center mb-3">
                 {{^isNew}}
                 {{#user.getHasAvatar}}
-                <img src="/user/{{user.id}}/avatar" alt="Tu Avatar" class="rounded-circle mb-2" width="96" height="96"
+                <img src="/images/{{user.avatar.id}}" alt="Tu Avatar" class="rounded-circle mb-2" width="96" height="96"
                   style="object-fit: cover;">
                 {{/user.getHasAvatar}}
                 {{^user.getHasAvatar}}
@@ -59,7 +59,7 @@
 
                 <div class="mb-2">
                   <label for="avatar" class="form-label d-block">Imagen de perfil</label>
-                  <input type="file" id="avatar" name="imageAvatar" class="form-control" accept=".jpg,.jpeg,.png">
+                  <input type="file" id="avatar" name="imageField" class="form-control" accept=".jpg,.jpeg,.png">
                 </div>
               </div>
 
@@ -122,11 +122,11 @@
               </div>
 
               <div class="mb-3">
-                <label for="adress" class="form-label">Dirección</label>
+                <label for="address" class="form-label">Dirección</label>
                 <div class="input-group">
                   <span class="input-group-text login-addon"><i class="bi bi-geo-alt"></i></span>
-                  <input type="text" id="adress" name="adress" class="form-control" placeholder="C/ Ejemplo 123, 28000"
-                    value="{{^isNew}}{{user.adress}}{{/isNew}}" minlength="10" maxlength="150">
+                  <input type="text" id="address" name="address" class="form-control" placeholder="C/ Ejemplo 123, 28000"
+                    value="{{^isNew}}{{user.address}}{{/isNew}}" minlength="10" maxlength="150">
                   <div class="invalid-feedback">
                     La dirección debe tener entre 10 y 150 caracteres.
                   </div>
