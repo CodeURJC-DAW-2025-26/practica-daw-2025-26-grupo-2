@@ -222,4 +222,6 @@ public class GarmentWebController {
 			return "customError";
 		}
 	}
+
+	//TODO: Create create, delete, edit for all entities returning the objec
 }
