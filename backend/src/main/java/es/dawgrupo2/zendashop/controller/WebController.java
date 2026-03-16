@@ -27,8 +27,4 @@ public class WebController {
             model.addAttribute("logged", false);
         }
     }
-
-    // TODO: Ask if is necesary to implement the endpoing with pagination and wiwhout pagination and its name
-
-    // TODO: Ask about error message when validating fields
 }
