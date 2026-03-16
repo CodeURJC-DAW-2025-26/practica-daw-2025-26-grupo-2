@@ -34,8 +34,6 @@ public class ImageService {
             throw new IOException("Failed to create image", e);
         }
 
-        imageRepository.save(image);
-
         return image;
     }
 
@@ -69,5 +67,9 @@ public class ImageService {
         Image image = imageRepository.findById(id).orElseThrow();
         imageRepository.deleteById(id);
         return image;
+    }
+
+    public Image saveImage(Image image) {
+        return imageRepository.save(image);
     }
 }

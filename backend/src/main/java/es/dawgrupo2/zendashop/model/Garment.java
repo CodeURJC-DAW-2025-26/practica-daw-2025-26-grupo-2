@@ -37,8 +37,8 @@ public class Garment {
     @Column(updatable = false)
     private LocalDateTime creationDate;
 
-    // TODO: Consider cascade relationship
-    @OneToOne
+    // TODO: As only one image is allowed, how should we handle this in the rest controller?
+    @OneToOne(cascade = CascadeType.ALL)
     private Image image;
 
     @OneToMany(mappedBy = "garment", cascade = CascadeType.ALL, orphanRemoval = true)
