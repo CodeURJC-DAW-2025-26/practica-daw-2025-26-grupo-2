@@ -1,6 +1,5 @@
 package es.dawgrupo2.zendashop.model;
 
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -32,7 +30,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     
-    private String adress;
+    private String address;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -46,8 +44,8 @@ public class User {
     @OneToOne
     private Order cart;
 
-    @Lob
-    private Blob avatar;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image avatar;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opinion> opinions = new ArrayList<>();
@@ -60,11 +58,11 @@ public class User {
     public User() {
     }
 
-	public User(String name, String surname, String email, String adress, String encodedPassword, String... roles) {
+	public User(String name, String surname, String email, String address, String encodedPassword, String... roles) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
-		this.adress = adress;
+		this.address = address;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
         this.disabled = false;
@@ -102,23 +100,23 @@ public class User {
         this.email = email;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Blob getAvatar() {
+    public Image getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Blob avatar) {
+    public void setAvatar(Image avatar) {
         this.avatar = avatar;
     }
 
