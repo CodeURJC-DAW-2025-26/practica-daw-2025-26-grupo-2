@@ -81,6 +81,11 @@ public class GarmentService {
 		return originalGarment;
 	}
 
+	public Garment setImage(Garment garment, Image image) {
+		garment.setImage(image);
+		return repository.save(garment);
+	}
+
 	public long getCount() {
 		return repository.count();
 	}

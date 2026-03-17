@@ -38,8 +38,10 @@ public class OrderItemService {
         repository.save(orderItem);
     }
 
-	public void delete(long id) {
-		repository.deleteById(id);
+	public OrderItem delete(long id) {
+		Optional<OrderItem> orderItem = repository.findById(id);
+		orderItem.ifPresent(repository::delete);
+		return orderItem.orElse(null);
 	}
 
 	public long deleteByOrderCompletedFalseAndGarment_Id(Long garmentId) {

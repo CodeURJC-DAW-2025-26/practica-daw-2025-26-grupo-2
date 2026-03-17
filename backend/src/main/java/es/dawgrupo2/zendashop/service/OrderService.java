@@ -61,6 +61,7 @@ public class OrderService {
 		repository.deleteById(id);
 	}
 
+	// For admin purposes, to set the creation date to a specific value (to initialize the database with old orders, for example)
 	public void forceCreationDate(Long id, LocalDateTime date) {
 		repository.forceCreationDate(id, date);
 	}
