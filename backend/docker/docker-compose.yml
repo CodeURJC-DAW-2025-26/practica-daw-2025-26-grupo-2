@@ -4,17 +4,17 @@ services:
     ports:
       - "8443:8443"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db/zenda
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db/${DB_NAME:-test}
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-password}
     depends_on:
       db:
         condition: service_healthy
   db:
     image: mysql:latest
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=zenda
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-password}
+      - MYSQL_DATABASE=${DB_NAME:-test}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
