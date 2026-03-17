@@ -65,15 +65,18 @@ public class UserService {
 		return user;
 	}
 
-	public void delete(long id) {
+	public User delete(long id) {
+		User user = repository.findById(id).orElseThrow();
 		repository.deleteById(id);
+		return user;
 	}
 
 	public Optional<User> findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
 
-	public void disableUser(long id) {
+	public User disableUser(long id) {
+		User originalUser = repository.findById(id).orElseThrow();
 		User user = repository.findById(id).orElseThrow();
 		if (user != null) {
 			user.setDisabled(true);
@@ -92,7 +95,7 @@ public class UserService {
 				this.delete(id);
 			}
 		}
-
+		return originalUser;
 	}
 
 	public Page<User> findByDisabledFalse(Pageable pageable) {
@@ -135,7 +138,7 @@ public class UserService {
 	}
 
 	// Handles all the logic related to updating the user's fields, including password encoding if necessary
-	public void updateUser(User originalUser, User editedUser, boolean updatePassword,
+	public User updateUser(User originalUser, User editedUser, boolean updatePassword,
 			boolean updateImage) {
 		originalUser.setName(editedUser.getName());
 		originalUser.setSurname(editedUser.getSurname());
@@ -144,6 +147,7 @@ public class UserService {
 		if (updatePassword) {
 			originalUser.setEncodedPassword(passwordEncoder.encode(editedUser.getEncodedPassword()));
 		}
+		return originalUser;
 	}
 
 	//TODO: Create method in all services
