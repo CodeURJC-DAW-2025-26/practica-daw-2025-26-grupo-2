@@ -42,6 +42,12 @@ public class DatabaseInitializer {
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException {
 
+		if (garmentService.findAll(null).isEmpty()) {
+			initializeDatabase();
+		}
+	}
+
+	private void initializeDatabase() {
 		String encodedPass1 = passwordEncoder.encode("password123");
 		String encodedPass2 = passwordEncoder.encode("password456");
 		String encodedPass3 = passwordEncoder.encode("password789");
@@ -63,7 +69,7 @@ public class DatabaseInitializer {
 		User user1 = new User("Juan", "González", "juan@example.com", "Avenida Rey Juan", encodedPass1, "USER");
 		userService.save(user1);
 
-		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I",	 encodedPass2, "ADMIN");
+		User user2 = new User("Maria", "Martínez", "maria@example.com", "Calle Carlos I", encodedPass2, "ADMIN");
 		userService.save(user2);
 
 		User user3 = new User("Carlos", "López", "carlos@example.com", "Calle Mayor 1", encodedPass3, "USER");
@@ -113,22 +119,22 @@ public class DatabaseInitializer {
 
 		Garment garment1 = new Garment("Camiseta blanca", BigDecimal.valueOf(19.99), "Camisas", "Camiseta de algodón",
 				"Pequeño, color blanco");
-		
+
 		Garment garment2 = new Garment("Pantalones", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros",
 				"Grande, color azul");
 
 		Garment garment3 = new Garment("Camiseta azul", BigDecimal.valueOf(39.99), "Camisas", "Camiseta de algodón",
 				"Mediano, color azul");
-		
+
 		Garment garment4 = new Garment("Camiseta roja", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de algodón",
 				"Pequeño, color rojo");
 
 		Garment garment5 = new Garment("Jersey", BigDecimal.valueOf(59.99), "Chaquetas", "Jersey de lana",
 				"Grande, color marrón");
-		
+
 		Garment garment6 = new Garment("Camiseta amarilla", BigDecimal.valueOf(49.99), "Camisas", "Camiseta de verano",
 				"Mediano, color amarillo");
-		
+
 		Garment garment7 = new Garment("Camiseta gris", BigDecimal.valueOf(34.99), "Camisas", "Camiseta de algodón",
 				"Grande, color gris");
 
@@ -138,46 +144,54 @@ public class DatabaseInitializer {
 		Garment garment9 = new Garment("Camiseta rosa", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de seda",
 				"Pequeño, color rosa");
 
-		Garment garment10 = new Garment("Camiseta azul marino", BigDecimal.valueOf(79.99), "Camisas", "Camiseta de lana",
+		Garment garment10 = new Garment("Camiseta azul marino", BigDecimal.valueOf(79.99), "Camisas",
+				"Camiseta de lana",
 				"Mediano, color azul marino");
 
 		Garment garment11 = new Garment("Camiseta negra", BigDecimal.valueOf(29.99), "Camisas", "Camiseta de algodón",
 				"Grande, color negro");
 
-		Garment garment12 = new Garment("Camiseta turquesa", BigDecimal.valueOf(34.99), "Camisas", "Camiseta de manga larga de algodón",
+		Garment garment12 = new Garment("Camiseta turquesa", BigDecimal.valueOf(34.99), "Camisas",
+				"Camiseta de manga larga de algodón",
 				"Mediano, color azul claro");
 
-		Garment garment13 = new Garment("Zapatos", BigDecimal.valueOf(89.99), "Calzado", "Zapatos de cuero", 
+		Garment garment13 = new Garment("Zapatos", BigDecimal.valueOf(89.99), "Calzado", "Zapatos de cuero",
 				"Bonitos, elegantes");
 
-		Garment garment14 = new Garment("Sudadera", BigDecimal.valueOf(49.99), "Chaquetas", "Sudadera con capucha de algodón", 
+		Garment garment14 = new Garment("Sudadera", BigDecimal.valueOf(49.99), "Chaquetas",
+				"Sudadera con capucha de algodón",
 				"Cómoda, cálida");
 
-		Garment garment15 = new Garment("Bolso negro", BigDecimal.valueOf(99.99), "Accesorios", "Bolso de cuero", 
+		Garment garment15 = new Garment("Bolso negro", BigDecimal.valueOf(99.99), "Accesorios", "Bolso de cuero",
 				"Resistente, elegante");
 
-		Garment garment16 = new Garment("Bermudas", BigDecimal.valueOf(59.99), "Pantalones", "Bermudas de verano de algodón", 
+		Garment garment16 = new Garment("Bermudas", BigDecimal.valueOf(59.99), "Pantalones",
+				"Bermudas de verano de algodón",
 				"Frescas, cómodas");
-		
-		Garment garment17 = new Garment("Pantalón corto", BigDecimal.valueOf(39.99), "Pantalones", "Pantalón corto de algodón", 
+
+		Garment garment17 = new Garment("Pantalón corto", BigDecimal.valueOf(39.99), "Pantalones",
+				"Pantalón corto de algodón",
 				"Bonito, cómodo");
-		
-		Garment garment18 = new Garment("Pantalón corto azul", BigDecimal.valueOf(49.99), "Pantalones", "Pantalón corto de verano de algodón", 
+
+		Garment garment18 = new Garment("Pantalón corto azul", BigDecimal.valueOf(49.99), "Pantalones",
+				"Pantalón corto de verano de algodón",
 				"Bonito, cómodo, color azul");
-		
-		Garment garment19 = new Garment("Pantalón corto crema", BigDecimal.valueOf(44.99), "Pantalones", "Pantalón corto de verano de algodón", 
+
+		Garment garment19 = new Garment("Pantalón corto crema", BigDecimal.valueOf(44.99), "Pantalones",
+				"Pantalón corto de verano de algodón",
 				"Bonito, cómodo, color crema");
 
-		Garment garment20 = new Garment("Pantalón corto gris", BigDecimal.valueOf(39.99), "Pantalones", "Pantalón corto de verano de algodón", 
+		Garment garment20 = new Garment("Pantalón corto gris", BigDecimal.valueOf(39.99), "Pantalones",
+				"Pantalón corto de verano de algodón",
 				"Bonito, cómodo, color gris");
 
-		Garment garment21 = new Garment("Pantalón corto turquesa", BigDecimal.valueOf(49.99), "Pantalones", "Pantalón corto de verano de algodón", 
+		Garment garment21 = new Garment("Pantalón corto turquesa", BigDecimal.valueOf(49.99), "Pantalones",
+				"Pantalón corto de verano de algodón",
 				"Bonito, cómodo, color turquesa");
-		
-		Garment garment22 = new Garment("Pantalones vaqueros", BigDecimal.valueOf(39.99), "Pantalones", "Pantalones vaqueros de algodón", 
-				"Bonitos, cómodos, color azul");
-		
 
+		Garment garment22 = new Garment("Pantalones vaqueros", BigDecimal.valueOf(39.99), "Pantalones",
+				"Pantalones vaqueros de algodón",
+				"Bonitos, cómodos, color azul");
 
 		setGarmentImage(garment1, "sample_images/camiseta.jpg");
 		setGarmentImage(garment2, "sample_images/pantalon.jpg");
@@ -224,7 +238,6 @@ public class DatabaseInitializer {
 		garmentService.save(garment21);
 		garmentService.save(garment22);
 
-		
 		Opinion opinion1 = new Opinion(4, "Buena calidad, pero el color no es exactamente como en la foto.");
 		Opinion opinion2 = new Opinion(5, "¡Me ha encantado! La camiseta es muy cómoda.");
 		Opinion opinion3 = new Opinion(3, "La talla no es la correcta, pero el material es bueno.");
@@ -237,7 +250,7 @@ public class DatabaseInitializer {
 		Opinion opinion10 = new Opinion(3, "Está bien, pero podría ser mejor.");
 		Opinion opinion11 = new Opinion(4, "Muy buena calidad, pero el diseño no es mi favorito.");
 		Opinion opinion12 = new Opinion(5, "Increíble, superó todas mis expectativas.");
-		
+
 		garment1.addOpinion(opinion1);
 		garment2.addOpinion(opinion2);
 		garment1.addOpinion(opinion3);
@@ -266,7 +279,7 @@ public class DatabaseInitializer {
 		garmentService.save(garment2);
 
 		Order order1 = new Order(false, "C/ Falsa 123", LocalDate.now(), "Dejar en portería");
-		user1.setCart(order1); 
+		user1.setCart(order1);
 		order1.setUser(user1);
 		order1.addOrderItem(new OrderItem(2, "M", garment1));
 		order1.addOrderItem(new OrderItem(1, "L", garment2));
@@ -415,7 +428,7 @@ public class DatabaseInitializer {
 		user2.addOrder(order25);
 		order25.addOrderItem(new OrderItem(1, "M", garment1));
 		orderService.save(order25);
-		
+
 		Order order26 = new Order(true, "C/ Futura 105", LocalDate.now(), "Sin observaciones");
 		user2.addOrder(order26);
 		order26.addOrderItem(new OrderItem(1, "M", garment1));
@@ -436,17 +449,18 @@ public class DatabaseInitializer {
 		order29.addOrderItem(new OrderItem(1, "M", garment1));
 		orderService.save(order29);
 
-		// Update creation dates to have orders in different periods for statistics testing
+		// Update creation dates to have orders in different periods for statistics
+		// testing
 		orderService.forceCreationDate(order1.getId(), LocalDate.now().minusDays(1).atStartOfDay());
 		orderService.forceCreationDate(order2.getId(), LocalDate.now().minusMonths(1).atStartOfDay());
 		orderService.forceCreationDate(order3.getId(), LocalDate.now().minusYears(1).atStartOfDay());
 		orderService.forceCreationDate(order4.getId(), LocalDate.now().minusYears(3).atStartOfDay());
-		orderService.forceCreationDate(order5.getId(),  LocalDate.now().minusDays(2).atStartOfDay());
-		orderService.forceCreationDate(order6.getId(),  LocalDate.now().minusDays(5).atStartOfDay());
-		orderService.forceCreationDate(order7.getId(),  LocalDate.now().minusWeeks(2).atStartOfDay());
+		orderService.forceCreationDate(order5.getId(), LocalDate.now().minusDays(2).atStartOfDay());
+		orderService.forceCreationDate(order6.getId(), LocalDate.now().minusDays(5).atStartOfDay());
+		orderService.forceCreationDate(order7.getId(), LocalDate.now().minusWeeks(2).atStartOfDay());
 
-		orderService.forceCreationDate(order8.getId(),  LocalDate.now().minusMonths(2).atStartOfDay());
-		orderService.forceCreationDate(order9.getId(),  LocalDate.now().minusMonths(4).atStartOfDay());
+		orderService.forceCreationDate(order8.getId(), LocalDate.now().minusMonths(2).atStartOfDay());
+		orderService.forceCreationDate(order9.getId(), LocalDate.now().minusMonths(4).atStartOfDay());
 		orderService.forceCreationDate(order10.getId(), LocalDate.now().minusMonths(6).atStartOfDay());
 
 		orderService.forceCreationDate(order11.getId(), LocalDate.now().minusYears(1).atStartOfDay());
@@ -464,9 +478,13 @@ public class DatabaseInitializer {
 		orderService.forceCreationDate(order19.getId(), LocalDate.now().minusYears(6).atStartOfDay());
 	}
 
-	public void setGarmentImage(Garment garment, String classpathResource) throws IOException {
+	private void setGarmentImage(Garment garment, String classpathResource) {
 		Resource image = new ClassPathResource(classpathResource);
-		Image createdImage = imageService.createImage(image.getInputStream());
-		garment.setImage(createdImage);
+		try {
+			Image createdImage = imageService.createImage(image.getInputStream());
+			garment.setImage(createdImage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
