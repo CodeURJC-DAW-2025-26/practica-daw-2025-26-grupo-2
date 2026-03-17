@@ -150,8 +150,6 @@ public class UserService {
 		return originalUser;
 	}
 
-	//TODO: Create method in all services
-
 	public void setUserRoles(User user, String rol) {
 		if (rol == null || !rol.equals("ADMIN")) {
 			user.setRoles(List.of("USER"));

@@ -12,6 +12,5 @@ public record GarmentExtendedDTO (
     String description,
     String features,
     List<OpinionBasicDTO> opinions
-    // TODO: Ask if is necessary to include orderItems
 ) {
 }

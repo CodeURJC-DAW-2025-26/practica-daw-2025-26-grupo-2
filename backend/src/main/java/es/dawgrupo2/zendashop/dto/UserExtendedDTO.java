@@ -15,7 +15,6 @@ public record UserExtendedDTO(
     ImageDTO avatar,
     List<OpinionBasicDTO> opinions,
     List<OrderBasicDTO> orders
-    //TODO: Ask if is necessary to include all this info in the DTO
 ) {
     
 }

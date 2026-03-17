@@ -404,4 +404,9 @@ public class OrderService {
 		user.setCart(newOrder);
 		userRepository.save(user);
 	}
+
+	//TODO: In order rest controller, only allow to delete carts, not orders
+	//TODO: In order item rest controller, only allow to delete, add and edit order items from carts, not from completed orders
+	//TODO: In order rest controller, only allow to update carts, not completed orders. This update should only allow to to change delivery date, delivery address and delivery note, not the order item. For changing the order items, we should use the order item rest controller.
+	
 }
