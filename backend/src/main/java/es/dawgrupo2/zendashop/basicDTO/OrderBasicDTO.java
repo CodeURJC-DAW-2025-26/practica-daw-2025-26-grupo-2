@@ -1,4 +1,4 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.basicDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,18 +1,19 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.extendedDTO;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import es.dawgrupo2.zendashop.basicDTO.GarmentBasicDTO;
 import es.dawgrupo2.zendashop.model.Garment;
 
 @Mapper(componentModel = "spring")
-public interface GarmentBasicMapper {
+public interface GarmentExtendedMapper {
 
-    GarmentBasicDTO toDTO(Garment garment);
+    GarmentExtendedDTO toDTO(Garment garment);
 
-    List<GarmentBasicDTO> toDTOs(List<Garment> garments);
+    List<GarmentExtendedDTO> toDTOs(List<Garment> garments);
 
     @Mapping (target = "image", ignore = true)
     Garment toDomain(GarmentBasicDTO garmentDTO);

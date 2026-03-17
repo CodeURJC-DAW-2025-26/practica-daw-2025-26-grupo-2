@@ -1,7 +1,11 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.extendedDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import es.dawgrupo2.zendashop.basicDTO.ImageDTO;
+import es.dawgrupo2.zendashop.basicDTO.OpinionBasicDTO;
+import es.dawgrupo2.zendashop.basicDTO.OrderBasicDTO;
 
 public record UserExtendedDTO(
     Long id,

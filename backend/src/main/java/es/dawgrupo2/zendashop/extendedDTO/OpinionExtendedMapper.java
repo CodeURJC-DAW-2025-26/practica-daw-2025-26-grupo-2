@@ -1,4 +1,4 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.extendedDTO;
 
 import java.util.List;
 

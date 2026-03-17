@@ -1,9 +1,8 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.extendedDTO;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
-
 
 import es.dawgrupo2.zendashop.model.OrderItem;
 

@@ -1,9 +1,12 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.extendedDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
+import es.dawgrupo2.zendashop.basicDTO.UserBasicDTO;
 
 public record OrderExtendedDTO(
     Long id,

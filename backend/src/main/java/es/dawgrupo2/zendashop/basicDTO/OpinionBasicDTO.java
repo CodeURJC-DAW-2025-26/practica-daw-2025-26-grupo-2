@@ -1,4 +1,4 @@
-package es.dawgrupo2.zendashop.dto;
+package es.dawgrupo2.zendashop.basicDTO;
 
 public record OpinionBasicDTO(
     Long id,
