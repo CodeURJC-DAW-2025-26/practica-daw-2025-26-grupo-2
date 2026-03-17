@@ -53,19 +53,32 @@ public class GarmentService {
 		repository.save(garment);
 	}
 
-	public Garment createGarment(Garment garment) {
+	public Garment create(Garment garment) {
 
 		if (garment.getId() != null) {
 			throw new IllegalArgumentException();
 		}
 
+		garment.setAvailable(true);
 		save(garment);
 
 		return garment;
 	}
 
-	public void delete(long id) {
-		repository.deleteById(id);
+    public Garment delete(long id) {
+        Garment garment = repository.findById(id).orElseThrow();
+        repository.deleteById(id);
+        return garment;
+    }
+
+	public Garment updateGarment(Garment originalGarment, Garment editedGarment) {
+		originalGarment.setName(editedGarment.getName());
+		originalGarment.setCategory(editedGarment.getCategory());
+		originalGarment.setPrice(editedGarment.getPrice());
+		originalGarment.setDescription(editedGarment.getDescription());
+		originalGarment.setFeatures(editedGarment.getFeatures());
+		repository.save(originalGarment);
+		return originalGarment;
 	}
 
 	public long getCount() {
@@ -137,19 +150,12 @@ public class GarmentService {
 		return errorMsg;
 	}
 
-	public void updateGarment(Garment originalGarment, Garment editedGarment) {
-		originalGarment.setName(editedGarment.getName());
-		originalGarment.setCategory(editedGarment.getCategory());
-		originalGarment.setPrice(editedGarment.getPrice());
-		originalGarment.setDescription(editedGarment.getDescription());
-		originalGarment.setFeatures(editedGarment.getFeatures());
-	}
-
 	public void updateImage(boolean updateImage, MultipartFile imageField, Garment garment) {
 		if (updateImage) {
 			try {
 				Image image = imageService.replaceImageFile(garment.getImage().getId(), imageField.getInputStream());
 				garment.setImage(image);
+				repository.save(garment);
 			} catch (IOException e) {
 				throw new RuntimeException("Error al guardar la imagen", e);
 			}

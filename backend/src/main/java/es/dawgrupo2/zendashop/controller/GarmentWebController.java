@@ -146,10 +146,11 @@ public class GarmentWebController {
 		try {
 			Image image = imageService.createImage(imageField.getInputStream());
 			garment.setImage(image);
-			garmentService.createGarment(garment);
 		} catch (IOException e) {
 			throw new RuntimeException("Error al guardar la imagen", e);
 		}
+		garment.setAvailable(true);
+		garmentService.save(garment);
 		return "redirect:/garment/" + garment.getId();
 	}
 
@@ -192,7 +193,6 @@ public class GarmentWebController {
 			// and save the original garment, as it is a persistent entity, so it will be updated in the database
 			garmentService.updateGarment(originalGarment, editedGarment);
 			garmentService.updateImage(updateImage, imageField, originalGarment);
-			garmentService.save(originalGarment);
 			return "redirect:/garment/" + originalGarment.getId();
 		} else {
 			model.addAttribute("message", "¿Qué buscabas? Prenda no encontrada");
