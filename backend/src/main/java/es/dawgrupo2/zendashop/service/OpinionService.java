@@ -42,9 +42,25 @@ public class OpinionService {
 		repository.save(opinion);
 	}
 
-	public void delete(long id) {
-		repository.deleteById(id);
+	public Opinion create(Opinion opinion, Garment garment, String userEmail) {
+
+		if (opinion.getId() != null) {
+			throw new IllegalArgumentException();
+		}
+
+		save(opinion);
+		garment.addOpinion(opinion);
+		userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
+		save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
+
+		return opinion;
 	}
+
+    public Opinion delete(long id) {
+        Opinion opinion = repository.findById(id).orElseThrow();
+        repository.deleteById(id);
+        return opinion;
+    }
 
 	public String validateFields(Opinion opinion) {
 		String errorMsg = "";
@@ -63,23 +79,18 @@ public class OpinionService {
 		return repository.findByGarment_Id(garmentId, pageable);
 	}
 
-	public void newOpinion(Opinion opinion, Garment garment, String userEmail) {
-		garment.addOpinion(opinion);
-		userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
-		save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
-	}
-
-	public void updateOpinion(Opinion originalOpinion, Opinion editedOpinion) {
+	public Opinion updateOpinion(Opinion originalOpinion, Opinion editedOpinion) {
 		originalOpinion.setRating(editedOpinion.getRating());
 		originalOpinion.setComment(editedOpinion.getComment());
 		save(originalOpinion);
+		return originalOpinion;
 	}
 
-	public void removeOpinion(Opinion opinion) {
+	public Opinion removeOpinion(Opinion opinion) {
 		Garment garment = opinion.getGarment();
 		garment.removeOpinion(opinion);
 		User user = opinion.getUser();
 		user.removeOpinion(opinion);
-		delete(opinion.getId());
+		return delete(opinion.getId());
 	}
 }
