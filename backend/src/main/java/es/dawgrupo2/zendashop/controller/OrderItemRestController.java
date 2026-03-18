@@ -80,11 +80,11 @@ public class OrderItemRestController {
 	public ResponseEntity<OrderItemExtendedDTO> createOrderItem(@PathVariable long orderId, @RequestBody OrderItemBasicDTO orderItemBasicDTO, HttpServletRequest request) throws AccessDeniedException {
 		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
 		Order order = orderService.findById(orderId).orElseThrow();
-		if (order.getCompleted()) {
-			throw new IllegalStateException("No se pueden añadir artículos a un pedido completado");
-		}
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
 			throw new AccessDeniedException("No tienes permiso para añadir artículos a este pedido");
+		}
+		if (order.getCompleted()) {
+			throw new IllegalStateException("No se pueden añadir artículos a un pedido completado");
 		}
 		OrderItem orderItem = orderItemBasicMapper.toDomain(orderItemBasicDTO);
 		String errorMsg = orderItemService.validateFields(orderItem);
@@ -101,16 +101,18 @@ public class OrderItemRestController {
 
 	@PutMapping("/{id}")
 	public OrderItemExtendedDTO replaceOrderItem(@PathVariable long id, @RequestBody OrderItemBasicDTO updatedOrderItemDTO, HttpServletRequest request, @PathVariable long orderId) throws SQLException {
-
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
-		Order order = orderService.findById(orderId).orElseThrow();
-		if (order.getCompleted()) {
-			throw new IllegalStateException("No se pueden editar artículos de un pedido completado");
-		}
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
 			throw new AccessDeniedException("No tienes permiso para editar artículos de este pedido");
 		}
+		if (order.getCompleted()) {
+			throw new IllegalStateException("No se pueden editar artículos de un pedido completado");
+		}
 		OrderItem originalOrderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
+		if (originalOrderItem.getOrder().getId() != orderId) {
+			throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
+		}
 		OrderItem updatedOrderItem = orderItemBasicMapper.toDomain(updatedOrderItemDTO);
 		String errorMsg = orderItemService.validateFields(updatedOrderItem);
 		if (errorMsg != null) {
@@ -123,14 +125,18 @@ public class OrderItemRestController {
 
 	@DeleteMapping("/{id}")
 	public OrderItemExtendedDTO deleteOrderItem(@PathVariable long orderId, @PathVariable long id, HttpServletRequest request) throws AccessDeniedException {
-        OrderItem orderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
-        if (orderItem.getOrder().getId() != orderId) {
-            throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
-        }
-        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
-        if (!request.isUserInRole("ADMIN") && !orderItem.getOrder().getUser().getId().equals(user.getId())) {
-            throw new AccessDeniedException("No tienes permiso para eliminar artículos de este pedido");
-        }
+        Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
+			throw new AccessDeniedException("No tienes permiso para eliminar artículos de este pedido");
+		}
+		if (order.getCompleted()) {
+			throw new IllegalStateException("No se pueden eliminar artículos de un pedido completado");
+		}
+		OrderItem orderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
+		if (orderItem.getOrder().getId() != orderId) {
+			throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
+		}
 		return orderItemExtendedMapper.toDTO(orderItemService.delete(id));
 	}
 }
