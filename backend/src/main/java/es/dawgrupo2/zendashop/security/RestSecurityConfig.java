@@ -51,7 +51,8 @@ public class RestSecurityConfig {
     private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain restFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/api/**");
         http.authenticationProvider(authenticationProvider());
         http.authorizeHttpRequests(authorize -> authorize
@@ -79,6 +80,39 @@ public class RestSecurityConfig {
         http.httpBasic(basic -> basic.disable());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+    @Bean
+    @Order(2)
+    public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
+        http.authenticationProvider(authenticationProvider());
+
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                // ADMIN ACCESS: Only administrators
+                .requestMatchers("/garment/new", "/garment/*/edit", "/garment/*/delete", "/loadMoreOrders", "/order/*/edit", "/order/*/delete", "/order/*/edit").hasRole("ADMIN")
+                .requestMatchers("/orders", "/users", "/statistics").hasRole("ADMIN")
+
+                // USER ACCESS: Only logged-in users
+                .requestMatchers("/cart/**","/user/*", "/garment/*/opinion/new", "/profile","/user/*/edit", "/user/*/delete","/garment/*/opinion/*/form", "/garment/*/opinion/*/edit", "/orders/*/invoice", "/garment/*/opinion/*/delete", "/myorders", "/order/*/process", "/loadMoreMyOrders",  "/order/*").hasAnyRole("USER", "ADMIN")
+
+                // PUBLIC ACCESS
+                .requestMatchers("/", "/error", "/error/**","/register", "/garment/*", "/garment/*/image", "/*.css", "/*.js", "/*.png", "/*.jpg", "/*.svg", "/sample_images/**", "/user/*/avatar", "/loadMoreGarments")
+                .permitAll()
+                
+                .anyRequest().permitAll())
+            .formLogin(formLogin -> formLogin
+                // Custom login page managed by LoginController
+                .loginPage("/login")
+                .failureUrl("/loginerror")
+                .defaultSuccessUrl("/")
+                .permitAll())
+            .logout(logout -> logout
+                // Define the logout behavior and redirection
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll());
 
         return http.build();
     }
