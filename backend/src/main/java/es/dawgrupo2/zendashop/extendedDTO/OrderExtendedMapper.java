@@ -13,7 +13,5 @@ public interface OrderExtendedMapper {
     OrderExtendedDTO toDTO(Order order);
 
     List<OrderExtendedDTO> toDTOs(List<Order> orders);
-
-
 }
 
