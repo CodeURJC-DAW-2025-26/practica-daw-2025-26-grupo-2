@@ -13,5 +13,6 @@ public interface OpinionExtendedMapper {
 
     List<OpinionExtendedDTO> toDTOs(List<Opinion> opinions);
 
+    Opinion toDomain(OpinionExtendedDTO opinionExtendedDTO);
 
 }
