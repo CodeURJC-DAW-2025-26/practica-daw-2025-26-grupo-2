@@ -10,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,7 +43,7 @@ public class DatabaseInitializer {
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException {
 
-		if (garmentService.findAll(null).isEmpty()) {
+		if (garmentService.findAll(Pageable.unpaged()).isEmpty()) {
 			initializeDatabase();
 		}
 	}

@@ -45,6 +45,10 @@ public class OrderService {
 		return repository.findAllById(ids);
 	}
 
+	public Page<Order> getOrders(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
@@ -53,12 +57,18 @@ public class OrderService {
 		return repository.findByCompletedTrue(pageable);
 	}
 
+	public Page<Order> findByCompletedFalse(Pageable pageable) {
+		return repository.findByCompletedFalse(pageable);
+	}
+
 	public void save(Order order) {
 		repository.save(order);
 	}
 
-	public void delete(long id) {
+	public Order delete(long id) {
+		Order order = repository.findById(id).orElseThrow();
 		repository.deleteById(id);
+		return order;
 	}
 
 	// For admin purposes, to set the creation date to a specific value (to initialize the database with old orders, for example)
@@ -408,5 +418,5 @@ public class OrderService {
 	//TODO: In order rest controller, only allow to delete carts, not orders
 	//TODO: In order item rest controller, only allow to delete, add and edit order items from carts, not from completed orders
 	//TODO: In order rest controller, only allow to update carts, not completed orders. This update should only allow to to change delivery date, delivery address and delivery note, not the order item. For changing the order items, we should use the order item rest controller.
-	
+
 }

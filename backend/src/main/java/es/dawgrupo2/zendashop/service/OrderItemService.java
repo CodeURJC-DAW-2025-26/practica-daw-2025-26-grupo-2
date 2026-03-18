@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import es.dawgrupo2.zendashop.model.Garment;
 import es.dawgrupo2.zendashop.model.OrderItem;
+import es.dawgrupo2.zendashop.repository.GarmentRepository;
 import es.dawgrupo2.zendashop.repository.OrderItemRepository;
-
 
 @Service
 public class OrderItemService {
@@ -18,14 +20,17 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemRepository repository;
 
+	@Autowired
+	private GarmentRepository garmentRepository;
+
 	public Optional<OrderItem> findById(long id) {
 		return repository.findById(id);
 	}
 
-	public List<OrderItem> findById(List<Long> ids){
+	public List<OrderItem> findById(List<Long> ids) {
 		return repository.findAllById(ids);
 	}
-	
+
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
@@ -34,9 +39,9 @@ public class OrderItemService {
 		return repository.findAll();
 	}
 
-    public void save(OrderItem orderItem) {
-        repository.save(orderItem);
-    }
+	public void save(OrderItem orderItem) {
+		repository.save(orderItem);
+	}
 
 	public OrderItem delete(long id) {
 		Optional<OrderItem> orderItem = repository.findById(id);
@@ -50,5 +55,32 @@ public class OrderItemService {
 
 	public Page<OrderItem> findByOrderId(Long orderId, Pageable pageable) {
 		return repository.findByOrder_Id(orderId, pageable);
+	}
+
+	public OrderItem createOrderItem(OrderItem orderItem) {
+		if (orderItem.getId() != null) {
+			throw new IllegalArgumentException("El ID del nuevo pedido no debe ser proporcionado");
+		}
+		Garment garment = garmentRepository.findById(orderItem.getGarment().getId())
+				.orElseThrow(() -> new NoSuchElementException("La prenda especificada no existe"));
+		orderItem.setGarment(garment);
+		return repository.save(orderItem);
+	}
+
+	public String validateFields(OrderItem orderItem) {
+		String errorMsg = "";
+		if (orderItem.getGarment() == null) {
+			errorMsg += "La prenda a incluir en el pedido no puede ser nula,";
+		}
+		if (orderItem.getQuantity() <= 0) {
+			errorMsg += " La cantidad debe ser mayor que 0,";
+		}
+		if (orderItem.getSize() == null || orderItem.getSize().isBlank()) {
+			errorMsg += " La talla no puede estar vacía,";
+		}
+		if (orderItem.getGarment() != null && orderItem.getGarment().getId() == null) {
+			errorMsg += " El ID de la prenda no puede ser nulo,";
+		}
+		return errorMsg.isEmpty() ? null : errorMsg;
 	}
 }
