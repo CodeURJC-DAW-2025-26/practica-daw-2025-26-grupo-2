@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 
 public record OrderBasicDTO(
     Long id,
-    LocalDateTime orderDate,
-    String status,
+    LocalDateTime creationDate,
+    Boolean completed,
     BigDecimal totalPrice,
     UserBasicDTO user
 ) {

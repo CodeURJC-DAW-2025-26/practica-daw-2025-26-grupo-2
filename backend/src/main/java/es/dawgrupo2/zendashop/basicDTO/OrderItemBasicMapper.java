@@ -3,7 +3,7 @@ package es.dawgrupo2.zendashop.basicDTO;
 import java.util.List;
 
 import org.mapstruct.Mapper;
-
+import org.mapstruct.Mapping;
 
 import es.dawgrupo2.zendashop.model.OrderItem;
 
@@ -14,5 +14,8 @@ public interface OrderItemBasicMapper {
 
     List<OrderItemBasicDTO> toDTOs(List<OrderItem> orderItems);
 
+    @Mapping(target = "order", ignore = true)
+    @Mapping(target = "subtotal", ignore = true)
+    OrderItem toDomain(OrderItemBasicDTO orderItemBasicDTO);
 
 }

@@ -10,8 +10,8 @@ import es.dawgrupo2.zendashop.basicDTO.UserBasicDTO;
 
 public record OrderExtendedDTO(
     Long id,
-    LocalDateTime orderDate,
-    String status,
+    LocalDateTime creationDate,
+    Boolean completed,
     BigDecimal totalPrice,
     BigDecimal shippingCost,
     BigDecimal subtotal,

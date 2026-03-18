@@ -13,5 +13,6 @@ public interface OrderItemExtendedMapper {
 
     List<OrderItemExtendedDTO> toDTOs(List<OrderItem> orderItems);
 
+    OrderItem toDomain(OrderItemExtendedDTO orderItemExtendedDTO);
 
 }
