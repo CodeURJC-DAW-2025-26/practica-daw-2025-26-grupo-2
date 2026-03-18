@@ -15,6 +15,9 @@ public interface GarmentBasicMapper {
     List<GarmentBasicDTO> toDTOs(List<Garment> garments);
 
     @Mapping (target = "image", ignore = true)
+    @Mapping (target = "available", ignore = true)
+    @Mapping (target = "orderItems", ignore = true)
+    @Mapping (target = "opinions", ignore = true)
     Garment toDomain(GarmentBasicDTO garmentDTO);
 
 

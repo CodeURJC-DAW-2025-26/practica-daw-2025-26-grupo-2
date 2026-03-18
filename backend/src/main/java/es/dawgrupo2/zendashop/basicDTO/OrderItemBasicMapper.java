@@ -15,7 +15,6 @@ public interface OrderItemBasicMapper {
     List<OrderItemBasicDTO> toDTOs(List<OrderItem> orderItems);
 
     @Mapping(target = "order", ignore = true)
-    @Mapping(target = "subtotal", ignore = true)
     OrderItem toDomain(OrderItemBasicDTO orderItemBasicDTO);
 
 }
