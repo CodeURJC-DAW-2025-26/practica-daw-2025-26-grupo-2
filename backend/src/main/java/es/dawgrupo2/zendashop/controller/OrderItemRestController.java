@@ -115,7 +115,7 @@ public class OrderItemRestController {
 		}
 		OrderItem updatedOrderItem = orderItemBasicMapper.toDomain(updatedOrderItemDTO);
 		String errorMsg = orderItemService.validateFields(updatedOrderItem);
-		if (errorMsg != null) {
+		if (errorMsg != null && !errorMsg.isEmpty()) {
 			throw new IllegalArgumentException(errorMsg);
 		}
 		originalOrderItem = orderItemService.updateOrderItem(originalOrderItem, updatedOrderItem);
