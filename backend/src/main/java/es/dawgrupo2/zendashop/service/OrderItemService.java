@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import es.dawgrupo2.zendashop.model.Garment;
+import es.dawgrupo2.zendashop.model.Order;
 import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.repository.GarmentRepository;
 import es.dawgrupo2.zendashop.repository.OrderItemRepository;
@@ -57,14 +58,24 @@ public class OrderItemService {
 		return repository.findByOrder_Id(orderId, pageable);
 	}
 
-	public OrderItem createOrderItem(OrderItem orderItem) {
+	public OrderItem createOrderItem(Order order, OrderItem orderItem) {
 		if (orderItem.getId() != null) {
 			throw new IllegalArgumentException("El ID del nuevo pedido no debe ser proporcionado");
 		}
 		Garment garment = garmentRepository.findById(orderItem.getGarment().getId())
 				.orElseThrow(() -> new NoSuchElementException("La prenda especificada no existe"));
 		orderItem.setGarment(garment);
+		orderItem.setOrder(order);
 		return repository.save(orderItem);
+	}
+
+	public OrderItem updateOrderItem(OrderItem originalOrderItem, OrderItem updatedOrderItem) {
+		Garment garment = garmentRepository.findById(updatedOrderItem.getGarment().getId())
+				.orElseThrow(() -> new NoSuchElementException("La prenda especificada no existe"));
+		originalOrderItem.setGarment(garment);
+		originalOrderItem.setQuantity(updatedOrderItem.getQuantity());
+		originalOrderItem.setSize(updatedOrderItem.getSize());
+		return repository.save(originalOrderItem);
 	}
 
 	public String validateFields(OrderItem orderItem) {
@@ -79,7 +90,7 @@ public class OrderItemService {
 			errorMsg += " La talla no puede estar vacía,";
 		}
 		if (orderItem.getGarment() != null && orderItem.getGarment().getId() == null) {
-			errorMsg += " El ID de la prenda no puede ser nulo,";
+			errorMsg += " El ID de la prenda no puede ser nulo.";
 		}
 		return errorMsg.isEmpty() ? null : errorMsg;
 	}

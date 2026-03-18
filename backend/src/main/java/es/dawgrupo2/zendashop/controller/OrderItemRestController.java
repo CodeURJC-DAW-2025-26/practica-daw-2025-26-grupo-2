@@ -2,9 +2,9 @@ package es.dawgrupo2.zendashop.controller;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.AccessDeniedException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.AccessDeniedException;
 
 import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
+import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.extendedDTO.OrderItemExtendedDTO;
 import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicMapper;
 import es.dawgrupo2.zendashop.extendedDTO.OrderItemExtendedMapper;
@@ -62,10 +64,14 @@ public class OrderItemRestController {
 	}
 
 	@GetMapping("/{id}")
-	public OrderItemExtendedDTO getOrderItem(@PathVariable long orderId, @PathVariable long id) {
-        OrderItem orderItem = orderItemService.findById(id).orElseThrow();
-        if (orderItem.getOrder().getId() != orderId) {
-            throw new IllegalArgumentException("Order item does not belong to the specified order");
+	public OrderItemExtendedDTO getOrderItem(@PathVariable long orderId, @PathVariable long id, HttpServletRequest request) throws AccessDeniedException {
+		Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+		OrderItem orderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
+		if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
+			throw new AccessDeniedException("No tienes permiso para acceder a los artículos de este pedido");
+		}
+		if (orderItem.getOrder().getId() != orderId) {
+            throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
         }
 		return orderItemExtendedMapper.toDTO(orderItem);
 	}
@@ -78,14 +84,14 @@ public class OrderItemRestController {
 			throw new IllegalStateException("No se pueden añadir artículos a un pedido completado");
 		}
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
-			throw new AccessDeniedException("No se pueden añadir artículos a un pedido que no pertenece al usuario autenticado");
+			throw new AccessDeniedException("No tienes permiso para añadir artículos a este pedido");
 		}
 		OrderItem orderItem = orderItemBasicMapper.toDomain(orderItemBasicDTO);
 		String errorMsg = orderItemService.validateFields(orderItem);
 		if (errorMsg != null) {
 			throw new IllegalArgumentException(errorMsg);
 		}
-		orderItem = orderItemService.createOrderItem(orderItem);
+		orderItem = orderItemService.createOrderItem(order, orderItem);
 		OrderItemExtendedDTO orderItemDTO = orderItemExtendedMapper.toDTO(orderItem);
 
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(orderItemDTO.id()).toUri();
@@ -93,19 +99,33 @@ public class OrderItemRestController {
 		return ResponseEntity.created(location).body(orderItemDTO);
 	}
 
-	/*@PutMapping("/{id}")
-	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderExtendedDTO updatedOrderDTO) throws SQLException {
+	@PutMapping("/{id}")
+	public OrderItemExtendedDTO replaceOrderItem(@PathVariable long id, @RequestBody OrderItemBasicDTO updatedOrderItemDTO, HttpServletRequest request, @PathVariable long orderId) throws SQLException {
 
-		Order updatedOrder = orderExtendedMapper.toDomain(updatedOrderDTO);
-		updatedOrder = orderService.replaceOrder(id, updatedOrder);
-		return orderExtendedMapper.toDTO(updatedOrder);
-	}*/
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
+		Order order = orderService.findById(orderId).orElseThrow();
+		if (order.getCompleted()) {
+			throw new IllegalStateException("No se pueden editar artículos de un pedido completado");
+		}
+		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
+			throw new AccessDeniedException("No tienes permiso para editar artículos de este pedido");
+		}
+		OrderItem originalOrderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
+		OrderItem updatedOrderItem = orderItemBasicMapper.toDomain(updatedOrderItemDTO);
+		String errorMsg = orderItemService.validateFields(updatedOrderItem);
+		if (errorMsg != null) {
+			throw new IllegalArgumentException(errorMsg);
+		}
+		originalOrderItem = orderItemService.updateOrderItem(originalOrderItem, updatedOrderItem);
+		OrderItemExtendedDTO orderItemExtendedDTO = orderItemExtendedMapper.toDTO(originalOrderItem);
+		return orderItemExtendedDTO;
+		}
 
 	@DeleteMapping("/{id}")
 	public OrderItemExtendedDTO deleteOrderItem(@PathVariable long orderId, @PathVariable long id, HttpServletRequest request) throws AccessDeniedException {
-        OrderItem orderItem = orderItemService.findById(id).orElseThrow();
+        OrderItem orderItem = orderItemService.findById(id).orElseThrow(() -> new NoSuchElementException("Artículo de pedido no encontrado"));
         if (orderItem.getOrder().getId() != orderId) {
-            throw new IllegalArgumentException("El artículo de pedido no pertenece al pedido especificado");
+            throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
         }
         User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
         if (!request.isUserInRole("ADMIN") && !orderItem.getOrder().getUser().getId().equals(user.getId())) {
