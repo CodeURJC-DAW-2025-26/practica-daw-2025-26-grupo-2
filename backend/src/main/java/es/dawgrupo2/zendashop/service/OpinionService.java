@@ -42,15 +42,16 @@ public class OpinionService {
 		repository.save(opinion);
 	}
 
-	public Opinion create(Opinion opinion, Garment garment, String userEmail) {
+	public Opinion create(Opinion opinion, Garment garment, User user) {
 
 		if (opinion.getId() != null) {
 			throw new IllegalArgumentException();
 		}
 
-		save(opinion);
 		garment.addOpinion(opinion);
-		userService.findByEmail(userEmail).ifPresent(user -> user.addOpinion(opinion));
+		opinion.setGarment(garment);
+		user.addOpinion(opinion);
+		opinion.setUser(user);
 		save(opinion); // Not necessary if cascade is set, but it ensures the opinion is saved
 
 		return opinion;

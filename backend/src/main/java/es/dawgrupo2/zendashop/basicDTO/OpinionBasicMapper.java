@@ -14,5 +14,5 @@ public interface OpinionBasicMapper {
 
     List<OpinionBasicDTO> toDTOs(List<Opinion> opinions);
 
-
+    Opinion toDomain(OpinionBasicDTO opinionBasicDTO);
 }

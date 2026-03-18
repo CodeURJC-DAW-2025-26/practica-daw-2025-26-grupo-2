@@ -69,7 +69,12 @@ public class OpinionWebController {
 		if (op.isPresent()) {
 			String userEmail = request.getUserPrincipal().getName();
 			Garment garment = op.get();
-			opinionService.create(opinion, garment, userEmail);
+			User user = userService.findByEmail(userEmail).orElseThrow();
+			garment.addOpinion(opinion);
+			opinion.setGarment(garment);
+			user.addOpinion(opinion);
+			opinion.setUser(user);
+			opinionService.save(opinion);
 			return "redirect:/garment/" + garmentId + "#opinionForm";
 		} else {
 			model.addAttribute("message", "Prenda no encontrada.");
