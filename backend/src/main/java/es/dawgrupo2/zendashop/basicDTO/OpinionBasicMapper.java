@@ -3,7 +3,7 @@ package es.dawgrupo2.zendashop.basicDTO;
 import java.util.List;
 
 import org.mapstruct.Mapper;
-
+import org.mapstruct.Mapping;
 
 import es.dawgrupo2.zendashop.model.Opinion;
 
@@ -14,5 +14,8 @@ public interface OpinionBasicMapper {
 
     List<OpinionBasicDTO> toDTOs(List<Opinion> opinions);
 
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "garment", ignore = true)
     Opinion toDomain(OpinionBasicDTO opinionBasicDTO);
+
 }
