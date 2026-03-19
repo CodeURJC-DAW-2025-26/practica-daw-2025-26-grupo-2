@@ -29,6 +29,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
+import es.dawgrupo2.zendashop.service.OrderService;
+import es.dawgrupo2.zendashop.basicDTO.OrderBasicMapper;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -47,12 +51,21 @@ public class UserRestController {
     @Autowired
     private OrderExtendedMapper orderExtendedMapper;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderBasicMapper orderBasicMapper;
+
+
+
     // Endpoint to obtain a paginated list of users, excluding disabled ones
     @GetMapping("/")
     public Page<UserBasicDTO> getUsers(@PageableDefault(size = 10) Pageable pageable) {
         return userService.findByDisabledFalse(pageable).map(userBasicMapper::toDTO);
     }
 
+    // Endpoint to register a new user
     @PostMapping("/register")
     public ResponseEntity<UserExtendedDTO> registerUser(@RequestBody UserExtendedDTO userDTO){
 
@@ -85,6 +98,7 @@ public class UserRestController {
 
 
 
+    // Endpoint to obtain a user by id, only if the requester is an admin or the user itself
     @GetMapping("/{id}")
     public UserExtendedDTO getUserById(@PathVariable long id, HttpServletRequest request) {
         User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
@@ -96,6 +110,7 @@ public class UserRestController {
         return userExtendedMapper.toDTO(user);
     }
 
+    // Endpoint to update a user, only if the requester is an admin or the user itself
     @PutMapping("/{id}")
     public UserExtendedDTO updateUser(@PathVariable long id, @RequestBody UserExtendedDTO updateUserDTO, HttpServletRequest request) {
 
@@ -156,6 +171,20 @@ public class UserRestController {
         return orderExtendedMapper.toDTO(user.getCart());
     }
 
+    // Endpoint to obtain the completed orders of a user, only if the requester is an admin or the user itself
+    @GetMapping("/{id}/orders")
+    public Page<es.dawgrupo2.zendashop.basicDTO.OrderBasicDTO> getUserOrders(@PathVariable long id, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
+       
+        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("You are not authorized to view this user's orders");
+        }
+
+        return orderService.findByUserIdAndCompletedTrue(id, pageable).map(orderBasicMapper::toDTO);
+    }
+
+
 
     
     // Endpoint to obtain the current user
@@ -172,10 +201,18 @@ public class UserRestController {
         return this.updateUser(user.getId(), updateUserDTO, request);
     }
 
+    // Endpoint to obtain the cart of the current user, using the same validation as the general get user cart endpoint, but without the need to specify the user id in the path
     @GetMapping("/me/cart")
     public OrderExtendedDTO getCurrentUserCart(HttpServletRequest request) {
         User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
         return this.getUserCart(user.getId(), request);
+    }
+
+    // Endpoint to obtain the completed orders of the current user, using the same validation as the general get user orders endpoint, but without the need to specify the user id in the path
+    @GetMapping("/me/orders")
+    public Page<es.dawgrupo2.zendashop.basicDTO.OrderBasicDTO> getCurrentUserOrders(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
+        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
+        return this.getUserOrders(user.getId(), pageable, request);
     }
     
     
