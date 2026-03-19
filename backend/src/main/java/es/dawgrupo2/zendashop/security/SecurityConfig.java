@@ -22,7 +22,7 @@ import es.dawgrupo2.zendashop.security.jwt.UnauthorizedHandlerJwt;
 @Configuration
 @EnableWebSecurity
 @Order(1)
-public class RestSecurityConfig {
+public class SecurityConfig {
 
     @Autowired
     RepositoryUserDetailsService userDetailsService;
@@ -57,21 +57,20 @@ public class RestSecurityConfig {
         http.authenticationProvider(authenticationProvider());
         http.authorizeHttpRequests(authorize -> authorize
             // Public Access
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**", "/*.css", "/*.js", "/*.png").permitAll()
-            .requestMatchers(HttpMethod.GET, "/", "/api/v1/garments/*", "/api/v1/garments/*/image", "/api/v1/images/*/media").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/users/register").permitAll()
+            .requestMatchers(HttpMethod.GET,  "/api/v1/garments/", "/api/v1/garments/offers", "/api/v1/garments/*", "/api/v1/garments/*/opinions/", "/api/v1/garments/*/opinions/*", "/api/v1/images/*", "/api/v1/images/*/media").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/users/").permitAll()
                 
             // Users Access
-            .requestMatchers(HttpMethod.GET, "/api/v1/me/orders", "/api/v1/me", "/api/v1/me/cart",  "/api/v1/users/*/image", "/api/v1/orders/*/orderItems/", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments/*/opinions/", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/v1/me", "/api/v1/opinions/*", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/api/v1/opinions/*", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/v1/users/me/orders", "/api/v1/users/me", "/api/v1/users/me/cart",  "/api/v1/users/*", "/api/v1/users/*/cart", "/api/v1/users/*/orders", "/api/v1/orders/*/orderItems/", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*", "/api/v1/orders/*/invoice", "/api/v1/statistics/users/*").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments/*/opinions/", "/api/v1/orders/", "/api/v1/orders/*/orderItems/", "/api/v1/users/{id}/images/").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/v1/users/me", "/api/v1/garments/*/opinions/*", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*", "/api/v1/users/*", "/api/v1/images/*/media").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*/opinions/*", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*", "/api/v1/users/*", "/api/v1/users/*/images/*").hasAnyRole("USER", "ADMIN")
 
             // Admins Access
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*", "/api/v1/orders/*").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/statistics/", "/api/v1/orders/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*", "/api/v1/garments/*/images/*").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/").hasRole("ADMIN")
 
             .anyRequest().permitAll()
         );
