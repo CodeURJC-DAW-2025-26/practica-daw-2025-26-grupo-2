@@ -395,13 +395,13 @@ public class OrderService {
 		return meanTickets;
 	}
 
-	public String validateFields(BigDecimal shippingCost, BigDecimal totalPrice) {
+	public String validateFields(Order order) {
 		String errorMsg = "";
-		if (shippingCost == null || shippingCost.compareTo(BigDecimal.ZERO) < 0 || shippingCost.compareTo(new BigDecimal("1000000")) > 0) {
-			errorMsg += "El coste de envío no puede ser negativo ni superar 1.000.000.";
+		if (order.getDeliveryAddress() == null || order.getDeliveryAddress().isEmpty()) {
+			errorMsg += "La dirección de entrega no puede estar vacía, ";
 		}
-		if (totalPrice == null || totalPrice.compareTo(BigDecimal.ZERO) < 0 || totalPrice.compareTo(new BigDecimal("1000000")) > 0) {
-			errorMsg += "El precio total no puede ser negativo ni superar 1.000.000.";
+		if (order.getDeliveryDate() == null || order.getDeliveryDate().isBefore(LocalDate.now())) {
+			errorMsg += " La fecha de entrega preferida no puede estar vacía ni puede ser anterior a la fecha actual.";
 		}
 		return errorMsg;
 	}

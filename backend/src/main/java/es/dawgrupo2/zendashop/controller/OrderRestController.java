@@ -90,6 +90,10 @@ public class OrderRestController {
 	public ResponseEntity<OrderExtendedDTO> createOrder(@RequestBody OrderBasicDTO orderBasicDTO, HttpServletRequest request) {
 
 		Order order = orderBasicMapper.toDomain(orderBasicDTO);
+		String errorMsg = orderService.validateFields(order);
+		if (!errorMsg.isEmpty()) {
+			throw new IllegalArgumentException(errorMsg);
+		}
 		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		order = orderService.createOrder(order, user);
 		OrderExtendedDTO orderDTO = orderExtendedMapper.toDTO(order);

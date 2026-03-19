@@ -302,8 +302,6 @@ public class OrderWebController {
 		if (op.isPresent()) {
 			Order originalOrder = op.get();
 
-			orderService.validateFields(shippingCost, totalPrice);
-
 			originalOrder.setShippingCost(shippingCost);
 			originalOrder.setTotalPrice(totalPrice);
 			originalOrder.setDeliveryAddress(deliveryAddress);
