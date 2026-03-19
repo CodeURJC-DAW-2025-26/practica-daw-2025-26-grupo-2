@@ -27,7 +27,9 @@ import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.basicDTO.OrderBasicMapper;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
 import es.dawgrupo2.zendashop.model.Order;
+import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.OrderService;
+import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -43,6 +45,9 @@ public class OrderRestController {
 
 	@Autowired
 	private OrderBasicMapper orderBasicMapper;
+
+	@Autowired
+	private UserService userService;
 
     @Autowired
     private OrderExtendedMapper orderExtendedMapper;
@@ -70,12 +75,13 @@ public class OrderRestController {
 		return orderExtendedMapper.toDTO(orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado")));
 	}
 
-	/*@PostMapping("/")
-	public ResponseEntity<OrderExtendedDTO> createOrder(@RequestBody OrderExtendedDTO orderDTO) {
+	@PostMapping("/")
+	public ResponseEntity<OrderExtendedDTO> createOrder(@RequestBody OrderBasicDTO orderBasicDTO, HttpServletRequest request) {
 
-		Order order = orderExtendedMapper.toDomain(orderDTO);
-		order = orderService.createOrder(order);
-		orderDTO = orderExtendedMapper.toDTO(order);
+		Order order = orderBasicMapper.toDomain(orderBasicDTO);
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		order = orderService.createOrder(order, user);
+		OrderExtendedDTO orderDTO = orderExtendedMapper.toDTO(order);
 
 		URI location = fromCurrentRequest().path("/{id}").buildAndExpand(orderDTO.id()).toUri();
 
