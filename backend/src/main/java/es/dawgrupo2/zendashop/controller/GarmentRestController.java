@@ -175,4 +175,16 @@ public class GarmentRestController {
         Garment garment = garmentService.findById(id).orElseThrow();
 		return garmentExtendedMapper.toDTO(garmentService.disable(garment));
 	}
+
+    @DeleteMapping("/{id}/image")
+	public ImageDTO deleteGarmentImage(@PathVariable long id)
+			throws IOException {
+        Garment garment = garmentService.findById(id).orElseThrow();
+        ImageDTO image = imageMapper.toDTO(garment.getImage());
+		garment.setImage(null);
+		imageService.deleteImage(id);
+		garmentService.save(garment);
+
+		return image;
+	}
 }
