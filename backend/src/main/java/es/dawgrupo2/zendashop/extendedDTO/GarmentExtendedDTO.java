@@ -1,14 +1,13 @@
 package es.dawgrupo2.zendashop.extendedDTO;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import es.dawgrupo2.zendashop.basicDTO.ImageDTO;
-import es.dawgrupo2.zendashop.basicDTO.OpinionBasicDTO;
 
 public record GarmentExtendedDTO (
     Long id,
     String name,
-    Double price,
+    BigDecimal price,
     ImageDTO image,
     String reference,
     String category,

@@ -3,8 +3,8 @@ package es.dawgrupo2.zendashop.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,38 +63,14 @@ public class GarmentRestController {
     @Autowired
 	private ImageMapper imageMapper;
 
-    /* 
-	@GetMapping("/")
-	public Page<GarmentBasicDTO> getGarments(@PageableDefault(size = 10) Pageable pageable) {
-        return garmentService.findAll(pageable).map(garmentBasicMapper::toDTO);
-	}
-    */
-
     @GetMapping("/")
 	public Page<GarmentBasicDTO> getGarments(@RequestParam(required = false) String nameSearch,
 			@RequestParam(required = false) String categorySearch, @RequestParam(required = false) BigDecimal minPrice,
-			@RequestParam(required = false) BigDecimal maxPrice, Model model,
+			@RequestParam(required = false) BigDecimal maxPrice,
 			@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
 
         return garmentService.findAvailableGarmentsByOptionalFilters(nameSearch, categorySearch,
 				minPrice, maxPrice, pageable).map(garmentBasicMapper::toDTO);
-        
-        /*
-        List<Garment> garmentOffers = new ArrayList<Garment>();
-        if (request.getUserPrincipal() != null) {
-            String userEmail = request.getUserPrincipal().getName();
-            Optional<User> userOpt = userService.findByEmail(userEmail);
-
-            if (userOpt.isPresent()) {
-                garmentOffers = garmentService.findSmartRecommendations(userOpt.get().getId());
-            }
-        }
-		for (Garment garment : garmentOffers) {
-			garments.add(garmentBasicMapper.toDTO(garment));
-		}
-
-		return garments;
-        */
     }
 
 	// If the user is logged in, show personalized offers
@@ -115,14 +90,11 @@ public class GarmentRestController {
 
 	@GetMapping("/{id}")
 	public GarmentExtendedDTO getGarment(@PathVariable long id) {
-        return garmentExtendedMapper.toDTO(garmentService.findById(id).orElseThrow());
+        return garmentExtendedMapper.toDTO(garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada")));
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<GarmentExtendedDTO> createGarment(@RequestBody GarmentBasicDTO garmentBasicDTO, HttpServletRequest request) throws AccessDeniedException {
-		if (!request.isUserInRole("ADMIN")) {
-			throw new AccessDeniedException("Solo un administrador puede añadir prendas");
-		}
+	public ResponseEntity<GarmentExtendedDTO> createGarment(@RequestBody GarmentBasicDTO garmentBasicDTO){
 		Garment garment = garmentBasicMapper.toDomain(garmentBasicDTO);
         
 		String errorMsg = garmentService.validateFields(garment);
@@ -141,7 +113,11 @@ public class GarmentRestController {
 	public ResponseEntity<ImageDTO> createGarmentImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
 			throws IOException {
         
-        Garment garment = garmentService.findById(id).orElseThrow();
+        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
+
+		if (garment.getImage() != null) {
+			throw new IllegalStateException("La prenda ya tiene una imagen asignada, no se pueden asignar dos imágenes a una misma prenda, edítala o elimínala para cambiarla");
+		}
 
 		if (imageFile.isEmpty()) {
 			throw new IllegalArgumentException("La imagen no puede estar vacía");
@@ -160,7 +136,7 @@ public class GarmentRestController {
 
     @PutMapping("/{id}")
 	public GarmentExtendedDTO replaceGarment(@PathVariable long id, @RequestBody GarmentExtendedDTO updatedGarmentDTO) {
-        Garment originalGarment = garmentService.findById(id).orElseThrow();
+        Garment originalGarment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
         Garment updateGarment = garmentExtendedMapper.toDomain(updatedGarmentDTO);
 
         String errorMsg = garmentService.validateFields(updateGarment);
@@ -172,17 +148,20 @@ public class GarmentRestController {
 
     @DeleteMapping("/{id}")
 	public GarmentExtendedDTO deleteGarment(@PathVariable long id) {
-        Garment garment = garmentService.findById(id).orElseThrow();
+        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
 		return garmentExtendedMapper.toDTO(garmentService.disable(garment));
 	}
 
-    @DeleteMapping("/{id}/image")
-	public ImageDTO deleteGarmentImage(@PathVariable long id)
+    @DeleteMapping("/{id}/images/{imageId}")
+	public ImageDTO deleteGarmentImage(@PathVariable long id, @PathVariable long imageId)
 			throws IOException {
-        Garment garment = garmentService.findById(id).orElseThrow();
-        ImageDTO image = imageMapper.toDTO(garment.getImage());
+        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
+		if (garment.getImage() == null || garment.getImage().getId() != imageId) {
+			throw new IllegalStateException("La imagen especificada no está asignada a esta prenda");
+		}        
+		ImageDTO image = imageMapper.toDTO(garment.getImage());
 		garment.setImage(null);
-		imageService.deleteImage(id);
+		imageService.deleteImage(image.id());
 		garmentService.save(garment);
 
 		return image;

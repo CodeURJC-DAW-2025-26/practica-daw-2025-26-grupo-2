@@ -1,9 +1,11 @@
 package es.dawgrupo2.zendashop.basicDTO;
 
+import java.math.BigDecimal;
+
 public record GarmentBasicDTO (
     Long id,
     String name,
-    Double price,
+    BigDecimal price,
     ImageDTO image,
     String reference,
     String category,

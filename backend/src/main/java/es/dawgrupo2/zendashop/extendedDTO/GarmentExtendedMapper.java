@@ -17,6 +17,8 @@ public interface GarmentExtendedMapper {
 
     @Mapping (target = "image", ignore = true)
     @Mapping (target = "opinions", ignore = true)
+    @Mapping (target = "orderItems", ignore = true)
+    @Mapping (target = "available", ignore = true)
     Garment toDomain(GarmentExtendedDTO garmentDTO);
 
 
