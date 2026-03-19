@@ -5,7 +5,7 @@
         {{garmentName}} <br>
         <small class="text-muted">Ref: {{garmentReference}}</small>
     </td>
-    <td><img src="/garment/{{garmentId}}/image" class="img-fluid img-product-order" style="width: 50px;" alt="Producto">
+    <td><img src="/images/{{garmentId}}" class="img-fluid img-product-order" style="width: 50px;" alt="Producto">
     </td>
     <td>{{size}}</td>
     <td>{{quantity}}</td>
@@ -18,7 +18,7 @@
 {{#orderItemsList}}
 <div class="cart-item d-flex align-items-center justify-content-between mb-3">
     <div class="cart-item-info d-flex align-items-center gap-3">
-        <img src="/garment/{{getGarmentId}}/image" alt="{{getGarmentName}}" class="img-fluid cart-item-image" />
+        <img src="/images/{{getGarmentId}}" alt="{{getGarmentName}}" class="img-fluid cart-item-image" />
         <div>
             <h5 class="mb-1">{{getGarmentName}}</h5>
             <p class="text-muted mb-0">Ref: {{getGarmentReference}}</p>
