@@ -3,7 +3,6 @@ package es.dawgrupo2.zendashop.controller;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.mustache.autoconfigure.MustacheProperties.Servlet;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,7 @@ import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserRestController {
 
     @Autowired
@@ -74,7 +73,11 @@ public class UserRestController {
         userService.setUserRoles(user, "USER");
         userService.save(user);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath() 
+                .path("/api/v1/users/{id}") 
+                .buildAndExpand(user.getId())
+                .toUri();
 
         return ResponseEntity.created(location).body(userExtendedMapper.toDTO(user));
 
@@ -137,6 +140,7 @@ public class UserRestController {
         return userExtendedMapper.toDTO(user);
     }
 
+    // Endpoint to obtain the cart of a user, only if the requester is an admin or the user itself
     @GetMapping("/{id}/cart")
     public OrderExtendedDTO getUserCart(@PathVariable long id, HttpServletRequest request) {
         User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
@@ -151,39 +155,28 @@ public class UserRestController {
 
         return orderExtendedMapper.toDTO(user.getCart());
     }
+
+
     
     // Endpoint to obtain the current user
     @GetMapping("/me")
     public UserExtendedDTO getCurrentUser(HttpServletRequest request) {
         User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
-        return userExtendedMapper.toDTO(user);
+        return this.getUserById(user.getId(), request);
     }
 
+    // Endpoint to update the current user using the same validation as the general update user endpoint, but without the need to specify the user id in the path 
     @PutMapping("/me")
     public UserExtendedDTO updateCurrentUser(@RequestBody UserExtendedDTO updateUserDTO, HttpServletRequest request) {
-        
-        User originalUser = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
-        
-        User editedUser = userExtendedMapper.toDomain(updateUserDTO);
-
-        // check if the request comes with a password, if not, keep the original one
-        boolean updatePassword = editedUser.getEncodedPassword() != null && !editedUser.getEncodedPassword().isEmpty();
-
-        String errMsg = userService.validateFields(editedUser, updatePassword);
-        if (!errMsg.isEmpty()) {
-            throw new IllegalArgumentException(errMsg);
-        }
-
-        // validate that the email is not already taken by another user
-        if (!originalUser.getEmail().equals(editedUser.getEmail()) && userService.findByEmail(editedUser.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email is already taken");
-        }
-
-        userService.updateUser(originalUser, editedUser, updatePassword, false);
-        userService.save(originalUser);
-
-        return userExtendedMapper.toDTO(originalUser);
+        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
+        return this.updateUser(user.getId(), updateUserDTO, request);
     }
 
+    @GetMapping("/me/cart")
+    public OrderExtendedDTO getCurrentUserCart(HttpServletRequest request) {
+        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("User not found"));
+        return this.getUserCart(user.getId(), request);
+    }
+    
     
 }
