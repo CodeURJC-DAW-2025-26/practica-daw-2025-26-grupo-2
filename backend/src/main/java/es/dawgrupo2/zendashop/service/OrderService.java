@@ -439,4 +439,23 @@ public class OrderService {
 			return order;
 		}
 	}
+
+	public Order updateOrder(Long id, Order updatedOrder) {
+		Order originalOrder = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
+		if (originalOrder.getCompleted()) {
+			throw new IllegalStateException("No se pueden editar pedidos completados");
+		}
+		if (updatedOrder.getCompleted()) {
+			if (originalOrder.getOrderItems() == null || originalOrder.getOrderItems().isEmpty()) {
+				throw new IllegalStateException("No se puede procesar un pedido sin artículos, elimina el pedido o añádele artículos antes de procesarlo");
+			}
+			processOrder(id, originalOrder.getUser().getId(), updatedOrder.getDeliveryAddress(), updatedOrder.getDeliveryDate().toString(), updatedOrder.getDeliveryNote());
+		}
+		else{
+			originalOrder.setDeliveryAddress(updatedOrder.getDeliveryAddress());
+			originalOrder.setDeliveryDate(updatedOrder.getDeliveryDate());
+			originalOrder.setDeliveryNote(updatedOrder.getDeliveryNote());
+		}
+		return repository.save(originalOrder);
+	}
 }

@@ -103,13 +103,17 @@ public class OrderRestController {
 		return ResponseEntity.created(location).body(orderDTO);
 	}
 
-	/*@PutMapping("/{id}")
-	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderExtendedDTO updatedOrderDTO) throws SQLException {
+	@PutMapping("/{id}")
+	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderBasicDTO updatedOrderDTO) {
 
 		Order updatedOrder = orderBasicMapper.toDomain(updatedOrderDTO);
-		updatedOrder = orderService.replaceOrder(id, updatedOrder);
+		String errorMsg = orderService.validateFields(updatedOrder);
+		if (!errorMsg.isEmpty()) {
+			throw new IllegalArgumentException(errorMsg);
+		}
+		updatedOrder = orderService.updateOrder(id, updatedOrder);
 		return orderExtendedMapper.toDTO(updatedOrder);
-	}*/
+	}
 
 	@DeleteMapping("/{id}")
 	public OrderExtendedDTO deleteOrder(@PathVariable long id) {

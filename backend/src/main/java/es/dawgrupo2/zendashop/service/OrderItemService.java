@@ -66,6 +66,7 @@ public class OrderItemService {
 				.orElseThrow(() -> new NoSuchElementException("La prenda especificada no existe"));
 		orderItem.setGarment(garment);
 		orderItem.setOrder(order);
+		order.addOrderItem(orderItem);
 		return repository.save(orderItem);
 	}
 
