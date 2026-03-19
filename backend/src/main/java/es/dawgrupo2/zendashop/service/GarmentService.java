@@ -94,7 +94,7 @@ public class GarmentService {
 		return repository.findByAvailableTrue(pageable);
 	}
 
-	public void disable(Garment garment) {
+	public Garment disable(Garment garment) {
 		garment.setAvailable(false);
 		// Delete opinions and remove them from users and garment to avoid orphan
 		// records and maintain consistency
@@ -111,6 +111,7 @@ public class GarmentService {
 		garment.setImage(null);
 		imageService.deleteImage(garmentId);
 		save(garment);
+		return garment;
 	}
 
 	public Page<Garment> findAvailableGarmentsByOptionalFilters(String name, String category, BigDecimal minPrice,

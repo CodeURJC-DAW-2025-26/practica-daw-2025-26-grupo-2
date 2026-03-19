@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.nio.file.AccessDeniedException;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -39,7 +37,6 @@ import es.dawgrupo2.zendashop.model.Image;
 import es.dawgrupo2.zendashop.service.GarmentService;
 import es.dawgrupo2.zendashop.service.UserService;
 import es.dawgrupo2.zendashop.service.ImageService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
@@ -123,15 +120,15 @@ public class GarmentRestController {
 
 	@PostMapping("/")
 	public ResponseEntity<GarmentExtendedDTO> createGarment(@RequestBody GarmentBasicDTO garmentBasicDTO, HttpServletRequest request) throws AccessDeniedException {
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
 		if (!request.isUserInRole("ADMIN")) {
 			throw new AccessDeniedException("Solo un administrador puede añadir prendas");
 		}
 		Garment garment = garmentBasicMapper.toDomain(garmentBasicDTO);
+        /* 
 		String errorMsg = garmentService.validateFields(garment);
 		if (errorMsg != null) {
 			throw new IllegalArgumentException(errorMsg);
-		}
+		}*/
 		garment = garmentService.create(garment);
 		GarmentExtendedDTO garmentDTO = garmentExtendedMapper.toDTO(garment);
 
@@ -161,14 +158,21 @@ public class GarmentRestController {
 		return ResponseEntity.created(location).body(imageMapper.toDTO(image));
 	}
 
-    @PutMapping("/{id}") //falta guardar la imagen en esta adaptación creo, porque no se guarda en el garmentService (mirar el de ejemplo). También creo que falta otro método para actualizar la imagen, pero no estoy seguro
-	public GarmentExtendedDTO replacePost(@PathVariable long id, @RequestBody GarmentExtendedDTO updatedGarmentDTO) {
+    @PutMapping("/{id}")
+	public GarmentExtendedDTO replaceGarment(@PathVariable long id, @RequestBody GarmentExtendedDTO updatedGarmentDTO) {
         Garment originalGarment = garmentService.findById(id).orElseThrow();
         Garment updateGarment = garmentExtendedMapper.toDomain(updatedGarmentDTO);
+        /* 
         String errorMsg = garmentService.validateFields(updateGarment);
 		if (errorMsg != null) {
 			throw new IllegalArgumentException(errorMsg);
-		}
+		}*/
 		return garmentExtendedMapper.toDTO(garmentService.updateGarment(originalGarment, updateGarment));
+	}
+
+    @DeleteMapping("/{id}")
+	public GarmentExtendedDTO deleteGarment(@PathVariable long id) {
+        Garment garment = garmentService.findById(id).orElseThrow();
+		return garmentExtendedMapper.toDTO(garmentService.disable(garment));
 	}
 }
