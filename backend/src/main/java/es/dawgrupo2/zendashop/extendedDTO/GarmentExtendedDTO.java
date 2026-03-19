@@ -13,7 +13,7 @@ public record GarmentExtendedDTO (
     String reference,
     String category,
     String description,
-    String features,
-    List<OpinionBasicDTO> opinions
+    String features
+    //List<OpinionBasicDTO> opinions
 ) {
 }

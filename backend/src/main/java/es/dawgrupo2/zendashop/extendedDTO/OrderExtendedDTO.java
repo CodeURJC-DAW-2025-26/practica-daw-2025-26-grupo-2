@@ -19,7 +19,8 @@ public record OrderExtendedDTO(
     BigDecimal subtotal,
     UserBasicDTO user,
     String deliveryAddress,
-    LocalDate deliveryDate
+    LocalDate deliveryDate,
+    String deliveryNote
 ) {
     
 }

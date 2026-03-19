@@ -124,11 +124,11 @@ public class GarmentRestController {
 			throw new AccessDeniedException("Solo un administrador puede añadir prendas");
 		}
 		Garment garment = garmentBasicMapper.toDomain(garmentBasicDTO);
-        /* 
+        
 		String errorMsg = garmentService.validateFields(garment);
-		if (errorMsg != null) {
+		if (errorMsg != null && !errorMsg.isEmpty()) {
 			throw new IllegalArgumentException(errorMsg);
-		}*/
+		}
 		garment = garmentService.create(garment);
 		GarmentExtendedDTO garmentDTO = garmentExtendedMapper.toDTO(garment);
 
@@ -162,11 +162,11 @@ public class GarmentRestController {
 	public GarmentExtendedDTO replaceGarment(@PathVariable long id, @RequestBody GarmentExtendedDTO updatedGarmentDTO) {
         Garment originalGarment = garmentService.findById(id).orElseThrow();
         Garment updateGarment = garmentExtendedMapper.toDomain(updatedGarmentDTO);
-        /* 
+
         String errorMsg = garmentService.validateFields(updateGarment);
-		if (errorMsg != null) {
+		if (errorMsg != null && !errorMsg.isEmpty()) {
 			throw new IllegalArgumentException(errorMsg);
-		}*/
+		}
 		return garmentExtendedMapper.toDTO(garmentService.updateGarment(originalGarment, updateGarment));
 	}
 
@@ -174,5 +174,17 @@ public class GarmentRestController {
 	public GarmentExtendedDTO deleteGarment(@PathVariable long id) {
         Garment garment = garmentService.findById(id).orElseThrow();
 		return garmentExtendedMapper.toDTO(garmentService.disable(garment));
+	}
+
+    @DeleteMapping("/{id}/image")
+	public ImageDTO deleteGarmentImage(@PathVariable long id)
+			throws IOException {
+        Garment garment = garmentService.findById(id).orElseThrow();
+        ImageDTO image = imageMapper.toDTO(garment.getImage());
+		garment.setImage(null);
+		imageService.deleteImage(id);
+		garmentService.save(garment);
+
+		return image;
 	}
 }
