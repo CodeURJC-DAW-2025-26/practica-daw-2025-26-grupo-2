@@ -42,7 +42,7 @@ public class OpinionService {
 	public Opinion create(Opinion opinion, Garment garment, User user) {
 
 		if (opinion.getId() != null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El ID de la opinión no debe ser proporcionado");
 		}
 
 		garment.addOpinion(opinion);
