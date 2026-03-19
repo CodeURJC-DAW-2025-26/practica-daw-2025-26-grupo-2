@@ -1,11 +1,7 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +9,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,20 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 import es.dawgrupo2.zendashop.basicDTO.OrderBasicDTO;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.basicDTO.OrderBasicMapper;
-import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
-import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicMapper;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
 import es.dawgrupo2.zendashop.model.Order;
-import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.InvoicePdfService;
-import es.dawgrupo2.zendashop.service.OrderItemService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
@@ -55,13 +43,7 @@ public class OrderRestController {
 	private OrderService orderService;
 
 	@Autowired
-	private OrderItemService orderItemService;
-
-	@Autowired
 	private OrderBasicMapper orderBasicMapper;
-
-	@Autowired
-	private OrderItemBasicMapper orderItemBasicMapper;
 
 	@Autowired
 	private UserService userService;
@@ -87,7 +69,7 @@ public class OrderRestController {
 	}
 
 	@GetMapping("/{id}")
-	public OrderExtendedDTO getOrder(@PageableDefault(size = 10) Pageable pageable, @PathVariable long id, HttpServletRequest request) {
+	public OrderExtendedDTO getOrder(@PathVariable long id, HttpServletRequest request) {
 		Order order = orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
 			throw new AccessDeniedException("No tienes permiso para acceder a este pedido");

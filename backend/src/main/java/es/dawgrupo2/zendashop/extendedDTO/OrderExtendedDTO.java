@@ -3,11 +3,7 @@ package es.dawgrupo2.zendashop.extendedDTO;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
-import org.springframework.data.domain.Page;
-
-import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
 import es.dawgrupo2.zendashop.basicDTO.UserBasicDTO;
 
 public record OrderExtendedDTO(
