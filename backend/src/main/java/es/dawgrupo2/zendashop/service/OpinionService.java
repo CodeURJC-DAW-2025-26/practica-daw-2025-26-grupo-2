@@ -19,9 +19,6 @@ public class OpinionService {
 	@Autowired
 	private OpinionRepository repository;
 
-	@Autowired
-	private UserService userService;
-
 	public Optional<Opinion> findById(long id) {
 		return repository.findById(id);
 	}
