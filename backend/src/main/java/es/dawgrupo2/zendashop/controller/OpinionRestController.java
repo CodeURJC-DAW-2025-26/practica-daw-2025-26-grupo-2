@@ -79,7 +79,11 @@ public class OpinionRestController {
 				
 		Opinion opinion = opinionBasicMapper.toDomain(opinionBasicDTO);
 		Garment garment = garmentService.findById(garmentId).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		String errorMsg = opinionService.validateFields(opinion);
+		if (errorMsg != null && !errorMsg.isEmpty()) {
+			throw new IllegalArgumentException(errorMsg);
+		}
 		opinion = opinionService.create(opinion, garment, user);
 		OpinionExtendedDTO opinionExtendedDTO = opinionExtendedMapper.toDTO(opinion);
 
@@ -92,7 +96,7 @@ public class OpinionRestController {
 			@RequestBody OpinionBasicDTO updatedOpinionBasicDTO, HttpServletRequest request)
 			throws AccessDeniedException {
 
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		Opinion updatedOpinionBasic = opinionBasicMapper.toDomain(updatedOpinionBasicDTO);
 		Opinion originalOpinion = opinionService.findById(opinionId)
 				.orElseThrow(() -> new NoSuchElementException("Opinión no encontrada"));
@@ -118,11 +122,11 @@ public class OpinionRestController {
 	@DeleteMapping("/{opinionId}")
 	public OpinionExtendedDTO deleteOpinion(@PathVariable long opinionId, @PathVariable long garmentId,
 			HttpServletRequest request) throws AccessDeniedException {
-		Opinion opinion = opinionService.findById(opinionId).orElseThrow();
+		Opinion opinion = opinionService.findById(opinionId).orElseThrow(() -> new NoSuchElementException("Opinión no encontrada"));
 		if (opinion.getGarment().getId() != garmentId) {
 			throw new NoSuchElementException("La opinión no pertenece a la prenda especificada");
 		}
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !opinion.getUser().getId().equals(user.getId())) {
 			throw new AccessDeniedException("No tienes permiso para eliminar la opinión");
 		}

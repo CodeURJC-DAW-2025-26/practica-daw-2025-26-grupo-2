@@ -1,9 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
-import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.AccessDeniedException;
 
 import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
-import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.extendedDTO.OrderItemExtendedDTO;
 import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicMapper;
 import es.dawgrupo2.zendashop.extendedDTO.OrderItemExtendedMapper;
@@ -33,10 +28,8 @@ import es.dawgrupo2.zendashop.model.User;
 import es.dawgrupo2.zendashop.service.OrderItemService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
@@ -59,8 +52,12 @@ public class OrderItemRestController {
     private OrderItemExtendedMapper orderItemExtendedMapper;
 
 	@GetMapping("/")
-	public Page<OrderItemBasicDTO> getOrderItems(@PathVariable long orderId, @RequestParam (required = false) Boolean completed, @PageableDefault(size = 10) Pageable pageable) {
-        return orderItemService.findByOrderId(orderId, pageable).map(orderItemBasicMapper::toDTO);
+	public Page<OrderItemBasicDTO> getOrderItems(@PathVariable long orderId, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) throws AccessDeniedException {
+        Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+        if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("No tienes permiso para acceder a los artículos de este pedido");
+        }
+		return orderItemService.findByOrderId(orderId, pageable).map(orderItemBasicMapper::toDTO);
 	}
 
 	@GetMapping("/{id}")
@@ -78,8 +75,8 @@ public class OrderItemRestController {
 
 	@PostMapping("/")
 	public ResponseEntity<OrderItemExtendedDTO> createOrderItem(@PathVariable long orderId, @RequestBody OrderItemBasicDTO orderItemBasicDTO, HttpServletRequest request) throws AccessDeniedException {
-		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow();
-		Order order = orderService.findById(orderId).orElseThrow();
+		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
 			throw new AccessDeniedException("No tienes permiso para añadir artículos a este pedido");
 		}
@@ -100,7 +97,7 @@ public class OrderItemRestController {
 	}
 
 	@PutMapping("/{id}")
-	public OrderItemExtendedDTO replaceOrderItem(@PathVariable long id, @RequestBody OrderItemBasicDTO updatedOrderItemDTO, HttpServletRequest request, @PathVariable long orderId) throws SQLException {
+	public OrderItemExtendedDTO replaceOrderItem(@PathVariable long id, @RequestBody OrderItemBasicDTO updatedOrderItemDTO, HttpServletRequest request, @PathVariable long orderId){
 		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
