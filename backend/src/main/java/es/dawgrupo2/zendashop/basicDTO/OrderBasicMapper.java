@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.basicDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -14,8 +15,11 @@ public interface OrderBasicMapper {
 
     List<OrderBasicDTO> toDTOs(List<Order> orders);
 
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "orderItems", ignore = true)
+    @Mapping(target = "subtotal", ignore = true)
+    @Mapping(target = "shippingCost", ignore = true)
+    @Mapping(target = "totalPrice", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Order toDomain(OrderBasicDTO orderDTO);
 
 }

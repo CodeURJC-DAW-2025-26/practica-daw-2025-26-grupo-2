@@ -25,9 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import es.dawgrupo2.zendashop.basicDTO.OrderBasicDTO;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
 import es.dawgrupo2.zendashop.basicDTO.OrderBasicMapper;
+import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicDTO;
+import es.dawgrupo2.zendashop.basicDTO.OrderItemBasicMapper;
 import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
 import es.dawgrupo2.zendashop.model.Order;
+import es.dawgrupo2.zendashop.model.OrderItem;
 import es.dawgrupo2.zendashop.model.User;
+import es.dawgrupo2.zendashop.service.OrderItemService;
 import es.dawgrupo2.zendashop.service.OrderService;
 import es.dawgrupo2.zendashop.service.UserService;
 import jakarta.servlet.http.HttpServlet;
@@ -44,7 +48,13 @@ public class OrderRestController {
 	private OrderService orderService;
 
 	@Autowired
+	private OrderItemService orderItemService;
+
+	@Autowired
 	private OrderBasicMapper orderBasicMapper;
+
+	@Autowired
+	private OrderItemBasicMapper orderItemBasicMapper;
 
 	@Autowired
 	private UserService userService;
@@ -67,12 +77,15 @@ public class OrderRestController {
 	}
 
 	@GetMapping("/{id}")
-	public OrderExtendedDTO getOrder(@PathVariable long id, HttpServletRequest request) {
+	public OrderExtendedDTO getOrder(@PageableDefault(size = 10) Pageable pageable, @PathVariable long id, HttpServletRequest request) {
 		Order order = orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
 			throw new AccessDeniedException("No tienes permiso para acceder a este pedido");
 		}
-		return orderExtendedMapper.toDTO(orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado")));
+		Page<OrderItem> orderItems = orderItemService.findByOrderId(id, pageable);
+		order.setOrderItems(orderItems.getContent());
+		OrderExtendedDTO orderDTO = orderExtendedMapper.toDTO(order);
+		return orderDTO;
 	}
 
 	@PostMapping("/")
@@ -88,10 +101,10 @@ public class OrderRestController {
 		return ResponseEntity.created(location).body(orderDTO);
 	}
 
-	@PutMapping("/{id}")
+	/*@PutMapping("/{id}")
 	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderExtendedDTO updatedOrderDTO) throws SQLException {
 
-		Order updatedOrder = orderExtendedMapper.toDomain(updatedOrderDTO);
+		Order updatedOrder = orderBasicMapper.toDomain(updatedOrderDTO);
 		updatedOrder = orderService.replaceOrder(id, updatedOrder);
 		return orderExtendedMapper.toDTO(updatedOrder);
 	}*/

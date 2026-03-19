@@ -161,6 +161,10 @@ public class Order {
         return subtotal;
     }
 
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
+
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }

@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.basicDTO;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record OrderBasicDTO(
@@ -8,7 +9,10 @@ public record OrderBasicDTO(
     LocalDateTime creationDate,
     Boolean completed,
     BigDecimal totalPrice,
-    UserBasicDTO user
+    UserBasicDTO user,
+    String deliveryAddress,
+    String deliveryNote,
+    LocalDate deliveryDate
 ) {
     
 }
