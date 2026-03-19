@@ -104,9 +104,13 @@ public class OrderRestController {
 	}
 
 	@PutMapping("/{id}")
-	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderBasicDTO updatedOrderDTO) {
+	public OrderExtendedDTO replaceOrder(@PathVariable long id, @RequestBody OrderBasicDTO updatedOrderDTO, HttpServletRequest request) {
 
 		Order updatedOrder = orderBasicMapper.toDomain(updatedOrderDTO);
+		Order originalOrder = orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+		if (!request.isUserInRole("ADMIN") && !originalOrder.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
+			throw new AccessDeniedException("No tienes permiso para modificar este pedido");
+		}
 		String errorMsg = orderService.validateFields(updatedOrder);
 		if (!errorMsg.isEmpty()) {
 			throw new IllegalArgumentException(errorMsg);
@@ -116,10 +120,10 @@ public class OrderRestController {
 	}
 
 	@DeleteMapping("/{id}")
-	public OrderExtendedDTO deleteOrder(@PathVariable long id) {
-        Order order = orderService.findById(id).orElseThrow();
-        if (order.getCompleted()) {
-            throw new IllegalStateException("Cannot delete an order that is completed");
+	public OrderExtendedDTO deleteOrder(@PathVariable long id, HttpServletRequest request) {
+        Order order = orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
+        if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("No tienes permiso para eliminar este pedido");
         }
 		return orderExtendedMapper.toDTO(orderService.delete(id));
 	}

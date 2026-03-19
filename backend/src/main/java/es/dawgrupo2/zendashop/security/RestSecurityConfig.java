@@ -64,11 +64,11 @@ public class RestSecurityConfig {
             // Users Access
             .requestMatchers(HttpMethod.GET, "/api/v1/me/orders", "/api/v1/me", "/api/v1/me/cart",  "/api/v1/users/*/image", "/api/v1/orders/*/orderItems/", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/api/v1/garments/*/opinions/", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/v1/me", "/api/v1/opinions/*", "/api/v1/orders/*/orderItems/*").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/v1/me", "/api/v1/opinions/*", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v1/opinions/*", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*").hasAnyRole("USER", "ADMIN")
 
             // Admins Access
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*", "/api/v1/orders/*").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/statistics/", "/api/v1/orders/").hasRole("ADMIN")
