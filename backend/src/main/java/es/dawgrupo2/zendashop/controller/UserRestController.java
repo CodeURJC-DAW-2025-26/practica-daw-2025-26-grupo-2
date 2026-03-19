@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedDTO;
+import es.dawgrupo2.zendashop.extendedDTO.OrderExtendedMapper;
 
 
 @RestController
@@ -43,26 +45,16 @@ public class UserRestController {
     @Autowired
     private UserExtendedMapper userExtendedMapper;
 
+    @Autowired
+    private OrderExtendedMapper orderExtendedMapper;
+
     // Endpoint to obtain a paginated list of users, excluding disabled ones
-    @GetMapping("/users")
-    public Page<UserBasicDTO> getUsers(@PageableDefault(size = 20) Pageable pageable) {
+    @GetMapping("/")
+    public Page<UserBasicDTO> getUsers(@PageableDefault(size = 10) Pageable pageable) {
         return userService.findByDisabledFalse(pageable).map(userBasicMapper::toDTO);
     }
 
-    @GetMapping("/users/{id}")
-    public UserExtendedDTO getUserById(@PathVariable long id, HttpServletRequest request) {
-        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
-
-        if(!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
-            throw new AccessDeniedException("You are not authorized to view this user");
-        }
-
-        return userExtendedMapper.toDTO(user);
-    }
-
-    
-
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public ResponseEntity<UserExtendedDTO> registerUser(@RequestBody UserExtendedDTO userDTO){
 
         User user = userExtendedMapper.toDomain(userDTO);
@@ -86,6 +78,78 @@ public class UserRestController {
 
         return ResponseEntity.created(location).body(userExtendedMapper.toDTO(user));
 
+    }
+
+
+
+    @GetMapping("/{id}")
+    public UserExtendedDTO getUserById(@PathVariable long id, HttpServletRequest request) {
+        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if(!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("You are not authorized to view this user");
+        }
+
+        return userExtendedMapper.toDTO(user);
+    }
+
+    @PutMapping("/{id}")
+    public UserExtendedDTO updateUser(@PathVariable long id, @RequestBody UserExtendedDTO updateUserDTO, HttpServletRequest request) {
+
+        User originalUser = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        // only allow the user itself or an admin to edit the user
+        if(!request.isUserInRole("ADMIN") && ! originalUser.getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("You are not authorized to edit this user");
+        }
+
+        User editedUser = userExtendedMapper.toDomain(updateUserDTO);
+        // check if the request comes with a password, if not, keep the original one
+        boolean updatePassword = editedUser.getEncodedPassword() != null && !editedUser.getEncodedPassword().isEmpty();
+
+        String errMsg = userService.validateFields(editedUser, updatePassword);
+        if (!errMsg.isEmpty()) {
+            throw new IllegalArgumentException(errMsg);
+        }
+
+        if (!originalUser.getEmail().equals(editedUser.getEmail()) && userService.findByEmail(editedUser.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email is already taken");
+        }
+        
+        userService.updateUser(originalUser, editedUser, updatePassword, false);
+        userService.save(originalUser);
+
+        return userExtendedMapper.toDTO(originalUser);
+    }
+
+    // Endpoint to delete a user, only if the requester is an admin or the user itself
+    @DeleteMapping("/{id}")
+    public UserExtendedDTO deleteUser(@PathVariable long id, HttpServletRequest request) {
+        User user = userService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("You are not authorized to delete this user");
+        }
+
+        userService.disableUser(id);
+
+        return userExtendedMapper.toDTO(user);
+    }
+
+    @GetMapping("/{id}/cart")
+    public OrderExtendedDTO getUserCart(@PathVariable long id, HttpServletRequest request) {
+        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if(!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
+            throw new AccessDeniedException("You are not authorized to view this user's cart");
+        }
+
+        if (user.getCart() == null) {
+            throw new NoSuchElementException("User does not have a cart");
+        }
+
+        return orderExtendedMapper.toDTO(user.getCart());
     }
     
     // Endpoint to obtain the current user
@@ -120,22 +184,6 @@ public class UserRestController {
 
         return userExtendedMapper.toDTO(originalUser);
     }
-    
-
-    // Endpoint to delete a user, only if the requester is an admin or the user itself
-    @DeleteMapping("/users/{id}")
-        public UserExtendedDTO deleteUser(@PathVariable long id, HttpServletRequest request) {
-            User user = userService.findById(id)
-                    .orElseThrow(() -> new NoSuchElementException("User not found"));
-
-            if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
-                throw new AccessDeniedException("You are not authorized to delete this user");
-            }
-
-            userService.disableUser(id);
-
-            return userExtendedMapper.toDTO(user);
-        }
 
     
 }
