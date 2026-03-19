@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class GarmentService {
 	public Garment create(Garment garment) {
 
 		if (garment.getId() != null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El ID del prenda debe ser nulo para crear una nueva prenda");
 		}
 
 		garment.setAvailable(true);
@@ -66,7 +67,7 @@ public class GarmentService {
 	}
 
     public Garment delete(long id) {
-        Garment garment = repository.findById(id).orElseThrow();
+        Garment garment = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
         repository.deleteById(id);
         return garment;
     }
