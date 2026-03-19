@@ -96,8 +96,6 @@ public class UserRestController {
 
     }
 
-
-
     // Endpoint to obtain a user by id, only if the requester is an admin or the user itself
     @GetMapping("/{id}")
     public UserExtendedDTO getUserById(@PathVariable long id, HttpServletRequest request) {
