@@ -301,12 +301,18 @@ public class OrderWebController {
 
 		if (op.isPresent()) {
 			Order originalOrder = op.get();
-
 			originalOrder.setShippingCost(shippingCost);
 			originalOrder.setTotalPrice(totalPrice);
 			originalOrder.setDeliveryAddress(deliveryAddress);
 			originalOrder.setDeliveryDate(deliveryDate);
 			originalOrder.setDeliveryNote(deliveryNote);
+
+			String errorMsg = orderService.validateFields(originalOrder);
+			if (!errorMsg.isEmpty()) {
+				model.addAttribute("message", errorMsg);
+				model.addAttribute("backLink", "/orders");
+				return "customError";
+			}
 
 			orderService.save(originalOrder);
 
