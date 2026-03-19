@@ -95,6 +95,10 @@ public class UserService {
 				this.delete(id);
 			}
 		}
+		if (originalUser.getAvatar() != null) {
+			imageService.deleteImage(originalUser.getAvatar().getId());
+			user.setAvatar(null);
+		}
 		return originalUser;
 	}
 
@@ -190,5 +194,10 @@ public class UserService {
 
 	public void setEncodedPassword(User user) {
 		user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
+	}
+
+	public void setImage(User user, Image image) {
+		user.setAvatar(image);
+		this.save(user);
 	}
 }
