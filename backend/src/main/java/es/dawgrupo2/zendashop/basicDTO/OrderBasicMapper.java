@@ -1,6 +1,5 @@
 package es.dawgrupo2.zendashop.basicDTO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.mapstruct.Mapper;

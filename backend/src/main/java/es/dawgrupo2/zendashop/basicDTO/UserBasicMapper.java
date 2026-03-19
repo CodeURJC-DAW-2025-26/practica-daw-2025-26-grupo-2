@@ -23,6 +23,4 @@ public interface UserBasicMapper {
     @Mapping(target = "cart", ignore = true)
     @Mapping(target = "disabled", ignore = true)
     User toDomain(UserBasicDTO userDTO);
-
-
 }

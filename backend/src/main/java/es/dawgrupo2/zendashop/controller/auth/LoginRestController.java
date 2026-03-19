@@ -1,4 +1,4 @@
-package es.dawgrupo2.zendashop.controller;
+package es.dawgrupo2.zendashop.controller.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import es.dawgrupo2.zendashop.security.jwt.UserLoginService;
 import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/v1/auth")
-public class RestLoginController {
+public class LoginRestController {
     @Autowired
     private UserLoginService userService;
 
