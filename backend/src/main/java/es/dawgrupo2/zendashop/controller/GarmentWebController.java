@@ -136,10 +136,15 @@ public class GarmentWebController {
 
 		// Backend validation of fields, including the image file, to prevent users from bypassing frontend validation
 		// As it is a new garment, image is required, so we pass true as the third parameter of validateFields
-		String errorMsg = garmentService.validateFields(garment, imageField, true);
+		String errorMsg = garmentService.validateFields(garment);
+		String errorMsgImage = garmentService.validateImageField(imageField, true);
 		// If there are validation errors, show the error page with a link to go back to the garment form
 		if (!errorMsg.isEmpty()) {
 			model.addAttribute("message", errorMsg);
+			model.addAttribute("backLink", "/garment/new");
+			return "customError";
+		} else if (!errorMsgImage.isEmpty()) {
+			model.addAttribute("message", errorMsgImage);
 			model.addAttribute("backLink", "/garment/new");
 			return "customError";
 		}
@@ -180,9 +185,14 @@ public class GarmentWebController {
 		// Backend validation of fields, including the image file if updateImage is true, to prevent users from bypassing frontend validation
 		// As it is an edit of an existing garment, image is not required, so we pass the value of updateImage as the third parameter of validateFields,
 		// so the image file will only be validated if the user has chosen to update the image
-		String errorMsg = garmentService.validateFields(editedGarment, imageField, updateImage);
+		String errorMsg = garmentService.validateFields(editedGarment);
+		String errorMsgImage = garmentService.validateImageField(imageField, updateImage);
 		if (!errorMsg.isEmpty()) {
 			model.addAttribute("message", errorMsg);
+			model.addAttribute("backLink", "/garment/" + id + "/edit");
+			return "customError";
+		} else if (!errorMsgImage.isEmpty()) {
+			model.addAttribute("message", errorMsgImage);
 			model.addAttribute("backLink", "/garment/" + id + "/edit");
 			return "customError";
 		}

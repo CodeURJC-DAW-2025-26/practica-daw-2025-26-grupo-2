@@ -122,6 +122,7 @@ public class GarmentService {
 		return repository.findSmartRecommendations(id);
 	}
 
+	/*
 	public String validateFields(Garment garment, MultipartFile imageFile, boolean updateImage) {
 
 		String errorMsg = "";
@@ -152,6 +153,45 @@ public class GarmentService {
 			errorMsg += "El archivo debe ser una imagen de tipo JPG, JPEG o PNG. <br>";
 		}
 
+		return errorMsg;
+	}
+	*/
+
+	public String validateFields(Garment garment) {
+
+		String errorMsg = "";
+		if (garment.getName() == null || garment.getName().isEmpty() || garment.getName().length() < 4
+				|| garment.getName().length() > 100) {
+			errorMsg += "El nombre no puede estar vacío, debe tener entre 4 y 100 caracteres. <br>";
+		}
+		if (garment.getPrice() == null || !(garment.getPrice() instanceof BigDecimal)
+				|| garment.getPrice().compareTo(BigDecimal.valueOf(0)) <= 0
+				|| garment.getPrice().compareTo(BigDecimal.valueOf(6000)) > 0) {
+			errorMsg += "El precio debe ser un número positivo menor o igual a 6000. <br>";
+		}
+		if (garment.getCategory() == null || garment.getCategory().isEmpty()
+				|| !garment.getCategory().matches("Camisas|Pantalones|Zapatos|Chaquetas|Accesorios|Otros")) {
+			errorMsg += "La categoría tiene que ser una de las siguientes: Camisas, Pantalones, Zapatos, Chaquetas, Accesorios, Otros. <br>";
+		}
+		if (garment.getDescription() == null || garment.getDescription().isEmpty()
+				|| garment.getDescription().length() < 3 || garment.getDescription().length() > 200) {
+			errorMsg += "La descripción no puede estar vacía y debe tener entre 3 y 200 caracteres. <br>";
+		}
+		if (garment.getFeatures() == null || garment.getFeatures().isEmpty() || garment.getFeatures().length() < 3
+				|| garment.getFeatures().length() > 300) {
+			errorMsg += "Las características no pueden estar vacías y deben tener entre 3 y 300 caracteres. <br>";
+		}
+
+		return errorMsg;
+	}
+
+	public String validateImageField(MultipartFile imageFile, boolean updateImage){
+		String errorMsg = "";
+		if (updateImage && (imageFile == null || imageFile.isEmpty())) {
+			errorMsg += "La imagen no puede estar vacía. <br>";
+		} else if (updateImage && !imageFile.getContentType().startsWith("image")) {
+			errorMsg += "El archivo debe ser una imagen de tipo JPG, JPEG o PNG. <br>";
+		}
 		return errorMsg;
 	}
 
