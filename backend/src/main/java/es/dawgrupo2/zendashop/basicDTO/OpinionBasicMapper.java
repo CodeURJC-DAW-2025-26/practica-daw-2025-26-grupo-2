@@ -16,6 +16,7 @@ public interface OpinionBasicMapper {
 
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "garment", ignore = true)
+    @Mapping (target = "own" , ignore = true)
     Opinion toDomain(OpinionBasicDTO opinionBasicDTO);
 
 }
