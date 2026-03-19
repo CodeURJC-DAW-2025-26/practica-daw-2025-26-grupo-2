@@ -16,6 +16,7 @@ public interface GarmentExtendedMapper {
     List<GarmentExtendedDTO> toDTOs(List<Garment> garments);
 
     @Mapping (target = "image", ignore = true)
+    @Mapping (target = "opinions", ignore = true)
     Garment toDomain(GarmentExtendedDTO garmentDTO);
 
 
