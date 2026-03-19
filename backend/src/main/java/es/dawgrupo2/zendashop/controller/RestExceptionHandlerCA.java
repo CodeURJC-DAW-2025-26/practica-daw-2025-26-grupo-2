@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.io.IOException;
 import org.springframework.security.access.AccessDeniedException;
 
 @RestControllerAdvice(annotations = RestController.class)
@@ -34,6 +35,12 @@ public class RestExceptionHandlerCA {
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<Map<String, String>> handleForbidden(AccessDeniedException ex) {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+				.body(Map.of("error", ex.getMessage()));
+	}
+
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<Map<String, String>> handleIOException(IOException ex) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.body(Map.of("error", ex.getMessage()));
 	}
 
