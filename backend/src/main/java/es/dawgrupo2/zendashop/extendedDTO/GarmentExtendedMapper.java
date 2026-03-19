@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import es.dawgrupo2.zendashop.basicDTO.GarmentBasicDTO;
+//import es.dawgrupo2.zendashop.basicDTO.GarmentBasicDTO;
 import es.dawgrupo2.zendashop.model.Garment;
 
 @Mapper(componentModel = "spring")
@@ -16,7 +16,7 @@ public interface GarmentExtendedMapper {
     List<GarmentExtendedDTO> toDTOs(List<Garment> garments);
 
     @Mapping (target = "image", ignore = true)
-    Garment toDomain(GarmentBasicDTO garmentDTO);
+    Garment toDomain(GarmentExtendedDTO garmentDTO);
 
 
 }
