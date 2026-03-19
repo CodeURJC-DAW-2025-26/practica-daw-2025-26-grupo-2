@@ -3,6 +3,7 @@ package es.dawgrupo2.zendashop.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -21,7 +22,7 @@ public class ImageService {
     private ImageRepository imageRepository;
 
     public Image getImage(long id) {
-        return imageRepository.findById(id).orElseThrow();
+        return imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Imagen no encontrada"));
     }
 
     public Image createImage(InputStream inputStream) throws IOException {
@@ -39,7 +40,7 @@ public class ImageService {
 
     public Resource getImageFile(long id) throws SQLException {
 
-        Image image = imageRepository.findById(id).orElseThrow();
+        Image image = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Imagen no encontrada"));
 
         if (image.getImageFile() != null) {
             return new InputStreamResource(image.getImageFile().getBinaryStream());
@@ -50,7 +51,7 @@ public class ImageService {
 
     public Image replaceImageFile(long id, InputStream inputStream) throws IOException {
 
-        Image image = imageRepository.findById(id).orElseThrow();
+        Image image = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Imagen no encontrada"));
 
         try {
             image.setImageFile(new SerialBlob(inputStream.readAllBytes()));
@@ -64,7 +65,7 @@ public class ImageService {
     }
 
     public Image deleteImage(long id) {
-        Image image = imageRepository.findById(id).orElseThrow();
+        Image image = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Imagen no encontrada"));
         imageRepository.deleteById(id);
         return image;
     }
