@@ -82,8 +82,6 @@ public class OrderRestController {
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
 			throw new AccessDeniedException("No tienes permiso para acceder a este pedido");
 		}
-		Page<OrderItem> orderItems = orderItemService.findByOrderId(id, pageable);
-		order.setOrderItems(orderItems.getContent());
 		OrderExtendedDTO orderDTO = orderExtendedMapper.toDTO(order);
 		return orderDTO;
 	}

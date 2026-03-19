@@ -66,7 +66,7 @@ public class UserRestController {
     }
 
     // Endpoint to register a new user
-    @PostMapping("/register")
+    @PostMapping("/")
     public ResponseEntity<UserExtendedDTO> registerUser(@RequestBody UserExtendedDTO userDTO){
 
         User user = userExtendedMapper.toDomain(userDTO);
@@ -183,8 +183,6 @@ public class UserRestController {
 
         return orderService.findByUserIdAndCompletedTrue(id, pageable).map(orderBasicMapper::toDTO);
     }
-
-
 
     
     // Endpoint to obtain the current user

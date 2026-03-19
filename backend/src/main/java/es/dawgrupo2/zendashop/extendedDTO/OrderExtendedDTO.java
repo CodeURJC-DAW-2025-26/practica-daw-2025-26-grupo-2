@@ -18,7 +18,7 @@ public record OrderExtendedDTO(
     BigDecimal shippingCost,
     BigDecimal subtotal,
     UserBasicDTO user,
-    Page<OrderItemBasicDTO> orderItems,
+    List<OrderItemBasicDTO> orderItems,
     String deliveryAddress,
     LocalDate deliveryDate
 ) {
