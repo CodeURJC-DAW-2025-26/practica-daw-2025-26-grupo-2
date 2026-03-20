@@ -90,7 +90,7 @@ public class GarmentRestController {
 
 	@GetMapping("/{id}")
 	public GarmentExtendedDTO getGarment(@PathVariable long id) {
-        return garmentExtendedMapper.toDTO(garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada")));
+        return garmentExtendedMapper.toDTO(garmentService.findByIdAndAvailableTrue(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada")));
 	}
 
 	@PostMapping("/")
