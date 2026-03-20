@@ -2,6 +2,7 @@ package es.dawgrupo2.zendashop.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,7 +58,7 @@ public class UserService {
 	public User createUser(User user) {
 
 		if (user.getId() != null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El ID del usuario debe ser nulo para crear un nuevo usuario");
 		}
 
 		save(user);
@@ -66,7 +67,7 @@ public class UserService {
 	}
 
 	public User delete(long id) {
-		User user = repository.findById(id).orElseThrow();
+		User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		repository.deleteById(id);
 		return user;
 	}
@@ -76,8 +77,8 @@ public class UserService {
 	}
 
 	public User disableUser(long id) {
-		User originalUser = repository.findById(id).orElseThrow();
-		User user = repository.findById(id).orElseThrow();
+		User originalUser = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		if (user != null) {
 			user.setDisabled(true);
 			if (user.getCart() != null) {

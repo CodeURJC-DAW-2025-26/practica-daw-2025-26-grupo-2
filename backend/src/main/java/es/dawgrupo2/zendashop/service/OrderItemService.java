@@ -87,8 +87,9 @@ public class OrderItemService {
 		if (orderItem.getQuantity() <= 0) {
 			errorMsg += " La cantidad debe ser mayor que 0,";
 		}
-		if (orderItem.getSize() == null || orderItem.getSize().isBlank()) {
-			errorMsg += " La talla no puede estar vacía,";
+		if ((orderItem.getSize() == null || orderItem.getSize().isBlank()) || 
+		    (!orderItem.getSize().equals("S") && !orderItem.getSize().equals("M") && !orderItem.getSize().equals("L") && !orderItem.getSize().equals("XL"))) {
+			errorMsg += " La talla debe ser S, M, L o XL,";
 		}
 		if (orderItem.getGarment() != null && orderItem.getGarment().getId() == null) {
 			errorMsg += " El ID de la prenda no puede ser nulo.";

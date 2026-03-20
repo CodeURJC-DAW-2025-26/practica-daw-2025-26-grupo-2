@@ -38,6 +38,10 @@ public class GarmentService {
 		return repository.findById(id);
 	}
 
+	public Optional<Garment> findByIdAndAvailableTrue(Long id){
+		return repository.findByIdAndAvailableTrue(id);
+	}
+
 	public List<Garment> findById(List<Long> ids) {
 		return repository.findAllById(ids);
 	}
@@ -84,6 +88,7 @@ public class GarmentService {
 
 	public Garment setImage(Garment garment, Image image) {
 		garment.setImage(image);
+		imageService.saveImage(image);
 		return repository.save(garment);
 	}
 
@@ -108,9 +113,12 @@ public class GarmentService {
 		// Disable garment in all carts to avoid problems with unavailable garments in
 		// carts
 		orderService.disableGarmentInCarts(garment);
-		Long garmentId = garment.getImage().getId();
-		garment.setImage(null);
-		imageService.deleteImage(garmentId);
+		Image image = garment.getImage();
+		if (image != null){
+			Long garmentId = image.getId();
+			garment.setImage(null);
+			imageService.deleteImage(garmentId);
+		}
 		save(garment);
 		return garment;
 	}

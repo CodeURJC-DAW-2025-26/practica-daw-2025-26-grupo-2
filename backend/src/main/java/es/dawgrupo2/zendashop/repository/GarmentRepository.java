@@ -16,6 +16,7 @@ public interface GarmentRepository extends JpaRepository<Garment, Long> {
 
     Optional<Garment> findByName(String name);
     Optional<Garment> findByCategory(String category);
+    Optional<Garment> findByIdAndAvailableTrue(Long id);
     Page<Garment> findByAvailableTrue(Pageable pageable);
     @Query("""
     SELECT g
