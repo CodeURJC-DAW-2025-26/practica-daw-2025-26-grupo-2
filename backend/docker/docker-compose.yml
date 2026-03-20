@@ -1,10 +1,10 @@
 services:
   web:
-    image: samuelmelianbenito/zendashop:0.0.1
+    image: ${DOCKERHUB_USER}/zendashop:0.0.1
     ports:
       - "8443:8443"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db/${DB_NAME:-test}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db/${DB_NAME:-zenda}
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:-password}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=${DDL_AUTO:-none}
@@ -15,7 +15,7 @@ services:
     image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-password}
-      - MYSQL_DATABASE=${DB_NAME:-test}
+      - MYSQL_DATABASE=${DB_NAME:-zenda}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
