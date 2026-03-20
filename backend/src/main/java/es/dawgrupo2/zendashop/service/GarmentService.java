@@ -88,6 +88,7 @@ public class GarmentService {
 
 	public Garment setImage(Garment garment, Image image) {
 		garment.setImage(image);
+		imageService.saveImage(image);
 		return repository.save(garment);
 	}
 
