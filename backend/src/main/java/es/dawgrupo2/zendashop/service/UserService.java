@@ -39,6 +39,10 @@ public class UserService {
 		return repository.findById(id);
 	}
 
+	public Optional<User> findByIdAndDisabledFalse(long id) {
+		return repository.findByIdAndDisabledFalse(id);
+	}
+
 	public List<User> findById(List<Long> ids) {
 		return repository.findAllById(ids);
 	}
@@ -88,6 +92,7 @@ public class UserService {
 			if (user.getOrders().size() > 0) {
 				String uuid = UUID.randomUUID().toString();
 				user.setName("Anonymous" + uuid);
+				user.setSurname("Anonymous" + uuid);
 				user.setEmail(uuid + "@anonymous.com");
 				user.setEncodedPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 				orderService.deleteCart(user.getCart());
@@ -199,6 +204,7 @@ public class UserService {
 
 	public void setImage(User user, Image image) {
 		user.setAvatar(image);
+		imageService.saveImage(image);
 		this.save(user);
 	}
 }
