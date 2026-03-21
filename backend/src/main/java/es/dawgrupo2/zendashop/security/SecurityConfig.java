@@ -56,21 +56,22 @@ public class SecurityConfig {
         http.securityMatcher("/api/**");
         http.authenticationProvider(authenticationProvider());
         http.authorizeHttpRequests(authorize -> authorize
-            // Public Access
-            .requestMatchers(HttpMethod.GET,  "/api/v1/garments/", "/api/v1/garments/offers", "/api/v1/garments/*", "/api/v1/garments/*/opinions/", "/api/v1/garments/*/opinions/*", "/api/v1/images/*", "/api/v1/images/*/media").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/users/").permitAll()
-                
+
+            // Admins Access
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/", "/api/v1/orders/", "/api/v1/users/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*", "/api/v1/garments/*/images/*").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/").hasRole("ADMIN")
+
             // Users Access
             .requestMatchers(HttpMethod.GET, "/api/v1/users/me/orders", "/api/v1/users/me", "/api/v1/users/me/cart",  "/api/v1/users/*", "/api/v1/users/*/cart", "/api/v1/users/*/orders", "/api/v1/orders/*/orderItems/", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*", "/api/v1/orders/*/invoice", "/api/v1/statistics/users/*").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.POST, "/api/v1/garments/*/opinions/", "/api/v1/orders/", "/api/v1/orders/*/orderItems/", "/api/v1/users/{id}/images/").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/v1/users/me", "/api/v1/garments/*/opinions/*", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*", "/api/v1/users/*", "/api/v1/images/*/media").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*/opinions/*", "/api/v1/orders/*", "/api/v1/orders/*/orderItems/*", "/api/v1/users/*", "/api/v1/users/*/images/*").hasAnyRole("USER", "ADMIN")
 
-            // Admins Access
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*", "/api/v1/garments/*/images/*").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/").hasRole("ADMIN")
+            // Public Access
+            .requestMatchers(HttpMethod.GET,  "/api/v1/garments/", "/api/v1/garments/offers", "/api/v1/garments/*", "/api/v1/garments/*/opinions/", "/api/v1/garments/*/opinions/*", "/api/v1/images/*", "/api/v1/images/*/media").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/users/").permitAll()
 
             .anyRequest().permitAll()
         );
