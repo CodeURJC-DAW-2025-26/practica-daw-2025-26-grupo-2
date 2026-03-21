@@ -124,6 +124,8 @@ public class OrderItemRestController {
 	public OrderItemExtendedDTO deleteOrderItem(@PathVariable long orderId, @PathVariable long id, HttpServletRequest request) throws AccessDeniedException {
         Order order = orderService.findById(orderId).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 		User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		User orderUser = order.getUser();
+		Order cart = orderUser.getCart();
 		if (!request.isUserInRole("ADMIN") && !order.getUser().getId().equals(user.getId())) {
 			throw new AccessDeniedException("No tienes permiso para eliminar artículos de este pedido");
 		}
@@ -134,6 +136,16 @@ public class OrderItemRestController {
 		if (orderItem.getOrder().getId() != orderId) {
 			throw new NoSuchElementException("El artículo de pedido no pertenece al pedido especificado");
 		}
-		return orderItemExtendedMapper.toDTO(orderItemService.delete(id));
+
+		cart.removeOrderItem(orderItem);
+		if (cart.getOrderItems().isEmpty()) {
+			orderUser.setCart(null);
+			userService.save(orderUser);
+			orderService.delete(cart.getId());
+		}
+		orderItemService.delete(id); // Not necessary if orphanRemoval is set, but it ensures the order item is deleted
+		userService.save(orderUser);
+
+		return orderItemExtendedMapper.toDTO(orderItem);
 	}
 }
