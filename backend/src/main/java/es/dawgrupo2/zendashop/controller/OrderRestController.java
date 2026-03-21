@@ -127,9 +127,13 @@ public class OrderRestController {
 		if (!request.isUserInRole("ADMIN") && !originalOrder.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
 			throw new AccessDeniedException("No tienes permiso para modificar este pedido");
 		}
-		String errorMsg = orderService.validateFields(updatedOrder);
-		if (!errorMsg.isEmpty()) {
-			throw new IllegalArgumentException(errorMsg);
+		if (!updatedOrder.getCompleted()){
+			String errorMsg = orderService.validateFields(updatedOrder);
+			if (!errorMsg.isEmpty()) {
+				throw new IllegalArgumentException(errorMsg);
+			}
+		} else {
+			updatedOrder = orderService.validateFieldsCompleteOrder(originalOrder, updatedOrder);
 		}
 		updatedOrder = orderService.updateOrder(id, updatedOrder);
 		return orderExtendedMapper.toDTO(updatedOrder);
