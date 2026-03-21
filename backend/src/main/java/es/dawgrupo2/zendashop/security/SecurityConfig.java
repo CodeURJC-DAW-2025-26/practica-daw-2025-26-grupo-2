@@ -58,7 +58,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
 
             // Admins Access
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/", "/api/v1/orders/", "/api/v1/users/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/", "/api/v1/orders/").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*", "/api/v1/garments/*/images/*").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/").hasRole("ADMIN")
