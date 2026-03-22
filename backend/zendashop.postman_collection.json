@@ -1,0 +1,2102 @@
+{
+  "info": {
+    "_postman_id": "273f6a36-53c7-4cfb-a8f1-59e557a970bc",
+    "name": "DAW Práctica 2",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53329639",
+    "_collection_link": "https://go.postman.co/collection/52911754-273f6a36-53c7-4cfb-a8f1-59e557a970bc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\r\n    \"username\":\"juan@example.com\",\r\n    \"password\":\"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login admin",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"maria@example.com\",\r\n    \"password\":\"password456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Garments",
+      "item": [
+        {
+          "name": "GET garments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET garments (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET garment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET garment (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "100"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET garments offers (logged)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "offers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST garment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"camisa con chorreras\",\n    \"price\": 19,\n    \"category\": \"Camisas\",\n    \"description\": \"es una camisa y tiene chorreras\",\n    \"features\": \"calidad muy buena\"\n    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST garment (ejemplo fallo de validación)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"camisa con chorreras\",\n    \"price\": 19,\n    \"category\": \"Camisas\",\n    \"description\": \"es una camisa y tiene chorreras\",\n    \"features\": \"\"\n    \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST garment image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "598e1ea7-218c-4d40-abf1-4e7faddd4227",
+                  "src": "/Users/jorge/Desktop/amount<=0.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23/images/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23",
+                "images",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET garment image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/23/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "23",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT garment image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "56b50934-0338-44a4-b73f-29701f1c6a1e",
+                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-12 a las 20.21.31.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/23/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "23",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT garment",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"camisa sin chorreras\",\n    \"price\": 9,\n    \"category\": \"Camisas\",\n    \"description\": \"es una camisa y tiene chorreras\",\n    \"features\": \"calidad colosal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT garment (ejemplo fallo validación)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"\",\n    \"price\": 9,\n    \"category\": \"Camisas\",\n    \"description\": \"es una camisa y tiene chorreras\",\n    \"features\": \"calidad colosal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "56b50934-0338-44a4-b73f-29701f1c6a1e",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23/images/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23",
+                "images",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE garment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "598e1ea7-218c-4d40-abf1-4e7faddd4227",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "GET orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET order",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET order (ejemplo fallo)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "100"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST order (ejemplo fallo validación de campos)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Falsa 123\",\r\n    \"deliveryNote\": \"Dejar en portería\",\r\n    \"deliveryDate\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST order",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Falsa 123\",\r\n    \"deliveryNote\": \"Dejar en portería\",\r\n    \"deliveryDate\": \"2026-03-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST order (ejemplo fallo carrito ya existente)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Falsa 123\",\r\n    \"deliveryNote\": \"Dejar en portería\",\r\n    \"deliveryDate\": \"2026-03-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT order",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Verdadera 900\",\r\n    \"deliveryNote\": \"Súbemelo a casa porfa\",\r\n    \"deliveryDate\": \"2026-03-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT order (ejemplo fallo de validación)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Verdadera 900\",\r\n    \"deliveryNote\": \"Súbemelo a casa porfa\",\r\n    \"deliveryDate\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT order (procesar carrito)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"completed\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderPDF",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/pdf",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/2/invoice",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2",
+                "invoice"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderPDF (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/pdf",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/invoice",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "invoice"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "OrderItems",
+      "item": [
+        {
+          "name": "GET orderItems (paginado)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderItems (página 2)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderItem",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/9/orderItems/31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "9",
+                "orderItems",
+                "31"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderItem (ejemplo fallo)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/9/orderItems/30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "9",
+                "orderItems",
+                "30"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET orderItem (ejemplo fallo)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/9/orderItems/100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "9",
+                "orderItems",
+                "100"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST orderItem",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n        \"id\": 8\r\n    },\r\n    \"quantity\": 3,\r\n    \"size\": \"M\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST orderItem (ejemplo fallo validación de campos)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT orderItem",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n        \"id\": 8\r\n    },\r\n    \"quantity\": 100,\r\n    \"size\": \"XL\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/52",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT orderItem (ejemplo fallo de validación)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 100,\r\n    \"size\": \"XL\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/52",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE orderItem",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "1",
+                "orderItems",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE orderItem (ejemplo fallo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/2/orderItems/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "2",
+                "orderItems",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Opinions",
+      "item": [
+        {
+          "name": "GET opinions (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET opinion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET opinion (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/2/opinions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "2",
+                "opinions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET opinion (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                "30"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST opinion",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"comment\": \"Buena calidad\",\r\n    \"rating\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST opinion (ejemplo fallo)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 8,\r\n    \"comment\": \"Buena calidad\",\r\n    \"rating\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST opinion (ejemplo fallo validación)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"comment\": \"\",\r\n    \"rating\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT opinion",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"comment\": \"Regular\",\n    \"rating\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT opinion (ejemplo fallo de validación)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"comment\": \"\",\n    \"rating\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE opinion",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/1/opinions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "1",
+                "opinions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statistics",
+      "item": [
+        {
+          "name": "GET user month ticket",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/users/1?period=month&number=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "users",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "month"
+                },
+                {
+                  "key": "number",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user year ticket",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/users/1?period=year&number=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "users",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "year"
+                },
+                {
+                  "key": "number",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET income statistic",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/income?period=day&number=3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "income"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "day"
+                },
+                {
+                  "key": "number",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET oders statistic",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/orders?period=day&number=3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "day"
+                },
+                {
+                  "key": "number",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET labels statistics",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/labels?period=month&number=12",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "labels"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "month"
+                },
+                {
+                  "key": "number",
+                  "value": "12"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "POST register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST register (ejemplo fallo validación)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\": \"\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST register (ejemplo fallo usuario ya registrado)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\": \"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST user avatar",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "f348dd8c-92b5-4014-99e9-d0b694dad3af",
+                  "src": "/Users/jorge/Desktop/amount<=0.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/18/images/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "18",
+                "images",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user avatar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/24/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "24",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/18",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET users (paginado)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/?page=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francis@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francis@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/1/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET my orders",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francis@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user cart",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/1/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET my cart",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET me",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user avatar image",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/1/images/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1",
+                "images",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT user",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"paquito\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/18",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT me",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"juanito\",\n    \"surname\":\"garcía\",\n    \"email\":\"juan@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT user (ejemplo fallo de validación)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/18",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT user avatar",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "e22e2ad0-c423-4503-8a82-87d2024d9e15",
+                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-16 a las 18.14.23.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/24/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "24",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
