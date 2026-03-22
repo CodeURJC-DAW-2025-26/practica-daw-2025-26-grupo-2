@@ -90,6 +90,10 @@ public class OrderRestController {
 			throw new AccessDeniedException("No tienes permiso para acceder a este pedido");
 		}
 
+		if (!order.getCompleted()){
+			throw new IllegalStateException("El pedido aún no se ha realizado, debes comprar antes de obtener la factura");
+		}
+
 		byte[] pdf = invoicePdfService.generateInvoice(order);
 
 		return ResponseEntity.ok()
@@ -145,6 +149,15 @@ public class OrderRestController {
         if (!request.isUserInRole("ADMIN") && !order.getUser().getEmail().equals(request.getUserPrincipal().getName())) {
             throw new AccessDeniedException("No tienes permiso para eliminar este pedido");
         }
-		return orderExtendedMapper.toDTO(orderService.delete(id));
+		OrderExtendedDTO orderDTO = orderExtendedMapper.toDTO(order);
+		User user = order.getUser();
+		if (!order.getCompleted()){
+			user.setCart(null);
+		}else {
+			user.removeOrder(order);
+		}
+		userService.save(user);
+		orderService.delete(id);
+		return orderDTO;
 	}
 }

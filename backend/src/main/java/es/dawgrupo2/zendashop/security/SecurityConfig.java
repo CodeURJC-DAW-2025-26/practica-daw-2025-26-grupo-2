@@ -58,10 +58,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
 
             // Admins Access
-            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels", "/api/v1/garments/*/images/", "/api/v1/orders/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/v1/garments/", "/api/v1/garments/*/images/").hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/v1/garments/*").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v1/garments/*", "/api/v1/orders/*", "/api/v1/garments/*/images/*").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/v1/users/", "/api/v1/orders/", "/api/v1/statistics/income", "/api/v1/statistics/orders", "/api/v1/statistics/labels").hasRole("ADMIN")
 
             // Users Access
             .requestMatchers(HttpMethod.GET, "/api/v1/users/me/orders", "/api/v1/users/me", "/api/v1/users/me/cart",  "/api/v1/users/*", "/api/v1/users/*/cart", "/api/v1/users/*/orders", "/api/v1/orders/*/orderItems/", "/api/v1/orders/*/orderItems/*", "/api/v1/orders/*", "/api/v1/orders/*/invoice", "/api/v1/statistics/users/*").hasAnyRole("USER", "ADMIN")
