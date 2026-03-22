@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -81,8 +82,15 @@ public class UserService {
 	}
 
 	public User disableUser(long id) {
-		User originalUser = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		//User originalUser = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		User originalUser = new User();
+		BeanUtils.copyProperties(user, originalUser); //this is for returning the original user before the disabling
+		if (originalUser.getAvatar() != null) {
+			long imageId = user.getAvatar().getId();
+			user.setAvatar(null);
+			imageService.deleteImage(imageId);
+		}
 		if (user != null) {
 			user.setDisabled(true);
 			if (user.getCart() != null) {
@@ -100,10 +108,6 @@ public class UserService {
 			} else {
 				this.delete(id);
 			}
-		}
-		if (originalUser.getAvatar() != null) {
-			imageService.deleteImage(originalUser.getAvatar().getId());
-			user.setAvatar(null);
 		}
 		return originalUser;
 	}
