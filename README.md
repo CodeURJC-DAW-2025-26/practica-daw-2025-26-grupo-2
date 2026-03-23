@@ -504,17 +504,17 @@ Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginCo
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Jorge Padilla Rodríguez]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+En esta práctica he llevado a cabo la implementación de la funcionalidad corresponiente a la entidad garment en la API REST, principalmente el desarrollo del GarmentRestController. Además, he implementado la tecnología de generación de facturas en pdf de un pedido. Posteriormente, me he encargado de realizar la comprobación y depuración de la totalidad del código y su funcionalidad, así como la generación de la colección postman durante el proceso, para su comprobación, corrigiendo distintos aspectos más o menos relevantes del código para la correcta implmentación final de la API REST. Se destaca también en este último punto la implementación del control por rol y dueño de imágenes, entre otros.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Primera aproximación de la implementación del GarmentRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/7e180abd97a028f08c2828b3108f0927702e5d65)  | [GarmentRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentRestController.java)   |
+|2| [Implementación de la tecnología de generación de facturas en pdf](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/f5f221196731a6573bbe9c3af2c6fbd4eb029297)  | [OrderRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderRestController.java)   |
+|3| [Realización de la colección postman, tras un proceso de depuración simultáneo](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/b0a71df470166709c7d5492075b9197f32f35347)  | [api.postman_collection.json](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/api.postman_collection.json)   |
+|4| [Final de la implementación del GarmentRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/ea5422e2ab441e3a37e02652d92197348b8f33e3)  | [GarmentRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentRestController.java)   |
+|5| [Ejemplo de uno de los procesos de revisión en los que se implementa el control por rol y dueño de imágenes de usuario](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/9a61f9afa212bc19e04d0fc68314590b3c119d3d)  | [ImageRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/ImageRestController.java)   |
 
 ---
 
