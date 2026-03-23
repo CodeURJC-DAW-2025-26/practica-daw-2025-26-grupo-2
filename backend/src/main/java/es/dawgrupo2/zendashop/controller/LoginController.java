@@ -55,6 +55,7 @@ public class LoginController {
         } else if (imageField != null && !imageField.isEmpty()) {
             try {
                 Image avatar = imageService.createImage(imageField.getInputStream());
+                avatar.setAvatar(true);
                 user.setAvatar(avatar);
             } catch (IOException e) {
                 throw new RuntimeException("Error al guardar la imagen", e);
