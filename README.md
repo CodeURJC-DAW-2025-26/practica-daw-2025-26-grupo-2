@@ -422,7 +422,7 @@ Parte del README
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](images/classes-diagramP2.png)
 
 ### **Instrucciones de Ejecución con Docker**
 
@@ -489,15 +489,16 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ### **Participación de Miembros en la Práctica 2**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [Alejandro Lefebvre Valiente]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Mis principales responsabilidades y funcionalidades desarrolladas fueron:
+Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginController para los endpoints de authenticación.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
+|1| [Incorporación de la nueva lógica de seguridad adaptada a la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/995c0e4c2534d3c1f2e39530d2a75ed6d52a38a6)  | [SecurityConfig](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/SecurityConfig.java)   |
+|2| [Controlador Rest del login para con la implementación de endpoints de autenticación](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/627b2173367b66c0ce5af5a296a80116062c706d)  | [RestLoginController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/auth/LoginRestController.java)   |
+|3| [Adaptación e inclusión de la seguridad de la web en la nueva seguridad de la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/93bd762aea3ad4871c53eebe3a55b1e0664f3ee5)  | [SecurityConfig](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/SecurityConfig.java)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
