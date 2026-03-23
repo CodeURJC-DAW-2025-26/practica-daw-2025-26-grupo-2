@@ -430,54 +430,17 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 - Docker instalado (versión 20.10 o superior)
 - Docker Compose instalado (versión 2.0 o superior)
 
-#### **Pasos para ejecutar con docker-compose:**
-
-1. **Clonar el repositorio** (si no lo has hecho ya):
-   ```bash
-   git clone https://github.com/[usuario]/[repositorio].git
-   cd [repositorio]
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**:
-
-### **Construcción de la Imagen Docker**
-
-#### **Requisitos:**
-- Docker instalado en el sistema
-
-#### **Pasos para construir y publicar la imagen:**
-
-1. **Navegar al directorio de Docker**:
-   ```bash
-   cd docker
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**
-
-### **Despliegue en Máquina Virtual**
-
-#### **Requisitos:**
-- Acceso a la máquina virtual (SSH)
-- Clave privada para autenticación
-- Conexión a la red correspondiente o VPN configurada
-
-#### **Pasos para desplegar:**
-
-1. **Conectar a la máquina virtual**:
-   ```bash
-   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
-   ```
-   
-   Ejemplo:
-   ```bash
-   ssh -i ssh-keys/app.key vmuser@10.100.139.XXX
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**:
-
-### **URL de la Aplicación Desplegada**
-
-🌐 **URL de acceso**: `https://[nombre-app].etsii.urjc.es:8443`
+#### **Ejecución de la aplicación web**
+A. Primera vez (creación de la base de datos)
+Si es la primera vez que la arranca y necesita que se generen las tablas
+```bash
+DOCKERHUB_USER=samuelmelianbenito DDL_AUTO=create docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+```
+B. Uso habitual
+Una vez que ya hayas configurado la primera vez, para futuros arranques (donde ya existan tus datos) sólo necesitas ejecutar esto:
+```bash
+DOCKERHUB_USER=samuelmelianbenito docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+```
 
 #### **Credenciales de Usuarios de Ejemplo**
 
