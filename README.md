@@ -504,17 +504,18 @@ Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginCo
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Víctor Navarro Santos]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Mis principales responsabilidades en esta práctica fueron:
+El desarrollo, seguridad, y optimización de la API REST de gestión de usuarios, además de la estructuración y generación de la documentación de endpoints (api-doc)
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Construcción de la base del Controlador Rest de usuarios](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/443ef9c771e375d4421b51c7b96d860ee3cc5c2d)  | [UserRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/UserRestController.java)   |
+|2| [Adición del endpoint de registro de usuarios y manejo de errores](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/cd78cf8655a09952addddbd20616a402ef69c7af)  | [Archivo2](URL_archivo_2)   |
+|3| [Conexión con la la lógica de negocio (pedidos)](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/aba41ce60bda675de6ba69b96ad9fa27293e3231)  | [pom.xml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/pom.xml)   |
+|4| [Generación del archivo .yaml para la documentación de OpenAPI](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/0ca2cf92db7c2a7af422e9abe8bb96e92d0ead09)  | [api-docs.yaml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/api-docs/api-docs.yaml)   |
+|5| [Generación del archivo .html para la documentación de OpenApi](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/76e97d4b7f9c203e916a744d6869182c9fec6617)  | [api-docs.html](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/api-docs/api-docs.html)   |
 
 ---
 
