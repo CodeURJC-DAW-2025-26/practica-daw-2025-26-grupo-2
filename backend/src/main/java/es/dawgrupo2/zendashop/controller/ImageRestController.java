@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import es.dawgrupo2.zendashop.basicDTO.ImageDTO;
 import es.dawgrupo2.zendashop.basicDTO.ImageMapper;
 import es.dawgrupo2.zendashop.model.User;
+import es.dawgrupo2.zendashop.model.Image;
 import es.dawgrupo2.zendashop.service.ImageService;
 import es.dawgrupo2.zendashop.service.UserService;
 
@@ -45,8 +46,16 @@ public class ImageRestController {
     }
 
     @GetMapping("/{id}/media")
-    public ResponseEntity<Object> getImageFile(@PathVariable long id)
+    public ResponseEntity<Object> getImageFile(@PathVariable long id, HttpServletRequest request)
             throws SQLException, IOException {
+        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        Image image = imageService.getImage(id);
+
+        if (image.getAvatar() && !request.isUserInRole("ADMIN")) {
+            if (user.getAvatar() == null || !user.getAvatar().getId().equals(id)) {
+                throw new AccessDeniedException("No puedes acceder a la información de otro usuario");
+            }
+        }
 
         Resource imageFile = imageService.getImageFile(id);
 

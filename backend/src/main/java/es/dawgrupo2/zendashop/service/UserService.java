@@ -208,6 +208,7 @@ public class UserService {
 
 	public void setImage(User user, Image image) {
 		user.setAvatar(image);
+		image.setAvatar(true);
 		imageService.saveImage(image);
 		this.save(user);
 	}
