@@ -532,7 +532,7 @@ Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginCo
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 4 - [Samuel Melián Benito]**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -543,6 +543,24 @@ Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginCo
 |3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+
+---
+
+#### **Alumno 5 - [Sara Guillén Martínez]**
+
+- Las dependencia de MapStruct y creación de los mappers para las entidades de Prendas, Opiniones, Pedidos y Usuarios. 
+- La implementación de los controladores: StatisticRestController, OpinionRestController y ImageRestController. 
+- La implementación de validaciones 
+- La creación de la configuración de Docker.
+
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Implementación del ImageRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/77ba78d31059e855aab1bd41223bd9370130d52f)  | [ImageRestController](URL_archivhttps://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/ImageRestController.javao_1)   |
+|2| [Implementación de OpinionRestController y modificación OpionService ](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/330b46283869c536acc68b04b231d0477674e34d)  | [OpinionRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OpinionRestController.java)   |
+|3| [Implementación de StatisticRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/c24e72d09b0aed84810ac31a48127bebf287406a)  | [StatisticRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/StatisticRestController.java)   |
+|4| [Scripts de Docker para construir y publicar imágenes](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/0287735cd73e7af2f6a6216a3840a91f6171559c)  | [publish_docker-compose](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/docker/publish_docker-compose.sh)   |
+|5| [Algunos mappers](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/08463d3f0c8fb6f6d7e9218686ab0fdd0347366a)  | [OpinionBasicMapper](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/basicDTO/OpinionBasicMapper.java)   |
 
 ---
 
