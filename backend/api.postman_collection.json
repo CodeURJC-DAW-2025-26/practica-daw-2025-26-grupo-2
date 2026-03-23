@@ -282,8 +282,8 @@
                 {
                   "key": "imageFile",
                   "type": "file",
-                  "uuid": "598e1ea7-218c-4d40-abf1-4e7faddd4227",
-                  "src": "/Users/jorge/Desktop/amount<=0.png"
+                  "uuid": "b2d08f67-3f78-4f9e-a538-1a223799c01f",
+                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-15 a las 21.13.57.png"
                 }
               ]
             },
@@ -332,19 +332,19 @@
                 {
                   "key": "imageFile",
                   "type": "file",
-                  "uuid": "56b50934-0338-44a4-b73f-29701f1c6a1e",
-                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-12 a las 20.21.31.png"
+                  "uuid": "d6b8c8bb-6e5e-4606-94dd-772436ce62cd",
+                  "src": "/Users/jorge/Desktop/amountle0.png"
                 }
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/images/23/media",
+              "raw": "{{baseUrl}}/images/24/media",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "images",
-                "23",
+                "24",
                 "media"
               ]
             }
@@ -422,7 +422,7 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/garments/23/images/23",
+              "raw": "{{baseUrl}}/garments/23/images/24",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -430,7 +430,38 @@
                 "garments",
                 "23",
                 "images",
-                "23"
+                "24"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE image (ejemplo fallo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "56b50934-0338-44a4-b73f-29701f1c6a1e",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23/images/24",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23",
+                "images",
+                "24"
               ]
             }
           },
@@ -438,6 +469,35 @@
         },
         {
           "name": "DELETE garment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "598e1ea7-218c-4d40-abf1-4e7faddd4227",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE garment (ejemplo fallo)",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -511,6 +571,34 @@
               "path": [
                 "orders",
                 "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET order (error dueño)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "10"
               ]
             }
           },
@@ -665,6 +753,36 @@
           "response": []
         },
         {
+          "name": "PUT order (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Verdadera 900\",\r\n    \"deliveryNote\": \"Súbemelo a casa porfa\",\r\n    \"deliveryDate\": \"2026-03-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "10"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "PUT order (ejemplo fallo de validación)",
           "request": {
             "auth": {
@@ -725,6 +843,36 @@
           "response": []
         },
         {
+          "name": "POST order",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deliveryAddress\": \"C/ Falsa 123\",\r\n    \"deliveryNote\": \"Dejar en portería\",\r\n    \"deliveryDate\": \"2026-03-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "GET orderPDF",
           "request": {
             "method": "GET",
@@ -761,13 +909,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/orders/1/invoice",
+              "raw": "{{baseUrl}}/orders/30/invoice",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "1",
+                "30",
                 "invoice"
               ]
             }
@@ -879,15 +1027,15 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{baseUrl}}/orders/9/orderItems/31",
+              "raw": "{{baseUrl}}/orders/1/orderItems/2",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "9",
+                "1",
                 "orderItems",
-                "31"
+                "2"
               ]
             }
           },
@@ -971,13 +1119,45 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/orders/1/orderItems/",
+              "raw": "{{baseUrl}}/orders/30/orderItems/",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "1",
+                "30",
+                "orderItems",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST orderItem (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n        \"id\": 8\r\n    },\r\n    \"quantity\": 3,\r\n    \"size\": \"M\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/10/orderItems/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "10",
                 "orderItems",
                 ""
               ]
@@ -1003,13 +1183,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/orders/1/orderItems/",
+              "raw": "{{baseUrl}}/orders/30/orderItems/",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "1",
+                "30",
                 "orderItems",
                 ""
               ]
@@ -1035,13 +1215,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/orders/1/orderItems/52",
+              "raw": "{{baseUrl}}/orders/30/orderItems/52",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "1",
+                "30",
                 "orderItems",
                 "52"
               ]
@@ -1067,7 +1247,39 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/orders/1/orderItems/52",
+              "raw": "{{baseUrl}}/orders/30/orderItems/52",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "30",
+                "orderItems",
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT orderItem (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n        \"id\": 8\r\n    },\r\n    \"quantity\": 100,\r\n    \"size\": \"XL\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/1/orderItems/2",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1075,7 +1287,39 @@
                 "orders",
                 "1",
                 "orderItems",
-                "52"
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT orderItem (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n        \"id\": 8\r\n    },\r\n    \"quantity\": 100,\r\n    \"size\": \"XL\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders/10/orderItems/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "10",
+                "orderItems",
+                "2"
               ]
             }
           },
@@ -1087,15 +1331,35 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/orders/1/orderItems/1",
+              "raw": "{{baseUrl}}/orders/30/orderItems/52",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders",
-                "1",
+                "30",
                 "orderItems",
-                "1"
+                "52"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE orderItem (ejemplo fallo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/10/orderItems/52",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "10",
+                "orderItems",
+                "52"
               ]
             }
           },
@@ -1352,6 +1616,35 @@
           "response": []
         },
         {
+          "name": "PUT opinion (ejemplo fallo)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"comment\": \"yvhbkkj\",\n    \"rating\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/garments/2/opinions/12",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "2",
+                "opinions",
+                "12"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "DELETE opinion",
           "request": {
             "method": "DELETE",
@@ -1366,6 +1659,46 @@
                 "1",
                 "opinions",
                 "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE opinion (ejemplo fallo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/2/opinions/12",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "2",
+                "opinions",
+                "12"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE opinion (ejemplo fallo) Copy",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/garments/2/opinions/50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "garments",
+                "2",
+                "opinions",
+                "50"
               ]
             }
           },
@@ -1400,6 +1733,45 @@
                 "statistics",
                 "users",
                 "1"
+              ],
+              "query": [
+                {
+                  "key": "period",
+                  "value": "month"
+                },
+                {
+                  "key": "number",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user month ticket (ejemplo fallo)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statistics/users/2?period=month&number=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "users",
+                "2"
               ],
               "query": [
                 {
@@ -1669,18 +2041,52 @@
                   "key": "imageFile",
                   "type": "file",
                   "uuid": "f348dd8c-92b5-4014-99e9-d0b694dad3af",
-                  "src": "/Users/jorge/Desktop/amount<=0.png"
+                  "src": "/Users/jorge/Desktop/amountle0.png"
                 }
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/users/18/images/",
+              "raw": "{{baseUrl}}/users/1/images/",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "users",
-                "18",
+                "1",
+                "images",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST user avatar (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "333b87cc-d207-4d71-a748-4ac456b6f4b0",
+                  "src": "/Users/jorge/Desktop/amountle0.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/2/images/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "2",
                 "images",
                 ""
               ]
@@ -1694,13 +2100,32 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/images/24/media",
+              "raw": "{{baseUrl}}/images/23/media",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "images",
-                "24",
+                "23",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET user avatar (ejemplo fallo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/23/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "23",
                 "media"
               ]
             }
@@ -1713,13 +2138,41 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/users/18",
+              "raw": "{{baseUrl}}/users/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "users",
-                "18"
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET me",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
               ]
             }
           },
@@ -1855,6 +2308,32 @@
           "response": []
         },
         {
+          "name": "GET user orders (ejemplo fallo)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"francisco\",\n    \"surname\":\"garcía\",\n    \"email\":\"francis@example.com\",\n    \"address\": \"C/Cortada, 33\",\n    \"encodedPassword\":\"password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/2/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "2",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "GET user cart",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
@@ -1913,7 +2392,7 @@
           "response": []
         },
         {
-          "name": "GET me",
+          "name": "GET user cart (ejemplo fallo)",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -1928,58 +2407,14 @@
               "raw": "{\r\n    \"garment\": {\r\n    },\r\n    \"quantity\": 0,\r\n    \"size\": \"\"\r\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/users/me",
+              "raw": "{{baseUrl}}/users/2/cart",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "users",
-                "me"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/users/1",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user avatar image",
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/1/images/23",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "1",
-                "images",
-                "23"
+                "2",
+                "cart"
               ]
             }
           },
@@ -1992,7 +2427,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": " {\n    \"name\":\"paquito\",\n    \"surname\":\"garcía\",\n    \"email\":\"francisco@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password\"\n}",
+              "raw": " {\n    \"name\":\"juanito\",\n    \"surname\":\"garcía\",\n    \"email\":\"juan@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2000,13 +2435,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/users/18",
+              "raw": "{{baseUrl}}/users/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "users",
-                "18"
+                "1"
               ]
             }
           },
@@ -2040,6 +2475,33 @@
           "response": []
         },
         {
+          "name": "PUT user (ejemplo fallo)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n    \"name\":\"juanito\",\n    \"surname\":\"garcía\",\n    \"email\":\"juan@example.com\",\n    \"address\": \"C/Abierta, 84\",\n    \"encodedPassword\":\"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "PUT user (ejemplo fallo de validación)",
           "request": {
             "method": "PUT",
@@ -2054,13 +2516,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/users/18",
+              "raw": "{{baseUrl}}/users/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "users",
-                "18"
+                "1"
               ]
             }
           },
@@ -2077,20 +2539,140 @@
                 {
                   "key": "imageFile",
                   "type": "file",
-                  "uuid": "e22e2ad0-c423-4503-8a82-87d2024d9e15",
-                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-16 a las 18.14.23.png"
+                  "uuid": "e593851a-0533-496a-8b3b-bc31b3edf39c",
+                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-15 a las 21.13.57.png"
                 }
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/images/24/media",
+              "raw": "{{baseUrl}}/images/23/media",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "images",
-                "24",
+                "23",
                 "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT user avatar (ejemplo fallo)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "e593851a-0533-496a-8b3b-bc31b3edf39c",
+                  "src": "/Users/jorge/Desktop/Captura de pantalla 2026-03-15 a las 21.13.57.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/23/media",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "23",
+                "media"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user (ejemplo fallo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user avatar image (ejemplo fallo)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/1/images/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1",
+                "images",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user avatar image",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/1/images/23",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1",
+                "images",
+                "23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
               ]
             }
           },
