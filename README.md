@@ -355,28 +355,21 @@ Adaptación y creación del código necesario para la edición por parte del adm
 
 #### **Alumno 4 - [Samuel Melián Benito]**
 
-Creación del primer esquema del modelo.
-
-En el frontend, gráficas dinámicas de ingresos y pedidos para la sección de estadísticas, también para la sección de perfil de usuario. 
-
-Migrado de los HTML a plantillas mustache. 
-
-Creación del fichero js para la funcionalidad de cargar más con AJAX.
-
-En el backend, implementación de toda la funcionalidad necesaria para cargar más de todas las entidades, filtros opcionales (y varios simultáneos) para la búsqueda de prendas y combinación del filtro con la funcionalidad de cargar más.
-
-Implementación de la mayoría de los controladores, tratando especialmente detalles como la lógica al deshabilitar una prenda o al deshabilitar un usuario, actualizando carritos con esa prenda.
-
-Control de acceso por dueño en todas las entidades que lo requieren.
-
+Mis principales responsabilidades han sido: 
+- Implementar correctamente los servicios y refactorizar parte del código para hacerlo más modular y así facilitar la programación de los controladores Rest
+- Desarrollo de los controladores rest para order y orderItem
+- Desarrrollo de los DTOs para la mayoría de entidades
+- Desarrollo del dockerfile, docker compose
+- Refactorización del código en lo que a gestión de imágenes se refiere, pasando de atributos de tipo Blob a entidades independientes
+- Grabación del vídeo y ejecución en máquina de la universidad por ssh
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Migrado de todas los html a plantillas de mustache](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/57636d5b3f1cf9e4de08bebce7c66a2b0420f9e9)  | [GarmentController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentController.java)   |
-|2| [Implementación de filtros (simultáneos y opcionales) para búsqueda de prendas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a83999bf44e438f1484439f162d7c782fcfbb6c1)  | [OrderController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderController.java)   |
-|3| [Gráficas dinámicas en la sección de estadísticas para ingresos y número de pedidos por distintos perdiodos de tiempo](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5c39397d683e8d5aa82c18b7692611808ebd5892)  | [OrderService.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/service/OrderService.java)   |
-|4| [Implementación de la funcionalidad cargar más para prendas con AJAX](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a8789fa836443f33e82473f23012def4a72c4b47)  | [User.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/model/User.java)   |
-|5| [Implementación de la funcionalidad de deshabilitar prenda (en sustitución de borrar, para que no se modifiquen los pedidos en los que aparecía). Implementación de la lógica y consultas para actualizar los carritos que contenían dicha prenda](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/f78b5ce418418af00f50194dd650e20c3307ffde)  | [Order.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blame/main/backend/src/main/java/es/dawgrupo2/zendashop/model/Order.java)   |
+|1| [Docker compose](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/37f9daad2f55d5d0fe271ce232a05c4823389392)  | [RestExceptionHandlerCA.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/RestExceptionHandlerCA.java)   |
+|2| [Gestión de errores y excepciones en la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/e3b37eedd047e321d26f8edc39e0295c41ae0833)  | [OrderRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderRestController.java)   |
+|3| [Implementación del controlador rest para pedidos](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/8dfd84552c807d7f1b84333c1154fe5065241321)  | [OrderItemRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderItemRestController.java)   |
+|4| [Creación de DTOs](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/575f3efe1938465f1b14b8545753404087d61873)  | [UserService.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/service/UserService.java)   |
+|5| [Refactorización de la gestión de imágenes](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5d927f3f1c5dcc9f858a3812bd0827d7420f76cc)  | [docker-compose.yml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/docker/docker-compose.yml)   |
 
 ---
 
