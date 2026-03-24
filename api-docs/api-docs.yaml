@@ -1,0 +1,1336 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: https://localhost:8443
+  description: Generated server url
+paths:
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+    put:
+      tags:
+      - user-rest-controller
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserExtendedDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+    delete:
+      tags:
+      - user-rest-controller
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+  /api/v1/users/me:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getCurrentUser
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+    put:
+      tags:
+      - user-rest-controller
+      operationId: updateCurrentUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserExtendedDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+  /api/v1/orders/{orderId}/orderItems/{id}:
+    get:
+      tags:
+      - order-item-rest-controller
+      operationId: getOrderItem
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderItemExtendedDTO"
+    put:
+      tags:
+      - order-item-rest-controller
+      operationId: replaceOrderItem
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItemBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderItemExtendedDTO"
+    delete:
+      tags:
+      - order-item-rest-controller
+      operationId: deleteOrderItem
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderItemExtendedDTO"
+  /api/v1/orders/{id}:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getOrder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+    put:
+      tags:
+      - order-rest-controller
+      operationId: replaceOrder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+    delete:
+      tags:
+      - order-rest-controller
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+  /api/v1/images/{id}/media:
+    get:
+      tags:
+      - image-rest-controller
+      operationId: getImageFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    put:
+      tags:
+      - image-rest-controller
+      operationId: replaceImageFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/garments/{id}:
+    get:
+      tags:
+      - garment-rest-controller
+      operationId: getGarment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GarmentExtendedDTO"
+    put:
+      tags:
+      - garment-rest-controller
+      operationId: replaceGarment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GarmentExtendedDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GarmentExtendedDTO"
+    delete:
+      tags:
+      - garment-rest-controller
+      operationId: deleteGarment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GarmentExtendedDTO"
+  /api/v1/garments/{garmentId}/opinions/{opinionId}:
+    get:
+      tags:
+      - opinion-rest-controller
+      operationId: getOpinion
+      parameters:
+      - name: opinionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: garmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OpinionExtendedDTO"
+    put:
+      tags:
+      - opinion-rest-controller
+      operationId: replaceOpinion
+      parameters:
+      - name: opinionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: garmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpinionBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OpinionExtendedDTO"
+    delete:
+      tags:
+      - opinion-rest-controller
+      operationId: deleteOpinion
+      parameters:
+      - name: opinionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: garmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OpinionExtendedDTO"
+  /api/v1/users/{id}/images/:
+    post:
+      tags:
+      - user-rest-controller
+      operationId: createUserImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+  /api/v1/users/:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUsers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelUserBasicDTO"
+    post:
+      tags:
+      - user-rest-controller
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserExtendedDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserExtendedDTO"
+  /api/v1/orders/{orderId}/orderItems/:
+    get:
+      tags:
+      - order-item-rest-controller
+      operationId: getOrderItems
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelOrderItemBasicDTO"
+    post:
+      tags:
+      - order-item-rest-controller
+      operationId: createOrderItem
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderItemBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderItemExtendedDTO"
+  /api/v1/orders/:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getOrders
+      parameters:
+      - name: completed
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelOrderBasicDTO"
+    post:
+      tags:
+      - order-rest-controller
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+  /api/v1/garments/{id}/images/:
+    post:
+      tags:
+      - garment-rest-controller
+      operationId: createGarmentImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+  /api/v1/garments/{garmentId}/opinions/:
+    get:
+      tags:
+      - opinion-rest-controller
+      operationId: getOpinions
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      - name: garmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelOpinionBasicDTO"
+    post:
+      tags:
+      - opinion-rest-controller
+      operationId: createOpinion
+      parameters:
+      - name: garmentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpinionBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OpinionExtendedDTO"
+  /api/v1/garments/:
+    get:
+      tags:
+      - garment-rest-controller
+      operationId: getGarments
+      parameters:
+      - name: nameSearch
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: categorySearch
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: minPrice
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: maxPrice
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelGarmentBasicDTO"
+    post:
+      tags:
+      - garment-rest-controller
+      operationId: createGarment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GarmentBasicDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GarmentExtendedDTO"
+  /api/v1/auth/refresh:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: refreshToken
+      parameters:
+      - name: RefreshToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/logout:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: logOut
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/login:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/users/{id}/orders:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUserOrders
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelOrderBasicDTO"
+  /api/v1/users/{id}/cart:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUserCart
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+  /api/v1/users/me/orders:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getCurrentUserOrders
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PagedModelOrderBasicDTO"
+  /api/v1/users/me/cart:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getCurrentUserCart
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderExtendedDTO"
+  /api/v1/statistics/users/{userid}:
+    get:
+      tags:
+      - statistic-rest-controller
+      operationId: getMeanTicket
+      parameters:
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: period
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: number
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: number
+                  format: double
+  /api/v1/statistics/orders:
+    get:
+      tags:
+      - statistic-rest-controller
+      operationId: getOrdersStatistics
+      parameters:
+      - name: period
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: number
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  /api/v1/statistics/labels:
+    get:
+      tags:
+      - statistic-rest-controller
+      operationId: getLabelsStatistics
+      parameters:
+      - name: period
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: number
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/v1/statistics/income:
+    get:
+      tags:
+      - statistic-rest-controller
+      operationId: getIncomeStatistics
+      parameters:
+      - name: period
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: number
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: number
+                  format: double
+  /api/v1/orders/{id}/invoice:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: generateInvoice
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: byte
+  /api/v1/images/{id}:
+    get:
+      tags:
+      - image-rest-controller
+      operationId: getImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+  /api/v1/garments/offers:
+    get:
+      tags:
+      - garment-rest-controller
+      operationId: getOffers
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GarmentBasicDTO"
+  /api/v1/users/{id}/images/{avatarId}:
+    delete:
+      tags:
+      - user-rest-controller
+      operationId: deleteUserImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: avatarId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+  /api/v1/garments/{id}/images/{imageId}:
+    delete:
+      tags:
+      - garment-rest-controller
+      operationId: deleteGarmentImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: imageId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+components:
+  schemas:
+    ImageDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    OrderBasicDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        totalPrice:
+          type: number
+        user:
+          $ref: "#/components/schemas/UserBasicDTO"
+        deliveryAddress:
+          type: string
+        deliveryNote:
+          type: string
+        deliveryDate:
+          type: string
+          format: date
+    UserBasicDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        avatar:
+          $ref: "#/components/schemas/ImageDTO"
+    UserExtendedDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        encodedPassword:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        cart:
+          $ref: "#/components/schemas/OrderBasicDTO"
+        avatar:
+          $ref: "#/components/schemas/ImageDTO"
+    GarmentBasicDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+        image:
+          $ref: "#/components/schemas/ImageDTO"
+        reference:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        features:
+          type: string
+    OrderItemBasicDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        garment:
+          $ref: "#/components/schemas/GarmentBasicDTO"
+        quantity:
+          type: integer
+          format: int32
+        size:
+          type: string
+    OrderItemExtendedDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        garment:
+          $ref: "#/components/schemas/GarmentBasicDTO"
+        quantity:
+          type: integer
+          format: int32
+        size:
+          type: string
+        order:
+          $ref: "#/components/schemas/OrderBasicDTO"
+    OrderExtendedDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        totalPrice:
+          type: number
+        shippingCost:
+          type: number
+        subtotal:
+          type: number
+        user:
+          $ref: "#/components/schemas/UserBasicDTO"
+        deliveryAddress:
+          type: string
+        deliveryDate:
+          type: string
+          format: date
+        deliveryNote:
+          type: string
+    GarmentExtendedDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+        image:
+          $ref: "#/components/schemas/ImageDTO"
+        reference:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        features:
+          type: string
+    OpinionBasicDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        comment:
+          type: string
+        rating:
+          type: integer
+          format: int32
+    OpinionExtendedDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        comment:
+          type: string
+        rating:
+          type: integer
+          format: int32
+        user:
+          $ref: "#/components/schemas/UserBasicDTO"
+        garment:
+          $ref: "#/components/schemas/GarmentBasicDTO"
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        message:
+          type: string
+        error:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          minimum: 0
+        size:
+          type: integer
+          format: int32
+          minimum: 1
+        sort:
+          type: array
+          items:
+            type: string
+    PageMetadata:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int64
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+    PagedModelOrderBasicDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderBasicDTO"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    PagedModelUserBasicDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserBasicDTO"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    PagedModelOrderItemBasicDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemBasicDTO"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    PagedModelOpinionBasicDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpinionBasicDTO"
+        page:
+          $ref: "#/components/schemas/PageMetadata"
+    PagedModelGarmentBasicDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/GarmentBasicDTO"
+        page:
+          $ref: "#/components/schemas/PageMetadata"

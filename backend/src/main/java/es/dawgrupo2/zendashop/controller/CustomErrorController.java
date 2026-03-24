@@ -39,7 +39,11 @@ public class CustomErrorController implements ErrorController {
             if (statusCode == 404) {
                 errorMessage = "La ruta no existe, te has perdido en el ciberespacio";
             } else if (statusCode == 401) {
-                errorMessage = "No estás autenticado. Inicia sesión para acceder";
+                if (originalUri.contains("/login")) {
+                    errorMessage = "Credenciales incorrectas. Revisa tu usuario y contraseña";
+                } else {
+                    errorMessage = "No estás autenticado. Inicia sesión para acceder";
+                }
             } else if (statusCode == 403) {
                 errorMessage = "No tienes permiso para acceder a este recurso";
             } else {

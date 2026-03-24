@@ -116,7 +116,7 @@ public class GarmentRestController {
 	public ResponseEntity<ImageDTO> createGarmentImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
 			throws IOException {
         
-        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
+        Garment garment = garmentService.findByIdAndAvailableTrue(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
 
 		if (garment.getImage() != null) {
 			throw new IllegalStateException("La prenda ya tiene una imagen asignada, no se pueden asignar dos imágenes a una misma prenda, edítala o elimínala para cambiarla");
@@ -151,14 +151,14 @@ public class GarmentRestController {
 
     @DeleteMapping("/{id}")
 	public GarmentExtendedDTO deleteGarment(@PathVariable long id) {
-        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
+        Garment garment = garmentService.findByIdAndAvailableTrue(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
 		return garmentExtendedMapper.toDTO(garmentService.disable(garment));
 	}
 
     @DeleteMapping("/{id}/images/{imageId}")
 	public ImageDTO deleteGarmentImage(@PathVariable long id, @PathVariable long imageId)
 			throws IOException {
-        Garment garment = garmentService.findById(id).orElseThrow(() -> new NoSuchElementException("Prenda no encontrada"));
+        Garment garment = garmentService.findByIdAndAvailableTrue(id).orElseThrow(() -> new NoSuchElementException("Prenda e imagen no encontradas"));
 		if (garment.getImage() == null || garment.getImage().getId() != imageId) {
 			throw new IllegalStateException("La imagen especificada no está asignada a esta prenda");
 		}        

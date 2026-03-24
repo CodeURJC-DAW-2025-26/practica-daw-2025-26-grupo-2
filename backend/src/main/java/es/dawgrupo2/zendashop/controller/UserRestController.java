@@ -109,7 +109,7 @@ public class UserRestController {
     @PostMapping("/{id}/images/")
 	public ResponseEntity<ImageDTO> createUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile, HttpServletRequest request) throws IOException {
         
-        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        User user = userService.findByIdAndDisabledFalse(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
             throw new AccessDeniedException("No tienes permiso para añadir una imagen a este usuario");
@@ -145,7 +145,7 @@ public class UserRestController {
     // Endpoint to obtain a user by id, only if the requester is an admin or the user itself
     @GetMapping("/{id}")
     public UserExtendedDTO getUserById(@PathVariable long id, HttpServletRequest request) {
-        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        User user = userService.findByIdAndDisabledFalse(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         if(!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
             throw new AccessDeniedException("No tienes permiso para acceder a este usuario");
@@ -158,7 +158,7 @@ public class UserRestController {
     @PutMapping("/{id}")
     public UserExtendedDTO updateUser(@PathVariable long id, @RequestBody UserExtendedDTO updateUserDTO, HttpServletRequest request) {
 
-        User originalUser = userService.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        User originalUser = userService.findByIdAndDisabledFalse(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         // only allow the user itself or an admin to edit the user
         if(!request.isUserInRole("ADMIN") && ! originalUser.getEmail().equals(request.getUserPrincipal().getName())) {
@@ -187,7 +187,7 @@ public class UserRestController {
     // Endpoint to delete a user, only if the requester is an admin or the user itself
     @DeleteMapping("/{id}")
     public UserExtendedDTO deleteUser(@PathVariable long id, HttpServletRequest request) {
-        User user = userService.findById(id)
+        User user = userService.findByIdAndDisabledFalse(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
@@ -200,14 +200,16 @@ public class UserRestController {
     @DeleteMapping("/{id}/images/{avatarId}")
 	public ImageDTO deleteUserImage(@PathVariable long id, @PathVariable long avatarId, HttpServletRequest request)
 			throws IOException {
-        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        User user = userService.findByIdAndDisabledFalse(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         if (!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
             throw new AccessDeniedException("No tienes permiso para eliminar la imagen de este usuario");
         }
-
-		if (user.getAvatar() == null || user.getAvatar().getId() != avatarId) {
-			throw new IllegalStateException("La imagen especificada no está asignada a este usuario");
+		if (user.getAvatar() == null) {
+			throw new IllegalStateException("El usuario no tiene imagen asignada");
+		}
+        if (user.getAvatar().getId() != avatarId) {
+			throw new IllegalStateException("La imagen especificada no coincide con la del usuario");
 		}
         ImageDTO image = imageMapper.toDTO(user.getAvatar());
 		user.setAvatar(null);
@@ -220,7 +222,7 @@ public class UserRestController {
     // Endpoint to obtain the cart of a user, only if the requester is an admin or the user itself
     @GetMapping("/{id}/cart")
     public OrderExtendedDTO getUserCart(@PathVariable long id, HttpServletRequest request) {
-        User user = userService.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        User user = userService.findByIdAndDisabledFalse(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
         if(!request.isUserInRole("ADMIN") && !user.getEmail().equals(request.getUserPrincipal().getName())) {
             throw new AccessDeniedException("No tienes permiso para ver el carrito de este usuario");

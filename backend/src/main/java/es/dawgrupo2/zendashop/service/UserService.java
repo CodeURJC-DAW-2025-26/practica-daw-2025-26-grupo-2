@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,10 @@ public class UserService {
 
 	public Optional<User> findById(long id) {
 		return repository.findById(id);
+	}
+
+	public Optional<User> findByIdAndDisabledFalse(long id) {
+		return repository.findByIdAndDisabledFalse(id);
 	}
 
 	public List<User> findById(List<Long> ids) {
@@ -77,8 +82,15 @@ public class UserService {
 	}
 
 	public User disableUser(long id) {
-		User originalUser = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		//User originalUser = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 		User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		User originalUser = new User();
+		BeanUtils.copyProperties(user, originalUser); //this is for returning the original user before the disabling
+		if (originalUser.getAvatar() != null) {
+			long imageId = user.getAvatar().getId();
+			user.setAvatar(null);
+			imageService.deleteImage(imageId);
+		}
 		if (user != null) {
 			user.setDisabled(true);
 			if (user.getCart() != null) {
@@ -88,6 +100,7 @@ public class UserService {
 			if (user.getOrders().size() > 0) {
 				String uuid = UUID.randomUUID().toString();
 				user.setName("Anonymous" + uuid);
+				user.setSurname("Anonymous" + uuid);
 				user.setEmail(uuid + "@anonymous.com");
 				user.setEncodedPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 				orderService.deleteCart(user.getCart());
@@ -95,10 +108,6 @@ public class UserService {
 			} else {
 				this.delete(id);
 			}
-		}
-		if (originalUser.getAvatar() != null) {
-			imageService.deleteImage(originalUser.getAvatar().getId());
-			user.setAvatar(null);
 		}
 		return originalUser;
 	}
@@ -178,6 +187,7 @@ public class UserService {
 				} else {
 					try {
 						Image avatar = imageService.createImage(imageField.getInputStream());
+						avatar.setAvatar(true);
 						user.setAvatar(avatar);
 					} catch (IOException e) {
 						throw new RuntimeException("Error al guardar la imagen", e);
@@ -199,6 +209,8 @@ public class UserService {
 
 	public void setImage(User user, Image image) {
 		user.setAvatar(image);
+		image.setAvatar(true);
+		imageService.saveImage(image);
 		this.save(user);
 	}
 }

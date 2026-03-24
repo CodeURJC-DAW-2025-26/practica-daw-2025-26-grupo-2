@@ -18,6 +18,8 @@ public class Image {
     @Lob
     private Blob imageFile;
 
+    private boolean avatar;
+
     public Image() {
     }
 
@@ -39,6 +41,14 @@ public class Image {
 
     public void setImageFile(Blob imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public boolean getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(boolean avatar){
+        this.avatar = avatar;
     }
 
     @Override

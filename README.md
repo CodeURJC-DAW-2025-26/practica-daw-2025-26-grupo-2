@@ -422,7 +422,7 @@ Parte del README
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](images/classes-diagramP2.png)
 
 ### **Instrucciones de Ejecución con Docker**
 
@@ -430,66 +430,73 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 - Docker instalado (versión 20.10 o superior)
 - Docker Compose instalado (versión 2.0 o superior)
 
-#### **Pasos para ejecutar con docker-compose:**
-
-1. **Clonar el repositorio** (si no lo has hecho ya):
-   ```bash
-   git clone https://github.com/[usuario]/[repositorio].git
-   cd [repositorio]
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**:
-
-### **Construcción de la Imagen Docker**
-
-#### **Requisitos:**
-- Docker instalado en el sistema
-
-#### **Pasos para construir y publicar la imagen:**
-
-1. **Navegar al directorio de Docker**:
-   ```bash
-   cd docker
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**
-
-### **Despliegue en Máquina Virtual**
-
-#### **Requisitos:**
-- Acceso a la máquina virtual (SSH)
-- Clave privada para autenticación
-- Conexión a la red correspondiente o VPN configurada
-
-#### **Pasos para desplegar:**
-
-1. **Conectar a la máquina virtual**:
-   ```bash
-   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
-   ```
-   
-   Ejemplo:
-   ```bash
-   ssh -i ssh-keys/app.key vmuser@10.100.139.XXX
-   ```
-
-2. **AQUÍ LOS SIGUIENTES PASOS**:
-
-### **URL de la Aplicación Desplegada**
-
-🌐 **URL de acceso**: `https://[nombre-app].etsii.urjc.es:8443`
+#### **Ejecución de la aplicación web**
+A. Primera vez (creación de la base de datos)
+Si es la primera vez que la arranca y necesita que se generen las tablas
+```bash
+DOCKERHUB_USER=samuelmelianbenito DDL_AUTO=create docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+```
+B. Uso habitual
+Una vez que ya hayas configurado la primera vez, para futuros arranques (donde ya existan tus datos) sólo necesitas ejecutar esto:
+```bash
+DOCKERHUB_USER=samuelmelianbenito docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+```
 
 #### **Credenciales de Usuarios de Ejemplo**
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
-| Administrador | admin | admin123 |
-| Usuario Registrado | user1 | user123 |
-| Usuario Registrado | user2 | user123 |
+| Administrador | maria@example.com | password456 |
+| Usuario Registrado | juan@example.com | password123 |
+| Usuario Registrado | carlos@example.com | password789 |
 
 ### **Participación de Miembros en la Práctica 2**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [Alejandro Lefebvre Valiente]**
+
+Mis principales responsabilidades y funcionalidades desarrolladas fueron:
+Configuración de la seguridad de la API rest, los JWK tockens, y el RestLoginController para los endpoints de authenticación.
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Incorporación de la nueva lógica de seguridad adaptada a la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/995c0e4c2534d3c1f2e39530d2a75ed6d52a38a6)  | [SecurityConfig](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/SecurityConfig.java)   |
+|2| [Controlador Rest del login para con la implementación de endpoints de autenticación](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/627b2173367b66c0ce5af5a296a80116062c706d)  | [RestLoginController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/auth/LoginRestController.java)   |
+|3| [Adaptación e inclusión de la seguridad de la web en la nueva seguridad de la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/93bd762aea3ad4871c53eebe3a55b1e0664f3ee5)  | [SecurityConfig](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/security/SecurityConfig.java)   |
+|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+
+---
+
+#### **Alumno 2 - [Jorge Padilla Rodríguez]**
+
+En esta práctica he llevado a cabo la implementación de la funcionalidad corresponiente a la entidad garment en la API REST, principalmente el desarrollo del GarmentRestController. Además, he implementado la tecnología de generación de facturas en pdf de un pedido. Posteriormente, me he encargado de realizar la comprobación y depuración de la totalidad del código y su funcionalidad, así como la generación de la colección postman durante el proceso, para su comprobación, corrigiendo distintos aspectos más o menos relevantes del código para la correcta implmentación final de la API REST. Se destaca también en este último punto la implementación del control por rol y dueño de imágenes, entre otros.
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Primera aproximación de la implementación del GarmentRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/7e180abd97a028f08c2828b3108f0927702e5d65)  | [GarmentRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentRestController.java)   |
+|2| [Implementación de la tecnología de generación de facturas en pdf](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/f5f221196731a6573bbe9c3af2c6fbd4eb029297)  | [OrderRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderRestController.java)   |
+|3| [Realización de la colección postman, tras un proceso de depuración simultáneo](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/b0a71df470166709c7d5492075b9197f32f35347)  | [api.postman_collection.json](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/api.postman_collection.json)   |
+|4| [Final de la implementación del GarmentRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/ea5422e2ab441e3a37e02652d92197348b8f33e3)  | [GarmentRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/GarmentRestController.java)   |
+|5| [Ejemplo de uno de los procesos de revisión en los que se implementa el control por rol y dueño de imágenes de usuario](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/9a61f9afa212bc19e04d0fc68314590b3c119d3d)  | [ImageRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/ImageRestController.java)   |
+
+---
+
+#### **Alumno 3 - [Víctor Navarro Santos]**
+
+Mis principales responsabilidades en esta práctica fueron:
+El desarrollo, seguridad, y optimización de la API REST de gestión de usuarios, además de la estructuración y generación de la documentación de endpoints (api-doc)
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Construcción de la base del Controlador Rest de usuarios](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/443ef9c771e375d4421b51c7b96d860ee3cc5c2d)  | [UserRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/UserRestController.java)   |
+|2| [Adición del endpoint de registro de usuarios y manejo de errores](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/cd78cf8655a09952addddbd20616a402ef69c7af)  | [Archivo2](URL_archivo_2)   |
+|3| [Conexión con la la lógica de negocio (pedidos)](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/aba41ce60bda675de6ba69b96ad9fa27293e3231)  | [pom.xml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/pom.xml)   |
+|4| [Generación del archivo .yaml para la documentación de OpenAPI](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/0ca2cf92db7c2a7af422e9abe8bb96e92d0ead09)  | [api-docs.yaml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/api-docs/api-docs.yaml)   |
+|5| [Generación del archivo .html para la documentación de OpenApi](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/76e97d4b7f9c203e916a744d6869182c9fec6617)  | [api-docs.html](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/api-docs/api-docs.html)   |
+
+---
+
+#### **Alumno 4 - [Samuel Melián Benito]**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -503,45 +510,21 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 5 - [Sara Guillén Martínez]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+- Las dependencia de MapStruct y creación de los mappers para las entidades de Prendas, Opiniones, Pedidos y Usuarios. 
+- La implementación de los controladores: StatisticRestController, OpinionRestController y ImageRestController. 
+- La implementación de validaciones 
+- La creación de la configuración de Docker.
 
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Implementación del ImageRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/77ba78d31059e855aab1bd41223bd9370130d52f)  | [ImageRestController](URL_archivhttps://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/ImageRestController.javao_1)   |
+|2| [Implementación de OpinionRestController y modificación OpionService ](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/330b46283869c536acc68b04b231d0477674e34d)  | [OpinionRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OpinionRestController.java)   |
+|3| [Implementación de StatisticRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/c24e72d09b0aed84810ac31a48127bebf287406a)  | [StatisticRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/StatisticRestController.java)   |
+|4| [Scripts de Docker para construir y publicar imágenes](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/0287735cd73e7af2f6a6216a3840a91f6171559c)  | [publish_docker-compose](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/docker/publish_docker-compose.sh)   |
+|5| [Algunos mappers](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/08463d3f0c8fb6f6d7e9218686ab0fdd0347366a)  | [OpinionBasicMapper](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/basicDTO/OpinionBasicMapper.java)   |
 
 ---
 

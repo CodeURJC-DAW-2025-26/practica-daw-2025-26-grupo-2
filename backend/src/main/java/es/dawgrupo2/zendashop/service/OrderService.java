@@ -406,6 +406,19 @@ public class OrderService {
 		return errorMsg;
 	}
 
+	public Order validateFieldsCompleteOrder(Order originalOrder, Order updatedOrder) {
+		if (updatedOrder.getDeliveryAddress() == null || updatedOrder.getDeliveryAddress().isEmpty()) {
+			updatedOrder.setDeliveryAddress(originalOrder.getDeliveryAddress());
+		}
+		if (updatedOrder.getDeliveryDate() == null || updatedOrder.getDeliveryDate().isBefore(LocalDate.now())) {
+			updatedOrder.setDeliveryDate(originalOrder.getDeliveryDate());
+		}
+		if (updatedOrder.getDeliveryNote() == null || updatedOrder.getDeliveryNote().isEmpty()) {
+			updatedOrder.setDeliveryNote(originalOrder.getDeliveryNote());
+		}
+		return updatedOrder;
+	}
+
 	public void newCart(OrderItem orderItem, User user) {
 		Order newOrder = new Order(false, null, null, null);
 		save(newOrder); // We need to save the order first to generate an ID for the relationship
