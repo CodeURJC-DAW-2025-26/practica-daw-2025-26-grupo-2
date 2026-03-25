@@ -430,19 +430,150 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 - Docker instalado (versión 20.10 o superior)
 - Docker Compose instalado (versión 2.0 o superior)
 
-#### **Ejecución de la aplicación web**
-A. Primera vez (creación de la base de datos)
-Si es la primera vez que la arranca y necesita que se generen las tablas
-```bash
-DOCKERHUB_USER=samuelmelianbenito DDL_AUTO=create docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
-```
-B. Uso habitual
-Una vez que ya hayas configurado la primera vez, para futuros arranques (donde ya existan tus datos) sólo necesitas ejecutar esto:
-```bash
-DOCKERHUB_USER=samuelmelianbenito docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
-```
+#### **Pasos para ejecutar con docker-compose:**
+
+1. **Clonar el repositorio** (si no lo has hecho ya):
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2.git
+   cd practica-daw-2025-26-grupo-2
+   ```
+
+2. **Navegar al directorio de Docker:**
+   ```bash
+   cd backend/docker
+   ```
+
+3. **Configurar las variables de entorno:**
+
+   Crear un fichero `.env` en el directorio `backend/docker` con el siguiente contenido (o exportar las variables):
+   ```env
+   DOCKERHUB_USER=samuelmelianbenito
+   DB_PASSWORD=password
+   DB_NAME=zenda
+   DDL_AUTO=create
+   ```
+   > En arranques posteriores, cambiar `DDL_AUTO=create` por `DDL_AUTO=none` para conservar los datos existentes.
+
+4. **Levantar los servicios:**
+   ```bash
+   docker compose up -d
+   ```
+
+   **Alternativa con artefacto OCI (sin clonar el repositorio):**
+   
+   A. Primera vez (creación de la base de datos):
+   ```bash
+   DOCKERHUB_USER=samuelmelianbenito DDL_AUTO=create docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+   ```
+   B. Uso habitual:
+   ```bash
+   DOCKERHUB_USER=samuelmelianbenito docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+   ```
+
+5. **Verificar que los contenedores están corriendo:**
+   ```bash
+   docker compose ps
+   ```
+
+6. **Abrir en navegador:**
+   - `https://localhost:8443`
+
+7. **Para detener los servicios:**
+   ```bash
+   docker compose down
+   ```
+   Si además se desea eliminar los datos persistidos de la base de datos:
+   ```bash
+   docker compose down -v
+   ```
+
+---
+
+### **Construcción de la Imagen Docker**
+
+#### **Requisitos:**
+- Docker instalado en el sistema
+
+#### **Pasos para construir y publicar la imagen:**
+
+1. **Navegar al directorio de Docker:**
+   ```bash
+   cd backend/docker
+   ```
+
+2. **Construir la imagen:**
+   ```bash
+   ./create_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ```
+
+3. **Iniciar sesión en Docker Hub:**
+   ```bash
+   docker login
+   ```
+
+4. **Publicar la imagen en Docker Hub:**
+   ```bash
+   ./publish_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ```
+
+5. **(Opcional) Publicar el docker-compose como artefacto OCI:**
+   ```bash
+   ./publish_docker-compose.sh tu_cuenta_de_dockerhub
+   ```
+   Esto permite ejecutar la aplicación en cualquier máquina con:
+   ```bash
+   docker compose -f oci://samuelmelianbenito/zendashop-compose:0.1.0 up
+   ```
+
+---
+
+### **Despliegue en Máquina Virtual**
+
+#### **Requisitos:**
+- Acceso a la máquina virtual (SSH)
+- Clave privada para autenticación
+- Conexión a la red de la URJC o VPN configurada
+
+#### **Pasos para desplegar:**
+
+1. **Conectar a la máquina virtual:**
+   ```bash
+   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
+   ```
+   Ejemplo:
+   ```bash
+   ssh -i ssh-keys/app.key vmuser@10.100.139.203
+   ```
+
+2. **Instalar Docker y Docker Compose** (si no están instalados):
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y docker.io docker-compose-v2
+   sudo usermod -aG docker $USER
+   ```
+
+3. **Levantar los servicios (habiendo subido el OCI Artifact)**
+  
+  A. Primera vez (creación de la base de datos):
+   ```bash
+   DOCKERHUB_USER=tu_cuenta_de_dockerhub DDL_AUTO=create docker compose -f oci://tu_cuenta_de_dockerhub/zendashop-compose:0.1.0 up
+   ```
+   B. Uso habitual:
+   ```bash
+   DOCKERHUB_USER=tu_cuenta_de_dockerhub docker compose -f oci://tu_cuenta_de_dockerhub/zendashop-compose:0.1.0 up
+   ```
+
+---
+
+### **URL de la Aplicación Desplegada**
+
+🌐 **URL de acceso:** `https://zendashop.etsii.urjc.es:8443`
+
+---
 
 #### **Credenciales de Usuarios de Ejemplo**
+
+> En el login se usa **email** como usuario.
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
