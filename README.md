@@ -405,7 +405,7 @@ Parte del README
 ## 🛠 **Práctica 2: Incorporación de una API REST a la aplicación web, despliegue con Docker y despliegue remoto**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=F1Mxxxl8jWo)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Documentación de la API REST**
@@ -629,15 +629,21 @@ El desarrollo, seguridad, y optimización de la API REST de gestión de usuarios
 
 #### **Alumno 4 - [Samuel Melián Benito]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Mis principales responsabilidades han sido: 
+- Implementar correctamente los servicios y refactorizar parte del código para hacerlo más modular y así facilitar la programación de los controladores Rest
+- Desarrollo de los controladores rest para order y orderItem
+- Desarrrollo de los DTOs para la mayoría de entidades
+- Desarrollo del dockerfile, docker compose
+- Refactorización del código en lo que a gestión de imágenes se refiere, pasando de atributos de tipo Blob a entidades independientes
+- Grabación del vídeo y ejecución en máquina de la universidad por ssh
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Docker compose](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/37f9daad2f55d5d0fe271ce232a05c4823389392)  | [RestExceptionHandlerCA.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/RestExceptionHandlerCA.java)   |
+|2| [Gestión de errores y excepciones en la API Rest](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/e3b37eedd047e321d26f8edc39e0295c41ae0833)  | [OrderRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderRestController.java)   |
+|3| [Implementación del controlador rest para pedidos](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/8dfd84552c807d7f1b84333c1154fe5065241321)  | [OrderItemRestController.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/OrderItemRestController.java)   |
+|4| [Creación de DTOs](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/575f3efe1938465f1b14b8545753404087d61873)  | [UserService.java](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/service/UserService.java)   |
+|5| [Refactorización de la gestión de imágenes](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5d927f3f1c5dcc9f858a3812bd0827d7420f76cc)  | [docker-compose.yml](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/docker/docker-compose.yml)   |
 
 ---
 
