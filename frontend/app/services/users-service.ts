@@ -18,24 +18,15 @@ export async function getUsers(
     return res.json();
 }
 
-// GET /api/v1/users/{id} → datos de un usuario por id
-export async function getUserById(id: number): Promise<UserExtendedDTO> {
+export async function getUser(id: number): Promise<UserExtendedDTO> {
     const res = await fetch(`${API_URL}/${id}`);
     if (!res.ok) {
-        throw new Error("Usuario no encontrado");
+        throw new Error("Qué buscabas? Usuario no encontrado");
     }
     return res.json();
 }
 
-export async function getCurrentUser(): Promise<UserExtendedDTO> {
-    const res = await fetch(`${API_URL}/me`);
-    if (!res.ok) {
-        throw new Error("No hay sesión iniciada");
-    }
-    return res.json();
-}
-
-export async function registerUser(
+export async function addUser(
     name: string,
     surname: string,
     email: string,
@@ -49,7 +40,7 @@ export async function registerUser(
     });
 
     if (!res.ok) {
-        throw new Error("Error al registrar el usuario");
+        throw new Error("Error al añadir el usuario");
     }
 
     return res.json();
@@ -76,33 +67,13 @@ export async function updateUser(
     return res.json();
 }
 
-export async function updateCurrentUser(
-    name: string,
-    surname: string,
-    email: string,
-    address: string,
-    encodedPassword: string
-): Promise<UserExtendedDTO> {
-    const res = await fetch(`${API_URL}/me`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, surname, email, address, encodedPassword }),
-    });
-
-    if (!res.ok) {
-        throw new Error("Error al actualizar el perfil");
-    }
-
-    return res.json();
-}
-
-export async function deleteUser(id: number): Promise<UserExtendedDTO> {
+export async function disableUser(id: number): Promise<UserExtendedDTO> {
     const res = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
     });
 
     if (!res.ok) {
-        throw new Error("Error al eliminar el usuario");
+        throw new Error("Error al deshabilitar el usuario");
     }
 
     return res.json();
@@ -153,45 +124,4 @@ export async function replaceUserImage(
     if (!res.ok) {
         throw new Error("Error al reemplazar el avatar del usuario");
     }
-}
-
-export async function getUserCart(id: number): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/${id}/cart`);
-    if (!res.ok) {
-        throw new Error("Error al obtener el carrito del usuario");
-    }
-    return res.json();
-}
-
-export async function getCurrentUserCart(): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/me/cart`);
-    if (!res.ok) {
-        throw new Error("Error al obtener el carrito");
-    }
-    return res.json();
-}
-
-export async function getUserOrders(
-    id: number,
-    page: number,
-    size: number
-): Promise<OrderBasicDTO[]> {
-    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    const res = await fetch(`${API_URL}/${id}/orders?${params.toString()}`);
-    if (!res.ok) {
-        throw new Error("Error al obtener los pedidos del usuario");
-    }
-    return res.json();
-}
-
-export async function getCurrentUserOrders(
-    page: number,
-    size: number
-): Promise<OrderBasicDTO[]> {
-    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    const res = await fetch(`${API_URL}/me/orders?${params.toString()}`);
-    if (!res.ok) {
-        throw new Error("Error al obtener tus pedidos");
-    }
-    return res.json();
 }

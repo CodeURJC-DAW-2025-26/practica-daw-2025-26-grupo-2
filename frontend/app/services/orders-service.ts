@@ -78,3 +78,16 @@ export async function updateOrder(
 
     return await res.json();
 }
+
+export async function getUserOrders(
+    userId: number,
+    page: number,
+    size: number
+): Promise<OrderBasicDTO[]> {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
+    const res = await fetch(`/api/v1/users/${userId}/orders?${params.toString()}`);
+    if (!res.ok) {
+        throw new Error("Error al obtener los pedidos del usuario");
+    }
+    return res.json();
+}

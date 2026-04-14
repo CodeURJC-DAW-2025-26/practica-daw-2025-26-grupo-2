@@ -15,6 +15,9 @@ export async function getGarments(
 ): Promise<GarmentBasicDTO[]> {
     const params = new URLSearchParams({nameSearch, categorySearch, minPrice: minPrice.toString(), maxPrice: maxPrice.toString(), page: page.toString(), size: size.toString(), sort});
     const res = await fetch(`${API_URL}?${params.toString()}`);
+    if (!res.ok) {
+        throw new Error("Error al obtener las prendas");
+    }
     return res.json();
 }
 
