@@ -4,7 +4,15 @@ import type GarmentExtendedDTO from "../dtos/GarmentExtendedDTO";
 const API_URL = "https://localhost:8443/api/v1/garments";
 const API_IMAGES_URL = "https://localhost:8443/api/v1/images";
 
-export async function getGarments(nameSearch : string, categorySearch: string, minPrice: number, maxPrice: number, sort: string, page: number, size: number): Promise<GarmentBasicDTO[]> {
+export async function getGarments(
+    nameSearch : string, 
+    categorySearch: string, 
+    minPrice: number, 
+    maxPrice: number, 
+    sort: string, 
+    page: number, 
+    size: number
+): Promise<GarmentBasicDTO[]> {
     const params = new URLSearchParams({nameSearch, categorySearch, minPrice: minPrice.toString(), maxPrice: maxPrice.toString(), page: page.toString(), size: size.toString(), sort});
     const res = await fetch(`${API_URL}?${params.toString()}`);
     return res.json();
