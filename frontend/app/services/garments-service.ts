@@ -18,6 +18,7 @@ export async function getGarments(
     return res.json();
 }
 
+
 export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
     const res = await fetch(`${API_URL}/${id}`);
     if (!res.ok) {
@@ -25,6 +26,7 @@ export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
     }
     return res.json();
 }
+
 
 export async function addGarment(
     name: string,
@@ -52,6 +54,7 @@ export async function addGarment(
     return await res.json();
 }
 
+
 export async function disableGarment(id: number): Promise<void> {
     const res = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
@@ -61,6 +64,7 @@ export async function disableGarment(id: number): Promise<void> {
         throw new Error("Error al deshabilitar la prenda");
     }
 }
+
 
 export async function updateGarment(
     id: number,
@@ -89,6 +93,7 @@ export async function updateGarment(
     return await res.json();
 }
 
+
 export async function uploadGarmentImage(
     id: number, imageFile: File
 ): Promise<void> {
@@ -105,6 +110,7 @@ export async function uploadGarmentImage(
     }
 }
 
+
 export async function deleteGarmentImage(
     garmentId: number, imageId: number
 ): Promise<void> {
@@ -116,6 +122,7 @@ export async function deleteGarmentImage(
         throw new Error("Error al eliminar la imagen de la prenda");
     }
 }
+
 
 export async function replaceGarmentImage(
     imageId: number, 
