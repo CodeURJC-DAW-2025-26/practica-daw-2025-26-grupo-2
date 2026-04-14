@@ -1,8 +1,8 @@
 import type GarmentBasicDTO from "../dtos/GarmentBasicDTO";
 import type GarmentExtendedDTO from "../dtos/GarmentExtendedDTO";
 
-const API_URL = "https://localhost:8443/api/v1/garments";
-const API_IMAGES_URL = "https://localhost:8443/api/v1/images";
+const API_URL = "/api/v1/garments";
+const API_IMAGES_URL = "/api/v1/images";
 
 export async function getGarments(
     nameSearch : string, 
