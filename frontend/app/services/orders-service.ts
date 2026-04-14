@@ -5,7 +5,7 @@ const API_URL = "/api/v1/orders";
 
 export async function getOrders(page: number): Promise<OrderBasicDTO[]> {
     const params = new URLSearchParams({ page: page.toString() });
-    // Implement pagination
+    // TODO: Implement pagination
     const res = await fetch(`${API_URL}?${params.toString()}`);
     return res.json();
 }
