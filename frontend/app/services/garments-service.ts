@@ -18,7 +18,7 @@ export async function getGarments(
     if (!res.ok) {
         throw new Error("Error al obtener las prendas");
     }
-    return res.json();
+    return await res.json();
 }
 
 
@@ -27,7 +27,7 @@ export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
     if (!res.ok) {
         throw new Error("Qué buscabas? Prenda no encontrada");
     }
-    return res.json();
+    return await res.json();
 }
 
 

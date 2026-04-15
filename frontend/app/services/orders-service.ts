@@ -3,11 +3,11 @@ import type OrderExtendedDTO from "../dtos/OrderExtendedDTO";
 
 const API_URL = "/api/v1/orders";
 
-export async function getOrders(page: number): Promise<OrderBasicDTO[]> {
-    const params = new URLSearchParams({ page: page.toString() });
+export async function getOrders(page: number, size: number): Promise<OrderBasicDTO[]> {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     // TODO: Implement pagination
     const res = await fetch(`${API_URL}?${params.toString()}`);
-    return res.json();
+    return await res.json();
 }
 
 
@@ -16,7 +16,7 @@ export async function getOrder(id: number): Promise<OrderExtendedDTO> {
     if (!res.ok) {
         throw new Error("Qué buscabas? Pedido no encontrado");
     }
-    return res.json();
+    return await res.json();
 }
 
 
@@ -89,5 +89,5 @@ export async function getUserOrders(
     if (!res.ok) {
         throw new Error("Error al obtener los pedidos del usuario");
     }
-    return res.json();
+    return await res.json();
 }
