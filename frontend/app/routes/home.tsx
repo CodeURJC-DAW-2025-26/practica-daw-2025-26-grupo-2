@@ -1,16 +1,24 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 import { Outlet, useNavigate, useNavigation } from "react-router";
+import { useEffect } from "react";
 import Header from "~/components/header";
 import Footer from "~/components/footer";
 import type { Route } from "./+types/home";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import { useUserStore } from "~/stores/garment-store";
 
 export default function Home() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
+  const { garments, loadGarments } = useUserStore();
+
+  useEffect(() => { loadGarments({ 
+            nameSearch: "", categorySearch: "", minPrice: 0, 
+            maxPrice: 1000, sort: "id", page: 0, size: 10 
+        }) }, []);
 
   return (
     <>
