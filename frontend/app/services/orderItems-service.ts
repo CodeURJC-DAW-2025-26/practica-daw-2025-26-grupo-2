@@ -1,8 +1,6 @@
 import type OrderItemBasicDTO from "../dtos/OrderItemBasicDTO";
 import type OrderItemExtendedDTO from "../dtos/OrderItemExtendedDTO";
 
-// El controller tiene @RequestMapping("/api/v1/orders/{orderId}/orderItems")
-// orderId es @PathVariable → va siempre dentro de la ruta, no como ?param
 const API_URL = "/api/v1/orders";
 
 export async function getOrderItems(
@@ -50,8 +48,6 @@ export async function addOrderItem(
     return await res.json();
 }
 
-// DELETE /api/v1/orders/{orderId}/orderItems/{id}
-// orderId e id → @PathVariable → van en la ruta
 export async function disableOrderItem(orderId: number, id: number): Promise<void> {
     const res = await fetch(`${API_URL}/${orderId}/orderItems/${id}`, {
         method: "DELETE",

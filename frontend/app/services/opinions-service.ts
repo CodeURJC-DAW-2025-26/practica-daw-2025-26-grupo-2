@@ -1,8 +1,7 @@
 import type OpinionBasicDTO from "../dtos/OpinionBasicDTO";
 import type OpinionExtendedDTO from "../dtos/OpinionExtendedDTO";
 
-// El controller tiene @RequestMapping("/api/v1/garments/{garmentId}/opinions")
-// garmentId es @PathVariable → va siempre dentro de la ruta, no como ?param
+
 const API_URL = "/api/v1/garments";
 
 export async function getOpinions(
@@ -18,8 +17,6 @@ export async function getOpinions(
     return await res.json();
 }
 
-// GET /api/v1/garments/{garmentId}/opinions/{opinionId}
-// garmentId y opinionId → @PathVariable → van en la ruta
 export async function getOpinion(garmentId: number, opinionId: number): Promise<OpinionExtendedDTO> {
     const res = await fetch(`${API_URL}/${garmentId}/opinions/${opinionId}`);
     if (!res.ok) {
@@ -50,8 +47,7 @@ export async function addOpinion(
     return await res.json();
 }
 
-// DELETE /api/v1/garments/{garmentId}/opinions/{opinionId}
-// garmentId y opinionId → @PathVariable → van en la ruta
+
 export async function deleteOpinion(garmentId: number, opinionId: number): Promise<void> {
     const res = await fetch(`${API_URL}/${garmentId}/opinions/${opinionId}`, {
         method: "DELETE",
@@ -67,7 +63,7 @@ export async function updateOpinion(
     garmentId: number,
     opinionId: number,
     comment: string,
-    rating: number,   // ← era string, tiene que ser number (el DTO tiene rating: number)
+    rating: number,
 ): Promise<OpinionExtendedDTO> {
     const res = await fetch(`${API_URL}/${garmentId}/opinions/${opinionId}`, {
         method: "PUT",
