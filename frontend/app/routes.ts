@@ -16,7 +16,6 @@ export default [
     route("cart", "routes/cart.tsx"),
 
     route("users", "routes/user-list.tsx"),
-    route("users/new", "routes/user-new.tsx"),
     route("users/:id", "routes/user-detail.tsx"),
     route("users/:id/edit", "routes/user-edit.tsx"),
   ]),
