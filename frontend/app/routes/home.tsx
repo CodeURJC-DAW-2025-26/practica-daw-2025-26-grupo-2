@@ -1,19 +1,52 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./home.css";
+import { Outlet, useNavigate, useNavigation } from "react-router";
+import Header from "~/components/header";
+import Footer from "~/components/footer";
 import type { Route } from "./+types/home";
+import Container from "react-bootstrap/Container";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 
-export function loader() {
-  return { name: "React Router" };
+export default function Home() {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
+
+  return (
+    <>
+      {isLoading && (
+        <div className="page-spinner-overlay">
+          <div className="dot-spinner" />
+        </div>
+      )}
+
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  );
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const navigate = useNavigate();
+
+  let errorMessage =
+    error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+
   return (
-    <div className="text-center p-4">
-      <h1 className="text-2xl">Hello, {loaderData.name}</h1>
-      <a
-        className="block mt-2 text-blue-500 underline hover:text-blue-600"
-        href="https://reactrouter.com/docs"
-      >
-        React Router Docs
-      </a>
-    </div>
+    <>
+      <Header />
+      <Container className="mt-4">
+        <Alert variant="danger">
+          <Alert.Heading>Error</Alert.Heading>
+          <p>{errorMessage}</p>
+          <Button variant="outline-danger" onClick={() => navigate("/")}>
+            Volver al inicio
+          </Button>
+        </Alert>
+      </Container>
+      <Footer />
+
+    </>
   );
 }
