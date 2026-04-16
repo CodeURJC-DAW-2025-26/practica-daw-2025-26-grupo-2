@@ -4,7 +4,7 @@ export default interface GarmentBasicDTO {
   id: number;
   name: string;
   price: number;
-  image: ImageDTO;
+  image: ImageDTO | null;
   reference: string;
   category: string;
   description: string;
