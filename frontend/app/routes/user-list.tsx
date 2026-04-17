@@ -56,7 +56,6 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
   return (
     <Container className="container-main mt-5 mb-5">
 
-      {/* Cabecera con título y botón de añadir */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Gestión de Usuarios</h2>
         <Link to="/users/new" className="btn btn-success">
@@ -64,7 +63,6 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
         </Link>
       </div>
 
-      {/* Tabla de usuarios */}
       <div className="table-responsive">
         <Table bordered striped className="align-middle">
           <thead className="table-light">
