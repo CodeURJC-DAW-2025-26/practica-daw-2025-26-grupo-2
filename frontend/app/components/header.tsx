@@ -1,5 +1,5 @@
 import "./header.css";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -10,6 +10,7 @@ export default function Header() {
   const { user, logoutUser } = useUserStore();
   const isAdmin = user?.roles?.includes("ADMIN") ?? false;
   const navigate = useNavigate();
+  const location = useLocation();
 
   async function handleLogout() {
     await logoutUser();
@@ -52,7 +53,7 @@ export default function Header() {
                   <NavDropdown.Item as={Link as any} to={`/users/${user.id}`} className="nav-link-header">
                     <i className="bi bi-person me-2" />Gestionar perfil
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link as any} to="/myorders" className="nav-link-header">
+                  <NavDropdown.Item as={Link as any} to={`/orders?userId=${user.id}`} className="nav-link-header">
                     <i className="bi bi-bag-check me-2" />Mis pedidos
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
@@ -69,7 +70,7 @@ export default function Header() {
                 <Nav.Link as={Link as any} to="/register" className="nav-link-header">
                   <i className="bi bi-person" /> Registrarse
                 </Nav.Link>
-                <Nav.Link as={Link as any} to="/login" className="nav-link-header">
+                <Nav.Link as={Link as any} to="/login" state={{ from: location.pathname + location.search }} className="nav-link-header">
                   <i className="bi bi-box-arrow-in-right" /> Iniciar sesión
                 </Nav.Link>
               </>

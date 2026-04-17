@@ -15,7 +15,8 @@ export async function getUsers(
     if (!res.ok) {
         throw new Error("Error al obtener los usuarios");
     }
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.content ?? [];
 }
 
 export async function getUser(id: number): Promise<UserExtendedDTO> {
