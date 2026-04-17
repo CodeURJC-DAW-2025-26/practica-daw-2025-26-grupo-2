@@ -1,6 +1,6 @@
 import "./order-list.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/order-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getOrders, getUserOrders, deleteOrder } from "~/services/orders-service";
@@ -12,7 +12,21 @@ const PAGE_SIZE = 10;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
+  // We can't use the hook here, so we directly access the store's state and methods
+  // TODO: Ask about a better way to handle this, maybe with a custom hook that can be used in loaders?
+  await useUserStore.getState().loadLoggedUser();
+  const { user } = useUserStore.getState();
+  
+  if (!user) {
+    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
+  }
+
+  const isAdmin = user.roles?.includes("ADMIN") ?? false;
   const userId = url.searchParams.get("userId");
+
+  if (!isAdmin) {
+    // Redirect to unauthorized error page
+  }
 
   if (userId) {
     const orders = await getUserOrders(Number(userId), 0, PAGE_SIZE);
@@ -24,14 +38,6 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 }
 
 export default function OrdersList({ loaderData }: Route.ComponentProps) {
-  let { user, loadLoggedUser } = useUserStore();
-
-  useEffect(() => {
-    loadLoggedUser();
-  }, []);
-
-  const isAdmin = user?.roles?.includes("ADMIN") ?? false;
-  const navigate = useNavigate();
 
   const [orders, setOrders] = useState<OrderBasicDTO[]>(loaderData.orders);
   const [hasMore, setHasMore] = useState(loaderData.hasMore);
@@ -40,6 +46,7 @@ export default function OrdersList({ loaderData }: Route.ComponentProps) {
 
   const userId = loaderData.userId;
   const isUserOrders = userId !== null;
+  const isAdmin = !isUserOrders;
   const titulo = isUserOrders ? "Mis Pedidos" : "Gestión de Pedidos";
 
   async function handleLoadMore() {
