@@ -1,0 +1,15 @@
+.order-list-table thead th {
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.order-list-table tbody tr:hover {
+  background-color: var(--surface-2);
+}
+
+.load-more-btn {
+  min-width: 160px;
+}
