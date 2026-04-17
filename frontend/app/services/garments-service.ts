@@ -18,7 +18,8 @@ export async function getGarments(
     if (!res.ok) {
         throw new Error("Error al obtener las prendas");
     }
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.content ?? [];
 }
 
 

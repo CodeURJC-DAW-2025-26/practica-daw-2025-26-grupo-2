@@ -13,7 +13,8 @@ export async function getOrderItems(
     if (!res.ok) {
         throw new Error("Error al obtener los elementos del pedido");
     }
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.content ?? [];
 }
 
 export async function getOrderItem(orderId: number, id: number): Promise<OrderItemExtendedDTO> {

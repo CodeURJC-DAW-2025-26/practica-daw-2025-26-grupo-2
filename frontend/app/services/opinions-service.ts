@@ -14,7 +14,8 @@ export async function getOpinions(
     if (!res.ok) {
         throw new Error("Error al obtener las opiniones");
     }
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.content ?? [];
 }
 
 export async function getOpinion(garmentId: number, opinionId: number): Promise<OpinionExtendedDTO> {
