@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, redirect } from "react-router";
 import type { Route } from "./+types/user-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
-import { getUsers, deleteUser } from "~/services/users-service";
+import { getUsers, disableUser } from "~/services/users-service";
 import UserCard from "~/components/user-card";
 import { useUserStore } from "~/stores/user-store";
 import type UserBasicDTO from "~/dtos/UserBasicDTO";
@@ -49,7 +49,7 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
   }
 
   async function handleDelete(id: number) {
-    await deleteUser(id);
+    await disableUser(id);
     setUsers(users.filter((u) => u.id !== id)); 
   }
 
@@ -98,7 +98,6 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
         </Table>
       </div>
 
-      {/* Botón "Cargar más": solo se muestra si hasMore es true */}
       {hasMore && (
         <div className="text-center mt-4">
           <Button
