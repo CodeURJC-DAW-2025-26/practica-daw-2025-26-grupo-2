@@ -4,7 +4,6 @@ import type { Route } from "./+types/order-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getOrders, getUserOrders, deleteOrder } from "~/services/orders-service";
 import OrderCard from "~/components/order-card";
-import { useUserStore } from "~/stores/user-store";
 import { requireAuth, requireRole } from "~/services/auth-service";
 import type OrderBasicDTO from "~/dtos/OrderBasicDTO";
 
@@ -17,7 +16,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   // TODO: Ask about the way to handle navigation back when not authorized or authenticated
 
   requireAuth();
-  
+
   requireRole("ADMIN");
 
   const userId = url.searchParams.get("userId");
