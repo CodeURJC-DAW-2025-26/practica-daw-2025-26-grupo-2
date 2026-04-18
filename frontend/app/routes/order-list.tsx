@@ -1,11 +1,11 @@
 import "./order-list.css";
-import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router";
+import { useState } from "react";
 import type { Route } from "./+types/order-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getOrders, getUserOrders, deleteOrder } from "~/services/orders-service";
 import OrderCard from "~/components/order-card";
 import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireRole } from "~/services/auth-service";
 import type OrderBasicDTO from "~/dtos/OrderBasicDTO";
 
 const PAGE_SIZE = 10;
@@ -14,19 +14,13 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   // We can't use the hook here, so we directly access the store's state and methods
   // TODO: Ask about a better way to handle this, maybe with a custom hook that can be used in loaders?
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
+  // TODO: Ask about the way to handle navigation back when not authorized or authenticated
+
+  requireAuth();
   
-  if (!user) {
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
-  }
+  requireRole("ADMIN");
 
-  const isAdmin = user.roles?.includes("ADMIN") ?? false;
   const userId = url.searchParams.get("userId");
-
-  if (!isAdmin) {
-    // Redirect to unauthorized error page
-  }
 
   if (userId) {
     const orders = await getUserOrders(Number(userId), 0, PAGE_SIZE);
