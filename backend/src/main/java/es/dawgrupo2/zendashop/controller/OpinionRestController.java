@@ -56,10 +56,10 @@ public class OpinionRestController {
 	private OpinionExtendedMapper opinionExtendedMapper;
 
 	@GetMapping("/")
-	public Page<OpinionBasicDTO> getOpinions(@PageableDefault(size = 10) Pageable pageable,
+	public Page<OpinionExtendedDTO> getOpinions(@PageableDefault(size = 10) Pageable pageable,
 			@PathVariable long garmentId) {
 
-		return opinionService.findByGarmentId(garmentId, pageable).map(opinionBasicMapper::toDTO);
+		return opinionService.findByGarmentId(garmentId, pageable).map(opinionExtendedMapper::toDTO);
 
 	}
 

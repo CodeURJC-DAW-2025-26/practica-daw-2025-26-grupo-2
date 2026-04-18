@@ -13,8 +13,8 @@ export async function getGarments(
     page: number, 
     size: number
 ): Promise<GarmentBasicDTO[]> {
-    const params = new URLSearchParams({nameSearch, categorySearch, minPrice: minPrice.toString(), maxPrice: maxPrice.toString(), page: page.toString(), size: size.toString(), sort});
-    const res = await fetch(`${API_URL}?${params.toString()}`);
+    const params = new URLSearchParams({nameSearch, categorySearch, minPrice: minPrice.toString(), maxPrice: maxPrice.toString(), sort, page: page.toString(), size: size.toString()});
+    const res = await fetch(`${API_URL}/?${params.toString()}`);
     if (!res.ok) {
         throw new Error("Error al obtener las prendas");
     }
@@ -22,6 +22,13 @@ export async function getGarments(
     return Array.isArray(data) ? data : data.content ?? [];
 }
 
+export async function getOffers(): Promise<GarmentBasicDTO[]> {
+    const res = await fetch(`${API_URL}/offers`);
+    if (!res.ok) {
+        throw new Error("Error al obtener las recomendaciones personalizadas");
+    }
+    return await res.json();
+}
 
 export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
     const res = await fetch(`${API_URL}/${id}`);
