@@ -12,7 +12,6 @@ const PAGE_SIZE = 10;
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   // We can't use the hook here, so we directly access the store's state and methods
-  // TODO: Ask about a better way to handle this, maybe with a custom hook that can be used in loaders?
   // TODO: Ask about the way to handle navigation back when not authorized or authenticated
 
   requireAuth();
