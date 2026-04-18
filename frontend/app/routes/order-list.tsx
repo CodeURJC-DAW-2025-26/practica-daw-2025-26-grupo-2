@@ -91,7 +91,6 @@ export default function OrdersList({ loaderData }: Route.ComponentProps) {
                 </td>
               </tr>
             ) : (
-                console.log(orders),
               orders.map((order: OrderBasicDTO) => (
                 <OrderCard
                   key={order.id}
