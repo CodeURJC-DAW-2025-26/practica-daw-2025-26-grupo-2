@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import type { Route } from "./+types/home";
-import { getGarments } from "~/services/garments-service";
+import { getGarments, getOffers } from "~/services/garments-service";
 import { useUserStore } from "~/stores/user-store";
 import type GarmentBasicDTO from "~/dtos/GarmentBasicDTO";
 import GarmentCard from "~/components/garment-card";
@@ -11,6 +11,7 @@ const PAGE_SIZE = 10;
 
 interface GarmentLoaderData {
     garments: GarmentBasicDTO[];
+    offers: GarmentBasicDTO[];
     userId: number | null;
     isAdmin: boolean;
     hasMore: boolean;
@@ -25,7 +26,8 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     const { user } = useUserStore.getState();
 
     const isAdmin = user?.roles?.includes("ADMIN") ?? false;
-    const userId = searchParams.get("userId");
+    const isUser = !!user;
+    const userId = user?.id ?? null;
 
     const garments = await getGarments(
                 searchParams.get("nameSearch") || "",
@@ -36,10 +38,11 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
                 0, PAGE_SIZE
             );
 
-    if (isAdmin) { 
-        return { garments, userId: Number(userId), isAdmin: true, hasMore: garments.length === PAGE_SIZE };
+    if (isUser) { 
+        const offers = await getOffers();
+        return { garments, offers, userId, isAdmin, hasMore: garments.length === PAGE_SIZE };
     }
-    return { garments, userId: null, isAdmin: false, hasMore: garments.length === PAGE_SIZE };
+    return { garments, offers: [], userId: null, isAdmin, hasMore: garments.length === PAGE_SIZE };
 }
 
 export default function GarmentList({ loaderData }: Route.ComponentProps) {
@@ -53,6 +56,7 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
     const [showFilters, setShowFilters] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const offers = data.offers;
     const userId = data.userId;
     const isUser = userId !== null;
     const isAdmin = data.isAdmin;
@@ -101,7 +105,7 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            {/* RECOMMENDATIONS for loading users */}
+            {/* RECOMMENDATIONS for loaded users */}
             {isUser && (
                 <section className="offers-section py-5">
                 <div className="container container-main-offers">
@@ -111,10 +115,9 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
                     <hr className="flex-grow-1 d-none d-sm-block border-2" />
                     </div>
                     <div className="row" id="offers-list">
-                    {/* Aquí habría que llamar a la funcionalidad que ofrece ofertas personalizadas*/}
-                    {garments.slice(0, 3).map((garment) => (
-                        <div key={`offer-${garment.id}`} className="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
-                        <GarmentCard garment={garment} />
+                    {offers.map((offer) => (
+                        <div key={`offer-${offer.id}`} className="col-xs-12 col-sm-6 col-md-4 col-lg-3 garment-item">
+                        <GarmentCard garment={offer} />
                         </div>
                     ))}
                     </div>

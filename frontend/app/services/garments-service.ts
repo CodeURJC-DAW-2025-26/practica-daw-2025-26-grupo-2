@@ -22,6 +22,13 @@ export async function getGarments(
     return Array.isArray(data) ? data : data.content ?? [];
 }
 
+export async function getOffers(): Promise<GarmentBasicDTO[]> {
+    const res = await fetch(`${API_URL}/offers`);
+    if (!res.ok) {
+        throw new Error("Error al obtener las recomendaciones personalizadas");
+    }
+    return await res.json();
+}
 
 export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
     const res = await fetch(`${API_URL}/${id}`);
