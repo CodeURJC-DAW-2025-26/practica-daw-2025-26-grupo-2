@@ -1,4 +1,3 @@
-import type OpinionBasicDTO from "../dtos/OpinionBasicDTO";
 import type OpinionExtendedDTO from "../dtos/OpinionExtendedDTO";
 
 
@@ -8,7 +7,7 @@ export async function getOpinions(
     garmentId: number,
     page: number,
     size: number
-): Promise<OpinionBasicDTO[]> {
+): Promise<OpinionExtendedDTO[]> {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     const res = await fetch(`${API_URL}/${garmentId}/opinions/?${params.toString()}`);
     if (!res.ok) {
