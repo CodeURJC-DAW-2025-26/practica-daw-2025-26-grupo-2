@@ -13,6 +13,10 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import type { Route } from "./+types/root";
 import "./app.css";
 
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
