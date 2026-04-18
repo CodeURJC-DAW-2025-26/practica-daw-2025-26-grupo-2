@@ -48,12 +48,21 @@ public class ImageRestController {
     @GetMapping("/{id}/media")
     public ResponseEntity<Object> getImageFile(@PathVariable long id, HttpServletRequest request)
             throws SQLException, IOException {
-        User user = userService.findByEmail(request.getUserPrincipal().getName()).orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
         Image image = imageService.getImage(id);
 
-        if (image.getAvatar() && !request.isUserInRole("ADMIN")) {
-            if (user.getAvatar() == null || !user.getAvatar().getId().equals(id)) {
-                throw new AccessDeniedException("No puedes acceder a la información de otro usuario");
+        if (image.getAvatar()) {
+            if (request.getUserPrincipal() == null) {
+                throw new AccessDeniedException("Debes estar logueado para ver avatares");
+            }
+
+            // If someone is logged, we check who is the user
+            User user = userService.findByEmail(request.getUserPrincipal().getName())
+                    .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+
+            if (!request.isUserInRole("ADMIN")) {
+                if (user.getAvatar() == null || !user.getAvatar().getId().equals(id)) {
+                    throw new AccessDeniedException("No puedes acceder al avatar de otro usuario");
+                }
             }
         }
 
