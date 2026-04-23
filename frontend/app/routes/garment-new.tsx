@@ -1,10 +1,18 @@
 import { useActionState, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import type { Route } from "./+types/garment-new";
 import GarmentForm from "~/components/garment-form";
+import { requireAuth, requireRole } from "~/services/auth-service";
 import { 
     addGarment,
     uploadGarmentImage 
 } from "~/services/garments-service";
+
+export async function clientLoader({}: Route.ClientLoaderArgs) {
+    requireAuth();
+    requireRole("ADMIN");
+    return null;
+}
 
 export default function GarmentNew() {
     const navigate = useNavigate();

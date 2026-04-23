@@ -2,6 +2,7 @@ import { useActionState, useState, useEffect} from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/garment-edit";
 import GarmentForm from "~/components/garment-form";
+import { requireAuth, requireRole } from "~/services/auth-service";
 import { 
     getGarment,
     updateGarment,
@@ -10,10 +11,12 @@ import {
 } from "~/services/garments-service";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  return await getGarment(Number(params.id));
+    requireAuth();
+    requireRole("ADMIN");
+    return await getGarment(Number(params.id));
 }
 
-export default function GarmentNew({ loaderData }: Route.ComponentProps) {
+export default function GarmentEdit({ loaderData }: Route.ComponentProps) {
     const navigate = useNavigate();
     const garment = loaderData;
 
