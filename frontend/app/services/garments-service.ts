@@ -111,7 +111,7 @@ export async function uploadGarmentImage(
     const formData = new FormData();
     formData.append("imageFile", imageFile);
 
-    const res = await fetch(`${API_URL}/${id}/images`, {
+    const res = await fetch(`${API_URL}/${id}/images/`, {
         method: "POST",
         body: formData,
     });

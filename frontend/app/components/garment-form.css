@@ -1,0 +1,4 @@
+.container form .form-control,
+.container form .form-select {
+  border-radius: 0 !important;
+}
