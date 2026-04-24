@@ -3,6 +3,7 @@ import { type RouteConfig, index, layout, route } from "@react-router/dev/routes
 export default [
   route("login", "routes/login.tsx"),
   route("register", "routes/user-new.tsx"),
+  route("users/:id/edit", "routes/user-edit.tsx"),
 
   layout("routes/home.tsx", [
     index("routes/garment-list.tsx"),
@@ -17,7 +18,6 @@ export default [
 
     route("users", "routes/user-list.tsx"),
     route("users/:id", "routes/user-detail.tsx"),
-    route("users/:id/edit", "routes/user-edit.tsx"),
   ]),
 
   route("*", "routes/not-found.tsx"),

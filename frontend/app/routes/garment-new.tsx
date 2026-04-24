@@ -1,4 +1,4 @@
-import { useActionState, useState, useEffect } from "react";
+import { useActionState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import type { Route } from "./+types/garment-new";
 import GarmentForm from "~/components/garment-form";
