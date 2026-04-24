@@ -4,9 +4,9 @@ import type OrderExtendedDTO from "../dtos/OrderExtendedDTO";
 const API_URL = "/api/v1/orders";
 
 export async function getOrders(page: number, size: number): Promise<OrderBasicDTO[]> {
-    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    // TODO: Implement pagination
-    const res = await fetch(`${API_URL}?${params.toString()}`);
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString(), completed: "true" });
+    const res = await fetch(`${API_URL}/?${params.toString()}`);
+    if (!res.ok) throw new Error("Error al obtener los pedidos");
     const data = await res.json();
     return Array.isArray(data) ? data : data.content ?? [];
 }
@@ -92,4 +92,14 @@ export async function getUserOrders(
     }
     const data = await res.json();
     return Array.isArray(data) ? data : data.content ?? [];
+}
+
+export async function getOrCreateCart(): Promise<OrderExtendedDTO> {
+    const res = await fetch(`${API_URL}/cart`, {
+        method: "POST",
+    });
+    if (!res.ok) {
+        throw new Error("Error al obtener o crear el carrito");
+    }
+    return await res.json();
 }

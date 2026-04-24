@@ -432,6 +432,22 @@ public class OrderService {
 	//TODO: In order item rest controller, only allow to delete, add and edit order items from carts, not from completed orders
 	//TODO: In order rest controller, only allow to update carts, not completed orders. This update should only allow to to change delivery date, delivery address and delivery note, not the order item. For changing the order items, we should use the order item rest controller.
 
+	public Order createEmptyCart(User user) {
+		if (user.getCart() != null) {
+			return user.getCart();
+		}
+		Order cart = new Order();
+		cart.setCompleted(false);
+		cart.setShippingCost(BigDecimal.ZERO);
+		cart.setTotalPrice(BigDecimal.ZERO);
+		cart.setSubtotal(BigDecimal.ZERO);
+		cart.setUser(user);
+		save(cart);
+		user.setCart(cart);
+		userRepository.save(user);
+		return cart;
+	}
+
 	public Order createOrder(Order order, User user) {
 		if (order.getId() != null) {
 			throw new IllegalArgumentException("El ID del nuevo pedido no debe ser proporcionado");
@@ -462,7 +478,8 @@ public class OrderService {
 			if (originalOrder.getOrderItems() == null || originalOrder.getOrderItems().isEmpty()) {
 				throw new IllegalStateException("No se puede procesar un pedido sin artículos, elimina el pedido o añádele artículos antes de procesarlo");
 			}
-			processOrder(id, originalOrder.getUser().getId(), updatedOrder.getDeliveryAddress(), updatedOrder.getDeliveryDate().toString(), updatedOrder.getDeliveryNote());
+			String deliveryDateStr = updatedOrder.getDeliveryDate() != null ? updatedOrder.getDeliveryDate().toString() : null;
+			processOrder(id, originalOrder.getUser().getId(), updatedOrder.getDeliveryAddress(), deliveryDateStr, updatedOrder.getDeliveryNote());
 		}
 		else{
 			originalOrder.setDeliveryAddress(updatedOrder.getDeliveryAddress());

@@ -1,28 +1,42 @@
 import "./order-list.css";
 import { useState } from "react";
+import { redirect } from "react-router";
 import type { Route } from "./+types/order-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getOrders, getUserOrders, deleteOrder } from "~/services/orders-service";
 import OrderCard from "~/components/order-card";
-import { requireAuth, requireRole } from "~/services/auth-service";
+import { useUserStore } from "~/stores/user-store";
 import type OrderBasicDTO from "~/dtos/OrderBasicDTO";
 
 const PAGE_SIZE = 10;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-  // We can't use the hook here, so we directly access the store's state and methods
-  // TODO: Ask about the way to handle navigation back when not authorized or authenticated
 
-  requireAuth();
-
-  requireRole("ADMIN");
+  await useUserStore.getState().loadLoggedUser();
+  const { user } = useUserStore.getState();
 
   const userId = url.searchParams.get("userId");
 
+  if (!user) {
+    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
+  }
+
+  const isAdmin = user.roles?.includes("ADMIN") ?? false;
+
+  // "Mis pedidos" mode: any logged user can see their own orders
   if (userId) {
+    // Non-admins can only see their own orders
+    if (!isAdmin && user.id !== Number(userId)) {
+      throw redirect("/");
+    }
     const orders = await getUserOrders(Number(userId), 0, PAGE_SIZE);
     return { orders, userId: Number(userId), hasMore: orders.length === PAGE_SIZE };
+  }
+
+  // "Gestión de pedidos" mode: admin only
+  if (!isAdmin) {
+    throw redirect("/");
   }
 
   const orders = await getOrders(0, PAGE_SIZE);

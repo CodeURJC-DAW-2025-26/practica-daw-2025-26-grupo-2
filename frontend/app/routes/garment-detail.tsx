@@ -6,6 +6,7 @@ import { Container, Row, Col, Button, Form, Accordion, Alert, Spinner, Card } fr
 import { getGarment, disableGarment } from "~/services/garments-service";
 import { getOpinions, addOpinion, updateOpinion, deleteOpinion } from "~/services/opinions-service";
 import { addOrderItem } from "~/services/orderItems-service";
+import { getOrCreateCart } from "~/services/orders-service";
 import { useUserStore } from "~/stores/user-store";
 import type GarmentExtendedDTO from "~/dtos/GarmentExtendedDTO";
 import type OpinionExtendedDTO from "~/dtos/OpinionExtendedDTO";
@@ -50,14 +51,10 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
     try {
       const size = formData.get("size") as string;
       const quantity = Number(formData.get("quantity"));
-      
-      if (!user?.cart?.id) {
-        alert("No se pudo obtener el carrito del usuario");
-        return;
-      }
 
-      await addOrderItem(user.cart.id, garmentId, quantity, size);
-      alert("Producto añadido al carrito exitosamente");
+      // Create or get cart, then add item to cart
+      const cart = await getOrCreateCart();
+      await addOrderItem(cart.id, garmentId, quantity, size);
       navigate("/cart");
     } catch (error) {
       alert("Error al añadir al carrito");

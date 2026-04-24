@@ -106,6 +106,18 @@ public class OrderRestController {
 				.body(pdf);
 	}
 
+	@PostMapping("/cart")
+	public ResponseEntity<OrderExtendedDTO> getOrCreateCart(HttpServletRequest request) {
+		User user = userService.findByEmail(request.getUserPrincipal().getName())
+				.orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		if (user.getCart() != null) {
+			return ResponseEntity.ok(orderExtendedMapper.toDTO(user.getCart()));
+		}
+		Order newCart = orderService.createEmptyCart(user);
+		URI location = URI.create("/api/v1/orders/" + newCart.getId());
+		return ResponseEntity.created(location).body(orderExtendedMapper.toDTO(newCart));
+	}
+
 	@PostMapping("/")
 	public ResponseEntity<OrderExtendedDTO> createOrder(@RequestBody OrderBasicDTO orderBasicDTO, HttpServletRequest request) {
 
