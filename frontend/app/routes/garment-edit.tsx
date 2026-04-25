@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/garment-edit";
 import GarmentForm from "~/components/garment-form";
 import { requireAuth, requireRole } from "~/services/auth-service";
+import { Container } from "react-bootstrap";
 import { 
     getGarment,
     updateGarment,
@@ -57,13 +58,15 @@ export default function GarmentEdit({ loaderData }: Route.ComponentProps) {
     }, [state.success, navigate]);
 
     return (
-        <main className="mt-5">
-            <GarmentForm 
-                garment={garment} 
-                formAction={formAction} 
-                isPending={isPending} 
-                error={state.error} 
-            />
+        <main>
+            <Container className="container-main mt-5">
+                <GarmentForm 
+                    garment={garment} 
+                    formAction={formAction} 
+                    isPending={isPending} 
+                    error={state.error} 
+                />
+            </Container>
         </main>
     );
 }

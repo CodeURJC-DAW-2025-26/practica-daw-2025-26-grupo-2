@@ -1,6 +1,14 @@
 import "./garment-form.css";
 import { useState } from "react";
 import type GarmentExtendedDTO from "~/dtos/GarmentExtendedDTO";
+import {
+    Container,
+    Form,
+    InputGroup,
+    Button,
+    Alert,
+    Spinner,
+} from "react-bootstrap";
 
 interface GarmentFormProps {
     garment?: GarmentExtendedDTO;
@@ -27,37 +35,32 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
     };
 
     return (
-        <div className="container">
+        <Container>
             <div className="container-header-form">
                 <h3>{isEdit ? "Editar prenda" : "Añadir nueva prenda"}</h3>
             </div>
 
-            {/* If there exists a server error */}
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
+            {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
 
             <hr className="gap-form" />
 
-            <form action={formAction} 
-            onSubmit={handleSubmit} // For validation
-            className={`needs-validation ${validated ? "was-validated" : ""}`} 
-            noValidate
-            > 
-                {/* Only Id if edition */}
+            <Form
+                action={formAction}
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmit} // For validation
+            >
                 {garment?.id && <input type="hidden" name="id" value={garment.id} />}
 
                 {/* NAME */}
-                <div className="mb-3">
-                    <label htmlFor="inputClothName" className="form-label">
-                        <b>Nombre</b>
-                    </label>
-                    <div className="input-group">
-                        <span className="input-group-text">
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Nombre</b></Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-alphabet"></i>
-                        </span>
-                        <input
+                        </InputGroup.Text>
+                        <Form.Control
                         type="text"
-                        className="form-control"
-                        id="inputClothName"
                         name="name"
                         placeholder="Nombre de la prenda"
                         defaultValue={garment?.name || ""}
@@ -65,71 +68,65 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         maxLength={100}
                         required
                         />
-                        <div className="invalid-feedback" id="titleMesssage">
+                        <Form.Control.Feedback type="invalid">
                             El nombre no puede estar vacío y debe tener entre 4 y 100 caracteres.
-                        </div>
-                    </div>
-                </div>
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
                 {/* CATEGORY */}
-                <div className="mb-3">
-                    <label htmlFor="inputCategory" className="form-label">
-                        <b>Categoría</b>
-                    </label>
-                    <div className="input-group">
-                        <span className="input-group-text">
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Categoría</b></Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-tag"></i>
-                        </span>
-                        <select
-                        className="form-select"
-                        id="inputCategory"
+                        </InputGroup.Text>
+                        <Form.Select
                         name="category"
-                        required
                         defaultValue={garment?.category || ""}
+                        required
                         >
-                            {!garment && <option value="" disabled>Selecciona categoría</option>}
+                            {!garment && <option value="">Selecciona categoría</option>}
                             <option value="Camisas">Camisas</option>
                             <option value="Pantalones">Pantalones</option>
                             <option value="Zapatos">Zapatos</option>
                             <option value="Chaquetas">Chaquetas</option>
                             <option value="Accesorios">Accesorios</option>
                             <option value="Otros">Otros</option>
-                        </select>
-                        <div className="invalid-feedback">La categoría no puede estar vacía.</div>
-                    </div>
-                </div>
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">
+                            La categoría no puede estar vacía.
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
                 {/* PRICE */}
-                <div className="mb-3">
-                    <label htmlFor="inputClothPrice" className="form-label">
-                        <b>Precio</b>
-                    </label>
-                    <div className="input-group">
-                        <span className="input-group-text">
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Precio</b></Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-cash-coin"></i>
-                        </span>
-                        <input
+                        </InputGroup.Text>
+                        <Form.Control
                         type="number"
-                        className="form-control"
-                        id="inputClothPrice"
                         name="price"
                         step="0.01"
                         placeholder="Precio de la prenda"
                         defaultValue={garment?.price}
-                        min="1"
-                        max="6000"
+                        min={1}
+                        max={6000}
                         required
                         />
-                        <span className="input-group-text" id="input-group-price">€</span>
-                        <div className="invalid-feedback">El precio debe ser un número entre 1 y 6000.</div>
-                    </div>
-                </div>
+                        <InputGroup.Text>€</InputGroup.Text>
+                        <Form.Control.Feedback type="invalid">
+                            El precio debe ser un número entre 1 y 6000.
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
-                {/* IMAGE SECTION */}
-                <div className="mb-3">
-                    <label htmlFor="inputClothImage" className="form-label">
-                        <b>Imagen</b>
-                    </label>
+                {/* IMAGE */}
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Imagen</b></Form.Label>
 
                     {isEdit && garment?.image && (
                         <>
@@ -142,104 +139,104 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                             />
                         </div>
 
-                        <div className="form-check mb-2">
-                            <input
-                            className="form-check-input"
+                        <Form.Check
+                            className="mb-2"
                             type="checkbox"
                             id="updateImage"
                             name="updateImage"
+                            label="Actualizar imagen"
                             checked={updateImage}
                             onChange={(e) => setUpdateImage(e.target.checked)}
-                            />
-                            <label className="form-check-label" htmlFor="updateImage">
-                                Actualizar imagen
-                            </label>
-                        </div>
+                        />
                         </>
                     )}
 
-                    <div className="input-group">
-                        <span className="input-group-text">
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-image"></i>
-                        </span>
-                        <input
+                        </InputGroup.Text>
+                        <Form.Control
                         type="file"
-                        className="form-control"
-                        id="inputClothImage"
                         name="imageFile"
                         accept=".jpg,.jpeg,.png"
                         required={!isEdit || updateImage}
                         disabled={isEdit && !updateImage}
                         />
-                        <div className="invalid-feedback">
+                        <Form.Control.Feedback type="invalid">
                             {isEdit
                                 ? 'Si no quieres actualizar la imagen, desmarca la casilla "Actualizar imagen".'
-                                : 'La imagen no puede estar vacía.'}
-                        </div>
-                    </div>
-                </div>
+                                : "La imagen no puede estar vacía."}
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
                 {/* DESCRIPTION */}
-                <div className="mb-3">
-                    <label htmlFor="inputClothDescription" className="form-label">
-                        <b>Descripción</b>
-                    </label>
-                    <div className="input-group">
-                        <span className="input-group-text">
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Descripción</b></Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-list-ul"></i>
-                        </span>
-                        <textarea
-                        className="form-control"
-                        id="inputClothDescription"
+                        </InputGroup.Text>
+                        <Form.Control
+                        as="textarea"
                         name="description"
-                        placeholder="Descripción de la prenda"
                         rows={5}
+                        placeholder="Descripción de la prenda"
+                        defaultValue={garment?.description || ""}
                         minLength={3}
                         maxLength={200}
-                        defaultValue={garment?.description || ""}
                         required
-                        ></textarea>
-                        <div className="invalid-feedback">La descripción debe tener entre 3 y 200 caracteres.</div>
-                    </div>
-                </div>
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            La descripción debe tener entre 3 y 200 caracteres.
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
                 {/* FEATURES */}
-                <div className="mb-3">
-                    <label htmlFor="inputClothFeatures" className="form-label">
-                        <b>Características</b>
-                    </label>
-                    <div className="input-group">
-                        <span className="input-group-text">
+                <Form.Group className="mb-3">
+                    <Form.Label><b>Características</b></Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
                             <i className="bi bi-list-ul"></i>
-                        </span>
-                        <textarea
-                        className="form-control"
-                        id="inputClothFeatures"
+                        </InputGroup.Text>
+                        <Form.Control
+                        as="textarea"
                         name="features"
-                        placeholder="Características de la prenda"
                         rows={5}
+                        placeholder="Características de la prenda"
+                        defaultValue={garment?.features || ""}
                         minLength={5}
                         maxLength={300}
-                        defaultValue={garment?.features || ""}
                         required
-                        ></textarea>
-                        <div className="invalid-feedback">Las características deben tener entre 5 y 300 caracteres.</div>
-                    </div>
-                </div>
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Las características deben tener entre 5 y 300 caracteres.
+                        </Form.Control.Feedback>
+                    </InputGroup>
+                </Form.Group>
 
+                {/* SUBMIT */}
                 <div className="mt-4">
-                    <button type="submit" className="btn btn-success text-dark" disabled={isPending}>
+                    <Button
+                        type="submit"
+                        variant="success"
+                        className="text-dark"
+                        disabled={isPending}
+                    >
                         {isPending ? (
                         <>
-                            <span className="spinner-border spinner-border-sm me-2"></span>
+                            <Spinner size="sm" className="me-2" />
                             Guardando...
                         </>
                         ) : (
-                        <>Guardar <i className="bi bi-check-lg"></i></>
+                        <>
+                            Guardar <i className="bi bi-check-lg"></i>
+                        </>
                         )}
-                    </button>
+                    </Button>
                 </div>
-            </form>
-        </div>
+            </Form>
+        </Container>
     );
 }

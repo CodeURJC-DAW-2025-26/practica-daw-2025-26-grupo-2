@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/garment-new";
 import GarmentForm from "~/components/garment-form";
 import { requireAuth, requireRole } from "~/services/auth-service";
+import { Container } from "react-bootstrap";
 import { 
     addGarment,
     uploadGarmentImage 
@@ -50,12 +51,14 @@ export default function GarmentNew() {
     }, [state.success, state.garmentId, navigate]);
 
     return (
-        <main className="mt-5">
-            <GarmentForm
-                formAction={formAction} 
-                isPending={isPending} 
-                error={state.error} 
-            />
+        <main>
+            <Container className="container-main mt-5">
+                <GarmentForm
+                    formAction={formAction} 
+                    isPending={isPending} 
+                    error={state.error} 
+                />
+            </Container>
         </main>
     );
 }
