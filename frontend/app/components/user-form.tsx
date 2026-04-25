@@ -168,7 +168,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                         <input 
                         type="text" id="address" name="address" className="form-control" 
                         placeholder="C/ Ejemplo 123, 28000" defaultValue={user?.address || ""}
-                        minLength={10} maxLength={150}
+                        minLength={10} maxLength={150} required
                         />
                         <div className="invalid-feedback">La dirección debe tener entre 10 y 150 caracteres.</div>
                     </div>

@@ -1,7 +1,8 @@
 import { useActionState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/user-edit";
 import UserForm from "~/components/user-form";
+import { useUserStore } from "~/stores/user-store";
 import { 
     getUser,
     updateUser,
@@ -9,8 +10,23 @@ import {
     uploadUserImage
     } from "~/services/users-service";
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-    return await getUser(Number(params.id)); //falta verificar que sea el dueño del usuario y que sea admin
+export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
+    await useUserStore.getState().loadLoggedUser();
+    const { user } = useUserStore.getState();
+
+    if (!user) {
+        //const url = new URL(request.url);
+        throw redirect("/login"); //mirar que redirija o no a la página de edición de usuario después
+    }
+
+    const profileId = Number(params.id);
+
+    if (!user.roles?.includes("ADMIN") && user.id !== profileId) {
+        throw redirect("/unauthorized");
+    }
+
+    const profileUser = await getUser(profileId);
+    return profileUser;
 }
 
 export default function UserEdit({ loaderData }: Route.ComponentProps) {
