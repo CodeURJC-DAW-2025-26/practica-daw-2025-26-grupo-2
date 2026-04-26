@@ -85,10 +85,15 @@ export async function getMeanTicket(
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/users/${userId}?${params.toString()}`);
+    const res = await fetch(
+        `/api/v1/statistics/users/${userId}?${params.toString()}`,
+        {
+            credentials: "include"
+        }
+    );
 
     if (!res.ok) {
-        throw new Error(`Error al obtener el ticket medio (${period}) para las estadísticas`);
+        throw new Error(`Error al obtener el ticket medio`);
     }
 
     const json = await res.json();

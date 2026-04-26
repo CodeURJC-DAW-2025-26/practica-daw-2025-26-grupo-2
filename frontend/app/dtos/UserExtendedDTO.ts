@@ -12,4 +12,6 @@ export default interface UserExtendedDTO {
   roles: string[];
   cart: OrderBasicDTO;
   avatar: ImageDTO;
+  orderCount?: number;
+  totalSpent?: number;
 }

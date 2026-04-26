@@ -1,9 +1,16 @@
 import "./user-detail.css";
 import { redirect, useNavigate, Link } from "react-router";
 import type { Route } from "./+types/user-detail";
-import { Container, Button, Row, Col, Badge } from "react-bootstrap";
-import { getUser, disableUser } from "~/services/users-service";
+import { Container, Button, Row, Col } from "react-bootstrap";
+import { getUser, disableUser, getUserOrderStats, getUserMeanTicketChart } from "~/services/users-service";
 import { useUserStore } from "~/stores/user-store";
+import { useEffect, useRef, useState } from "react";
+import Chart from "chart.js/auto";
+
+type OrderStats = {
+  averageTicketLastMonth: number;
+  orderCount: number;
+};
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
   const { user } = useUserStore.getState();
@@ -19,9 +26,108 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
     throw redirect("/");
   }
 
-  const profileUser = await getUser(profileId);
-  return { profileUser };
+  const [profileUser, orderStats] = await Promise.all([
+    getUser(profileId),
+    getUserOrderStats(profileId),
+  ]);
+
+  return {
+    profileUser: {
+      ...profileUser,
+      orderStats,
+    },
+  };
 }
+
+// ─── Gráfica de ticket medio ────────────────────────────────────────────────
+
+function MeanTicketChart({ userId }: { userId: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<Chart | null>(null);
+  const [period, setPeriod] = useState<"month" | "year">("month");
+  const [chartData, setChartData] = useState<{ data: number[]; labels: string[] } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+    getUserMeanTicketChart(userId, period)
+      .then(setChartData)
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [userId, period]);
+
+  useEffect(() => {
+    if (!canvasRef.current || !chartData) return;
+    if (chartRef.current) chartRef.current.destroy();
+    chartRef.current = new Chart(canvasRef.current, {
+      type: "line",
+      data: {
+        labels: chartData.labels,
+        datasets: [
+          {
+            label: "Ticket medio (€)",
+            data: chartData.data,
+            tension: 0.3,
+            fill: false,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: "top" } },
+        scales: { y: { beginAtZero: true } },
+      },
+    });
+
+    return () => {
+      chartRef.current?.destroy();
+      chartRef.current = null;
+    };
+  }, [chartData]);
+
+  return (
+    <div className="chart-container mt-3">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="mb-0" style={{ fontSize: "1.05rem", fontWeight: 800 }}>
+          Evolución del ticket medio
+        </h3>
+        <div className="btn-group btn-group-sm" role="group">
+          <button
+            className={`btn btn-outline-primary px-3 ${period === "month" ? "active" : ""}`}
+            onClick={() => setPeriod("month")}
+          >
+            Mensual
+          </button>
+          <button
+            className={`btn btn-outline-primary px-3 ${period === "year" ? "active" : ""}`}
+            onClick={() => setPeriod("year")}
+          >
+            Anual
+          </button>
+        </div>
+      </div>
+      <div className="card border-0 shadow-sm">
+        <div className="card-body">
+          {loading && (
+            <p className="text-muted text-center py-3" style={{ fontSize: "0.9rem" }}>
+              Cargando gráfica…
+            </p>
+          )}
+          {error && !loading && (
+            <p className="text-danger text-center py-3" style={{ fontSize: "0.9rem" }}>
+              No se pudo cargar la gráfica.
+            </p>
+          )}
+          <canvas ref={canvasRef} height={110} style={{ display: loading || error ? "none" : "block" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Componente principal ────────────────────────────────────────────────────
 
 export default function UserDetail({ loaderData }: Route.ComponentProps) {
   const { profileUser } = loaderData;
@@ -46,6 +152,8 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
     navigate(isAdmin ? "/users" : "/");
   }
 
+  const stats: OrderStats | undefined = profileUser.orderStats;
+
   return (
     <Container className="container-main mt-5 mb-5">
       <section className="profile-shell">
@@ -62,6 +170,7 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
                 style={{ objectFit: "cover" }}
               />
             </div>
+
             <div className="profile-identity">
               <h1 className="profile-name mb-1">
                 {profileUser.name} {profileUser.surname}
@@ -92,6 +201,7 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
         <hr className="profile-divider" />
 
         <Row className="g-4">
+          {/* LEFT */}
           <Col xs={12} lg={5}>
             <div className="profile-card">
               <div className="profile-card-title">
@@ -119,30 +229,49 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
                   <div className="profile-k">Fecha de registro</div>
                   <div className="profile-v">{formattedDate}</div>
                 </div>
-                <div className="profile-kv-row">
-                  <div className="profile-k">Rol</div>
-                  <div className="profile-v">
-                    {profileUser.roles?.includes("ADMIN") ? (
-                      <Badge bg="danger">Admin</Badge>
-                    ) : (
-                      <Badge bg="secondary">Usuario</Badge>
-                    )}
-                  </div>
-                </div>
               </div>
             </div>
           </Col>
 
+          {/* RIGHT */}
           <Col xs={12} lg={7}>
             <div className="profile-card h-100">
               <div className="profile-card-title">
-                <h3 className="mb-0">Pedidos</h3>
+                <h3 className="mb-0">Actividad y métricas</h3>
+                <span style={{ color: "var(--text-muted)", fontSize: "0.9rem", fontWeight: 500 }}>
+                  Resumen de comportamiento de compra
+                </span>
               </div>
-              <span className="profile-subtitle">
-                Historial de compras de este usuario
-              </span>
 
-              <div className="profile-card-footer">
+              <div className="row g-3 mt-1">
+                <div className="col-12 col-md-6">
+                  <div className="metric">
+                    <div className="metric-top">
+                      <span>Ticket medio (último mes)</span>
+                      <i className="bi bi-graph-up" />
+                    </div>
+                    <div className="metric-value">
+                      {stats?.averageTicketLastMonth?.toFixed(2) ?? "0.00"}€
+                    </div>
+                    <div className="metric-hint">Precio promedio por pedido</div>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6">
+                  <div className="metric">
+                    <div className="metric-top">
+                      <span>Compras (último mes)</span>
+                      <i className="bi bi-bag-check" />
+                    </div>
+                    <div className="metric-value">{stats?.orderCount ?? 0}</div>
+                    <div className="metric-hint">Pedidos procesados</div>
+                  </div>
+                </div>
+              </div>
+
+              <MeanTicketChart userId={profileUser.id} />
+
+              <div className="profile-card-footer mt-3">
                 <Link
                   to={`/orders?userId=${profileUser.id}`}
                   className="btn btn-primary"
@@ -153,7 +282,6 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
             </div>
           </Col>
         </Row>
-
       </section>
     </Container>
   );
