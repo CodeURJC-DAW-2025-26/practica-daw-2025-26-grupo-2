@@ -19,7 +19,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   }
 
   if (!user.roles?.includes("ADMIN")) {
-    throw redirect("/");
+    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
   }
 
   const url = new URL(request.url);

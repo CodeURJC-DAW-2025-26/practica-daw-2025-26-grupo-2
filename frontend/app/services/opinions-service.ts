@@ -1,3 +1,4 @@
+import { apiFetch } from "./api-fetch";
 import type OpinionExtendedDTO from "../dtos/OpinionExtendedDTO";
 
 
@@ -9,7 +10,7 @@ export async function getOpinions(
     size: number
 ): Promise<OpinionExtendedDTO[]> {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    const res = await fetch(`${API_URL}/${garmentId}/opinions/?${params.toString()}`);
+    const res = await apiFetch(`${API_URL}/${garmentId}/opinions/?${params.toString()}`);
     if (!res.ok) {
         throw new Error("Error al obtener las opiniones");
     }
@@ -18,7 +19,7 @@ export async function getOpinions(
 }
 
 export async function getOpinion(garmentId: number, opinionId: number): Promise<OpinionExtendedDTO> {
-    const res = await fetch(`${API_URL}/${garmentId}/opinions/${opinionId}`);
+    const res = await apiFetch(`${API_URL}/${garmentId}/opinions/${opinionId}`);
     if (!res.ok) {
         throw new Error("Qué buscabas? Opinión no encontrada");
     }
@@ -31,7 +32,7 @@ export async function addOpinion(
     comment: string,
     rating: number
 ): Promise<OpinionExtendedDTO> {
-    const res = await fetch(`${API_URL}/${garmentId}/opinions/`, {
+    const res = await apiFetch(`${API_URL}/${garmentId}/opinions/`, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -49,7 +50,7 @@ export async function addOpinion(
 
 
 export async function deleteOpinion(garmentId: number, opinionId: number): Promise<void> {
-    const res = await fetch(`${API_URL}/${garmentId}/opinions/${opinionId}`, {
+    const res = await apiFetch(`${API_URL}/${garmentId}/opinions/${opinionId}`, {
         method: "DELETE",
     });
 

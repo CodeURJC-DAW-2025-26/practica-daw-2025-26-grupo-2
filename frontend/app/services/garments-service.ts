@@ -1,3 +1,4 @@
+import { apiFetch } from "./api-fetch";
 import type GarmentBasicDTO from "../dtos/GarmentBasicDTO";
 import type GarmentExtendedDTO from "../dtos/GarmentExtendedDTO";
 
@@ -14,7 +15,7 @@ export async function getGarments(
     size: number
 ): Promise<GarmentBasicDTO[]> {
     const params = new URLSearchParams({nameSearch, categorySearch, minPrice: minPrice.toString(), maxPrice: maxPrice.toString(), sort, page: page.toString(), size: size.toString()});
-    const res = await fetch(`${API_URL}/?${params.toString()}`);
+    const res = await apiFetch(`${API_URL}/?${params.toString()}`);
     if (!res.ok) {
         throw new Error("Error al obtener las prendas");
     }
@@ -23,7 +24,7 @@ export async function getGarments(
 }
 
 export async function getOffers(): Promise<GarmentBasicDTO[]> {
-    const res = await fetch(`${API_URL}/offers`);
+    const res = await apiFetch(`${API_URL}/offers`);
     if (!res.ok) {
         throw new Error("Error al obtener las recomendaciones personalizadas");
     }
@@ -31,7 +32,7 @@ export async function getOffers(): Promise<GarmentBasicDTO[]> {
 }
 
 export async function getGarment(id: number): Promise<GarmentExtendedDTO> {
-    const res = await fetch(`${API_URL}/${id}`);
+    const res = await apiFetch(`${API_URL}/${id}`);
     if (!res.ok) {
         throw new Error("Qué buscabas? Prenda no encontrada");
     }
@@ -46,7 +47,7 @@ export async function addGarment(
     description: string,
     features: string,
 ): Promise<GarmentExtendedDTO> {
-    const res = await fetch(`${API_URL}/`, {
+    const res = await apiFetch(`${API_URL}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -67,7 +68,7 @@ export async function addGarment(
 
 
 export async function disableGarment(id: number): Promise<void> {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await apiFetch(`${API_URL}/${id}`, {
         method: "DELETE",
     });
 
@@ -85,7 +86,7 @@ export async function updateGarment(
     description: string,
     features: string
 ): Promise<GarmentExtendedDTO> {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await apiFetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -111,7 +112,7 @@ export async function uploadGarmentImage(
     const formData = new FormData();
     formData.append("imageFile", imageFile);
 
-    const res = await fetch(`${API_URL}/${id}/images/`, {
+    const res = await apiFetch(`${API_URL}/${id}/images/`, {
         method: "POST",
         body: formData,
     });
@@ -125,7 +126,7 @@ export async function uploadGarmentImage(
 export async function deleteGarmentImage(
     garmentId: number, imageId: number
 ): Promise<void> {
-    const res = await fetch(`${API_URL}/${garmentId}/images/${imageId}`, {
+    const res = await apiFetch(`${API_URL}/${garmentId}/images/${imageId}`, {
         method: "DELETE",
     });
 
@@ -142,7 +143,7 @@ export async function replaceGarmentImage(
     const formData = new FormData();
     formData.append("imageFile", imageFile);
 
-    const res = await fetch(`${API_IMAGES_URL}/${imageId}/media`, {
+    const res = await apiFetch(`${API_IMAGES_URL}/${imageId}/media`, {
         method: "PUT",
         body: formData,
     });

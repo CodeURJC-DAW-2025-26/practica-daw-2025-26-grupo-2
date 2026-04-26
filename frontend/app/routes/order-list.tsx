@@ -13,6 +13,7 @@ const PAGE_SIZE = 10;
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
 
+  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
   const userId = url.searchParams.get("userId");
@@ -23,19 +24,16 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 
   const isAdmin = user.roles?.includes("ADMIN") ?? false;
 
-  // "Mis pedidos" mode: any logged user can see their own orders
   if (userId) {
-    // Non-admins can only see their own orders
     if (!isAdmin && user.id !== Number(userId)) {
-      throw redirect("/");
+      throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
     }
     const orders = await getUserOrders(Number(userId), 0, PAGE_SIZE);
     return { orders, userId: Number(userId), hasMore: orders.length === PAGE_SIZE };
   }
 
-  // "Gestión de pedidos" mode: admin only
   if (!isAdmin) {
-    throw redirect("/");
+    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
   }
 
   const orders = await getOrders(0, PAGE_SIZE);

@@ -28,7 +28,8 @@ export default function UserNew() {
             }
             return { success: true, error: null };
         } catch (err: any) {
-            return { success: false, error: err.message || "Error al registrar al usuario" };
+            navigate(`/error?message=${encodeURIComponent(err.message || "Error al registrar al usuario")}`);
+            return { success: false, error: null };
         }
     }
 

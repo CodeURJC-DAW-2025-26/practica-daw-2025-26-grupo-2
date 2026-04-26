@@ -1,6 +1,6 @@
 import "./order-detail.css";
 import { useState, useActionState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, redirect } from "react-router";
 import type { Route } from "./+types/order-detail";
 import { Container, Row, Col, Button, Form, Table, Alert, Spinner, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
@@ -15,8 +15,13 @@ export async function clientLoader({ params, request }: Route.ClientLoaderArgs) 
   const orderId = Number(params.id);
   const url = new URL(request.url);
   const isEditing = url.searchParams.get("edit") === "true";
-  
+
+  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
+
+  if (!user) {
+    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
+  }
 
   const order = await getOrder(orderId);
   const orderItems = await getOrderItems(orderId, 0, PAGE_SIZE);
@@ -80,9 +85,9 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
         navigate(`/order/${orderId}`);
         
         return { success: true, error: null };
-      } catch (error) {
-        console.error("Error al actualizar pedido:", error);
-        return { success: false, error: "Error al actualizar el pedido" };
+      } catch (error: any) {
+        navigate(`/error?message=${encodeURIComponent(error?.message || "Error al actualizar el pedido")}`);
+        return { success: false, error: null };
       }
     })();
 
@@ -112,21 +117,11 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
     return item.garment.price * item.quantity;
   }
 
-  function getBackLink(): string {
-    if (isEditing) {
-      return "/orders";
-    }
-    if (isAdmin && !isOwner) {
-      return "/orders";
-    }
-    return "/myorders";
-  }
-
   return (
     <Container className="container-main mt-5 mb-5">
       <Row className="mb-4">
         <Col md={12}>
-          <Button variant="secondary" className="text-dark" onClick={() => navigate(getBackLink())}>
+          <Button variant="secondary" className="text-dark" onClick={() => navigate(-1)}>
             <i className="bi bi-arrow-left"></i> Volver
           </Button>
         </Col>

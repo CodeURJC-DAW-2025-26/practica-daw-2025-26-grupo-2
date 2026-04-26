@@ -21,7 +21,7 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
   const isOwner = user.id === order.user.id;
 
   if (!isAdmin && !isOwner) {
-    throw redirect("/");
+    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
   }
 
   return { order, isAdmin };

@@ -1,3 +1,4 @@
+import { apiFetch } from "./api-fetch";
 import type OrderItemBasicDTO from "../dtos/OrderItemBasicDTO";
 import type OrderItemExtendedDTO from "../dtos/OrderItemExtendedDTO";
 
@@ -9,7 +10,7 @@ export async function getOrderItems(
     size: number
 ): Promise<OrderItemBasicDTO[]> {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    const res = await fetch(`${API_URL}/${orderId}/orderItems/?${params.toString()}`);
+    const res = await apiFetch(`${API_URL}/${orderId}/orderItems/?${params.toString()}`);
     if (!res.ok) {
         throw new Error("Error al obtener los elementos del pedido");
     }
@@ -18,7 +19,7 @@ export async function getOrderItems(
 }
 
 export async function getOrderItem(orderId: number, id: number): Promise<OrderItemExtendedDTO> {
-    const res = await fetch(`${API_URL}/${orderId}/orderItems/${id}`);
+    const res = await apiFetch(`${API_URL}/${orderId}/orderItems/${id}`);
     if (!res.ok) {
         throw new Error("Qué buscabas? Elemento del pedido no encontrado");
     }
@@ -32,7 +33,7 @@ export async function addOrderItem(
     quantity: number,
     size: string
 ): Promise<OrderItemExtendedDTO> {
-    const res = await fetch(`${API_URL}/${orderId}/orderItems/`, {
+    const res = await apiFetch(`${API_URL}/${orderId}/orderItems/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -50,7 +51,7 @@ export async function addOrderItem(
 }
 
 export async function disableOrderItem(orderId: number, id: number): Promise<void> {
-    const res = await fetch(`${API_URL}/${orderId}/orderItems/${id}`, {
+    const res = await apiFetch(`${API_URL}/${orderId}/orderItems/${id}`, {
         method: "DELETE",
     });
 
