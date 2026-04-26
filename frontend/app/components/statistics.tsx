@@ -11,7 +11,7 @@ import {
   Legend, 
   BarElement 
 } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Radar } from 'react-chartjs-2';
 import { Card, Row, Col, Form } from "react-bootstrap";
 import "./statistics.css";
 
@@ -35,10 +35,9 @@ interface StatisticsProps {
   currentPeriod: string;
 }
 
-export default function Statistics({ initialIncome, initialOrders, currentPeriod }: StatisticsProps) {
+export default function Statistics({ initialIncome, initialOrders, initialLabels, currentPeriod }: StatisticsProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Use initial data from the loader to generate chart labels
   const labels = initialIncome.map((_, i) => `${currentPeriod === 'month' ? 'Mes' : (currentPeriod === 'year' ? 'Año' : 'Día')} ${i + 1}`);
 
   const incomeChartData = {
@@ -64,6 +63,20 @@ export default function Statistics({ initialIncome, initialOrders, currentPeriod
         backgroundColor: 'rgba(54, 162, 235, 0.6)',
         borderColor: 'rgb(54, 162, 235)',
         borderWidth: 1,
+      },
+    ],
+  };
+
+  // Data for the new Radar chart
+  const labelsChartData = {
+    labels: ["Ropa", "Calzado", "Accesorios", "Ofertas", "Nuevos", "Premium"], // Example static categories
+    datasets: [
+      {
+        label: 'Actividad por Categoría',
+        data: initialLabels.slice(0, 6), // Use the first 6 values from the API
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        pointBackgroundColor: 'rgb(255, 99, 132)',
       },
     ],
   };
@@ -99,16 +112,7 @@ export default function Statistics({ initialIncome, initialOrders, currentPeriod
             </Card.Header>
             <Card.Body>
               <div style={{ height: '350px' }}>
-                <Line 
-                  data={incomeChartData} 
-                  options={{ 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: 'top' as const },
-                    }
-                  }} 
-                />
+                <Line data={incomeChartData} options={{ responsive: true, maintainAspectRatio: false }} />
               </div>
             </Card.Body>
           </Card>
@@ -122,14 +126,25 @@ export default function Statistics({ initialIncome, initialOrders, currentPeriod
             </Card.Header>
             <Card.Body>
               <div style={{ height: '350px' }}>
-                <Bar 
-                  data={ordersChartData} 
+                <Bar data={ordersChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* RADAR CHART */}
+        <Col lg={12} className="mb-4">
+          <Card className="shadow-sm">
+            <Card.Header className="bg-white py-3">
+              <h5 className="mb-0 fw-bold">Distribución por Categoría</h5>
+            </Card.Header>
+            <Card.Body>
+              <div style={{ height: '400px' }}>
+                <Radar 
+                  data={labelsChartData} 
                   options={{ 
                     responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: 'top' as const },
-                    }
+                    maintainAspectRatio: false 
                   }} 
                 />
               </div>
