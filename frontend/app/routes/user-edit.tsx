@@ -1,6 +1,7 @@
 import { useActionState, useEffect } from "react";
 import { redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/user-edit";
+import { Container, Row, Col } from "react-bootstrap";
 import UserForm from "~/components/user-form";
 import { useUserStore } from "~/stores/user-store";
 import { 
@@ -71,18 +72,18 @@ export default function UserEdit({ loaderData }: Route.ComponentProps) {
 
     return (
         <main className="login-page">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12 col-sm-11 col-md-9 col-lg-8">
-                        <UserForm 
-                        user={user} 
-                        formAction={formAction} 
-                        isPending={isPending} 
-                        error={state.error} 
+            <Container>
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={11} md={9} lg={8}>
+                        <UserForm
+                            user={user}
+                            formAction={formAction}
+                            isPending={isPending}
+                            error={state.error}
                         />
-                    </div>
-                </div>
-            </div>
+                    </Col>
+                </Row>
+            </Container>
         </main>
     );
 }

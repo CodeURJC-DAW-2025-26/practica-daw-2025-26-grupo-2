@@ -1,6 +1,7 @@
 import { useActionState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import UserForm from "~/components/user-form";
+import { Container, Row, Col } from "react-bootstrap";
 import { 
     addUser,
     uploadUserImage
@@ -44,17 +45,17 @@ export default function UserNew() {
 
     return (
         <main className="login-page">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12 col-sm-11 col-md-9 col-lg-8">
+            <Container>
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={11} md={9} lg={8}>
                         <UserForm
-                        formAction={formAction} 
-                        isPending={isPending} 
-                        error={state.error} 
+                            formAction={formAction}
+                            isPending={isPending}
+                            error={state.error}
                         />
-                    </div>
-                </div>
-            </div>
+                    </Col>
+                </Row>
+            </Container>
         </main>
     );
 }

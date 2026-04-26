@@ -41,7 +41,8 @@ export async function addUser(
     });
 
     if (!res.ok) {
-        throw new Error("Error al añadir el usuario");
+        const message = await res.text();
+        throw new Error(message || "Error al añadir el usuario");
     }
 
     return res.json();

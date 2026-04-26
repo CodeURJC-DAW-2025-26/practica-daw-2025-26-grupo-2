@@ -58,7 +58,7 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
 
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Gestión de Usuarios</h2>
-        <Link to="/users/new" className="btn btn-success">
+        <Link to="/register" className="btn btn-success">
           Añadir usuario <i className="bi bi-plus-circle" />
         </Link>
       </div>
