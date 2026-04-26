@@ -18,6 +18,7 @@ export default [
 
     route("users", "routes/user-list.tsx"),
     route("users/:id", "routes/user-detail.tsx"),
+    route("statistics", "routes/statistics.tsx"),
   ]),
 
   route("*", "routes/not-found.tsx"),
