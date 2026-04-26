@@ -1,4 +1,3 @@
-
 const API_URL = "/api/v1/statistics";
 
 export async function getIncomeStatistics(period: string, number: number): Promise<number[]> {
@@ -14,10 +13,11 @@ export async function getIncomeStatistics(period: string, number: number): Promi
     });
 
     if (!res.ok) {
-        throw new Error(`Error al obtener los datos de los beneficios (${period}) para las estádisticas: ${res.status}`);
+        throw new Error(`Error al obtener los datos de los beneficios (${period}) para las estadísticas: ${res.status}`);
     }
 
-    return await res.json();
+    const json = await res.json();
+    return json.data;
 }
 
 export async function getOrdersStatistics(period: string, number: number): Promise<number[]> {
@@ -33,10 +33,11 @@ export async function getOrdersStatistics(period: string, number: number): Promi
     });
 
     if (!res.ok) {
-        throw new Error(`Error al obtener los datos de los pedidos (${period}) para las estádisticas: ${res.status}`);
+        throw new Error(`Error al obtener los datos de los pedidos (${period}) para las estadísticas: ${res.status}`);
     }
 
-    return await res.json();
+    const json = await res.json();
+    return json.data;
 }
 
 export async function getLabelsStatistics(period: string, number: number): Promise<number[]> {
@@ -52,10 +53,11 @@ export async function getLabelsStatistics(period: string, number: number): Promi
     });
 
     if (!res.ok) {
-        throw new Error(`Error al obtener los datos de las labels (${period}) para las estádisticas: ${res.status}`);
+        throw new Error(`Error al obtener los datos de las labels (${period}) para las estadísticas: ${res.status}`);
     }
 
-    return await res.json();
+    const json = await res.json();
+    return json.data;
 }
 
 export async function getCategoryStatistics(): Promise<Record<string, number>> {
@@ -67,7 +69,8 @@ export async function getCategoryStatistics(): Promise<Record<string, number>> {
         throw new Error(`Error al obtener las estadísticas por categoría: ${res.status}`);
     }
 
-    return await res.json();
+    const json = await res.json();
+    return json.data;
 }
 
 export async function getMeanTicket(
@@ -76,17 +79,20 @@ export async function getMeanTicket(
     number: number
 ): Promise<number[]> {
     const validatedPeriod = validateForMeanTicket(period, number);
+
     const params = new URLSearchParams({ 
         period: validatedPeriod, 
         number: number.toString() 
     });
+
     const res = await fetch(`${API_URL}/users/${userId}?${params.toString()}`);
 
     if (!res.ok) {
         throw new Error(`Error al obtener el ticket medio (${period}) para las estadísticas`);
     }
 
-    return res.json();
+    const json = await res.json();
+    return json.data;
 }
 
 function validate(period: string, number: number): string {
@@ -106,8 +112,10 @@ function validate(period: string, number: number): string {
 function validateForMeanTicket(period: string, number: number) {
     const validPeriods = ["month", "year"];
 
-    if (number <= 0) throw new Error("El número debe ser mayor a 0");
-    
+    if (number <= 0) {
+        throw new Error("El número debe ser mayor a 0");
+    }
+
     if (!validPeriods.includes(period)) {
         throw new Error("Para el ticket medio, el periodo debe ser 'month' o 'year'");
     }

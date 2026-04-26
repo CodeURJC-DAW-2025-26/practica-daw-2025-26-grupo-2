@@ -1,5 +1,6 @@
 package es.dawgrupo2.zendashop.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,65 +26,82 @@ public class StatisticRestController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/income")
-    public List<Double> getIncomeStatistics(
+    public Map<String, Object> getIncomeStatistics(
             @RequestParam String period,
             @RequestParam int number) {
 
         String validatedPeriod = validate(period, number);
+        List<Double> data;
 
         switch (validatedPeriod) {
-            case "day" : return orderService.getDailyIncomeLastDays(number);
-            case "month" : return orderService.getMonthlyIncomeLastMonths(number);
-            case "year" : return orderService.getYearlyIncomeLastYears(number);
-            default : throw new IllegalArgumentException("El periodo debe ser day, month o year");
+            case "day": data = orderService.getDailyIncomeLastDays(number); break;
+            case "month": data = orderService.getMonthlyIncomeLastMonths(number); break;
+            case "year": data = orderService.getYearlyIncomeLastYears(number); break;
+            default: throw new IllegalArgumentException("El periodo debe ser day, month o year");
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
     }
 
     @GetMapping("/orders")
-    public List<Long> getOrdersStatistics(
+    public Map<String, Object> getOrdersStatistics(
             @RequestParam String period,
             @RequestParam int number) {
+
         String validatedPeriod = validate(period, number);
+        List<Long> data;
 
         switch (validatedPeriod) {
-            case "day" : return orderService.getDailyOrdersLastDays(number);
-            case "month" : return orderService.getMonthlyOrdersLastMonths(number);
-            case "year" : return orderService.getYearlyOrdersLastYears(number);
-            default : throw new IllegalArgumentException("El periodo debe ser day, month o year");
+            case "day": data = orderService.getDailyOrdersLastDays(number); break;
+            case "month": data = orderService.getMonthlyOrdersLastMonths(number); break;
+            case "year": data = orderService.getYearlyOrdersLastYears(number); break;
+            default: throw new IllegalArgumentException("El periodo debe ser day, month o year");
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
     }
 
     @GetMapping("/labels")
-    public List<String> getLabelsStatistics(
+    public Map<String, Object> getLabelsStatistics(
             @RequestParam String period,
             @RequestParam int number) {
-        String validatedPeriod = validate(period, number);
 
+        String validatedPeriod = validate(period, number);
+        List<String> data;
 
         switch (validatedPeriod) {
-            case "day" : return orderService.getDailyLabelsLastDays(number);
-            case "month" : return orderService.getMonthlyLabelsLastMonths(number);
-            case "year" : return orderService.getYearlyLabelsLastYears(number);
-            default : throw new IllegalArgumentException("El periodo debe ser day, month o year");
+            case "day": data = orderService.getDailyLabelsLastDays(number); break;
+            case "month": data = orderService.getMonthlyLabelsLastMonths(number); break;
+            case "year": data = orderService.getYearlyLabelsLastYears(number); break;
+            default: throw new IllegalArgumentException("El periodo debe ser day, month o year");
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
     }
 
     @GetMapping("/categories")
-    public Map<String, Long> getSalesByCategory() {
-        return orderService.getSalesByCategory();
+    public Map<String, Object> getSalesByCategory() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", orderService.getSalesByCategory());
+        return response;
     }
 
     @GetMapping("/users/{userid}")
-    public List<Double> getMeanTicket(
+    public Map<String, Object> getMeanTicket(
             @PathVariable Long userid,
             @RequestParam String period,
             @RequestParam int number,
             HttpServletRequest request) {
 
         String validatedPeriod = validate(period, number);
-
+        List<Double> data;
 
         User userSession = userService.findByEmail(request.getUserPrincipal().getName())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario autenticado no encontrado"));
@@ -98,24 +116,27 @@ public class StatisticRestController {
 
         switch (validatedPeriod) {
             case "month":
-                return orderService.getMonthlyMeanTicketLastMonthsById(number, userid);
+                data = orderService.getMonthlyMeanTicketLastMonthsById(number, userid);
+                break;
             case "year":
-                return orderService.getYearlyMeanTicketLastYearsById(number, userid);
+                data = orderService.getYearlyMeanTicketLastYearsById(number, userid);
+                break;
             default:
                 throw new IllegalArgumentException("El periodo debe ser month o year");
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        return response;
     }
 
     private String validate(String period, int number) {
-            if (number <= 0 || number > 100) {
-                throw new IllegalArgumentException("El número de períodos debe ser mayor que cero");
-            }
-            if (period == null || (!period.equals("day") && !period.equals("month") && !period.equals("year"))) {
-                throw new IllegalArgumentException("El periodo debe ser day, month o year");
-            }
-            return period;
+        if (number <= 0 || number > 100) {
+            throw new IllegalArgumentException("El número de períodos debe ser mayor que cero");
         }
-    
-    
-        
+        if (period == null || (!period.equals("day") && !period.equals("month") && !period.equals("year"))) {
+            throw new IllegalArgumentException("El periodo debe ser day, month o year");
+        }
+        return period;
+    }
 }
