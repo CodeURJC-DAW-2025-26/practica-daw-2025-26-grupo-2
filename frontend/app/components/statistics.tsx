@@ -15,7 +15,7 @@ import { Line, Bar } from 'react-chartjs-2';
 import { Card, Row, Col, Form } from "react-bootstrap";
 import "./statistics.css";
 
-// Registrar componentes de Chart.js
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -38,7 +38,7 @@ interface StatisticsProps {
 export default function Statistics({ initialIncome, initialOrders, currentPeriod }: StatisticsProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Usamos los datos iniciales que vienen del loader
+  // Use initial data from the loader to generate chart labels
   const labels = initialIncome.map((_, i) => `${currentPeriod === 'month' ? 'Mes' : (currentPeriod === 'year' ? 'Año' : 'Día')} ${i + 1}`);
 
   const incomeChartData = {
@@ -91,7 +91,7 @@ export default function Statistics({ initialIncome, initialOrders, currentPeriod
           </div>
         </Col>
 
-        {/* GRÁFICA DE INGRESOS */}
+        {/* INCOME CHART */}
         <Col lg={6} className="mb-4">
           <Card className="shadow-sm h-100">
             <Card.Header className="bg-white py-3">
@@ -114,7 +114,7 @@ export default function Statistics({ initialIncome, initialOrders, currentPeriod
           </Card>
         </Col>
 
-        {/* GRÁFICA DE PEDIDOS */}
+        {/* ORDERS CHART */}
         <Col lg={6} className="mb-4">
           <Card className="shadow-sm h-100">
             <Card.Header className="bg-white py-3">

@@ -6,7 +6,12 @@ import Statistics from "~/components/statistics";
 import { getIncomeStatistics, getOrdersStatistics, getLabelsStatistics } from "~/services/statistics-service";
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-  const { user } = useUserStore.getState();
+  // Ensure user is loaded before checking roles
+  let { user } = useUserStore.getState();
+  if (!user) {
+    await useUserStore.getState().loadLoggedUser();
+    user = useUserStore.getState().user;
+  }
 
   if (!user) {
     const url = new URL(request.url);
@@ -21,7 +26,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const period = url.searchParams.get("period") || "month";
   const count = period === "year" ? 5 : 12;
 
-  // Carga paralela de todos los datos necesarios
+  // Parallel data fetching
   const [income, orders, labels] = await Promise.all([
     getIncomeStatistics(period, count),
     getOrdersStatistics(period, count),
