@@ -12,26 +12,13 @@ import { useUserStore } from "~/stores/user-store";
 
 export default function Home() {
   const { user, loadLoggedUser } = useUserStore();
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
 
   useEffect(() => {
     loadLoggedUser();
   }, []);
 
-  /*useEffect(() => { loadGarments({ 
-            nameSearch: "", categorySearch: "", minPrice: 0, 
-            maxPrice: 1000, sort: "id", page: 0, size: 10 
-        }) }, []);*/
-
   return (
     <>
-      {isLoading && (
-        <div className="page-spinner-overlay">
-          <div className="dot-spinner" />
-        </div>
-      )}
-
       <Header />
       <Outlet />
       <Footer />

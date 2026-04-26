@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "react-router";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,6 +19,9 @@ export function HydrateFallback() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
+
   return (
     <html lang="en">
       <head>
@@ -27,6 +31,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {isLoading && (
+          <div className="page-spinner-overlay">
+            <div className="dot-spinner" />
+          </div>
+        )}
         {children}
         <ScrollRestoration />
         <Scripts />
