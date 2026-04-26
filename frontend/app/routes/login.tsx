@@ -1,5 +1,5 @@
 import "./login.css";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useActionState, useEffect } from "react";
 import LoginForm from "~/components/login-form";
 import { useUserStore } from "~/stores/user-store";
@@ -7,8 +7,8 @@ import { useUserStore } from "~/stores/user-store";
 export default function Login() {
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = (location.state as any)?.from || "/";
+    const [searchParams] = useSearchParams();
+    const from = searchParams.get("from") || "/";
     const { loginUser } = useUserStore();
 
     async function handleLogin(

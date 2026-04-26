@@ -15,8 +15,8 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
     const { user } = useUserStore.getState();
 
     if (!user) {
-        //const url = new URL(request.url);
-        throw redirect("/login"); //mirar que redirija o no a la página de edición de usuario después
+        const url = new URL(request.url);
+        throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
     }
 
     const profileId = Number(params.id);
