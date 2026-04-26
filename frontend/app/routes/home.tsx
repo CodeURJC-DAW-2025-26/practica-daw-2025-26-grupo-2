@@ -10,13 +10,12 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useUserStore } from "~/stores/user-store";
 
+export async function clientLoader() {
+  await useUserStore.getState().loadLoggedUser();
+  return null;
+}
+
 export default function Home() {
-  const { user, loadLoggedUser } = useUserStore();
-
-  useEffect(() => {
-    loadLoggedUser();
-  }, []);
-
   return (
     <>
       <Header />

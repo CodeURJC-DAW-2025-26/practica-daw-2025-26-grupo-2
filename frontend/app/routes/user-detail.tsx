@@ -6,7 +6,6 @@ import { getUser, disableUser } from "~/services/users-service";
 import { useUserStore } from "~/stores/user-store";
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
-  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
   if (!user) {

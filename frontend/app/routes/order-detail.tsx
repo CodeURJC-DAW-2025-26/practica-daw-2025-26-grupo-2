@@ -16,7 +16,6 @@ export async function clientLoader({ params, request }: Route.ClientLoaderArgs) 
   const url = new URL(request.url);
   const isEditing = url.searchParams.get("edit") === "true";
   
-  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
   const order = await getOrder(orderId);

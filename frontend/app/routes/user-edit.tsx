@@ -12,7 +12,6 @@ import {
     } from "~/services/users-service";
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
-    await useUserStore.getState().loadLoggedUser();
     const { user } = useUserStore.getState();
 
     if (!user) {

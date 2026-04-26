@@ -16,7 +16,6 @@ const PAGE_SIZE = 10;
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const garmentId = Number(params.id);
   
-  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
   const garment = await getGarment(garmentId);

@@ -13,7 +13,6 @@ const PAGE_SIZE = 10;
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
 
-  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
   const userId = url.searchParams.get("userId");

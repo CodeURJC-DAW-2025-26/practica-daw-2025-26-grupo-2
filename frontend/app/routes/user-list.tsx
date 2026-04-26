@@ -11,7 +11,6 @@ const PAGE_SIZE = 10;
 
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
 
 
