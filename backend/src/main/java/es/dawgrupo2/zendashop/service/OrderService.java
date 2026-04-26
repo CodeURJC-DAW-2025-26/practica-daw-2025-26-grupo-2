@@ -488,4 +488,13 @@ public class OrderService {
 		}
 		return repository.save(originalOrder);
 	}
+
+	public Map<String, Long> getSalesByCategory() {
+		List<Object[]> results = repository.countSalesByCategory();
+		Map<String, Long> salesMap = new LinkedHashMap<>();
+		for (Object[] result : results) {
+			salesMap.put((String) result[0], (Long) result[1]);
+		}
+		return salesMap;
+	}
 }

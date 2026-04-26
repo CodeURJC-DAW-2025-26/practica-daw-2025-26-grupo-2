@@ -1,6 +1,7 @@
 package es.dawgrupo2.zendashop.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,11 @@ public class StatisticRestController {
             case "year" : return orderService.getYearlyLabelsLastYears(number);
             default : throw new IllegalArgumentException("El periodo debe ser day, month o year");
         }
+    }
+
+    @GetMapping("/categories")
+    public Map<String, Long> getSalesByCategory() {
+        return orderService.getSalesByCategory();
     }
 
     @GetMapping("/users/{userid}")

@@ -9,7 +9,9 @@ export async function getIncomeStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/income?${params.toString()}`);
+    const res = await fetch(`${API_URL}/income?${params.toString()}`, {
+        credentials: "include"
+    });
 
     if (!res.ok) {
         throw new Error(`Error al obtener los datos de los beneficios (${period}) para las estádisticas: ${res.status}`);
@@ -26,7 +28,9 @@ export async function getOrdersStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/orders?${params.toString()}`);
+    const res = await fetch(`${API_URL}/orders?${params.toString()}`, {
+        credentials: "include"
+    });
 
     if (!res.ok) {
         throw new Error(`Error al obtener los datos de los pedidos (${period}) para las estádisticas: ${res.status}`);
@@ -43,10 +47,24 @@ export async function getLabelsStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/labels?${params.toString()}`);
+    const res = await fetch(`${API_URL}/labels?${params.toString()}`, {
+        credentials: "include"
+    });
 
     if (!res.ok) {
         throw new Error(`Error al obtener los datos de las labels (${period}) para las estádisticas: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
+export async function getCategoryStatistics(): Promise<Record<string, number>> {
+    const res = await fetch(`${API_URL}/categories`, {
+        credentials: "include"
+    });
+
+    if (!res.ok) {
+        throw new Error(`Error al obtener las estadísticas por categoría: ${res.status}`);
     }
 
     return await res.json();

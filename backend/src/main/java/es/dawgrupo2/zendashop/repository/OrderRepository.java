@@ -48,4 +48,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(value = "UPDATE order_table SET creation_date = :date WHERE id = :id", nativeQuery = true)
     void forceCreationDate(Long id, LocalDateTime date);
 
+    @Query("SELECT i.garment.category, COUNT(i) FROM OrderTable o JOIN o.orderItems i WHERE o.completed = true GROUP BY i.garment.category")
+    List<Object[]> countSalesByCategory();
+
 }

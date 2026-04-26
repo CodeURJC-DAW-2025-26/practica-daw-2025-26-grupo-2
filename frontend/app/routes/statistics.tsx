@@ -3,7 +3,7 @@ import type { Route } from "./+types/statistics";
 import { Container, Row, Col } from "react-bootstrap";
 import { useUserStore } from "~/stores/user-store";
 import Statistics from "~/components/statistics";
-import { getIncomeStatistics, getOrdersStatistics, getLabelsStatistics } from "~/services/statistics-service";
+import { getIncomeStatistics, getOrdersStatistics, getCategoryStatistics, getLabelsStatistics } from "~/services/statistics-service";
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   // Ensure user is loaded before checking roles
@@ -26,10 +26,11 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const period = url.searchParams.get("period") || "month";
   const count = period === "year" ? 5 : 12;
 
-  // Parallel data fetching
-  const [income, orders, labels] = await Promise.all([
+  // Parallel data fetching: Now also including real date labels from backend
+  const [income, orders, categories, labels] = await Promise.all([
     getIncomeStatistics(period, count),
     getOrdersStatistics(period, count),
+    getCategoryStatistics(),
     getLabelsStatistics(period, count)
   ]);
 
@@ -38,12 +39,13 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     period,
     income,
     orders,
+    categories,
     labels
   };
 }
 
 export default function StatisticsPage({ loaderData }: Route.ComponentProps) {
-  const { userId, income, orders, labels, period } = loaderData;
+  const { userId, income, orders, categories, period, labels } = loaderData;
 
   return (
     <Container className="container-main mt-5 mb-5">
@@ -58,7 +60,8 @@ export default function StatisticsPage({ loaderData }: Route.ComponentProps) {
             userId={userId} 
             initialIncome={income}
             initialOrders={orders}
-            initialLabels={labels}
+            categoryData={categories}
+            timelineLabels={labels}
             currentPeriod={period}
           />
         </Col>
