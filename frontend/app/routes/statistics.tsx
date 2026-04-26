@@ -1,8 +1,9 @@
-import { useLoaderData, redirect } from "react-router";
+import { useLoaderData, redirect, useSearchParams } from "react-router";
 import type { Route } from "./+types/statistics";
-import { Container, Row, Col, Alert } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useUserStore } from "~/stores/user-store";
 import Statistics from "~/components/statistics";
+import { getIncomeStatistics, getOrdersStatistics, getLabelsStatistics } from "~/services/statistics-service";
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const { user } = useUserStore.getState();
@@ -16,11 +17,28 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     throw redirect("/");
   }
 
-  return { userId: user.id };
+  const url = new URL(request.url);
+  const period = url.searchParams.get("period") || "month";
+  const count = period === "year" ? 5 : 12;
+
+  // Carga paralela de todos los datos necesarios
+  const [income, orders, labels] = await Promise.all([
+    getIncomeStatistics(period, count),
+    getOrdersStatistics(period, count),
+    getLabelsStatistics(period, count)
+  ]);
+
+  return { 
+    userId: user.id,
+    period,
+    income,
+    orders,
+    labels
+  };
 }
 
-export default function StatisticsPage() {
-  const { userId } = useLoaderData<typeof clientLoader>();
+export default function StatisticsPage({ loaderData }: Route.ComponentProps) {
+  const { userId, income, orders, labels, period } = loaderData;
 
   return (
     <Container className="container-main mt-5 mb-5">
@@ -31,7 +49,13 @@ export default function StatisticsPage() {
 
       <Row>
         <Col xs={12}>
-          <Statistics userId={userId} />
+          <Statistics 
+            userId={userId} 
+            initialIncome={income}
+            initialOrders={orders}
+            initialLabels={labels}
+            currentPeriod={period}
+          />
         </Col>
       </Row>
     </Container>
