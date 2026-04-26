@@ -9,7 +9,8 @@ import {
   Title, 
   Tooltip, 
   Legend, 
-  BarElement 
+  BarElement,
+  RadialLinearScale
 } from 'chart.js';
 import { Line, Bar, Radar } from 'react-chartjs-2';
 import { Card, Row, Col, Form } from "react-bootstrap";
@@ -22,6 +23,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
+  RadialLinearScale,
   Title,
   Tooltip,
   Legend
