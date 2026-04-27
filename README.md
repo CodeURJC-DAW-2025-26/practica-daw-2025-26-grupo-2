@@ -906,17 +906,17 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
+#### **Alumno 3 - [Jorge Padilla Rodríguez]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+En esta práctica mi cometido principal ha sido la implementación en su totalidad de todas las páginas relacionadas con garments (prendas), exceptuando la página de detalle, entre las que destacan la página principal de la aplicación (página de inicio), las páginas de creación y edición de prendas, así como todos los componentes relacionados con estas. De igual manera, he sido el responsable de implementar las páginas de registro y edición de un usuario, así como el componente que utilizan ambas. Por otra parte, también he sido el encargado de llevar a cabo el servicio de estadísticas (statistics-service.ts). Posteriormente, he realizado el paso de la mayor parte del código ya creado a react-bootstrap. Y por último, he participado en la labor de búsqueda y subsanación de errores en la aplicación.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Implementación de la página principal de la aplicación y todos los componentes relacionados](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/dea85e478a93966b67233d0416b80e448547ba65)  | [garment-list.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/garment-list.tsx)   |
+|2| [Implementación de las páginas de creación y edición de una prenda](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/29255dfe709d411d026a89b6e8cfc49baa817ab1)  | [garment-form.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/components/garment-form.tsx)   |
+|3| [Implementación de las páginas de registro y edición de un usuario](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/934f23ab8445fbd4a3e5c2e2764267d6dbc1fa97)  | [user-form.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/components/user-form.tsx)   |
+|4| [Paso de parte del código a react-bootstrap (código de garments)](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/6049d3da52007847c938f04c79ff03f038565c05)  | [garment-form.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/components/garment-form.tsx)   |
+|5| [Implementación del servicio de estadísticas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/42b947e6511010e9855594954856b24b62745b52)  | [statistics-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/statistics-service.ts)   |
 
 ---
 
