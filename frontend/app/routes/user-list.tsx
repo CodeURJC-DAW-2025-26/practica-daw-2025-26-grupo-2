@@ -1,28 +1,18 @@
 import { useState } from "react";
-import { Link, redirect } from "react-router";
+import { Link } from "react-router";
 import type { Route } from "./+types/user-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getUsers, disableUser } from "~/services/users-service";
 import UserCard from "~/components/user-card";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireRole } from "~/services/auth-service";
 import type UserBasicDTO from "~/dtos/UserBasicDTO";
 
 const PAGE_SIZE = 10;
 
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
-
-  if (!user) {
-    const url = new URL(request.url);
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-  }
-
-  if (!user.roles?.includes("ADMIN")) {
-    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-  }
+  const user = await requireAuth(request);
+  requireRole(user, "ADMIN");
 
   const users = await getUsers(0, PAGE_SIZE);
   return { users, hasMore: users.length === PAGE_SIZE };
@@ -77,7 +67,6 @@ export default function UserList({ loaderData }: Route.ComponentProps) {
           </thead>
           <tbody>
             {users.length === 0 ? (
-              // Lista vacía
               <tr>
                 <td colSpan={6}>
                   <Alert variant="info" className="mb-0">No hay usuarios disponibles</Alert>

@@ -1,13 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 import { Outlet, useNavigate, useNavigation } from "react-router";
-import { useEffect } from "react";
 import Header from "~/components/header";
 import Footer from "~/components/footer";
 import type { Route } from "./+types/home";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
 import { useUserStore } from "~/stores/user-store";
 
 export async function clientLoader() {
@@ -28,23 +26,23 @@ export default function Home() {
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   const navigate = useNavigate();
 
-  let errorMessage =
+  const errorMessage =
     error instanceof Error ? error.message : "Ocurrió un error inesperado.";
 
   return (
     <>
       <Header />
-      <Container className="mt-4">
+      <Container className="mt-4 mb-5">
         <Alert variant="danger">
           <Alert.Heading>Error</Alert.Heading>
           <p>{errorMessage}</p>
-          <Button variant="outline-danger" onClick={() => navigate("/")}>
+          <hr />
+          <Alert.Link href="#" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
             Volver al inicio
-          </Button>
+          </Alert.Link>
         </Alert>
       </Container>
       <Footer />
-
     </>
   );
 }

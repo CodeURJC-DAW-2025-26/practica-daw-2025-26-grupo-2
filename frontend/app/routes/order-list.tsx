@@ -1,41 +1,26 @@
 import "./order-list.css";
 import { useState } from "react";
-import { redirect } from "react-router";
 import type { Route } from "./+types/order-list";
 import { Container, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { getOrders, getUserOrders, deleteOrder } from "~/services/orders-service";
 import OrderCard from "~/components/order-card";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireOwnerOrRole, requireRole } from "~/services/auth-service";
 import type OrderBasicDTO from "~/dtos/OrderBasicDTO";
 
 const PAGE_SIZE = 10;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
+  const user = await requireAuth(request);
   const userId = url.searchParams.get("userId");
 
-  if (!user) {
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
-  }
-
-  const isAdmin = user.roles?.includes("ADMIN") ?? false;
-
   if (userId) {
-    if (!isAdmin && user.id !== Number(userId)) {
-      throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-    }
+    requireOwnerOrRole(user, Number(userId), "ADMIN");
     const orders = await getUserOrders(Number(userId), 0, PAGE_SIZE);
     return { orders, userId: Number(userId), hasMore: orders.length === PAGE_SIZE };
   }
 
-  if (!isAdmin) {
-    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-  }
-
+  requireRole(user, "ADMIN");
   const orders = await getOrders(0, PAGE_SIZE);
   return { orders, userId: null, hasMore: orders.length === PAGE_SIZE };
 }

@@ -17,7 +17,6 @@ import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import { Card, Row, Col, Form } from "react-bootstrap";
 import "./statistics.css";
 
-// Register Chart.js components globally
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,18 +43,16 @@ interface StatisticsProps {
 export default function Statistics({ initialIncome, initialOrders, categoryData, timelineLabels, currentPeriod }: StatisticsProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // KPI Calculations
   const totalIncome = initialIncome.reduce((acc, val) => acc + val, 0);
   const totalOrders = initialOrders.reduce((acc, val) => acc + val, 0);
   const avgTicket = totalOrders > 0 ? (totalIncome / totalOrders).toFixed(2) : "0.00";
 
-  // Category chart logic
   const categoryNames = Object.keys(categoryData);
   const categoryValues = Object.values(categoryData);
   const hasCategoryData = categoryValues.length > 0 && categoryValues.some(val => val > 0);
 
   const incomeChartData = {
-    labels: timelineLabels, // Real dates from backend (e.g., "26/04", "abr 2026")
+    labels: timelineLabels, 
     datasets: [
       {
         label: 'Ingresos (€)',
@@ -71,7 +68,7 @@ export default function Statistics({ initialIncome, initialOrders, categoryData,
   };
 
   const ordersChartData = {
-    labels: timelineLabels, // Real dates from backend
+    labels: timelineLabels,
     datasets: [
       {
         label: 'Número de Pedidos',
@@ -111,27 +108,23 @@ export default function Statistics({ initialIncome, initialOrders, categoryData,
 
   return (
     <div className="statistics-container">
-      {/* KPI CARDS */}
       <Row className="mb-4">
         <Col md={4} className="mb-3">
           <Card className="shadow-sm border-0 bg-white p-3 text-center">
             <div className="text-muted small text-uppercase fw-bold mb-1">Total Ingresos</div>
             <h3 className="fw-bold mb-0 text-dark">{totalIncome.toLocaleString('es-ES')}€</h3>
-            <div className="text-success small mt-1"><i className="bi bi-graph-up"></i> Periodo actual</div>
           </Card>
         </Col>
         <Col md={4} className="mb-3">
           <Card className="shadow-sm border-0 bg-white p-3 text-center">
             <div className="text-muted small text-uppercase fw-bold mb-1">Total Pedidos</div>
             <h3 className="fw-bold mb-0 text-dark">{totalOrders}</h3>
-            <div className="text-primary small mt-1"><i className="bi bi-cart-check"></i> Actividad real</div>
           </Card>
         </Col>
         <Col md={4} className="mb-3">
           <Card className="shadow-sm border-0 bg-white p-3 text-center">
             <div className="text-muted small text-uppercase fw-bold mb-1">Ticket Medio</div>
             <h3 className="fw-bold mb-0 text-dark">{avgTicket}€</h3>
-            <div className="text-warning small mt-1"><i className="bi bi-calculator"></i> Por pedido</div>
           </Card>
         </Col>
       </Row>
@@ -154,7 +147,6 @@ export default function Statistics({ initialIncome, initialOrders, categoryData,
           </div>
         </Col>
 
-        {/* INCOME CHART */}
         <Col lg={8} className="mb-4">
           <Card className="shadow-sm border-0 h-100">
             <Card.Header className="bg-white py-3 border-0">
@@ -181,7 +173,6 @@ export default function Statistics({ initialIncome, initialOrders, categoryData,
           </Card>
         </Col>
 
-        {/* DOUGHNUT CHART */}
         <Col lg={4} className="mb-4">
           <Card className="shadow-sm border-0 h-100">
             <Card.Header className="bg-white py-3 border-0">
@@ -212,7 +203,6 @@ export default function Statistics({ initialIncome, initialOrders, categoryData,
           </Card>
         </Col>
 
-        {/* ORDERS CHART */}
         <Col lg={12} className="mb-4">
           <Card className="shadow-sm border-0">
             <Card.Header className="bg-white py-3 border-0">

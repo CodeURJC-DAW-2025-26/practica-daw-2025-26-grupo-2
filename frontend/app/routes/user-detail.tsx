@@ -1,8 +1,9 @@
 import "./user-detail.css";
-import { redirect, useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router";
 import type { Route } from "./+types/user-detail";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { getUser, disableUser, getUserOrderStats, getUserMeanTicketChart } from "~/services/users-service";
+import { requireAuth, requireOwnerOrRole } from "~/services/auth-service";
 import { useUserStore } from "~/stores/user-store";
 import { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
@@ -13,20 +14,11 @@ type OrderStats = {
 };
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
-  if (!user) {
-    const url = new URL(request.url);
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-  }
+  const user = await requireAuth(request);
 
   const profileId = Number(params.id);
 
-  if (!user.roles?.includes("ADMIN") && user.id !== profileId) {
-    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-  }
-
+  requireOwnerOrRole(user, profileId, "ADMIN");
   const [profileUser, orderStats] = await Promise.all([
     getUser(profileId),
     getUserOrderStats(profileId),
@@ -40,7 +32,6 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
   };
 }
 
-// ─── Gráfica de ticket medio ────────────────────────────────────────────────
 
 function MeanTicketChart({ userId }: { userId: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -128,8 +119,6 @@ function MeanTicketChart({ userId }: { userId: number }) {
   );
 }
 
-// ─── Componente principal ────────────────────────────────────────────────────
-
 export default function UserDetail({ loaderData }: Route.ComponentProps) {
   const { profileUser } = loaderData;
   const loggedUser = useUserStore((s) => s.user);
@@ -202,7 +191,6 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
         <hr className="profile-divider" />
 
         <Row className="g-4">
-          {/* LEFT */}
           <Col xs={12} lg={5}>
             <div className="profile-card">
               <div className="profile-card-title">
@@ -234,7 +222,6 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
             </div>
           </Col>
 
-          {/* RIGHT */}
           <Col xs={12} lg={7}>
             <div className="profile-card h-100">
               <div className="profile-card-title">

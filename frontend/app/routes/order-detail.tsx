@@ -1,11 +1,11 @@
 import "./order-detail.css";
 import { useState, useActionState, useEffect } from "react";
-import { useNavigate, redirect, Link } from "react-router";
+import { useNavigate, Link } from "react-router";
 import type { Route } from "./+types/order-detail";
 import { Container, Row, Col, Button, Form, Table, Alert, Spinner, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
 import { getOrderItems } from "~/services/orderItems-service";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireOwnerOrRole } from "~/services/auth-service";
 import type OrderExtendedDTO from "~/dtos/OrderExtendedDTO";
 import type OrderItemBasicDTO from "~/dtos/OrderItemBasicDTO";
 
@@ -16,23 +16,15 @@ export async function clientLoader({ params, request }: Route.ClientLoaderArgs) 
   const url = new URL(request.url);
   const isEditing = url.searchParams.get("edit") === "true";
 
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
-  if (!user) {
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname + url.search)}`);
-  }
+  const user = await requireAuth(request);
 
   const order = await getOrder(orderId);
   const orderItems = await getOrderItems(orderId, 0, PAGE_SIZE);
 
-  // Verificar permisos
+  requireOwnerOrRole(user, order.user.id, "ADMIN");
+
   const isAdmin = user?.roles?.includes("ADMIN") ?? false;
   const isOwner = user?.id === order.user.id;
-  
-  if (!isAdmin && !isOwner) {
-    throw new Response("No tienes permiso para ver este pedido", { status: 403 });
-  }
 
   return { 
     order, 

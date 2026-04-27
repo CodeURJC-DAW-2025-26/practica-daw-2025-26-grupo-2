@@ -1,9 +1,9 @@
 import { useActionState, useEffect } from "react";
-import { redirect, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/user-edit";
 import { Container, Row, Col } from "react-bootstrap";
 import UserForm from "~/components/user-form";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireOwnerOrRole } from "~/services/auth-service";
 import { 
     getUser,
     updateUser,
@@ -12,19 +12,11 @@ import {
     } from "~/services/users-service";
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
-    await useUserStore.getState().loadLoggedUser();
-    const { user } = useUserStore.getState();
-
-    if (!user) {
-        const url = new URL(request.url);
-        throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-    }
+    const user = await requireAuth(request);
 
     const profileId = Number(params.id);
 
-    if (!user.roles?.includes("ADMIN") && user.id !== profileId) {
-        throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-    }
+    requireOwnerOrRole(user, profileId, "ADMIN");
 
     const profileUser = await getUser(profileId);
     return profileUser;

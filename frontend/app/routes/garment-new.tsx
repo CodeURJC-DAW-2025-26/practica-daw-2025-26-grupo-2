@@ -1,8 +1,8 @@
 import { useActionState, useEffect } from "react";
-import { useNavigate, redirect } from "react-router";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/garment-new";
 import GarmentForm from "~/components/garment-form";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireRole } from "~/services/auth-service";
 import { Container } from "react-bootstrap";
 import { 
     addGarment,
@@ -10,15 +10,8 @@ import {
 } from "~/services/garments-service";
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-    const url = new URL(request.url);
-    await useUserStore.getState().loadLoggedUser();
-    const { user } = useUserStore.getState();
-    if (!user) {
-        throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-    }
-    if (!user.roles?.includes("ADMIN")) {
-        throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-    }
+    const user = await requireAuth(request);
+    requireRole(user, "ADMIN");
     return null;
 }
 

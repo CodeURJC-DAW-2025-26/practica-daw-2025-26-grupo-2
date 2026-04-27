@@ -1,30 +1,20 @@
 import "./order-detail.css";
 import { useActionState, useEffect } from "react";
-import { redirect, useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router";
 import type { Route } from "./+types/order-edit";
 import { Container, Row, Col, Form, Button, Alert, Spinner, Table, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth, requireOwnerOrRole } from "~/services/auth-service";
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
-  if (!user) {
-    const url = new URL(request.url);
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-  }
+  const user = await requireAuth(request);
 
   const orderId = Number(params.id);
   const order = await getOrder(orderId);
 
+  requireOwnerOrRole(user, order.user.id, "ADMIN");
+
   const isAdmin = user.roles?.includes("ADMIN") ?? false;
-  const isOwner = user.id === order.user.id;
-
-  if (!isAdmin && !isOwner) {
-    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
-  }
-
   return { order, isAdmin };
 }
 

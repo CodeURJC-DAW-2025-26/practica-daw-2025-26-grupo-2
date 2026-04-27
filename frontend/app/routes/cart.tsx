@@ -1,11 +1,11 @@
 import "./cart.css";
 import { useState, useActionState } from "react";
-import { useNavigate, redirect } from "react-router";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/cart";
 import { Container, Row, Col, Button, Form, Alert, Spinner, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
 import { getOrderItems, disableOrderItem } from "~/services/orderItems-service";
-import { useUserStore } from "~/stores/user-store";
+import { requireAuth } from "~/services/auth-service";
 import type OrderExtendedDTO from "~/dtos/OrderExtendedDTO";
 import type OrderItemBasicDTO from "~/dtos/OrderItemBasicDTO";
 
@@ -13,12 +13,7 @@ const PAGE_SIZE = 10;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-  await useUserStore.getState().loadLoggedUser();
-  const { user } = useUserStore.getState();
-
-  if (!user) {
-    throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
-  }
+  const user = await requireAuth(request);
 
   if (!user?.cart?.id) {
     return { order: null, orderItems: [], user, hasMore: false };
@@ -62,7 +57,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
           deliveryAddress,
           deliveryNote,
           deliveryDate,
-          true // completed = true => procesa el pedido
+          true
         );
         navigate(`/orders?userId=${user?.id}`);
         return { success: true, error: null };
@@ -86,7 +81,6 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
       await disableOrderItem(order!.id, itemId);
       const newItems = orderItems.filter((i) => i.id !== itemId);
       setOrderItems(newItems);
-      // Recargar el pedido para actualizar totales
       const updatedOrder = await getOrder(order!.id);
       setOrder(updatedOrder);
     } catch (error: any) {

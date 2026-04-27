@@ -34,8 +34,6 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
   const navigate = useNavigate();
   const garmentId = Number(params.id);
   const { garment, user: loadedUser } = loaderData;
-  
-  // Use user from loader data instead of store to ensure it's available immediately
   const user = loadedUser;
   const isLogged = !!user;
   const isAdmin = user?.roles?.includes("ADMIN") ?? false;
@@ -52,7 +50,6 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
       const size = formData.get("size") as string;
       const quantity = Number(formData.get("quantity"));
 
-      // Create or get cart, then add item to cart
       const cart = await getOrCreateCart();
       await addOrderItem(cart.id, garmentId, quantity, size);
       navigate("/cart");
@@ -74,16 +71,13 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
         let savedOpinion: OpinionExtendedDTO;
         
         if (opinionId) {
-          // Update existing opinion
           savedOpinion = await updateOpinion(garmentId, Number(opinionId), comment, rating);
         } else {
-          // Add new opinion
           savedOpinion = await addOpinion(garmentId, comment, rating);
         }
 
         setEditingOpinion(null);
         
-        // Refresh opinions list
         const newOpinions = await getOpinions(garmentId, 0, PAGE_SIZE);
         setOpinions(newOpinions);
         setPage(1);
@@ -102,7 +96,6 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
 
   const [opinionState, opinionAction, isPendingOpinion] = useActionState(handleOpinionSubmit, null);
 
-  // Reset form when action succeeds
   useEffect(() => {
     if (opinionState?.success) {
       setEditingOpinion(null);
@@ -114,7 +107,6 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
       await deleteOpinion(garmentId, opinionId);
       setEditingOpinion(null);
       
-      // Refresh opinions list
       const newOpinions = await getOpinions(garmentId, 0, PAGE_SIZE);
       setOpinions(newOpinions);
       setPage(1);

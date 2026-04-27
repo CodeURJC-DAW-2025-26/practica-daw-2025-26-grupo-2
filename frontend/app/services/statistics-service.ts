@@ -42,7 +42,7 @@ export async function getOrdersStatistics(period: string, number: number): Promi
     return json.data;
 }
 
-export async function getLabelsStatistics(period: string, number: number): Promise<number[]> {
+export async function getLabelsStatistics(period: string, number: number): Promise<string[]> {
     const validatedPeriod = validate(period, number);
 
     const params = new URLSearchParams({ 
