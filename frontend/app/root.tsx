@@ -7,6 +7,9 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "react-router";
+import { Container, Alert, Button } from "react-bootstrap";
+import { Link } from "react-router";
+
 import { ApiError } from "~/services/api-fetch";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -35,13 +38,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
+
       <body>
         {isLoading && (
           <div className="page-spinner-overlay">
             <div className="dot-spinner" />
           </div>
         )}
+
         {children}
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -69,14 +75,17 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main style={{ padding: "1.5rem" }}>
-      <div className="container mt-4 mb-5">
-        <div className="alert alert-danger" role="alert">
-          <h4 className="alert-heading">Error</h4>
+      <Container className="mt-4 mb-5">
+        <Alert variant="danger">
+          <Alert.Heading>Error</Alert.Heading>
           <p>{details}</p>
           <hr />
-          <a href="/" className="alert-link">Volver al inicio</a>
-        </div>
-      </div>
+
+          <Button as={Link as any} to="/" variant="link" className="p-0">
+            Volver al inicio
+          </Button>
+        </Alert>
+      </Container>
     </main>
   );
 }

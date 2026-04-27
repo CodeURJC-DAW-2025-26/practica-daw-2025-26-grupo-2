@@ -1,7 +1,7 @@
 import "./user-detail.css";
 import { useNavigate, Link } from "react-router";
 import type { Route } from "./+types/user-detail";
-import { Container, Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Row, Col, Card, ButtonGroup } from "react-bootstrap";
 import { getUser, disableUser, getUserOrderStats, getUserMeanTicketChart } from "~/services/users-service";
 import { requireAuth, requireOwnerOrRole } from "~/services/auth-service";
 import { useUserStore } from "~/stores/user-store";
@@ -32,10 +32,10 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
   };
 }
 
-
 function MeanTicketChart({ userId }: { userId: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<Chart | null>(null);
+
   const [period, setPeriod] = useState<"month" | "year">("month");
   const [chartData, setChartData] = useState<{ data: number[]; labels: string[] } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,6 +44,7 @@ function MeanTicketChart({ userId }: { userId: number }) {
   useEffect(() => {
     setLoading(true);
     setError(false);
+
     getUserMeanTicketChart(userId, period)
       .then(setChartData)
       .catch(() => setError(true))
@@ -52,7 +53,9 @@ function MeanTicketChart({ userId }: { userId: number }) {
 
   useEffect(() => {
     if (!canvasRef.current || !chartData) return;
+
     if (chartRef.current) chartRef.current.destroy();
+
     chartRef.current = new Chart(canvasRef.current, {
       type: "line",
       data: {
@@ -85,36 +88,49 @@ function MeanTicketChart({ userId }: { userId: number }) {
         <h3 className="mb-0" style={{ fontSize: "1.05rem", fontWeight: 800 }}>
           Evolución del ticket medio
         </h3>
-        <div className="btn-group btn-group-sm" role="group">
-          <button
-            className={`btn btn-outline-primary px-3 ${period === "month" ? "active" : ""}`}
+
+        <ButtonGroup size="sm">
+          <Button
+            variant="outline-primary"
+            active={period === "month"}
+            className="px-3"
             onClick={() => setPeriod("month")}
           >
             Mensual
-          </button>
-          <button
-            className={`btn btn-outline-primary px-3 ${period === "year" ? "active" : ""}`}
+          </Button>
+
+          <Button
+            variant="outline-primary"
+            active={period === "year"}
+            className="px-3"
             onClick={() => setPeriod("year")}
           >
             Anual
-          </button>
-        </div>
+          </Button>
+        </ButtonGroup>
       </div>
-      <div className="card border-0 shadow-sm">
-        <div className="card-body">
+
+      <Card className="border-0 shadow-sm">
+        <Card.Body>
           {loading && (
             <p className="text-muted text-center py-3" style={{ fontSize: "0.9rem" }}>
               Cargando gráfica…
             </p>
           )}
+
           {error && !loading && (
             <p className="text-danger text-center py-3" style={{ fontSize: "0.9rem" }}>
               No se pudo cargar la gráfica.
             </p>
           )}
-          <canvas ref={canvasRef} height={110} style={{ display: loading || error ? "none" : "block" }} />
-        </div>
-      </div>
+
+          <canvas
+            ref={canvasRef}
+            height={110}
+            style={{ display: loading || error ? "none" : "block" }}
+          />
+        </Card.Body>
+      </Card>
     </div>
   );
 }
@@ -180,6 +196,7 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
               >
                 Editar perfil <i className="bi bi-pencil-square" />
               </Link>
+
               <Button variant="danger" onClick={handleDelete}>
                 Eliminar cuenta <i className="bi bi-x-lg" />
               </Button>
@@ -230,8 +247,8 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
                 </span>
               </div>
 
-              <div className="row g-3 mt-1">
-                <div className="col-12 col-md-6">
+              <Row className="g-3 mt-1">
+                <Col xs={12} md={6}>
                   <div className="metric">
                     <div className="metric-top">
                       <span>Ticket medio (último mes)</span>
@@ -242,9 +259,9 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
                     </div>
                     <div className="metric-hint">Precio promedio por pedido</div>
                   </div>
-                </div>
+                </Col>
 
-                <div className="col-12 col-md-6">
+                <Col xs={12} md={6}>
                   <div className="metric">
                     <div className="metric-top">
                       <span>Compras (último mes)</span>
@@ -253,8 +270,8 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
                     <div className="metric-value">{stats?.orderCount ?? 0}</div>
                     <div className="metric-hint">Pedidos procesados</div>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
 
               <MeanTicketChart userId={profileUser.id} />
 
