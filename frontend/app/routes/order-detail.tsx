@@ -337,7 +337,7 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
         </div>
       )}
 
-      {!isEditing && (
+      {!isEditing && order.completed && (
         <div className="text-center mt-4">
           <Button
             as={Link as any}

@@ -78,7 +78,7 @@ public class OrderRestController {
 		return orderDTO;
 	}
 
-	@GetMapping(value = "/{id}/invoice", produces = MediaType.APPLICATION_PDF_VALUE)
+	@GetMapping("/{id}/invoice")
 	public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id, HttpServletRequest request) {
 		Order order = orderService.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido no encontrado"));
 

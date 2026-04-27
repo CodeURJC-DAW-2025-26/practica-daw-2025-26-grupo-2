@@ -47,14 +47,16 @@ export default function OrderCard({ order, isAdmin, onDelete }: Props) {
               </Button>
             </>
           ) : (
-            <Button as={Link as any}
-              to={`/api/v1/orders/${order.id}/invoice`}
-              className="btn btn-success btn-sm"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Generar factura <i className="bi bi-file-earmark-pdf" />
-            </Button>
+            order.completed && (
+              <Button as={Link as any}
+                to={`/api/v1/orders/${order.id}/invoice`}
+                className="btn btn-success btn-sm"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Generar factura <i className="bi bi-file-earmark-pdf" />
+              </Button>
+            )
           )}
         </div>
       </td>
