@@ -62,26 +62,17 @@ export async function addUser(
 }
 
 export async function getUserOrderStats(userId: number) {
-    
-  const countRes = await apiFetch(
-    `/api/v1/users/${userId}/orders?size=1`,
-    { credentials: "include" }
-  );
-  if (!countRes.ok) throw new Error("Error al obtener pedidos del usuario");
-  const countJson = await countRes.json();
-
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
-
   const ordersRes = await apiFetch(
-    `/api/v1/users/${userId}/orders?size=100`,
-    { credentials: "include" }
+    `/api/v1/users/${userId}/orders?size=100&page=0`
   );
   if (!ordersRes.ok) throw new Error("Error al obtener pedidos del usuario");
   const ordersJson = await ordersRes.json();
 
-  const allOrders = ordersJson.content ?? [];
+  const allOrders = ordersJson.content ?? (Array.isArray(ordersJson) ? ordersJson : []);
+
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
 
   const thisMonthOrders = allOrders.filter((o: any) => {
     const d = new Date(o.creationDate);
@@ -101,12 +92,8 @@ export async function getUserOrderStats(userId: number) {
 export async function getUserMeanTicketChart(userId: number, period: "month" | "year") {
   const number = period === "month" ? 12 : 5;
   const [dataRes, labelsRes] = await Promise.all([
-    apiFetch(`/api/v1/statistics/users/${userId}?period=${period}&number=${number}`, {
-      credentials: "include",
-    }),
-    apiFetch(`/api/v1/statistics/labels?period=${period}&number=${number}`, {
-      credentials: "include",
-    }),
+    apiFetch(`/api/v1/statistics/users/${userId}?period=${period}&number=${number}`),
+    apiFetch(`/api/v1/statistics/labels?period=${period}&number=${number}`),
   ]);
 
   if (!dataRes.ok || !labelsRes.ok) throw new Error("Error al obtener la gráfica");
@@ -206,5 +193,4 @@ export async function replaceUserImage(
   if (!res.ok) {
     throw new Error("Error al reemplazar el avatar del usuario");
   }
-
 }
