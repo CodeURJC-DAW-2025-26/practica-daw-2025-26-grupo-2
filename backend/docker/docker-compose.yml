@@ -1,6 +1,6 @@
 services:
   web:
-    image: zendashop-test:latest
+    image: ${DOCKERHUB_USER}/zendashop:0.0.1
     ports:
       - "8443:8443"
     environment:
