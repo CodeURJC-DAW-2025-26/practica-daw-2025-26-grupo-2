@@ -932,3 +932,16 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 |4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
+---
+
+#### **Alumno 5 - [Alejandro Lefebvre Valiente]**
+
+Mis principales responsabilidades han sido la integración del frontend con el backend mediante el uso de Docker multi-stage, así como la mejora de la visualización y correcta transferencia de estadísticas, corrigiendo errores detectados en prácticas anteriores. Además, he realizado diversas correcciones relacionadas con el enrutamiento, páginas de error, permisos de acceso y otros aspectos de estabilidad de la aplicación.
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Corrección de error de la practica anterior: estandarización de las respuestas de la API a objetos JSON](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/e26bf9a85d1c4f453ebdbe04f0ed41f0990af110)  | [StatisticRestController](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/src/main/java/es/dawgrupo2/zendashop/controller/StatisticRestController.java)   |
+|2| [Correcta aparición de las estadisticas en los perfiles](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/4c193f50daaff61d0438f85de9692a787f31e7c2)  | [users-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/users-service.ts)   |
+|3| [Integración de frontend con backend mediante Docker Multi-Stage](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/901547a85f234ca8dfc1283da42cee1303855a4b)  | [Dockerfile](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/backend/docker/Dockerfile)   |
+|4| [Arreglo de  estadisticas para usuarios no administradores](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/63a133f6c5162f9043b8093091e4a8d1fa690aea)  | [users-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/users-service.ts)   |
+|5| [Implementación de paginas de error en el frontend](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/63549fea0f760ae259389441aa91b71ba89da85e)  | [root.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/root.tsx)   |
