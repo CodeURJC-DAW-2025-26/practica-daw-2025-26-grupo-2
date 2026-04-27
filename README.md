@@ -938,7 +938,7 @@ Mis principales responsabilidades en esta práctica fueron:
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Implementación de order-detail](Uhttps://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d8ef8ba05a3c1bb3a2e5903bbb5d9e72e7013d6c)  | [order-detail.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/order-detail.tsx)   |
+|1| [Implementación de order-detail](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d8ef8ba05a3c1bb3a2e5903bbb5d9e72e7013d6c)  | [order-detail.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/order-detail.tsx)   |
 |2| [Implementación de user-card y user-list](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/2bbe9bf659df6163bd4fc0bb29f4701bd1bfeb69)  | [user-list.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/user-list.tsx)   |
 |3| [Implementación users-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5d7ae0e17a80a6688181b0c45ab112b3ee22ef45)  | [users-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/users-service.ts)   |
 |4| [Implementación opinions-service y orderItems-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/78249c7906c0e57065c81256a451d9a6620db867)  | [orderItems-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/orderItems-service.ts)   |
