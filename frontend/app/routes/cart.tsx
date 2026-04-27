@@ -80,6 +80,13 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
     try {
       await disableOrderItem(order!.id, itemId);
       const newItems = orderItems.filter((i) => i.id !== itemId);
+      if (newItems.length === 0) {
+        setOrderItems([]);
+        setOrder(null);
+        setHasMore(false);
+        setPage(1);
+        return;
+      }
       setOrderItems(newItems);
       const updatedOrder = await getOrder(order!.id);
       setOrder(updatedOrder);
