@@ -89,20 +89,56 @@ export async function getUserOrderStats(userId: number) {
   return { averageTicketLastMonth, orderCount };
 }
 
+// Generates labels locally when /statistics/labels returns 403 for normal users
+function generateLocalLabels(period: "month" | "year", number: number): string[] {
+  const now = new Date();
+  const labels: string[] = [];
+
+  if (period === "month") {
+    const monthNames = ["ene", "feb", "mar", "abr", "may", "jun",
+                        "jul", "ago", "sep", "oct", "nov", "dic"];
+    for (let i = number - 1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      labels.push(`${monthNames[d.getMonth()]} ${String(d.getFullYear()).slice(2)}`);
+    }
+  } else {
+    for (let i = number - 1; i >= 0; i--) {
+      labels.push(String(now.getFullYear() - i));
+    }
+  }
+
+  return labels;
+}
+
 export async function getUserMeanTicketChart(userId: number, period: "month" | "year") {
   const number = period === "month" ? 12 : 5;
-  const [dataRes, labelsRes] = await Promise.all([
-    apiFetch(`/api/v1/statistics/users/${userId}?period=${period}&number=${number}`),
-    apiFetch(`/api/v1/statistics/labels?period=${period}&number=${number}`),
-  ]);
 
-  if (!dataRes.ok || !labelsRes.ok) throw new Error("Error al obtener la gráfica");
+  // apiFetch handles auth (JWT) and throws on 401/403 — safe to use here
+  const dataRes = await apiFetch(
+    `/api/v1/statistics/users/${userId}?period=${period}&number=${number}`
+  );
+  const dataJson = await dataRes.json();
 
-  const [dataJson, labelsJson] = await Promise.all([dataRes.json(), labelsRes.json()]);
+  // Use raw fetch for labels — apiFetch would throw a redirect on 403,
+  // preventing us from falling back to locally generated labels
+  let labels: string[];
+  try {
+    const labelsRes = await fetch(
+      `/api/v1/statistics/labels?period=${period}&number=${number}`
+    );
+    if (labelsRes.ok) {
+      const labelsJson = await labelsRes.json();
+      labels = labelsJson.data as string[];
+    } else {
+      labels = generateLocalLabels(period, number);
+    }
+  } catch {
+    labels = generateLocalLabels(period, number);
+  }
 
   return {
     data: dataJson.data as number[],
-    labels: labelsJson.data as string[],
+    labels,
   };
 }
 
