@@ -11,7 +11,7 @@ export default function UserCard({ user, onDelete }: Props) {
   const isAdmin = user.roles?.includes("ADMIN");
   const avatarSrc = user.avatar
     ? `/api/v1/images/${user.avatar.id}/media`
-    : "/avatar_default.png";
+    : `${import.meta.env.BASE_URL}avatar_default.png`;
 
   return (
     <tr>

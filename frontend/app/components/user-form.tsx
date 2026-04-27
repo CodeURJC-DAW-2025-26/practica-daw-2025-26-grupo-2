@@ -74,7 +74,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                         />
                     ) : (
                         <img
-                            src="/avatar_default.png"
+                            src={`${import.meta.env.BASE_URL}avatar_default.png`}
                             alt="Avatar por defecto"
                             className="rounded-circle mb-2"
                             width="96"

@@ -21,7 +21,7 @@ export default function Header() {
     <Navbar className="navbar-dark" expand="lg" sticky="top">
       <Container fluid>
         <Navbar.Brand as={Link as any} to="/">
-          <img src="/logo.png" alt="Logo" className="img-logo" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="img-logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-nav" />
         <Navbar.Collapse id="main-nav">

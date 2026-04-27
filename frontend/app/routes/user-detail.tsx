@@ -130,7 +130,7 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
 
   const avatarSrc = profileUser.avatar
     ? `/api/v1/images/${profileUser.avatar.id}/media`
-    : "/avatar_default.png";
+    : `${import.meta.env.BASE_URL}avatar_default.png`;
 
   const formattedDate = profileUser.creationDate
     ? new Date(profileUser.creationDate).toLocaleDateString("es-ES")

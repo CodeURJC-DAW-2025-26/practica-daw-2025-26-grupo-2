@@ -2,12 +2,12 @@
 set -e
 
 if [ -z "$1" ]; then
-    echo "Uso: ./publish_docker-compose.sh <dockerhub_user>"
+    echo "Uso: ./publish_docker-compose.sh <DOCKERHUB_USER>"
     exit 1
 fi
 
 DOCKERHUB_USER="$1"
-COMPOSE_ARTIFACT="${DOCKERHUB_USER}/zendashop-compose:0.1.0"
+COMPOSE_ARTIFACT="${DOCKERHUB_USER}/zendashop-compose:0.2.0"
 
 echo "Publishing docker-compose.yml as OCI artifact: ${COMPOSE_ARTIFACT}"
 docker compose publish "${COMPOSE_ARTIFACT}" --with-env
