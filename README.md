@@ -707,7 +707,7 @@ Mis principales responsabilidades han sido:
 
 Diagrama mostrando los componentes React, hooks personalizados, servicios y sus relaciones:
 
-![Diagrama de Componentes React](images/spa-classes-diagram.png)
+![Diagrama de Componentes React](images/Class_diagram3.jpeg)
 
 ### **Participación de Miembros en la Práctica 3**
 
