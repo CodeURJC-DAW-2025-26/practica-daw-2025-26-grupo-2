@@ -892,17 +892,17 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 2 - [Víctor Navarro Santos]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+En esta práctica mi función principal ha sido el desarrollo e implementación integral del panel de estadísticas (dashboard) de la SPA. Esto ha abarcado la creación de las rutas correspondientes y la integración de la librería Chart.js para generar visualizaciones interactivas (ingresos, ventas por categoría, distribución en radar y pedidos). Además, me he encargado de refactorizar y optimizar la arquitectura del frontend, centralizando la carga del estado del usuario en el layout principal para eliminar peticiones redundantes a la API en rutas hijas. Por otra parte, he mejorado la experiencia de usuario (UX) implementando clientLoaders y un indicador de carga (spinner) global. Y por último, he participado en la estabilización de la aplicación solucionando errores críticos, como la pérdida de sesión al refrescar el periodo de las estadísticas y conflictos de renderizado con las librerías gráficas.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Desarrollo de la funcionalidad y la lógica de datos de estadísticas y correcciones](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/6c2bedb9b4e45d511970aae3d2edf1a470298e28)  | [statistics.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/components/statistics.tsx)   |
+|2| [Creación de la infraestructura para las analíticas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/3716e2ec1f4bcf7e5c9a021dad63cc651fdbbb17)  | [user-store.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/stores/user-store.tsx)   |
+|3| [Refractor para centralizar clientLoader y el uso del spinner global](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/fe62a493e60f93c5f0c8e590250c7705f2ef7f62)  | [root.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/root.tsx)   |
+|4| [Implementación de nueva herramienta para visualización de estadísticas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/3716e2ec1f4bcf7e5c9a021dad63cc651fdbbb17)  | [statistics.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/statistics.tsx)   |
+|5| [Prevención de la pérdida de sesión durante la interacción con la página de estadísticas](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/af327db789abe99ce8e305e6b31e0f0b336ab2f3)  | [statistics-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/statistics-service.ts)   |
 
 ---
 
