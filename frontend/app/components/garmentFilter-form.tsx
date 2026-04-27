@@ -15,7 +15,6 @@ export default function GarmentFilters({ onFilter, show, currentParams }: Garmen
                         <Form onSubmit={onFilter}>
                             <Row className="g-3">
 
-                                {/* SEARCH */}
                                 <Col xs={12} md={3}>
                                     <Form.Label
                                         className="small fw-bold text-uppercase text-muted"
@@ -33,7 +32,6 @@ export default function GarmentFilters({ onFilter, show, currentParams }: Garmen
                                     />
                                 </Col>
 
-                                {/* CATEGORY */}
                                 <Col xs={6} md={2}>
                                     <Form.Label
                                         className="small fw-bold text-uppercase text-muted"
@@ -56,7 +54,6 @@ export default function GarmentFilters({ onFilter, show, currentParams }: Garmen
                                     </Form.Select>
                                 </Col>
 
-                                {/* PRICE */}
                                 <Col xs={6} md={3}>
                                     <Form.Label
                                         className="small fw-bold text-uppercase text-muted"
@@ -86,7 +83,6 @@ export default function GarmentFilters({ onFilter, show, currentParams }: Garmen
                                     </div>
                                 </Col>
 
-                                {/* SORT */}
                                 <Col xs={6} md={2}>
                                     <Form.Label
                                         className="small fw-bold text-uppercase text-muted"
@@ -106,7 +102,6 @@ export default function GarmentFilters({ onFilter, show, currentParams }: Garmen
                                     </Form.Select>
                                 </Col>
 
-                                {/* BUTTON */}
                                 <Col xs={6} md={2} className="d-flex align-items-end">
                                     <Button
                                         type="submit"

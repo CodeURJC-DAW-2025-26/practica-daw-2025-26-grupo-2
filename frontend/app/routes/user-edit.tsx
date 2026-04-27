@@ -12,6 +12,7 @@ import {
     } from "~/services/users-service";
 
 export async function clientLoader({ request, params }: Route.ClientLoaderArgs) {
+    await useUserStore.getState().loadLoggedUser();
     const { user } = useUserStore.getState();
 
     if (!user) {
@@ -22,7 +23,7 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
     const profileId = Number(params.id);
 
     if (!user.roles?.includes("ADMIN") && user.id !== profileId) {
-        throw redirect("/unauthorized");
+        throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
     }
 
     const profileUser = await getUser(profileId);
@@ -54,7 +55,8 @@ export default function UserEdit({ loaderData }: Route.ComponentProps) {
             }
             return { success: true, error: null };
         } catch (err: any) {
-            return { success: false, error: err.message || "Error al editar el usuario" };
+            navigate(`/error?message=${encodeURIComponent(err.message || "Error al editar el usuario")}`);
+            return { success: false, error: null };
         }
     }
 

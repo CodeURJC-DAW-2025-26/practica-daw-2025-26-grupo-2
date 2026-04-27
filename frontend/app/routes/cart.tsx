@@ -1,6 +1,6 @@
 import "./cart.css";
 import { useState, useActionState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, redirect } from "react-router";
 import type { Route } from "./+types/cart";
 import { Container, Row, Col, Button, Form, Alert, Spinner, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
@@ -12,7 +12,13 @@ import type OrderItemBasicDTO from "~/dtos/OrderItemBasicDTO";
 const PAGE_SIZE = 10;
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  const url = new URL(request.url);
+  await useUserStore.getState().loadLoggedUser();
   const { user } = useUserStore.getState();
+
+  if (!user) {
+    throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
+  }
 
   if (!user?.cart?.id) {
     return { order: null, orderItems: [], user, hasMore: false };
@@ -60,9 +66,10 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
         );
         navigate(`/orders?userId=${user?.id}`);
         return { success: true, error: null };
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al procesar el pedido:", error);
-        return { success: false, error: "Error al procesar el pedido" };
+        navigate(`/error?message=${encodeURIComponent(error?.message || "Error al procesar el pedido")}`);
+        return { success: false, error: null };
       }
     })();
 
@@ -82,8 +89,8 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
       // Recargar el pedido para actualizar totales
       const updatedOrder = await getOrder(order!.id);
       setOrder(updatedOrder);
-    } catch {
-      alert("Error al eliminar el producto");
+    } catch (error: any) {
+      navigate(`/error?message=${encodeURIComponent(error?.message || "Error al eliminar el producto")}`);
     }
   }
 
@@ -99,7 +106,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
     }
   }
 
-  // Carrito vacío
+  // Empty cart
   if (!order) {
     return (
       <Container className="my-4">

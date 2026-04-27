@@ -1,3 +1,4 @@
+import { apiFetch } from "./api-fetch";
 import type UserBasicDTO from "../dtos/UserBasicDTO";
 import type UserExtendedDTO from "../dtos/UserExtendedDTO";
 
@@ -13,7 +14,7 @@ export async function getUsers(
     size: size.toString(),
   });
 
-  const res = await fetch(`${API_URL}/?${params.toString()}`);
+  const res = await apiFetch(`${API_URL}/?${params.toString()}`);
 
   if (!res.ok) {
     throw new Error("Error al obtener los usuarios");
@@ -24,7 +25,7 @@ export async function getUsers(
 }
 
 export async function getUser(id: number): Promise<UserExtendedDTO> {
-  const res = await fetch(`${API_URL}/${id}`);
+  const res = await apiFetch(`${API_URL}/${id}`);
 
   if (!res.ok) {
     throw new Error("Qué buscabas? Usuario no encontrado");
@@ -40,7 +41,7 @@ export async function addUser(
   address: string,
   encodedPassword: string
 ): Promise<UserExtendedDTO> {
-  const res = await fetch(`${API_URL}/`, {
+  const res = await apiFetch(`${API_URL}/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -62,7 +63,7 @@ export async function addUser(
 
 export async function getUserOrderStats(userId: number) {
     
-  const countRes = await fetch(
+  const countRes = await apiFetch(
     `/api/v1/users/${userId}/orders?size=1`,
     { credentials: "include" }
   );
@@ -73,7 +74,7 @@ export async function getUserOrderStats(userId: number) {
   const currentMonth = now.getMonth();
   const currentYear = now.getFullYear();
 
-  const ordersRes = await fetch(
+  const ordersRes = await apiFetch(
     `/api/v1/users/${userId}/orders?size=100`,
     { credentials: "include" }
   );
@@ -100,10 +101,10 @@ export async function getUserOrderStats(userId: number) {
 export async function getUserMeanTicketChart(userId: number, period: "month" | "year") {
   const number = period === "month" ? 12 : 5;
   const [dataRes, labelsRes] = await Promise.all([
-    fetch(`/api/v1/statistics/users/${userId}?period=${period}&number=${number}`, {
+    apiFetch(`/api/v1/statistics/users/${userId}?period=${period}&number=${number}`, {
       credentials: "include",
     }),
-    fetch(`/api/v1/statistics/labels?period=${period}&number=${number}`, {
+    apiFetch(`/api/v1/statistics/labels?period=${period}&number=${number}`, {
       credentials: "include",
     }),
   ]);
@@ -126,7 +127,7 @@ export async function updateUser(
   address: string,
   encodedPassword: string
 ): Promise<UserExtendedDTO> {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await apiFetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -146,7 +147,7 @@ export async function updateUser(
 }
 
 export async function disableUser(id: number): Promise<UserExtendedDTO> {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await apiFetch(`${API_URL}/${id}`, {
     method: "DELETE",
   });
 
@@ -164,7 +165,7 @@ export async function uploadUserImage(
   const formData = new FormData();
   formData.append("imageFile", imageFile);
 
-  const res = await fetch(`${API_URL}/${id}/images/`, {
+  const res = await apiFetch(`${API_URL}/${id}/images/`, {
     method: "POST",
     body: formData,
   });
@@ -178,7 +179,7 @@ export async function deleteUserImage(
   userId: number,
   avatarId: number
 ): Promise<void> {
-  const res = await fetch(
+  const res = await apiFetch(
     `${API_URL}/${userId}/images/${avatarId}`,
     {
       method: "DELETE",
@@ -197,7 +198,7 @@ export async function replaceUserImage(
   const formData = new FormData();
   formData.append("imageFile", imageFile);
 
-  const res = await fetch(`${API_IMAGES_URL}/${imageId}/media`, {
+  const res = await apiFetch(`${API_IMAGES_URL}/${imageId}/media`, {
     method: "PUT",
     body: formData,
   });

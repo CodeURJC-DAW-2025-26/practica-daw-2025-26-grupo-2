@@ -1,17 +1,24 @@
 import { useActionState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, redirect } from "react-router";
 import type { Route } from "./+types/garment-new";
 import GarmentForm from "~/components/garment-form";
-import { requireAuth, requireRole } from "~/services/auth-service";
+import { useUserStore } from "~/stores/user-store";
 import { Container } from "react-bootstrap";
 import { 
     addGarment,
     uploadGarmentImage 
 } from "~/services/garments-service";
 
-export async function clientLoader({}: Route.ClientLoaderArgs) {
-    requireAuth();
-    requireRole("ADMIN");
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+    const url = new URL(request.url);
+    await useUserStore.getState().loadLoggedUser();
+    const { user } = useUserStore.getState();
+    if (!user) {
+        throw redirect(`/login?from=${encodeURIComponent(url.pathname)}`);
+    }
+    if (!user.roles?.includes("ADMIN")) {
+        throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
+    }
     return null;
 }
 
@@ -34,7 +41,8 @@ export default function GarmentNew() {
             }
             return { success: true, error: null, garmentId: newGarment.id };
         } catch (err: any) {
-            return { success: false, error: err.message || "Error al guardar la prenda", garmentId: null };
+            navigate(`/error?message=${encodeURIComponent(err.message || "Error al guardar la prenda")}`);
+            return { success: false, error: null, garmentId: null };
         }
     }
 

@@ -23,7 +23,7 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
   const profileId = Number(params.id);
 
   if (!user.roles?.includes("ADMIN") && user.id !== profileId) {
-    throw redirect("/");
+    throw redirect(`/error?message=${encodeURIComponent("Acceso no autorizado")}`);
   }
 
   const [profileUser, orderStats] = await Promise.all([

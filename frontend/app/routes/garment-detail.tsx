@@ -55,8 +55,8 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
       const cart = await getOrCreateCart();
       await addOrderItem(cart.id, garmentId, quantity, size);
       navigate("/cart");
-    } catch (error) {
-      alert("Error al añadir al carrito");
+    } catch (error: any) {
+      navigate(`/error?message=${encodeURIComponent(error?.message || "Error al añadir al carrito")}`);
     }
   }
 
@@ -89,9 +89,10 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
         setHasMore(newOpinions.length === PAGE_SIZE);
         
         return { success: true, error: null };
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al guardar opinión:", error);
-        return { success: false, error: "Error al guardar la opinión" };
+        navigate(`/error?message=${encodeURIComponent(error?.message || "Error al guardar la opinión")}`);
+        return { success: false, error: null };
       }
     })();
 
@@ -117,18 +118,17 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
       setOpinions(newOpinions);
       setPage(1);
       setHasMore(newOpinions.length === PAGE_SIZE);
-    } catch (error) {
-      alert("Error al eliminar la opinión");
+    } catch (error: any) {
+      navigate(`/error?message=${encodeURIComponent(error?.message || "Error al eliminar la opinión")}`);
     }
   }
 
   async function handleDeleteGarment() {
     try {
       await disableGarment(garmentId);
-      alert("Prenda eliminada exitosamente");
       navigate("/");
-    } catch (error) {
-      alert("Error al eliminar la prenda");
+    } catch (error: any) {
+      navigate(`/error?message=${encodeURIComponent(error?.message || "Error al eliminar la prenda")}`);
     }
   }
 

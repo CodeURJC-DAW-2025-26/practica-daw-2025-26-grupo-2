@@ -108,7 +108,6 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            {/* RECOMMENDATIONS */}
             {isUser && (
                 <section className="offers-section py-5">
                     <Container className="container-main-offers">
@@ -131,7 +130,6 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
                 </section>
             )}
 
-            {/* MAIN */}
             <Container className="container-main py-5 px-4">
                 <div className="position-relative d-flex align-items-center justify-content-center mb-4">
 
@@ -159,14 +157,12 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
                     </Button>
                 </div>
 
-                {/* FILTERS */}
                 <GarmentFilters
                     onFilter={handleFilterSubmit}
                     show={showFilters}
                     currentParams={searchParams}
                 />
 
-                {/* LIST OF GARMENTS */}
                 <Row id="garments-list">
                     {garments.map((garment) => (
                         <Col key={garment.id} xs={12} sm={6} md={4} lg={3} className="garment-item">
@@ -176,7 +172,6 @@ export default function GarmentList({ loaderData }: Route.ComponentProps) {
                 </Row>
             </Container>
 
-            {/* LOAD MORE */}
             <div className="text-center mt-4 mb-5">
                 {isLoadingMore ? (
                     <Spinner animation="border" role="status">

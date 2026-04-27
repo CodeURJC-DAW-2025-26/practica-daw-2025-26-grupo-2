@@ -1,3 +1,5 @@
+import { apiFetch } from "./api-fetch";
+
 const API_URL = "/api/v1/statistics";
 
 export async function getIncomeStatistics(period: string, number: number): Promise<number[]> {
@@ -8,7 +10,7 @@ export async function getIncomeStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/income?${params.toString()}`, {
+    const res = await apiFetch(`${API_URL}/income?${params.toString()}`, {
         credentials: "include"
     });
 
@@ -28,7 +30,7 @@ export async function getOrdersStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/orders?${params.toString()}`, {
+    const res = await apiFetch(`${API_URL}/orders?${params.toString()}`, {
         credentials: "include"
     });
 
@@ -48,7 +50,7 @@ export async function getLabelsStatistics(period: string, number: number): Promi
         number: number.toString() 
     });
 
-    const res = await fetch(`${API_URL}/labels?${params.toString()}`, {
+    const res = await apiFetch(`${API_URL}/labels?${params.toString()}`, {
         credentials: "include"
     });
 
@@ -61,7 +63,7 @@ export async function getLabelsStatistics(period: string, number: number): Promi
 }
 
 export async function getCategoryStatistics(): Promise<Record<string, number>> {
-    const res = await fetch(`${API_URL}/categories`, {
+    const res = await apiFetch(`${API_URL}/categories`, {
         credentials: "include"
     });
 
@@ -85,7 +87,7 @@ export async function getMeanTicket(
         number: number.toString() 
     });
 
-    const res = await fetch(
+    const res = await apiFetch(
         `/api/v1/statistics/users/${userId}?${params.toString()}`,
         {
             credentials: "include"

@@ -1,3 +1,4 @@
+import { apiFetch } from "./api-fetch";
 import type OrderBasicDTO from "../dtos/OrderBasicDTO";
 import type OrderExtendedDTO from "../dtos/OrderExtendedDTO";
 
@@ -5,7 +6,7 @@ const API_URL = "/api/v1/orders";
 
 export async function getOrders(page: number, size: number): Promise<OrderBasicDTO[]> {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString(), completed: "true" });
-    const res = await fetch(`${API_URL}/?${params.toString()}`);
+    const res = await apiFetch(`${API_URL}/?${params.toString()}`);
     if (!res.ok) throw new Error("Error al obtener los pedidos");
     const data = await res.json();
     return Array.isArray(data) ? data : data.content ?? [];
@@ -13,7 +14,7 @@ export async function getOrders(page: number, size: number): Promise<OrderBasicD
 
 
 export async function getOrder(id: number): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/${id}`);
+    const res = await apiFetch(`${API_URL}/${id}`);
     if (!res.ok) {
         throw new Error("Qué buscabas? Pedido no encontrado");
     }
@@ -26,7 +27,7 @@ export async function addOrder(
     deliveryNote: string,
     deliveryDate: string
 ): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/`, {
+    const res = await apiFetch(`${API_URL}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -45,7 +46,7 @@ export async function addOrder(
 
 
 export async function deleteOrder(id: number): Promise<void> {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await apiFetch(`${API_URL}/${id}`, {
         method: "DELETE",
     });
 
@@ -62,7 +63,7 @@ export async function updateOrder(
     deliveryDate: string,
     completed: boolean
 ): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/${id}`, {
+    const res = await apiFetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -86,7 +87,7 @@ export async function getUserOrders(
     size: number
 ): Promise<OrderBasicDTO[]> {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    const res = await fetch(`/api/v1/users/${userId}/orders?${params.toString()}`);
+    const res = await apiFetch(`/api/v1/users/${userId}/orders?${params.toString()}`);
     if (!res.ok) {
         throw new Error("Error al obtener los pedidos del usuario");
     }
@@ -95,7 +96,7 @@ export async function getUserOrders(
 }
 
 export async function getOrCreateCart(): Promise<OrderExtendedDTO> {
-    const res = await fetch(`${API_URL}/cart`, {
+    const res = await apiFetch(`${API_URL}/cart`, {
         method: "POST",
     });
     if (!res.ok) {
