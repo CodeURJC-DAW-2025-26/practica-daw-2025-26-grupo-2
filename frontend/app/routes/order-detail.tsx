@@ -1,6 +1,6 @@
 import "./order-detail.css";
 import { useState, useActionState, useEffect } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import type { Route } from "./+types/order-detail";
 import { Container, Row, Col, Button, Form, Table, Alert, Spinner, Badge } from "react-bootstrap";
 import { getOrder, updateOrder } from "~/services/orders-service";
@@ -339,15 +339,14 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
 
       {!isEditing && order.completed && (
         <div className="text-center mt-4">
-          <Button
-            as={Link as any}
-            to={`/api/v1/orders/${order.id}/invoice`}
-            variant="info"
+          <a
+            href={`/api/v1/orders/${order.id}/invoice`}
+            className="btn btn-info"
             target="_blank"
             rel="noreferrer"
           >
             Generar Factura <i className="bi bi-file-earmark-pdf"></i>
-          </Button>
+          </a>
         </div>
       )}
     </Container>
