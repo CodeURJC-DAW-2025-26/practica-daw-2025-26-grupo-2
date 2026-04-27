@@ -920,17 +920,32 @@ En esta práctica mi cometido principal ha sido la implementación en su totalid
 
 ---
 
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 4 - [Sara Guillén Martínez]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Mis principales responsabilidades en esta práctica fueron:
+
+- Implementar order-detail
+
+- Desarrollar la gestión de usuarios con los componentes UserCard, UserList y el servicio users-service.
+
+- Implementar opinions-service y orderItems-service y soporte de paginación.
+
+- Crear los componentes de listado de prendas: garment-list, garment-card, formulario de filtro: garmentFilter-form y el servicio de autenticación: auth-service.
+
+- Configurar el proxy de Vite para redirigir las peticiones de la SPA al backend.
+
+- Añadir estilos CSS para las páginas: estadísticas, carrito, detalle de prenda, detalle de pedido y detalle de usuario.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Implementación de order-detail](Uhttps://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/d8ef8ba05a3c1bb3a2e5903bbb5d9e72e7013d6c)  | [order-detail.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/order-detail.tsx)   |
+|2| [Implementación de user-card y user-list](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/2bbe9bf659df6163bd4fc0bb29f4701bd1bfeb69)  | [user-list.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/user-list.tsx)   |
+|3| [Implementación users-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/5d7ae0e17a80a6688181b0c45ab112b3ee22ef45)  | [users-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/users-service.ts)   |
+|4| [Implementación opinions-service y orderItems-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/78249c7906c0e57065c81256a451d9a6620db867)  | [orderItems-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/orderItems-service.ts)   |
+|5| [Implementar garment-list, garment-card, garmentFilter-form,auth-serive](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/a398d5b2edaf686072c9ca489064cdc87d2faaa0)  | [garment-list.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/garment-list.tsx)   |
+
+---
+
 
 ---
 
