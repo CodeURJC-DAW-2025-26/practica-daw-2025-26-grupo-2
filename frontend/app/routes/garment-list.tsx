@@ -22,6 +22,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     const url = new URL(request.url);
     const searchParams = url.searchParams;
 
+    await useUserStore.getState().loadLoggedUser();
     const { user } = useUserStore.getState();
 
     const isAdmin = user?.roles?.includes("ADMIN") ?? false;
