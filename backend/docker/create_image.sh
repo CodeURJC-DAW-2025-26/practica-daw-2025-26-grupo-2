@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ -z "$1" ]; then
   echo "Uso: ./create_image.sh <nombre_imagen>"
@@ -6,4 +7,6 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-docker build -t "$1" -f Dockerfile ..
+cd "$(dirname "$0")/../.."
+
+docker build -t "$1" -f backend/docker/Dockerfile .
