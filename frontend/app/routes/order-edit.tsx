@@ -14,12 +14,11 @@ export async function clientLoader({ request, params }: Route.ClientLoaderArgs) 
 
   requireOwnerOrRole(user, order.user.id, "ADMIN");
 
-  const isAdmin = user.roles?.includes("ADMIN") ?? false;
-  return { order, isAdmin };
+  return { order };
 }
 
 export default function OrderEdit({ loaderData, params }: Route.ComponentProps) {
-  const { order, isAdmin } = loaderData;
+  const { order } = loaderData;
   const orderId = Number(params.id);
   const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ export default function OrderEdit({ loaderData, params }: Route.ComponentProps) 
     const deliveryAddress = formData.get("deliveryAddress") as string;
     const deliveryDate = formData.get("deliveryDate") as string;
     const deliveryNote = formData.get("deliveryNote") as string;
-    const completed = isAdmin ? formData.get("completed") === "on" : order.completed;
+    const completed = order.completed;
 
     try {
       await updateOrder(orderId, deliveryAddress, deliveryNote, deliveryDate, completed);
@@ -92,19 +91,9 @@ export default function OrderEdit({ loaderData, params }: Route.ComponentProps) 
                 <tr>
                   <th>Estado del Pedido</th>
                   <td>
-                    {isAdmin ? (
-                      <Form.Check
-                        type="checkbox"
-                        name="completed"
-                        label="Pedido completado"
-                        defaultChecked={order.completed}
-                        id="completed-check"
-                      />
-                    ) : (
-                      <Badge bg={order.completed ? "success" : "warning"} text="dark">
-                        {order.completed ? "COMPLETADO" : "EN CURSO"}
-                      </Badge>
-                    )}
+                    <Badge bg="warning" text="dark">
+                      {order.completed ? "COMPLETADO" : "EN CURSO"}
+                    </Badge>
                   </td>
                 </tr>
               </tbody>

@@ -5,7 +5,7 @@ import type OrderExtendedDTO from "../dtos/OrderExtendedDTO";
 const API_URL = "/api/v1/orders";
 
 export async function getOrders(page: number, size: number): Promise<OrderBasicDTO[]> {
-    const params = new URLSearchParams({ page: page.toString(), size: size.toString(), completed: "true" });
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     const res = await apiFetch(`${API_URL}/?${params.toString()}`);
     if (!res.ok) throw new Error("Error al obtener los pedidos");
     const data = await res.json();

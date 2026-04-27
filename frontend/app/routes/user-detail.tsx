@@ -137,7 +137,6 @@ export default function UserDetail({ loaderData }: Route.ComponentProps) {
     : "—";
 
   async function handleDelete() {
-    if (!confirm("¿Seguro que quieres eliminar esta cuenta?")) return;
     await disableUser(profileUser.id);
     navigate(isAdmin ? "/users" : "/");
   }

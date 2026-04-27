@@ -74,7 +74,7 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
         
         setOrder(updatedOrder);
         setIsEditing(false);
-        navigate(`/order/${orderId}`);
+        navigate(`/orders/${orderId}`);
         
         return { success: true, error: null };
       } catch (error: any) {
@@ -113,7 +113,7 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
     <Container className="container-main mt-5 mb-5">
       <Row className="mb-4">
         <Col md={12}>
-          <Button variant="secondary" className="text-dark" onClick={() => navigate(-1)}>
+          <Button variant="secondary" className="text-dark" onClick={() => navigate("/orders")}>
             <i className="bi bi-arrow-left"></i> Volver
           </Button>
         </Col>
@@ -257,7 +257,7 @@ export default function OrderDetail({ loaderData, params }: Route.ComponentProps
               variant="danger" 
               onClick={() => {
                 setIsEditing(false);
-                navigate(`/order/${orderId}`);
+                navigate(`/orders/${orderId}`);
               }}
             >
               Cancelar <i className="bi bi-x-lg"></i>

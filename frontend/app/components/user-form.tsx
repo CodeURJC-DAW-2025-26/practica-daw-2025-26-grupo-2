@@ -181,7 +181,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                         <Form.Control
                             type={showPassword ? "text" : "password"}
                             name="encodedPassword"
-                            placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+                            placeholder="••••••••"
                             minLength={8}
                             maxLength={100}
                             required={isNew || updatePassword}

@@ -31,12 +31,14 @@ export default function OrderCard({ order, isAdmin, onDelete }: Props) {
           </Link>
           {isAdmin ? (
             <>
-              <Button as={Link as any}
-                to={`/orders/${order.id}/edit`}
-                className="btn btn-warning btn-sm"
-              >
-                Editar <i className="bi bi-pencil" />
-              </Button>
+              {!order.completed && (
+                <Button as={Link as any}
+                  to={`/orders/${order.id}/edit`}
+                  className="btn btn-warning btn-sm"
+                >
+                  Editar <i className="bi bi-pencil" />
+                </Button>
+              )}
               <Button
                 className="btn btn-danger btn-sm"
                 onClick={() => onDelete?.(order.id)}
