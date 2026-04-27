@@ -747,7 +747,7 @@ Mis principales responsabilidades han sido:
 
    Crear un fichero `.env` en el directorio `backend/docker` con el siguiente contenido:
    ```env
-   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.5
    DB_PASSWORD=password
    DB_NAME=zenda
    ```
@@ -759,7 +759,7 @@ Mis principales responsabilidades han sido:
 
    **Alternativa con artefacto OCI (sin clonar el repositorio):**
    ```bash
-   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.2.0 up
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.5 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.5.0 up
    ```
 
 5. **Verificar que los contenedores están corriendo:**
@@ -796,7 +796,7 @@ Mis principales responsabilidades han sido:
 
 2. **Construir la imagen** (hace la build del frontend y del backend dentro de Docker):
    ```bash
-   ./backend/docker/create_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ./backend/docker/create_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.5
    ```
 
 3. **Iniciar sesión en Docker Hub:**
@@ -806,17 +806,17 @@ Mis principales responsabilidades han sido:
 
 4. **Publicar la imagen en Docker Hub:**
    ```bash
-   ./backend/docker/publish_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ./backend/docker/publish_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.5
    ```
 
 5. **Publicar el docker-compose como artefacto OCI:**
    ```bash
    cd backend/docker
-   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.1 ./publish_docker-compose.sh <tu_cuenta_de_dockerhub>
+   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.5 ./publish_docker-compose.sh <tu_cuenta_de_dockerhub>
    ```
    Esto permite ejecutar la aplicación en cualquier máquina con:
    ```bash
-   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.1 docker compose -f oci://<tu_cuenta_de_dockerhub>/zendashop-compose:0.2.0 up
+   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.5 docker compose -f oci://<tu_cuenta_de_dockerhub>/zendashop-compose:0.5.0 up
    ```
 
 ---
@@ -844,7 +844,7 @@ Mis principales responsabilidades han sido:
 
 3. **Levantar los servicios con el artefacto OCI:**
    ```bash
-   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.2.0 up -d
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.5 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.5.0 up -d
    ```
 
 4. **Acceder a la aplicación:**
@@ -866,7 +866,6 @@ Mis principales responsabilidades han sido:
 |:---|:---|:---|
 | Administrador | maria@example.com | password456 |
 | Usuario Registrado | juan@example.com | password123 |
-| Usuario Registrado | carlos@example.com | password789 |
 
 ---
 
@@ -878,18 +877,17 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 
 ### **Participación de Miembros en la Práctica 3**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - [Samuel Melián Benito]**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+En esta práctica me he dedicado a una primera organización del proyecto, implementando los dtos y parte de los servicios. A continuación, desarrollé algunas de las páginas que se muestran más abajo, como por ejemplo el carrito o el detalle de una prenda, incluyendo sus componentes asociados y el css necesario para que se vieran como en la práctica 1. Por otro lado, publiqué la aplicación en el servidor de la universidad que se nos ha proporcionado, corrigiendo pequeños fallos detectados con css y además grabé el vídeo y también hice los subtítulos de este.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
+|1| [Implementación garment-service](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/78249c7906c0e57065c81256a451d9a6620db867)  | [garments-service.ts](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/services/garments-service.ts)   |
+|2| [Implementación cart](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/6c07a955ff0eef70fd7771a4fe19dd3a5ddd4617)  | [https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/4ef3de390bbeef7ad441ea567e74d7aa0443c16c] | [cart.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/cart.tsx)   |
+|3| [Implementación order-list y order-card](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/3aa2716258c60e1f021fb7fff5e6ea3b24001464)  | [order-list.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/order-list.tsx)   |
+|4| [Componentes header y footer](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/f9b665daaed8d8e05b6cf5d7d688886f4ba430f7)  | [header.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/components/header.tsx)   |
+|5| [Página de detalle de prenda](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/commit/0f71cd9968e8498c93a0dd881afb950bb178f7ba)  | [garment-detail.tsx](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/blob/main/frontend/app/routes/garment-detail.tsx)   |
 ---
 
 #### **Alumno 2 - [Nombre Completo]**
