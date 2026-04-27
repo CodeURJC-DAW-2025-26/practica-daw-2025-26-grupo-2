@@ -414,7 +414,7 @@ Parte del README
 📄 **[Especificación OpenAPI (YAML)](/api-docs/api-docs.yaml)**
 
 #### **Documentación HTML**
-📖 **[Documentación API REST (HTML)](https://raw.githack.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2/main/api-docs/api-docs.html)**
+📖 **[Documentación API REST (HTML)](https://raw.githack.com/[usuario]/[repositorio]/main/api-docs/api-docs.html)**
 
 > La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
@@ -701,7 +701,174 @@ Mis principales responsabilidades han sido:
    cd frontend
    ```
 
-4. **AQUÍ LOS SIGUIENTES PASOS**
+4. **Instalar las dependencias**
+   ```bash
+   npm install
+   ```
+
+5. **Iniciar el servidor de desarrollo**
+   ```bash
+   npm run dev
+   ```
+   
+   El frontend arrancará en `http://localhost:5173` y redirigirá las llamadas a `/api` al backend en `https://127.0.0.1:8443`.
+
+6. **Acceder a la aplicación**
+   
+   Abre el navegador en [http://localhost:5173](http://localhost:5173).
+   
+   > **Nota:** el backend debe estar en ejecución para que la aplicación funcione correctamente. Puedes arrancarlo desde la carpeta `backend/` con:
+   > ```bash
+   > ./mvnw spring-boot:run
+   > ```
+
+---
+
+### **Instrucciones de Ejecución con Docker**
+
+#### **Requisitos previos:**
+- Docker instalado (versión 20.10 o superior)
+- Docker Compose instalado (versión 2.0 o superior)
+
+#### **Pasos para ejecutar con docker-compose:**
+
+1. **Clonar el repositorio** (si no lo has hecho ya):
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-2.git
+   cd practica-daw-2025-26-grupo-2
+   ```
+
+2. **Navegar al directorio de Docker:**
+   ```bash
+   cd backend/docker
+   ```
+
+3. **Configurar las variables de entorno:**
+
+   Crear un fichero `.env` en el directorio `backend/docker` con el siguiente contenido:
+   ```env
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1
+   DB_PASSWORD=password
+   DB_NAME=zenda
+   ```
+
+4. **Levantar los servicios:**
+   ```bash
+   docker compose up -d
+   ```
+
+   **Alternativa con artefacto OCI (sin clonar el repositorio):**
+   ```bash
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.2.0 up
+   ```
+
+5. **Verificar que los contenedores están corriendo:**
+   ```bash
+   docker compose ps
+   ```
+
+6. **Abrir en navegador:**
+   - `https://localhost:8443/new/`
+
+7. **Para detener los servicios:**
+   ```bash
+   docker compose down
+   ```
+   Si además se desea eliminar los datos persistidos de la base de datos:
+   ```bash
+   docker compose down -v
+   ```
+
+---
+
+### **Construcción de la Imagen Docker**
+
+#### **Requisitos:**
+- Docker instalado en el sistema
+- Node.js 18+ y npm instalados (para la build del frontend)
+
+#### **Pasos para construir y publicar la imagen:**
+
+1. **Navegar a la raíz del repositorio:**
+   ```bash
+   cd practica-daw-2025-26-grupo-2
+   ```
+
+2. **Construir la imagen** (hace la build del frontend y del backend dentro de Docker):
+   ```bash
+   ./backend/docker/create_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ```
+
+3. **Iniciar sesión en Docker Hub:**
+   ```bash
+   docker login
+   ```
+
+4. **Publicar la imagen en Docker Hub:**
+   ```bash
+   ./backend/docker/publish_image.sh <tu_cuenta_de_dockerhub>/zendashop:0.0.1
+   ```
+
+5. **Publicar el docker-compose como artefacto OCI:**
+   ```bash
+   cd backend/docker
+   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.1 ./publish_docker-compose.sh <tu_cuenta_de_dockerhub>
+   ```
+   Esto permite ejecutar la aplicación en cualquier máquina con:
+   ```bash
+   APP_IMAGE=<tu_cuenta_de_dockerhub>/zendashop:0.0.1 docker compose -f oci://<tu_cuenta_de_dockerhub>/zendashop-compose:0.2.0 up
+   ```
+
+---
+
+### **Despliegue en Máquina Virtual**
+
+#### **Requisitos:**
+- Acceso a la máquina virtual (SSH)
+- Clave privada para autenticación
+- Conexión a la red de la URJC o VPN configurada
+
+#### **Pasos para desplegar:**
+
+1. **Conectar a la máquina virtual:**
+   ```bash
+   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
+   ```
+
+2. **Instalar Docker y Docker Compose** (si no están instalados):
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y docker.io docker-compose-v2
+   sudo usermod -aG docker $USER
+   ```
+
+3. **Levantar los servicios con el artefacto OCI:**
+   ```bash
+   APP_IMAGE=samuelmelianbenito/zendashop:0.0.1 docker compose -f oci://samuelmelianbenito/zendashop-compose:0.2.0 up -d
+   ```
+
+4. **Acceder a la aplicación:**
+   - `https://appWeb02.dawgis.etsii.urjc.es:8443/new/`
+
+---
+
+### **URL de la Aplicación Desplegada**
+
+🌐 **URL de acceso:** `https://appWeb02.dawgis.etsii.urjc.es:8443/new/`
+
+---
+
+#### **Credenciales de Usuarios de Ejemplo**
+
+> En el login se usa **email** como usuario.
+
+| Rol | Usuario | Contraseña |
+|:---|:---|:---|
+| Administrador | maria@example.com | password456 |
+| Usuario Registrado | juan@example.com | password123 |
+| Usuario Registrado | carlos@example.com | password789 |
+
+---
 
 ### **Diagrama de Clases y Templates de la SPA**
 

@@ -26,7 +26,6 @@ export default function LoginForm({
                 </Alert>
             )}
 
-            {/* EMAIL */}
             <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
@@ -43,7 +42,6 @@ export default function LoginForm({
                 </InputGroup>
             </Form.Group>
 
-            {/* PASSWORD */}
             <Form.Group className="mb-2" controlId="password">
                 <Form.Label>Contraseña</Form.Label>
                 <InputGroup>
@@ -70,26 +68,22 @@ export default function LoginForm({
                 </InputGroup>
             </Form.Group>
 
-            {/* SUBMIT */}
             <div className="d-grid mt-4">
                 <Button type="submit" variant="primary" size="lg" disabled={isPending}>
                     {isPending ? "Entrando..." : "Entrar"}
                 </Button>
             </div>
 
-            {/* DIVIDER */}
             <div className="login-divider">
                 <span>o</span>
             </div>
 
-            {/* BACK */}
             <div className="d-grid gap-2">
                 <Button as={Link as any} to="/" className="login-secondary">
                     Volver a la tienda
                 </Button>
             </div>
 
-            {/* FOOTER */}
             <p className="login-footer">
                 ¿No tienes cuenta?{" "}
                 <Link to="/register" className="login-link">

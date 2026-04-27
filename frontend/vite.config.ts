@@ -5,6 +5,9 @@ import { defineConfig } from "vite";
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/new/" : "/",
   plugins: [reactRouter(), tsconfigPaths()],
+  build: {
+    cssCodeSplit: false,
+  },
   server: {
     proxy: {
       "/api": {

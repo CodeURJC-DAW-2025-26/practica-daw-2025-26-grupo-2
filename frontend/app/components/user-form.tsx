@@ -95,7 +95,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </Form.Group>
                 </div>
 
-                {/* NAME */}
                 <Form.Group className="mb-3">
                     <Form.Label>Nombre</Form.Label>
                     <InputGroup>
@@ -117,7 +116,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </InputGroup>
                 </Form.Group>
 
-                {/* SURNAME */}
                 <Form.Group className="mb-3">
                     <Form.Label>Apellidos</Form.Label>
                     <InputGroup>
@@ -139,7 +137,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </InputGroup>
                 </Form.Group>
 
-                {/* EMAIL */}
                 <Form.Group className="mb-3">
                     <Form.Label>Email</Form.Label>
                     <InputGroup>
@@ -161,7 +158,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </InputGroup>
                 </Form.Group>
 
-                {/* PASSWORD */}
                 {!isNew && (
                     <Form.Check
                         type="checkbox"
@@ -204,7 +200,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </InputGroup>
                 </Form.Group>
 
-                {/* ADDRESS */}
                 <Form.Group className="mb-3">
                     <Form.Label>Dirección</Form.Label>
                     <InputGroup>

@@ -1,7 +1,5 @@
-target/
-
-mysql/
-
+backend/target/
 frontend/node_modules/
 frontend/.react-router/
 frontend/build/
+images/

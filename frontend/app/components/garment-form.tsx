@@ -25,10 +25,11 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
     const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         const form = event.currentTarget;
 
-        // If form si not valid
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+            setValidated(true);
+            return;
         }
 
         setValidated(true);
@@ -52,7 +53,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
             >
                 {garment?.id && <input type="hidden" name="id" value={garment.id} />}
 
-                {/* NAME */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Nombre</b></Form.Label>
                     <InputGroup>
@@ -74,7 +74,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* CATEGORY */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Categoría</b></Form.Label>
                     <InputGroup>
@@ -100,7 +99,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* PRICE */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Precio</b></Form.Label>
                     <InputGroup>
@@ -124,7 +122,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* IMAGE */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Imagen</b></Form.Label>
 
@@ -170,7 +167,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* DESCRIPTION */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Descripción</b></Form.Label>
                     <InputGroup>
@@ -193,7 +189,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* FEATURES */}
                 <Form.Group className="mb-3">
                     <Form.Label><b>Características</b></Form.Label>
                     <InputGroup>
@@ -216,7 +211,6 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                     </InputGroup>
                 </Form.Group>
 
-                {/* SUBMIT */}
                 <div className="mt-4">
                     <Button
                         type="submit"

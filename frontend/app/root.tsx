@@ -12,9 +12,6 @@ import { Link } from "react-router";
 
 import { ApiError } from "~/services/api-fetch";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
-
 import type { Route } from "./+types/root";
 import "./app.css";
 
