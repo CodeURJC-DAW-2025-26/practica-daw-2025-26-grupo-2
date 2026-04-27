@@ -1,5 +1,5 @@
 import "./order-detail.css";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router";
 import type { Route } from "./+types/order-edit";
 import { Container, Row, Col, Form, Button, Alert, Spinner, Table, Badge } from "react-bootstrap";
@@ -21,6 +21,7 @@ export default function OrderEdit({ loaderData, params }: Route.ComponentProps) 
   const { order } = loaderData;
   const orderId = Number(params.id);
   const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
 
   async function handleSubmit(
     prevState: { success: boolean; error: string | null },
@@ -68,7 +69,18 @@ export default function OrderEdit({ loaderData, params }: Route.ComponentProps) 
 
       <h2 className="text-center mb-4">Editar Pedido #{order.id}</h2>
 
-      <Form action={formAction}>
+      <Form
+        action={formAction}
+        noValidate
+        validated={validated}
+        onSubmit={(e) => {
+          if (!e.currentTarget.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          setValidated(true);
+        }}
+      >
         {state.error && <Alert variant="danger">{state.error}</Alert>}
 
         <Row>
@@ -113,18 +125,26 @@ export default function OrderEdit({ loaderData, params }: Route.ComponentProps) 
                       type="text"
                       name="deliveryAddress"
                       defaultValue={order.deliveryAddress || ""}
+                      required
+                      minLength={5}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      La dirección de entrega no puede estar vacía
+                    </Form.Control.Feedback>
                   </td>
                 </tr>
                 <tr>
                   <th>Fecha de Entrega Preferida</th>
                   <td>
                     <Form.Control
-                      as="textarea"
+                      type="date"
                       name="deliveryDate"
                       defaultValue={order.deliveryDate || ""}
-                      rows={2}
+                      required
                     />
+                    <Form.Control.Feedback type="invalid">
+                      La fecha de entrega no puede estar vacía
+                    </Form.Control.Feedback>
                   </td>
                 </tr>
                 <tr>

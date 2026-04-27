@@ -41,6 +41,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
   const [hasMore, setHasMore] = useState(loaderData.hasMore);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [checkoutValidated, setCheckoutValidated] = useState(false);
 
   function handleCheckoutSubmit(
     prevState: { success: boolean; error: string | null } | null,
@@ -195,7 +196,18 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
 
         <hr className="my-4" />
 
-        <Form action={checkoutAction}>
+        <Form
+          action={checkoutAction}
+          noValidate
+          validated={checkoutValidated}
+          onSubmit={(e) => {
+            if (!e.currentTarget.checkValidity()) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            setCheckoutValidated(true);
+          }}
+        >
           {checkoutState?.error && (
             <Alert variant="danger">{checkoutState.error}</Alert>
           )}
@@ -211,7 +223,12 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
                 name="deliveryAddress"
                 placeholder="Calle, Ciudad, CP"
                 defaultValue={order.deliveryAddress || ""}
+                required
+                minLength={5}
               />
+              <Form.Control.Feedback type="invalid">
+                La dirección de entrega no puede estar vacía
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -221,7 +238,11 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
                 id="deliveryDate"
                 name="deliveryDate"
                 defaultValue={order.deliveryDate || ""}
+                required
               />
+              <Form.Control.Feedback type="invalid">
+                La fecha de entrega no puede estar vacía
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3">

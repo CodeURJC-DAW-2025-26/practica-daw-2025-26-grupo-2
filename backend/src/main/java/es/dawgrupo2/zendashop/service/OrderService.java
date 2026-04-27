@@ -407,11 +407,15 @@ public class OrderService {
 	}
 
 	public Order validateFieldsCompleteOrder(Order originalOrder, Order updatedOrder) {
+		String errorMsg = "";
 		if (updatedOrder.getDeliveryAddress() == null || updatedOrder.getDeliveryAddress().isEmpty()) {
-			updatedOrder.setDeliveryAddress(originalOrder.getDeliveryAddress());
+			errorMsg += "La dirección de entrega no puede estar vacía. ";
 		}
-		if (updatedOrder.getDeliveryDate() == null || updatedOrder.getDeliveryDate().isBefore(LocalDate.now())) {
-			updatedOrder.setDeliveryDate(originalOrder.getDeliveryDate());
+		if (updatedOrder.getDeliveryDate() == null) {
+			errorMsg += "La fecha de entrega preferida no puede estar vacía.";
+		}
+		if (!errorMsg.isEmpty()) {
+			throw new IllegalArgumentException(errorMsg);
 		}
 		if (updatedOrder.getDeliveryNote() == null || updatedOrder.getDeliveryNote().isEmpty()) {
 			updatedOrder.setDeliveryNote(originalOrder.getDeliveryNote());
