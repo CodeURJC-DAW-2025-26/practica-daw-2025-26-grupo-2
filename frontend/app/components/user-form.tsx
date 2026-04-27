@@ -1,7 +1,7 @@
 import "~/routes/login.css";
 import { useState } from "react";
 import { Link } from "react-router";
-import { Form, Button, InputGroup } from "react-bootstrap";
+import { Form, Button, InputGroup, Card, Alert } from "react-bootstrap";
 import type UserExtendedDTO from "~/dtos/UserExtendedDTO";
 
 interface UserFormProps {
@@ -31,13 +31,15 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
     };
 
     return (
-        <section className="login-card">
-            <div className="login-header">
-                {error && <div className="alert alert-danger">{error}</div>}
-                <h1 className="login-title">
-                    {isNew ? "Crear cuenta" : "Editar perfil"}
-                </h1>
-            </div>
+        <Card className="login-card">
+            <Card.Body>
+                <div className="login-header">
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <h1 className="login-title">
+                        {isNew ? "Crear cuenta" : "Editar perfil"}
+                    </h1>
+                </div>
+            </Card.Body>
 
             <Form
                 action={formAction}
@@ -256,6 +258,6 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                     </p>
                 </>
             )}
-        </section>
+        </Card>
     );
 }
