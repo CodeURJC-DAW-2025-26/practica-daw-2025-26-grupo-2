@@ -3,13 +3,13 @@ set -e
 
 if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Uso: ./publish_docker-compose.sh <DOCKERHUB_USER> <IMAGE_TAG>"
-    echo "Ejemplo: ./publish_docker-compose.sh samuelmelianbenito zendashop:0.0.2"
+    echo "Ejemplo: ./publish_docker-compose.sh samuelmelianbenito zendashop:0.0.4"
     exit 1
 fi
 
 DOCKERHUB_USER="$1"
 APP_IMAGE="${DOCKERHUB_USER}/$2"
-COMPOSE_ARTIFACT="${DOCKERHUB_USER}/zendashop-compose:0.3.0"
+COMPOSE_ARTIFACT="${DOCKERHUB_USER}/zendashop-compose:0.4.0"
 
 export APP_IMAGE
 
