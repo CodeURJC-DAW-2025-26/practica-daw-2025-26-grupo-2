@@ -8,7 +8,8 @@ export default function Login() {
 
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const from = searchParams.get("from") || "/";
+    const rawFrom = searchParams.get("from") || "/new/";
+    const from = rawFrom.startsWith("/new") ? rawFrom.slice(4) || "/" : rawFrom;
     const { loginUser } = useUserStore();
 
     async function handleLogin(
