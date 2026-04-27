@@ -315,7 +315,7 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
                 required
               />
               <Form.Text className="text-muted">
-                El comentario debe tener entre 5 y 50 caracteres.
+                El comentario debe tener entre 5 y 50 caracteres
               </Form.Text>
             </Form.Group>
 
@@ -349,7 +349,7 @@ export default function GarmentDetail({ loaderData, params }: Route.ComponentPro
       <Container className="mt-4">
         <h3 className="mb-3">Opiniones</h3>
         {opinions.length === 0 ? (
-          <Alert variant="info">No hay opiniones disponibles.</Alert>
+          <Alert variant="info">No hay opiniones disponibles</Alert>
         ) : (
           opinions.map((opinion) => (
             <Card key={opinion.id} className="p-3 mb-3 bg-light">

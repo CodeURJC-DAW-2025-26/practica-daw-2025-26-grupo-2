@@ -16,6 +16,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
     const [validated, setValidated] = useState(false);
     const [updateImage, setUpdateImage] = useState(false);
     const [updatePassword, setUpdatePassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         const form = event.currentTarget;
@@ -109,7 +110,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            El nombre debe tener entre 4 y 50 caracteres.
+                            El nombre debe tener entre 4 y 50 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -131,7 +132,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Los apellidos deben tener entre 5 y 100 caracteres.
+                            Los apellidos deben tener entre 5 y 100 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -153,7 +154,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Introduce un email válido entre 3 y 90 caracteres.
+                            Introduce un email válido entre 3 y 90 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -178,16 +179,25 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                             <i className="bi bi-lock"></i>
                         </InputGroup.Text>
                         <Form.Control
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             name="encodedPassword"
-                            placeholder="••••••••"
+                            placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
                             minLength={8}
                             maxLength={100}
                             required={isNew || updatePassword}
                             disabled={!isNew && !updatePassword}
                         />
+                        <button
+                            type="button"
+                            className="btn login-eye"
+                            onClick={() => setShowPassword(!showPassword)}
+                            tabIndex={-1}
+                            disabled={!isNew && !updatePassword}
+                        >
+                            <i className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`} />
+                        </button>
                         <Form.Control.Feedback type="invalid">
-                            La contraseña debe tener entre 8 y 100 caracteres.
+                            La contraseña debe tener entre 8 y 100 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -209,7 +219,7 @@ export default function UserForm({ user, formAction, isPending, error }: UserFor
                             required
                         />
                         <Form.Control.Feedback type="invalid">
-                            La dirección debe tener entre 10 y 150 caracteres.
+                            La dirección debe tener entre 10 y 150 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>

@@ -16,7 +16,11 @@ import type { Route } from "./+types/root";
 import "./app.css";
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return (
+    <div className="page-spinner-overlay">
+      <div className="dot-spinner" />
+    </div>
+  );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -50,7 +54,7 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let details = "Ha ocurrido un error inesperado.";
+  let details = "Ha ocurrido un error inesperado";
   let stack: string | undefined;
   let is403 = false;
   let is404 = false;

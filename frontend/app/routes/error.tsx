@@ -4,7 +4,7 @@ import { Container, Alert } from "react-bootstrap";
 export default function ErrorPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const message = searchParams.get("message") || "Ha ocurrido un error inesperado.";
+  const message = searchParams.get("message") || "Ha ocurrido un error inesperado";
 
   return (
     <Container className="mt-4 mb-5">

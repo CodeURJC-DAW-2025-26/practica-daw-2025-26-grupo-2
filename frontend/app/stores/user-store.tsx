@@ -38,7 +38,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       await get().loadLoggedUser();
     } catch (error) {
       console.log(error);
-      const message = "Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.";
+      const message = "Nombre de usuario o contraseña incorrectos. Por favor, inténtelo de nuevo";
       set({ loginError: message });
     }
   },
@@ -50,7 +50,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       await logOut();
     } catch (error) {
       console.log(error);
-      set({ loginError: "Logout fallido. Por favor, inténtelo de nuevo." });
+      set({ loginError: "Logout fallido. Por favor, inténtelo de nuevo" });
     }
   },
 }));

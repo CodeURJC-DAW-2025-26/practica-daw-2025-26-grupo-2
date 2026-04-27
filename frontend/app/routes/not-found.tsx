@@ -8,7 +8,7 @@ export default function NotFound() {
     <Container className="mt-4 mb-5">
       <Alert variant="danger">
         <Alert.Heading>Error</Alert.Heading>
-        <p>La página que buscas no existe.</p>
+        <p>La página que buscas no existe</p>
         <hr />
         <Alert.Link href="#" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
           Volver al inicio

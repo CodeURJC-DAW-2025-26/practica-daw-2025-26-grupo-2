@@ -69,7 +69,7 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         required
                         />
                         <Form.Control.Feedback type="invalid">
-                            El nombre no puede estar vacío y debe tener entre 4 y 100 caracteres.
+                            El nombre no puede estar vacío y debe tener entre 4 y 100 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -95,7 +95,7 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                             <option value="Otros">Otros</option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid">
-                            La categoría no puede estar vacía.
+                            La categoría no puede estar vacía
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -119,7 +119,7 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         />
                         <InputGroup.Text>€</InputGroup.Text>
                         <Form.Control.Feedback type="invalid">
-                            El precio debe ser un número entre 1 y 6000.
+                            El precio debe ser un número entre 1 y 6000
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -164,8 +164,8 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         />
                         <Form.Control.Feedback type="invalid">
                             {isEdit
-                                ? 'Si no quieres actualizar la imagen, desmarca la casilla "Actualizar imagen".'
-                                : "La imagen no puede estar vacía."}
+                                ? 'Si no quieres actualizar la imagen, desmarca la casilla "Actualizar imagen"'
+                                : "La imagen no puede estar vacía"}
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -188,7 +188,7 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         required
                         />
                         <Form.Control.Feedback type="invalid">
-                            La descripción debe tener entre 3 y 200 caracteres.
+                            La descripción debe tener entre 3 y 200 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -211,7 +211,7 @@ export default function GarmentForm({ garment, formAction, isPending, error }: G
                         required
                         />
                         <Form.Control.Feedback type="invalid">
-                            Las características deben tener entre 5 y 300 caracteres.
+                            Las características deben tener entre 5 y 300 caracteres
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>

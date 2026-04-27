@@ -106,7 +106,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
       <Container className="my-4">
         <div className="text-center">
           <h2 className="mb-3">Tu carrito de compras está vacío</h2>
-          <p className="text-muted mb-4">Explora nuestros productos y añade algo a tu carrito.</p>
+          <p className="text-muted mb-4">Explora nuestros productos y añade algo a tu carrito</p>
           <Button variant="primary" onClick={() => navigate("/")}>
             <i className="bi bi-shop"></i> Ir a la tienda
           </Button>
@@ -125,7 +125,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
 
         <div id="cart-items">
           {orderItems.length === 0 ? (
-            <Alert variant="info">No hay productos en el carrito.</Alert>
+            <Alert variant="info">No hay productos en el carrito</Alert>
           ) : (
             orderItems.map((item) => (
               <div key={item.id} className="cart-item">

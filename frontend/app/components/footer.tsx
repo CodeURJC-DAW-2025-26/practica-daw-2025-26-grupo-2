@@ -48,7 +48,7 @@ export default function Footer() {
         <hr className="border-secondary my-4" />
 
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-          <div className="text-white-50 small">© 2026 ZENDA Shop. Todos los derechos reservados.</div>
+          <div className="text-white-50 small">© 2026 ZENDA Shop. Todos los derechos reservados</div>
           <div className="text-white-50 small">Hecho con Bootstrap · Diseño consistente</div>
         </div>
       </div>
